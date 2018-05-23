@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<html>
+
+ <head>
+  <title>Submit BOINC jobs</title>
+ </head>
+
+ <body>
+   <style>
+     div {
+         background-color: DodgerBlue;
+         width: 350px;
+         padding: 25px;
+         margin: 25px;
+     }
+   </style>
+
+   <div>
+    <h3>Interactive BOINC web interface for known Docker containers</h3>
+   </div>
+
+
+   <p> </h4> Submit jobs via boinc2docker.</h4> </p>
+   <p><br><br>
+   <p>Choose a known Docker image and submit a command, no quotes necessary.<br>i.e.:<br>
+   "cd /path/to/somewhere; python a.py" instead of<br>
+   "bin/boinc2docker_create_work.py python:alpine /bin/bash -c "python -c print('Hello BOINC')"
+   <br><br>Results are moved into the server by default. Only use single quotes (' ').<br>Separate different instructions by;<br></p>
+
+   <form name="form" action="proc_known.php" method="post">
+
+     Token: <input type="text" name="TOK" id="TOK" value="" onkeydown="if (event.keyCode==13) {alert('ENTER key use is not allowed'); return false;}"/><br>
+
+     Command: <input type="text" name="DERS" id="DERS" value="" onkeydown="if (event.keyCode==13) {alert('ENTER key use is not allowed'); return false;}"/>
+     <br>
+
+     <select name = "known">
+      <option value="ADV">Autodock-Vina</option>
+      <option value="OPS">OpenSEES</option>
+     </select>
+
+     <input type="submit" value="Submit"/>
+   </form>
+
+ </body>
+</html>

@@ -1,5 +1,13 @@
 <?php
 
+
+// Prevents direct access
+if ($_SERVER['HTTP_REFERER'] != "http://$_SERVER[HTTP_HOST]/boincserver/submit_jobs.php"){
+    header("Location: http://$_SERVER[HTTP_HOST]/boincserver/submit_jobs.php");
+    exit('Cannot access page directly, token required');
+}
+
+
 include './token_data/validation.inc';
 $user_token = $_POST['TOK'];
 $orders = $_POST['DERS'];

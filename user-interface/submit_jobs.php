@@ -24,10 +24,10 @@
     <p>
            </h4> Submit jobs via boinc2docker.</h4>
     </p>
+
           
 
     <p><br><br>
-    WARNING: Do not press ENTER until all fields have been completed.
            
 
          <!-- Token input -->
@@ -44,7 +44,6 @@
 
    Program is not designed for high API usage, for more information batch submission using RCP APIs, check the official BOINC documentation.
     </p>
-
 
   </body>
 </html> 

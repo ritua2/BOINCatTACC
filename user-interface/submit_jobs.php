@@ -33,8 +33,9 @@
          <!-- Token input -->
    <form name="form" action="proc_submit.php" method="post">
           
-    Token: <input type="text" name="TOK" id="TOK" value=""><br>
-    Command: <input type="text" name="DERS" id="DERS" value=""><br>
+    Token: <input type="text" name="TOK" id="TOK" value="" onkeydown="if (event.keyCode==13) {alert('ENTER key use is not allowed'); return false;}"/><br>
+    Command: <input type="text" name="DERS" id="DERS" value="" onkeydown="if (event.keyCode==13) {alert('ENTER key use is not allowed'); return false;}"/>
+    <br>
     <input type = "submit" value = "Submit">
    </form>
 

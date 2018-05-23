@@ -6,9 +6,16 @@ function valid_token($toktok){
         $fh = fopen('/root/project/html/user/token_data/Tokens.txt', 'r');
         while ($line= fgets($fh)){
 
-                if (trim($line) == $toktok){
-                        return true;
-                }
+               // Each line is separated into 2 parts by ;
+               // Name and Last name
+               // Token
+               $splitted = explode(',', trim($line));
+               $seltok = trim($splitted[1]);
+
+               if ($seltok == $toktok){
+                       return true;
+               }
+
         }
 
         return false;

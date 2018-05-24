@@ -1,8 +1,7 @@
 <?php
 
 
-if ($_SERVER['HTTP_REFERER'] != "http://$_SERVER[HTTP_HOST]/boincserver/submit_mm
-ulti.html"){
+if ($_SERVER['HTTP_REFERER'] != "http://$_SERVER[HTTP_HOST]/boincserver/submit_multi.html"){
    header("Location: http://$_SERVER[HTTP_HOST]/boincserver/submit_multi.html");
    exit('Cannot access page directly, token required');
 
@@ -19,6 +18,23 @@ if ($user_token == ''){
 
 if (valid_token($user_token) == false){
    exit("Invalid token");
+}
+
+
+// Stores the files in a lower directory, outside user access
+
+$target_dir = "./token_data/process_files";
+
+if ($_FILES["filfil"]["error"] == UPLOAD_ERR_OK){
+    
+    $temp_name = $_FILES["filfil"]["tmp_name"];
+    $curname = trim(explode("/", $temp_name)[2]);
+    $curname = $curname . ".txt";
+    move_uploaded_file($temp_name, "$target_dir/$curname");
+    exit("File has been succesfully submitted for processing");
+}
+else{
+    exit("No file was submitted");
 }
 
 ?>

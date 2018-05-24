@@ -24,6 +24,14 @@
    <p><br><br>Write the commands in the following form:<br>
     {DOCKERHUB IMAGE} {LIST OF COMMANDS}<br>i.e. :<br>
     python:alpine python -c "print('Hello BOINC')"<br><br></p>
+    Only ASCII characters allowed inside files, no images or binaries</p>
+    <p>Select file, enter token, and press ENTER on the token.</p<br><br>
+
+   <form action = "proc_multi.php" method="post" enctype="text/plain">
+     Token: <input type="text" name="TOK" id="TOK" value=""/><br>
+     Select file to upload:
+     <input type = "file" name ="filfil" id ="filfil"/><br>
+   </form>
 
  </body>
 </html>

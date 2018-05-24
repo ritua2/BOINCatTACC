@@ -28,7 +28,7 @@ else{
    echo "Command submitted to the server <br>";
    // Prints the result to a file
    $secfil = fopen("./token_data/issued.txt", "a");
-   fwrite($secfil, $orders . "\n");
+   fwrite($secfil, "$user_token ___ $orders" . "\n");
    fclose($secfil);
 }
 

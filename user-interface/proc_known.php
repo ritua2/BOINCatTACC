@@ -37,7 +37,7 @@ switch ($image) {
      echo "AutoDock-Vina<br>Command submitted to server";
      $secfil = fopen("./token_data/issued.txt", "a");
      // Writes the instructions specific for the server
-     fwrite($secfil, "carlosred/autodock-vina:latest /bin/bash -c \" " .  $orders . "; python /Mov_Res.py\"\n");
+     fwrite($secfil, "$user_token ___ carlosred/autodock-vina:latest /bin/bash -c \" " .  $orders . "; python /Mov_Res.py\"\n");
      fclose($secfil);
      break;
 
@@ -45,7 +45,7 @@ switch ($image) {
      echo "Open-SEES<br>Command submitted to server";
      $secfil = fopen("./token_data/issued.txt", "a");
      // Writes the instructions specific for the server
-     fwrite($secfil, "carlosred/opensees:latest /bin/bash -c \"" .  $orders . ";  python /Mov_Res.py\"\n");
+     fwrite($secfil, "$user_token ___ carlosred/opensees:latest /bin/bash -c \"" .  $orders . ";  python /Mov_Res.py\"\n");
      fclose($secfil);
      break;
 

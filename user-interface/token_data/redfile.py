@@ -50,7 +50,6 @@ for file in glob.glob("./process_files/*.txt"):
              if len(BB.split(' ')) == 1:
                 continue
              summar = summarizer(BB)
-             print(summar)
              # Redis has the following columns:
              # Token, Image (Dockerhub), Command, Date submitted
              # Date run (set to 0 now, job not run run yet)

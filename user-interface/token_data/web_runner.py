@@ -2,6 +2,8 @@
 BASICS
 
 Runs the last submitted command
+
+DEPRECATED
 """
 
 
@@ -36,3 +38,4 @@ with open("issued.txt", "r") as all_issued:
 
 			# Executes the command on the shell 
 			os.system("/root/project/bin/boinc2docker_create_work.py " + alin.replace("\n", ""))                         
+			

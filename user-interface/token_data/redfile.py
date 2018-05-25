@@ -60,7 +60,7 @@ for file in glob.glob("./process_files/*.txt"):
              r.rpush('Command', summar [1])
              r.rpush('Date (Sub)', prestime)
              r.rpush('Date (Run)', '0')
-             
+             r.rpush('Error', '0')
 
  
     # Erases the file

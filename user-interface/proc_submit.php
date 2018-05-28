@@ -1,6 +1,5 @@
 <?php
 
-
 // Prevents direct access
 if ($_SERVER['HTTP_REFERER'] != "http://$_SERVER[HTTP_HOST]/boincserver/submit_jobs.php"){
     header("Location: http://$_SERVER[HTTP_HOST]/boincserver/submit_jobs.php");
@@ -35,32 +34,35 @@ try{
              "scheme"=>"tcp",
              "host"=>"0.0.0.0",
              "port"=>6389));
-   echo "Succesful connection to redis";
 }
 catch (Exception $exce) {
-   echo "Could not connect to Redis<br>";
    echo $exce->getMessage();
+   exit("Could not connect to Redis<br>");
 } 
 
-echo "Redis is set up";   
+echo "Database connection established. <br>";   
 // Separates the array into image, and command
 $new_orders = explode(" ", $orders);
+$Image = $new_orders[0];
 
-AAA = '';
+$AAA = '';
 
-foreach($new_orders as $part){
-       if $part != ''{
-          $AAA = $AAA . $part;
-       }
+for ($qq = 1; $qq <= count($new_orders); $qq++){
 
-echo "<br>$AAA<br>";
+    $AAA = "$AAA ". $new_orders[$qq];
+}
 
 
-   
+date_default_timezone_set('America/Chicago');
+$prestime = date("Y-m-d H:i:s");
+echo "$Image ; command submitted.<br>";   
 
-// Prints the result to a file
-$secfil = fopen("./token_data/issued.txt", "a");
-fwrite($secfil, "$user_token ___ $orders" . "\n");
-fclose($secfil);
+// Adds the commands to Redis
+$redis->rpush('Token', $user_token);
+$redis->rpush('Image', $Image);
+$redis->rpush('Command', $AAA);
+$redis->rpush('Date (Sub)', $prestime);
+$redis->rpush('Date (Run)', '0');
+$redis->rpush('Error', 'ABC');
 
 ?>

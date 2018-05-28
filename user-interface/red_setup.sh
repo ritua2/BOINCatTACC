@@ -17,4 +17,4 @@ redis-server --port 6389 &
 # Sets up python3, needed
 apt-get install python3 python3-pip -y
 # Python modules
-pip3 install redis Flask
+pip3 install redis Flask Werkzeug

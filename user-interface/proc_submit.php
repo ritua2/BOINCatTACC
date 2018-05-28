@@ -23,13 +23,44 @@ if ($user_token == ''){
 if ((valid_token($user_token) == false)){
    exit("Invalid token");
 }
-else{
 
-   echo "Command submitted to the server <br>";
-   // Prints the result to a file
-   $secfil = fopen("./token_data/issued.txt", "a");
-   fwrite($secfil, "$user_token ___ $orders" . "\n");
-   fclose($secfil);
+
+// Redis setup
+require './token_data/predis/autoload.php';
+Predis\Autoloader::register();
+
+// Adds the redis setup
+try{
+   $redis =  new Predis\Client(array(
+             "scheme"=>"tcp",
+             "host"=>"0.0.0.0",
+             "port"=>6389));
+   echo "Succesful connection to redis";
 }
+catch (Exception $exce) {
+   echo "Could not connect to Redis<br>";
+   echo $exce->getMessage();
+} 
+
+echo "Redis is set up";   
+// Separates the array into image, and command
+$new_orders = explode(" ", $orders);
+
+AAA = '';
+
+foreach($new_orders as $part){
+       if $part != ''{
+          $AAA = $AAA . $part;
+       }
+
+echo "<br>$AAA<br>";
+
+
+   
+
+// Prints the result to a file
+$secfil = fopen("./token_data/issued.txt", "a");
+fwrite($secfil, "$user_token ___ $orders" . "\n");
+fclose($secfil);
 
 ?>

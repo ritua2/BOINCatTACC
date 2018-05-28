@@ -25,8 +25,11 @@ def tutorial():
                       },
     'Disclaimer': 'API usage is restricted to users with granted access, Token required. To test token, curl ->\
                   http://{BOINC_IP}:5000/boincserver/test_token',
-    'User guide': {'Known images': {'Single job': 'Not allowed, use a single-line text file instead'}
-
+    'User guide': {'Known images': {'Single job': 'Not allowed, use a single-line text file instead'},
+                                   {'Multiple job': {'Instructions':'Follow the text file at SERVER/boincserver/submit_multi',
+                                                     'Curl Example': 'curl  -F file=@Example_multi_submit.txt http://129.114.16.27:5075/boincserver/v2/submit_known/token=pRPDriRP62JVKw'
+                                                    }
+                                   }
                   }
     }
 

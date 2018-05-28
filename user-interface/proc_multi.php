@@ -32,7 +32,7 @@ if ($_FILES["filfil"]["error"] == UPLOAD_ERR_OK){
     $curname = $curname . ".txt";
     move_uploaded_file($temp_name, "$target_dir/$curname");
     // Adds the token information at the end of the file
-    $tokadd = file_put_contents("$target_dir/$curname", "\n$user_token\n".PHP_EOOL, FILE_APPEND | LOCK_EX)
+    $tokadd = file_put_contents("$target_dir/$curname", "\n$user_token\n".PHP_EOOL, FILE_APPEND | LOCK_EX);
     exit("File has been succesfully submitted for processing");
 }
 

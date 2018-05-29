@@ -2,6 +2,9 @@
 
 -----
 
+**MIDAS**: **M**ultiple **I**nput **D**ocker **A**utomation **S**ystem
+
+
 * **Comments**  
 Lines starting with *#* are comments  
 Lines starting with *//* are also comments  

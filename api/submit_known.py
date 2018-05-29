@@ -5,7 +5,7 @@ Automated job submission for known Docker images through APIs
 """
 
 import os
-from flask import Flask
+from flask import Flask, request
 import preprocessing as pp
 
 

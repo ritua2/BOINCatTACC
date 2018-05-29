@@ -62,6 +62,7 @@ switch ($image) {
      $redis->rpush('Date (Sub)', $prestime);
      $redis->rpush('Date (Run)', '0');
      $redis->rpush('Error', 'ABC');
+     $redis->rpush('Notified', '0');
 
      break;
 
@@ -75,6 +76,7 @@ switch ($image) {
      $redis->rpush('Date (Sub)', $prestime);
      $redis->rpush('Date (Run)', '0');
      $redis->rpush('Error', 'ABC');
+     $redis->rpush('Notified', '0');
 
      break;
 

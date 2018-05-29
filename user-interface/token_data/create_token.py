@@ -11,12 +11,12 @@ import random
 # Checks if there are enough arguments
 
 
-if len(sys.argv) < 3:
-   print("Not enough arguments. Provide the following (comma separated):\n {FIRSTNAME}, {LASTNAME}")
+if len(sys.argv) < 4:
+   print("Not enough arguments. Provide the following (comma separated):\n {FIRSTNAME}, {LASTNAME}, {EMAIL}")
    sys.exit(1)
 
-if len(sys.argv) > 3:
-   print("Too many arguments. Provide the following (comma separated):\n {FIRSTNAME}, {LASTNAME}")
+if len(sys.argv) > 4:
+   print("Too many arguments. Provide the following (comma separated):\n {FIRSTNAME}, {LASTNAME}, {EMAIL}")
    sys.exit(1)
 
 
@@ -29,6 +29,6 @@ with open("Tokens.txt", "a") as tokfile:
      for qq in range(0, 14):
          rantok += random.choice(SEQ)
 
-     tokfile.write(sys.argv[1]+" "+sys.argv[2]+", "+rantok+"\n")
+     tokfile.write(sys.argv[1]+" "+sys.argv[2]+", "+rantok+", "+sys.argv[3]+"\n")
  
 print("New assigned token is: "+str(rantok))

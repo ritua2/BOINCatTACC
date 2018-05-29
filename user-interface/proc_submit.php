@@ -64,5 +64,6 @@ $redis->rpush('Command', $AAA);
 $redis->rpush('Date (Sub)', $prestime);
 $redis->rpush('Date (Run)', '0');
 $redis->rpush('Error', 'ABC');
+$redis->rpush('Notified', '0');
 
 ?>

@@ -11,7 +11,7 @@ import shutil
 
 
 r = redis.Redis(host ='0.0.0.0', port = 6389, db =0)
-cols = ['Token', 'Image', 'Command', 'Date (Sub)', 'Date (Run)', 'Error']
+cols = ['Token', 'Image', 'Command', 'Date (Sub)', 'Date (Run)', 'Error', 'Notified']
 
 if len(list(set([r.llen(x) for x in cols]))) == 1:
    print('Nothing to see, program works fine')
@@ -26,6 +26,3 @@ else:
            r.rpush(title, 'Incorrect order, row deleted')
        for nvnv in range(first_error, appropriate_rows):
            r.lset(title, nvnv, 'Incorrect order, row deleted')
-
-r.save()
-shutil.move("../dump.rdb", "./dump.rdb")

@@ -9,8 +9,8 @@ from flask import Flask, jsonify
 
 app = Flask(__name__)
 
-@app.route("/boincserver/v2/api_status")
 # Basic operational check
+@app.route("/boincserver/v2/api_status")
 def api_operational():
     return 'Server APIs are active'
 
@@ -24,7 +24,7 @@ def tutorial():
                       '5085': 'Unknown image job submission, follow instructions'
                       },
     'Disclaimer': 'API usage is restricted to users with granted access, Token required. To test token, curl ->\
-                  http://{BOINC_IP}:5000/boincserver/test_token',
+                  http://{BOINC_IP}:5000/boincserver/test_token=ENTER_TOKEN',
     'User guide': {'Known images': {'Single job': 'Not allowed, use a single-line text file instead'},
                                    {'Multiple job': {'Instructions':'Follow the text file at SERVER/boincserver/submit_multi',
                                                      'Curl Example': 'curl  -F file=@Example_multi_submit.txt http://129.114.16.27:5075/boincserver/v2/submit_known/token=pRPDriRP62JVKw'

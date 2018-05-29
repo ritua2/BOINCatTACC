@@ -6,6 +6,7 @@ Necessary functions for API work
 
 import random
 
+
 # Finds if the token is valid
 def token_test(token):
 
@@ -19,6 +20,7 @@ def token_test(token):
        else:
            return False
 
+
 # Creates a random file name with 18 characters
 
 def random_file_name():
@@ -29,5 +31,18 @@ def random_file_name():
         fnam += random.choice(HHH)
     else:
         fnam += ".txt"
+    return fnam
+
+
+# Creates a random directory name for MIDAS use
+# All directories are 11 characters long
+
+def random_dir_name():
+
+    TTT = 'abcdefghijklmnopqrstuvwxyz1234567890'
+    dirnam = 'dir-'
+    for qq in range(0, 7):
+        dirnam += random.choice(HHH)
+
     return fnam
 

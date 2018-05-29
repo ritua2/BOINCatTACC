@@ -5,14 +5,10 @@ Automated job submission for known Docker images through APIs
 """
 
 import os
-from flask import Flask, flash, request, redirect, url_for
+from flask import Flask
 import preprocessing as pp
-import glob
-import redis
-import datetime
 
 
-r = redis.Redis(host= '0.0.0.0', port = 6389, db =0)
 app = Flask(__name__)
 UPLOAD_FOLDER = "../html/user/token_data/process_files"
 

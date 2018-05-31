@@ -1,16 +1,21 @@
+#!/usr/bin/env python3
+
 """
 BASICS
 
 Automated job submission for known Docker images through APIs
 """
 
-import os
+import os, sys
 from flask import Flask, request
 import preprocessing as pp
 
 
+# Redirects all printing output to a text file
+sys.stdout = open("/root/project/html/user/token_data/submit_known_api_data.txt", 'a')
+
 app = Flask(__name__)
-UPLOAD_FOLDER = "../html/user/token_data/process_files"
+UPLOAD_FOLDER = "/root/project/html/user/token_data/process_files"
 
 
 @app.route("/boincserver/v2/submit_known/token=<toktok>", methods = ['GET', 'POST'])

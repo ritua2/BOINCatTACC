@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 """
 BASICS
 
@@ -5,7 +7,12 @@ Checks the server status and validity of tokens.
 Does not include any submission APIs.
 """
 
+import os, sys
 from flask import Flask, jsonify
+
+
+# Redirects all printing output to a text file
+sys.stdout = open("/root/project/html/user/token_data/server_checks_api_data.txt", 'a')
 
 app = Flask(__name__)
 
@@ -23,10 +30,9 @@ def tutorial():
                       '5075': 'Known image job submission, text file',
                       '5085': 'Unknown image job submission, follow instructions'
                       },
-    'Disclaimer': 'API usage is restricted to users with granted access, Token required. To test token, curl ->\
-                  http://{BOINC_IP}:5000/boincserver/test_token=ENTER_TOKEN',
-    'User guide': {'Known images': {'Single job': 'Not allowed, use a single-line text file instead'},
-                                   {'Multiple job': {'Instructions':'Follow the text file at SERVER/boincserver/submit_multi',
+    'Disclaimer': 'API usage is restricted to users with granted access, Token required. To test token, curl -> http://{BOINC_IP}:5000/boincserver/test_token=ENTER_TOKEN',
+    'User guide': {'Known images': {'Single job': 'Not allowed, use a single-line text file instead',
+                                   'Multiple job': {'Instructions':'Follow the text file at SERVER/boincserver/submit_multi',
                                                      'Curl Example': 'curl  -F file=@Example_multi_submit.txt http://129.114.16.27:5075/boincserver/v2/submit_known/token=pRPDriRP62JVKw'
                                                     }
                                    }

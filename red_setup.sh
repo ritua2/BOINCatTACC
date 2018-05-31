@@ -24,3 +24,11 @@ pip3 install redis Flask Werkzeug docker
 mv /root/project/boinc-updates/api /root/project
 mv /root/project/boinc-updates/email_assimilator.py /root/project
 mv /root/project/boinc-updates/user-interface/* /root/project/html/user
+chmod +x email_assimilator.py
+chmod +x api/server_checks.py
+chmod +x api/submit_known.py
+chmod +x API_Daemon.sh
+
+# Adds commands
+printf 'export sercheck=/root/project/api/server_checks.py\n' >> /root/.bashrc
+printf 'export subknow=/root/project/api/submit_known.py\n' >> /root/.bashrc

@@ -10,10 +10,6 @@ import os, sys
 from flask import Flask, request
 import preprocessing as pp
 
-
-# Redirects all printing output to a text file
-sys.stdout = open("/root/project/html/user/token_data/submit_known_api_data.txt", 'a')
-
 app = Flask(__name__)
 UPLOAD_FOLDER = "/root/project/html/user/token_data/process_files"
 

@@ -7,12 +7,9 @@ Checks the server status and validity of tokens.
 Does not include any submission APIs.
 """
 
-import os, sys
+import os
 from flask import Flask, jsonify
 
-
-# Redirects all printing output to a text file
-sys.stdout = open("/root/project/html/user/token_data/server_checks_api_data.txt", 'a')
 
 app = Flask(__name__)
 

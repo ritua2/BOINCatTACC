@@ -11,13 +11,30 @@ if [ $# -eq 0 ]; then
    exit 1
 fi
 
+
 if [ $1 == "-h" ]; then
    printf "Automatic API daemon set-up\n"
+   printf "Use flag -up to set-up the APIs\n"
+   printf "Use flag -down to cancel the APIs\n"
    exit 1
 fi
 
 
-#nohup /root/project/api/server_checks.py &
-#nohup /root/project/api/submit_known.py &
+if [ $1 == "-up" ]; then 
 
-#printf "API communication is now active\n"
+   nohup /root/project/api/server_checks.py & \
+         > /dev/null 2>&1 & echo $! > sscc_api.txt
+
+   nohup /root/project/api/submit_known.py & \
+        > /dev/null 2>&1 & echo $! > sskk_api.txt
+   printf "Server communication APIs are now active\n"
+fi
+
+
+if [ $1 == "-down" ]; then 
+   
+   # Must compensate for the fork
+   kill -9 $(($(cat sscc_api.txt) - 1))
+   kill -9 $(($(cat sskk_api.txt) - 1))
+   printf "Server communication APIs have been disconnected\n"
+fi

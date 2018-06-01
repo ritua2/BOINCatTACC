@@ -39,4 +39,4 @@ chmod +x api/submit_known.py
 chmod +x API_Daemon.sh
 chmod +x bproc.sh
 ./API_Daemon.sh -up
-bproc.sh
+nohup ./bproc.sh &

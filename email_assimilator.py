@@ -17,17 +17,15 @@ from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-# Based on github gist at: https://gist.github.com/rdempsey/22afd43f8d777b78ef22
-
 
 r = redis.Redis(host = '0.0.0.0', port = 6389, db = 0)
 
-boinc_db = mysql_con.connect(host = 'ENTER IP', port = 3306, user = 'ENTER USER', password = 'ENTER PASSWORD', database = 'boincserver')
+boinc_db = mysql_con.connect(host = 'IP', port = 3306, user = 'root', password = 'PASSWORD', database = 'boincserver')
 
 cursor = boinc_db.cursor()
 
 # Choose only those units that have been completed
-query = ("SELECT name,  outcome, received_time FROM result WHERE server_state='5'")
+query = ("SELECT name,  outcome, received_time FROM result WHERE (server_state='5' AND !( file_delete_state='0'))")
 
 cursor.execute(query)
 completed_names, outcomes, recdates = [[], [], []]
@@ -52,7 +50,7 @@ Necessary functions
 # toktok (str): Token
 def obtain_email(toktok):
 
-    with open("./html/user/token_data/Tokens.txt", 'r') as TFIL:
+    with open("/root/project/html/user/token_data/Tokens.txt", 'r') as TFIL:
          for line in TFIL:
              if toktok in line:
                 return line.split(',')[-1].replace('\n', '').replace(' ', '')
@@ -75,6 +73,21 @@ def job_result_files(namnam, YYYYMMDD):
     return PPP    
 
 
+# Counts how many results are there for one WU ID
+# Necessary because not all workunits have just 1 result
+# Most have 2
+# wunam (str): Semi-complete BOINC job name
+def result_ID_from_WUID(wuman):
+
+    HJK = 0
+    for RRNN in completed_names:
+
+       if wuman in RRNN:
+          HJK +=1
+    
+    return HJK
+
+
 
 # Emails an user 
 # send_from (str): Sender name
@@ -84,8 +97,8 @@ def job_result_files(namnam, YYYYMMDD):
 
 def send_mail(send_from, send_to, subject, text, attachments):
 
-    sender = 'ENTER SENDER'
-    gmail_password = 'ENTER PASSWORD'
+    sender = 'EMAIL'
+    gmail_password = 'PASSWORD'
     
     # Create the enclosing (outer) message
     outer = MIMEMultipart()
@@ -146,10 +159,23 @@ for idid in range(0, allrun):
      
     curname = all_names[idid]
     notif = all_notified[idid] 
-   
+    # Skips already notified jobs
+    if notif != '0':
+       continue
+
+    # Number of results per WU
+    results_WUID = result_ID_from_WUID(curname)
+    # Skips WU with just 1 result, lacking output files
+    if results_WUID < 2:
+       continue
+    
+
     for renam, outcome, recidat in zip(completed_names, outcomes, recdates):
 
-        if (curname in renam) and (notif == '0'):
+        if (curname in renam):
+            results_WUID -= 1
+        # All results must have been received for the result to be valid
+        if results_WUID == 0:
             to_be_notified[0].append(curname)
             to_be_notified[1].append(outcome)
             to_be_notified[2].append(obtain_email(r.lindex('Token', idid).decode('UTF-8')))
@@ -184,4 +210,5 @@ for nvnv in range(0, len(to_be_notified[0])):
     attachments = job_result_files(to_be_notified[0][nvnv], to_be_notified[3][nvnv])
     email_text = automatic_text(to_be_notified[3][nvnv], to_be_notified[1][nvnv])
     researcher_email = to_be_notified[2][nvnv]
+    print(researcher_email)
     send_mail('Automated BOINC Notifications', researcher_email, 'Completed Job', email_text, attachments)

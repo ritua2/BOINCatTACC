@@ -4,8 +4,6 @@ BASICS
 Finds all the .out files, moves them to /root/shared/results if not there by default and change stheir type to text files
 """
 
-# Not ready, still under development
-
 import os, shutil
 from glob import glob
 

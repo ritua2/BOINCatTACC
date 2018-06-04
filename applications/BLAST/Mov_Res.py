@@ -4,14 +4,17 @@ BASICS
 Finds all the .out files, moves them to /root/shared/results if not there by default and change stheir type to text files
 """
 
-
 import os, shutil
 from glob import glob
 
 
 PATH = "/"
 
-Gib_outs = [y for x in os.walk(PATH) for y in glob(os.path.join(x[0], '*.out'))]
+# Adds all the text and image formats (only JPG, JPEG, PNG are accepted)
+Gib_outs = [y for x in os.walk(PATH) for y in glob(os.path.join(x[0], '*.txt'))]
+Gib_outs += [y for x in os.walk(PATH) for y in glob(os.path.join(x[0], '*.jpg'))]
+Gib_outs += [y for x in os.walk(PATH) for y in glob(os.path.join(x[0], '*.jpeg'))]
+Gib_outs += [y for x in os.walk(PATH) for y in glob(os.path.join(x[0], '*.png'))]
 
 # For some reason, these are not accounetd for in the find command
 # Add them to the end file
@@ -28,9 +31,7 @@ for exot in Gib_outs:
                 if exot == alin:
                     AAA = True
                     break
-
         
         # Only moves those unaccounted
         if AAA==False:
-        	New_name = exot.split('/')[-1].replace(".out", ".txt")
-        	shutil.move(exot, "/root/shared/results/"+New_name) 
+            shutil.move(exot, "/root/shared/results/"+exot.split('/')[-1]) 

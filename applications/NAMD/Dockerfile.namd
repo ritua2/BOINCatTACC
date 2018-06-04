@@ -1,7 +1,7 @@
 #################################################
-# OpenSees 
+# NAMD 
 
-# Largery based on stevemock/docker-opensees
+# Largery based on alfpark/namd:2.11-cuda
 # All commands are the same as the ones from the base image
 # To obtain the results in the final folder, simply run
 # License: Apache License 2.0
@@ -26,5 +26,10 @@ USER root
 # Copies the unaccounted files to /root/shared/results
 COPY Mov_Res.py /Mov_Res.py
 
-RUN mkdir -p /root/shared/results && apt-get install -y realpath && touch /All_outs.txt &&\
+# Adds to path
+RUN export PATH=/sw/NAMD_2.11_Linux-x86_64-multicore-CUDA:$PATH &&\
+    
+
+RUN yum update &&\
+    mkdir -p /root/shared/results && apt-get install -y realpath && touch /All_outs.txt &&\
 	for afil in $(find / -name '*.txt'); do printf "$(realpath $afil)\n" >>  /All_outs.txt; done

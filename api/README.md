@@ -18,3 +18,13 @@
 * Users must create a directory before using it, use the following syntax:  
 	*curl -d token=TOKEN  http://SERVER_IP/boincserver/v2/create_sandbox*  
 * Users may not have more than one directory
+* Check all user files using the following syntax (files will be comma-separated):  
+	*curl http://SERVER_IP:5060/boincserver/v2/all_files/token=TOKEN*
+
+
+
+**Summary**  
+Using Coral2, it is now possible to:  
+	- Upload files to the cloud, favoring integration with local file systems  
+	- Delete files when they are no longer useful
+	- Maintain a sandbox of data for future BOINC projects

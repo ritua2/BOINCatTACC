@@ -36,6 +36,7 @@ mv /root/project/boinc-updates/bproc.sh  /root/project
 chmod +x email_assimilator.py
 chmod +x api/server_checks.py
 chmod +x api/submit_known.py
+chmod +x api/reef_storage.py
 chmod +x API_Daemon.sh
 chmod +x bproc.sh
 ./API_Daemon.sh -up

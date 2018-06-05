@@ -44,7 +44,7 @@ def upload_file(toktok):
     shutil.move(UPLOAD_FOLDER+'/'+new_filename, FINAL_FOLDER+'/'+new_filename)
      
     return "File submitted for processing"
-    
+
     
 if __name__ == '__main__':
    app.run(host = '0.0.0.0', port = 5075)

@@ -49,7 +49,8 @@ Necessary functions
 # Obtains the email of a user provided a token
 # toktok (str): Token
 def obtain_email(toktok):
-
+    
+    toktok = toktok.replace('\n', '').replace(' ', '')
     with open("/root/project/html/user/token_data/Tokens.txt", 'r') as TFIL:
          for line in TFIL:
              if toktok in line:

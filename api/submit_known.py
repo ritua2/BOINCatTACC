@@ -6,18 +6,22 @@ BASICS
 Automated job submission for known Docker images through APIs
 """
 
-import os, sys
+import os, sys, shutil
 from flask import Flask, request
 import preprocessing as pp
 
+
+
 app = Flask(__name__)
-UPLOAD_FOLDER = "/root/project/html/user/token_data/process_files"
+UPLOAD_FOLDER = "/root/project/api/sandbox_files"
+FINAL_FOLDER = "/root/project/html/user/token_data/process_files"
 
 
 @app.route("/boincserver/v2/submit_known/token=<toktok>", methods = ['GET', 'POST'])
 def upload_file(toktok):
-   
-    if pp.token_test(toktok) == False:
+    
+    TOK = toktok
+    if pp.token_test(TOK) == False:
        return 'Invalid token'
  
     if request.method != 'POST':
@@ -33,6 +37,12 @@ def upload_file(toktok):
     # Randomizes the file name to avoid matches
     new_filename = pp.random_file_name()
     file.save(os.path.join(UPLOAD_FOLDER, new_filename))
+    # Adds the token at the end of the file
+    with open(UPLOAD_FOLDER+'/'+new_filename, 'a') as nod:
+        nod.write('\n'+str(TOK))
+    
+    shutil.move(UPLOAD_FOLDER+'/'+new_filename, FINAL_FOLDER+'/'+new_filename)
+     
     return "File submitted for processing"
     
     

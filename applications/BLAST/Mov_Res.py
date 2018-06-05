@@ -8,7 +8,7 @@ import os, shutil
 from glob import glob
 
 
-PATH = "/"
+PATH = "/data"
 
 # Adds all the text and image formats (only JPG, JPEG, PNG are accepted)
 Gib_outs = [y for x in os.walk(PATH) for y in glob(os.path.join(x[0], '*.txt'))]

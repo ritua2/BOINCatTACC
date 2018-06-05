@@ -28,7 +28,7 @@ COPY Mov_Res.py /Mov_Res.py
 
 
 RUN mkdir -p /root/shared/results && apt-get install -y coreutils && touch /All_outs.txt &&\
-	for afil in $(find / -name '*.txt'); do printf "$(realpath $afil)\n" >>  /All_outs.txt; done &&\
-	for afil in $(find / -name '*.jpeg'); do printf "$(realpath $afil)\n" >>  /All_outs.txt; done &&\
-	for afil in $(find / -name '*.jpg'); do printf "$(realpath $afil)\n" >>  /All_outs.txt; done &&\
-	for afil in $(find / -name '*.png'); do printf "$(realpath $afil)\n" >>  /All_outs.txt; done
+	for afil in $(find /data -name '*.txt'); do printf "$(realpath $afil)\n" >>  /All_outs.txt; done &&\
+	for afil in $(find /data -name '*.jpeg'); do printf "$(realpath $afil)\n" >>  /All_outs.txt; done &&\
+	for afil in $(find /data -name '*.jpg'); do printf "$(realpath $afil)\n" >>  /All_outs.txt; done &&\
+	for afil in $(find /data -name '*.png'); do printf "$(realpath $afil)\n" >>  /All_outs.txt; done

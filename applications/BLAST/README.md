@@ -7,4 +7,5 @@ Largely based on <https://hub.docker.com/r/biocontainers/blast/>
 **Instructions**  
 Execute regular blast commands separated by *;*.  
 Add *python /Mov_Res.py* as the last command, this will move all the results (*.UNDER DEVELOPMENT* files) into the BOINC results folder. All
-result files will have their file ending changed to *.txt* but their content will not be modified.
+result files will have their file ending changed to *.txt* but their content will not be modified.  
+All actions must be done within the */data* directory, set the absolute paths accordingly. 

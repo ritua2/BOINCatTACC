@@ -15,8 +15,8 @@ Gib_outs = [y for x in os.walk(PATH) for y in glob(os.path.join(x[0], '*.txt'))]
 Gib_outs += [y for x in os.walk(PATH) for y in glob(os.path.join(x[0], '*.jpg'))]
 Gib_outs += [y for x in os.walk(PATH) for y in glob(os.path.join(x[0], '*.jpeg'))]
 Gib_outs += [y for x in os.walk(PATH) for y in glob(os.path.join(x[0], '*.png'))]
-Gib_outs += [y for x in os.walk(PATH) for y in glob(os.path.join(x[0], '*.mdp'))]
-Gib_outs += [y for x in os.walk(PATH) for y in glob(os.path.join(x[0], '*.tpr'))] # Binary file, test
+Gib_outs += [y for x in os.walk(PATH) for y in glob(os.path.join(x[0], '*.cfg'))]
+Gib_outs += [y for x in os.walk(PATH) for y in glob(os.path.join(x[0], '*.log'))]
 
 # For some reason, these are not accounetd for in the find command
 # Add them to the end file

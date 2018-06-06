@@ -1,7 +1,7 @@
 """
 BASICS
 
-Finds all the output files, moves them to /root/shared/results if not there by default and change stheir type to text files
+Finds all the output files, moves them to /root/shared/results
 """
 
 import os, shutil

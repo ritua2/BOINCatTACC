@@ -5,11 +5,11 @@
 * Requires a token
 * Test token before submitting tasks
 * Server will not notify if the tasks have failed immediately
-* For a file submission, use the following curl method:  
+* For a job file submission, use the following curl method:  
 	*curl -F file=@Example_multi_submit.txt http://SERVER_IP:5075/boincserver/v2/submit_known/token=TOKEN*  
 
 
-### Coral2 Storage
+### Reef Storage
 
 ----
 
@@ -24,6 +24,8 @@
 	*curl -F file=@FILE.txt http://SERVER_IP:5060/boincserver/v2/upload_reef/token=TOKEN*
 * Delete a file using the syntax:
 	*curl -d del=FILE_NAME  http://SERVER_IP:5060/boincserver/v2/delete_file/token=TOKEN*
+* Download a file using curl/wget with the syntax:  
+	*curl http://SERVER_IP:5060/boincserver/v2/reef/TOKEN/FILE_NAME*
 
 
 

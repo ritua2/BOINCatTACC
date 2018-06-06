@@ -114,7 +114,7 @@ def reef_upload(toktok):
 @app.route('/boincserver/v2/delete_file/token=<toktok>', methods = ['GET', 'POST'])
 def delete_user_file(toktok):
 
-   if pp.token_test == False:
+   if pp.token_test(toktok) == False:
       return 'Invalid token'
    if request.method != 'POST':
       return 'Invalid, provide a file to be deleted'
@@ -131,6 +131,23 @@ def delete_user_file(toktok):
 
     except:
       return 'File is not present in Reef'
+
+
+# Returns a file, able to be curl/wget
+@app.route('/boincserver/v2/reef/<toktok>/<FIL>')
+def obtain_file(FIL, toktok):
+
+    if pp.token_test(toktok) == False:
+       return 'Invalid token'
+    if str('DIR_'+toktok) not in os.listdir('/root/project/api/sandbox_files'):
+       return 'User directory does not exist'
+
+    USER_DIR = '/root/project/api/sandbox_files/DIR_'+str(toktok)+'/'
+    if str(FIL) not in os.listdir(USER_DIR):
+       return 'File not available'
+
+    return send_file(USER_DIR+str(FIL))
+
 
 
 if __name__ == '__main__':

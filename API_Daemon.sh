@@ -28,7 +28,7 @@ if [ $1 == "-up" ]; then
    nohup /root/project/api/submit_known.py & \
         > /dev/null 2>&1 & echo $! > sskk_api.txt
    nohup /root/project/api/reef_storage.py & \
-        > /dev/null 2>&1 & echo $1 > rrff_api.txt 
+        > /dev/null 2>&1 & echo $! > rrff_api.txt 
 
    printf "Server communication APIs are now active\n"
 fi

@@ -107,8 +107,30 @@ def reef_upload(toktok):
    # Ensures no commands within the file
    new_name = secure_filename(file.filename)
    file.save(os.path.join(UPLOAD_FOLDER+'/DIR_'+str(toktok), new_name))
-   return 'File succesfully uploaded to Coral2'
+   return 'File succesfully uploaded to Reef'
 
+
+# Deletes a file already present in the user
+@app.route('/boincserver/v2/delete_file/token=<toktok>', methods = ['GET', 'POST'])
+def delete_user_file(toktok):
+
+   if pp.token_test == False:
+      return 'Invalid token'
+   if request.method != 'POST':
+      return 'Invalid, provide a file to be deleted'
+
+   # Accounts for missing directories
+   if str('DIR_'+toktok) not in os.listdir('/root/project/api/sandbox_files'):
+      return 'User directory does not exist'
+   try: 
+      FILE = request.form['del']    
+      if FILE == '':    
+         return 'No file provided'     
+      os.remove('/root/project/api/sandbox_files/DIR_'+str(toktok)+'/'+str(FILE))
+      return 'File succesfully deleted from reef storage'
+
+    except:
+      return 'File is not present in Reef'
 
 
 if __name__ == '__main__':

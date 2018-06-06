@@ -20,6 +20,10 @@
 * Users may not have more than one directory
 * Check all user files using the following syntax (files will be comma-separated):  
 	*curl http://SERVER_IP:5060/boincserver/v2/all_files/token=TOKEN*
+* Upload a file using the syntax:  
+	*curl -F file=@FILE.txt http://SERVER_IP:5060/boincserver/v2/upload_reef/token=TOKEN*
+* Delete a file using the syntax:
+	*curl -d del=FILE_NAME  http://SERVER_IP:5060/boincserver/v2/delete_file/token=TOKEN*
 
 
 

@@ -18,9 +18,6 @@ Gib_outs += [y for x in os.walk(PATH) for y in glob(os.path.join(x[0], '*.png'))
 Gib_outs += [y for x in os.walk(PATH) for y in glob(os.path.join(x[0], '*.cfg'))]
 Gib_outs += [y for x in os.walk(PATH) for y in glob(os.path.join(x[0], '*.log'))]
 
-# For some reason, these are not accounetd for in the find command
-# Add them to the end file
-#Unaccounted_accounted = [accx.txt,  accy.txt,  backbone.txt,  dispx.txt,  dispy.txt,  example3.txt,  example4.txt,  pwp.txt,  strain9.txt,  stress9.txt]
 
 Predots = [line.rstrip('\n') for line in open('/All_outs.txt')]
 

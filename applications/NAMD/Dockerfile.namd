@@ -18,8 +18,8 @@ FROM ubuntu:16.04
 MAINTAINER Carlos Redondo <carlos.red@utexas.edu>
 ENV _SECOND_AUTHOR "Carlos Redondo <carlos.red@utexas.edu"
 ENV _COPYRIGHT_NOTICE "This software includes code developed by the Theoretical Biophysics Group \
-                       in the Beckman Institute for Advanced Science and Technology at the \
-                       University of Illinois at Urbana-Champaign."
+in the Beckman Institute for Advanced Science and Technology at the \
+University of Illinois at Urbana-Champaign."
 
 # Because the previous user is Ubuntu and BOINC requires access to the /root/ folder
 USER root
@@ -44,6 +44,7 @@ RUN cd /build &&\
     tar -xvzf NAMD_Linux-x86_64-multicore.tar.gz &&\
     cd NAMD* &&\
     cp namd2 /usr/local/bin/namd2 && cp charmrun /usr/local/bin/charmrun &&\
+    apt-get update && apt-get install curl wget python -y &&\
     mkdir -p /root/shared/results && touch /All_outs.txt && mkdir /data &&\
 	for afil in $(find /data -name '*.txt'); do printf "$(realpath $afil)\n" >>  /All_outs.txt; done
 

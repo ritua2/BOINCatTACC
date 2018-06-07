@@ -30,7 +30,7 @@
 
 
 **Summary**  
-Using Coral2, it is now possible to:  
+Using Reef, it is now possible to:  
 	- Upload files to the cloud, favoring integration with local file systems  
 	- Delete files when they are no longer useful
 	- Maintain a sandbox of data for future BOINC projects

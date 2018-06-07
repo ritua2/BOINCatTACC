@@ -1,0 +1,34 @@
+#################################################
+# NAMD 
+
+# Designed to run namd in a CPU environment with charmrun
+# All commands are the same as the ones from the base image
+# To obtain the results in the final folder, simply run
+# License: Apache License 2.0
+
+#################################################
+
+
+FROM ubuntu:16.04
+MAINTAINER Carlos Redondo <carlos.red@utexas.edu>
+ENV _SECOND_AUTHOR "Carlos Redondo <carlos.red@utexas.edu"
+ENV namd2 /sw/NAMD_2.11_Linux-x86_64-multicore-CUDA/namd2
+# Because the previous user is Ubuntu and BOINC requires access to the /root/ folder
+USER root
+
+
+# Installs realpath command so that the program can access the full path information of stuff
+# The container already accounts fro the known .out files and saves their names accordingly
+# There will be a file to move all the unaccounted .out files to the /root/shared/results folder
+# Then, it changes their type to .txt files
+
+
+# Copies the unaccounted files to /root/shared/results
+COPY Mov_Res.py /Mov_Res.py
+
+# Adds to path
+RUN export PATH=/sw/NAMD_2.11_Linux-x86_64-multicore-CUDA:$PATH
+
+RUN yum update &&\
+    mkdir -p /root/shared/results && apt-get install -y realpath && touch /All_outs.txt &&\
+	for afil in $(find / -name '*.txt'); do printf "$(realpath $afil)\n" >>  /All_outs.txt; done

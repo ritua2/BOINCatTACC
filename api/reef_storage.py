@@ -7,7 +7,7 @@ CLoud storage of files on the BOINC server for using local files
 """
 
 import os, sys
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 import preprocessing as pp
 from werkzeug.utils import secure_filename
 

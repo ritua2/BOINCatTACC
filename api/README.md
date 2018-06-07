@@ -16,7 +16,7 @@
 * Designed to save files for future BOINC jobs, so that they may be called through wget or curl  
 * Each individual user will receive a unique, personal sandbox assigned to their token  
 * Users must create a directory before using it, use the following syntax:  
-	*curl -d token=TOKEN  http://SERVER_IP/boincserver/v2/create_sandbox*  
+	*curl -d token=TOKEN  http://SERVER_IP:5060/boincserver/v2/create_sandbox*  
 * Users may not have more than one directory
 * Check all user files using the following syntax (files will be comma-separated):  
 	*curl http://SERVER_IP:5060/boincserver/v2/all_files/token=TOKEN*

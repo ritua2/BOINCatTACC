@@ -38,6 +38,6 @@ chmod +x /root/project/api/server_checks.py
 chmod +x /root/project/api/submit_known.py
 chmod +x /root/project/api/reef_storage.py
 chmod +x /root/project/API_Daemon.sh
-chmod +x bproc.sh
+chmod +x /root/project/bproc.sh
 /root/project/API_Daemon.sh -up
 nohup /root/project/bproc.sh &

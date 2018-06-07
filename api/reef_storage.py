@@ -129,7 +129,7 @@ def delete_user_file(toktok):
       os.remove('/root/project/api/sandbox_files/DIR_'+str(toktok)+'/'+str(FILE))
       return 'File succesfully deleted from reef storage'
 
-    except:
+   except:
       return 'File is not present in Reef'
 
 

@@ -1,20 +1,19 @@
 """
 BASICS
 
-Finds all the .out files, moves them to /root/shared/results if not there by default and change stheir type to text files
+Finds all the output files, moves them to /root/shared/results if not there by default and change stheir type to text files
 """
 
 import os, shutil
 from glob import glob
 
 
-PATH = "/"
+PATH = "/data"
 
-Gib_outs = [y for x in os.walk(PATH) for y in glob(os.path.join(x[0], '*.out'))]
+Gib_outs = [y for x in os.walk(PATH)]
 
 # For some reason, these are not accounetd for in the find command
 # Add them to the end file
-#Unaccounted_accounted = [accx.txt,  accy.txt,  backbone.txt,  dispx.txt,  dispy.txt,  example3.txt,  example4.txt,  pwp.txt,  strain9.txt,  stress9.txt]
 
 Predots = [line.rstrip('\n') for line in open('/All_outs.txt')]
 
@@ -31,5 +30,4 @@ for exot in Gib_outs:
         
         # Only moves those unaccounted
         if AAA==False:
-        	New_name = exot.split('/')[-1].replace(".out", ".txt")
-        	shutil.move(exot, "/root/shared/results/"+New_name) 
+        	shutil.move(exot, "/root/shared/results/"+exot.split('/')[-1]) 

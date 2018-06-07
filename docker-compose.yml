@@ -1,0 +1,59 @@
+version: "3"
+
+# Largely based on Marius Millea's boinc-server-docker arcitecture
+# Ports are changed to allow for more services
+
+volumes:
+  mysql:
+  project:
+  results:
+
+services:
+  mysql:
+    image: boinc/server_mysql:latest
+    build: images/mysql
+    network_mode: bridge
+    volumes:
+     - "mysql:/var/lib/mysql"
+    environment: 
+     - MYSQL_ROOT_PASSWORD=
+     - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    ports:
+     - "3306:3306"
+
+  makeproject:
+    image: boinc/server_makeproject:latest-b2d
+    build: 
+      context: images/makeproject
+      dockerfile: Dockerfile.b2d
+    network_mode: bridge
+    links: 
+     - mysql
+    volumes:
+     - "project:/root/project.dst"
+    environment:
+     - URL_BASE=$URL_BASE
+     - PROJECT=$PROJECT
+
+  apache:
+    image: boinc/server_apache:latest-b2d
+    build: 
+      context: images/apache
+      dockerfile: Dockerfile.b2d
+    hostname: $PROJECT
+    network_mode: bridge
+    links:
+     - mysql
+    volumes: 
+     - "project:/root/project"
+     - "results:/results"
+     - "/var/run/docker.sock:/var/run/docker.sock"
+    ports: 
+     - "80:80"
+     - "5000:5000"
+     - "5050-5100:5050-5100"
+
+    tty: true
+    environment:
+     - URL_BASE=$URL_BASE
+     - PROJECT=$PROJECT

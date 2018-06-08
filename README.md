@@ -75,3 +75,6 @@
 
 3. I just submitted a job and it does not appear in the results ops page
 	* boinc-docker-server needs to download the images before any further processing is done. For large images (> 1 Gb) this process can take time if the server has a low amount of RAM.
+
+4. I submitted a job, it has been send, and appears as *in process*, but I know that the volunteer has finished
+	* This is most likely caused by binary files, since the server has problems retrieving them. In the future, avoid using binary files in the working directory.

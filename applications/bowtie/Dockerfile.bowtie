@@ -25,9 +25,10 @@ WORKDIR /data
 # Copies the unaccounted files to /root/shared/results
 COPY Mov_Res.py /Mov_Res.py
 
-# The python program will move the .png, .jpg, .jpeg, .txt files out
+# The python program will only move text files out, not binary or compressed (tar, zip) files
 
 
-RUN apt-get update && apt-get install wget python -y &&\
+RUN apt-get update && apt-get install curl wget python python-pip unzip -y &&\
+    pip install --upgrade pip && python -m pip install binaryornot &&\
     mkdir -p /root/shared/results && touch /All_outs.txt &&\
 	for afil in $(find /data -name '*.txt'); do printf "$(realpath $afil)\n" >>  /All_outs.txt; done

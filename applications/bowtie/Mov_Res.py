@@ -20,6 +20,10 @@ Predots = [line.rstrip('\n') for line in open('/All_outs.txt') for y in glob(os.
 
 for exot in Gib_outs:
 
+	# Skips zip files
+	if "piz." == exot[::-1][:4:]:
+		continue
+
 	AAA = False # Keeps track if a particular file has already been seen
 
 		# Must be different to all checked

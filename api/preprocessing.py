@@ -5,7 +5,7 @@ Necessary functions for API work
 """
 
 import random
-
+import os
 
 # Finds if the token is valid
 def token_test(token):
@@ -46,3 +46,14 @@ def random_dir_name():
 
     return fnam
 
+
+# Computes the size of an user's sandbox
+# TOK (str): Token
+
+def user_sandbox_size(TOK):
+    total_size = 0
+    for dirpath, dirnames, filenames in os.walk('/root/project/api/sandbox_files/DIR_'+TOK):
+        for f in filenames:
+            fp = os.path.join(dirpath, f)
+            total_size += os.path.getsize(fp)
+    return total_size

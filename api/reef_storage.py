@@ -10,7 +10,11 @@ import os, sys
 from flask import Flask, request, jsonify, send_file
 import preprocessing as pp
 from werkzeug.utils import secure_filename
+import redis
 
+
+
+r = redis.Redis(host = '0.0.0.0', port = 6389, db =2)
 app = Flask(__name__)
 UPLOAD_FOLDER = "/root/project/api/sandbox_files"
 
@@ -96,7 +100,11 @@ def reef_upload(toktok):
    except:
    	  return 'User sandbox is not set-up, create a sandbox first'
 
-    
+   # No user can have more than 2 Gb
+   assigned_allocation = float(r.get(toktok).decode('UTF-8'))
+
+   if pp.user_sandbox_size(str(toktok)) > (assigned_allocation*1073741824):
+      return 'User has exceded asssigned allocation. Max. allocation is '+str(assigned_allocation)+' GB'
 
    # Avoids empty filenames and those with commas
    if file.filename == '':
@@ -108,6 +116,18 @@ def reef_upload(toktok):
    new_name = secure_filename(file.filename)
    file.save(os.path.join(UPLOAD_FOLDER+'/DIR_'+str(toktok), new_name))
    return 'File succesfully uploaded to Reef'
+
+
+# Allows to check the user's allocation status
+@app.route('/boincserver/v2/reef_allocation_status/token=<toktok>')
+def reef_allocation_status(toktok):
+    used_space = pp.user_sandbox_size(str(toktok))/1073741824
+    assigned_allocation = r.get(toktok).decode('UTF-8')
+    all_info = {'Max. allocation': assigned_allocation+' GB',
+                'Used space': str(used_space)+' GB', 
+                'Space available left': str((1 - used_space/float(assigned_allocation))*100)+'% allocation available'}
+
+    return jsonify(all_info)
 
 
 # Deletes a file already present in the user

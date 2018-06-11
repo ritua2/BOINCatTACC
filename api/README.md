@@ -26,6 +26,8 @@
 	*curl -d del=FILE_NAME  http://SERVER_IP:5060/boincserver/v2/delete_file/token=TOKEN*
 * Download a file using curl/wget with the syntax:  
 	*curl http://SERVER_IP:5060/boincserver/v2/reef/TOKEN/FILE_NAME*
+* Get user allocation and space used with:
+	*curl http://SERVER_IP:5060/boincserver/v2/reef_allocation_status/token=TOKEN*
 
 
 
@@ -35,3 +37,4 @@ Using Reef, it is now possible to:
 	- Delete files when they are no longer useful
 	- Maintain a sandbox of data for future BOINC projects
 	- Download files using curl or wget
+	- Check used disk space allocation, as of now, all user's are assigned 2 GB of space

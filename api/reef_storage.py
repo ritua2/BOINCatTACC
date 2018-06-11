@@ -3,7 +3,7 @@
 """
 BASICS
 
-CLoud storage of files on the BOINC server for using local files
+Cloud storage of files on the BOINC server for using local files
 """
 
 import os, sys

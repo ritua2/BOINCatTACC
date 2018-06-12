@@ -1,6 +1,5 @@
 ### Notes before use
 
-----
 * Designed for large job batch submission
 * Requires a token
 * Test token before submitting tasks
@@ -8,10 +7,10 @@
 * For a job file submission, use the following curl method:  
 	*curl -F file=@Example_multi_submit.txt http://SERVER_IP:5075/boincserver/v2/submit_known/token=TOKEN*  
 
+----
 
 ### Reef Storage
 
-----
 
 * Designed to save files for future BOINC jobs, so that they may be called through wget or curl  
 * Each individual user will receive a unique, personal sandbox assigned to their token  
@@ -38,3 +37,13 @@ Using Reef, it is now possible to:
 	- Maintain a sandbox of data for future BOINC projects
 	- Download files using curl or wget
 	- Check used disk space allocation, as of now, all user's are assigned 2 GB of space
+
+----
+
+### Two-Factor Token authorization  
+Tokens can be assigned in 2 different ways:
+1. Contact the server administrator and request a token
+2. Apply from within an authorized organization  
+
+If your organization wants to access the BOINC server and provide jobs for the volunteers, contact the server administrator and ask for an administrative organization account. If your request is approved, your organization will beprovided with a company token that individual researchers will use to apply for BOINC submission privileges.  
+Note: The organization token cannot be used to submit jobs.

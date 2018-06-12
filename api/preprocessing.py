@@ -6,6 +6,11 @@ Necessary functions for API work
 
 import random
 import os
+from email import encoders
+from email.mime.base import MIMEBase
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
 
 # Finds if the token is valid
 def token_test(token):
@@ -57,3 +62,29 @@ def user_sandbox_size(TOK):
             fp = os.path.join(dirpath, f)
             total_size += os.path.getsize(fp)
     return total_size
+
+# Emails an user 
+# send_to (arr) (str): Email address of recipients
+# text (str): Text to be sent, always constant
+
+def send_mail(send_to, subject, text):
+    sender = 'EMAIL'
+    password = 'PASSWORD'
+
+    # Creates the actual message
+    outer = MIMEMultipart()
+    outer['Subject'] = 'Temporal token'
+    outer['To'] = ', '.join([send_to])
+    outer['From'] = sender
+    outer.attach(MIMEText(text))
+    composed = outer.as_string()
+
+    try:
+       with smtplib.SMTP('smtp.gmail.com', 587) as s:
+            s.ehlo()
+            s.login(sender, password)
+            s.sendmail(sender, [send_to], composed)
+            s.close()
+    except:
+       print("Unable to send email. Error: ", sys.exc.info()[0])
+       raise

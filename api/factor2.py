@@ -124,7 +124,8 @@ def authenticated_request_token(orgtok, temptok):
     for qq in range(0, 14):
         user_tok += random.choice(SEQ)
     
-    Org_Users_Data = json.loads(r_org.hget(user_org, 'Users').decode('UTF-8'))
+    # Replaces single quotes by double quotes
+    Org_Users_Data = json.loads(r_org.hget(user_org, 'Users').decode('UTF-8').replace('\"', 'UHJKNM').replace('\'', '\"').replace('UHJKLM', '\''))
     Org_Users_Data[user_tok]={'name':NAME, 'last name':LAST_NAME, 'email':EMAIL, 'allocation':ALLOCATION}
     r_org.hset(user_org, 'Users', Org_Users_Data)
     r_temp.delete(temptok)

@@ -21,9 +21,12 @@
 	necessary for API usage.
 	* Most likely, this server will be installed on a cloud server. If that is the case, do not compose up directly. It is necessary to specify
 	the IP of the system using the following syntax:
-		*URL_BASE=http://IP_ADDRESS docker-compose up -d*
 	* If not using root, it is possible that an error appears about Docker not being able to connect to the daemon. If this is the case, use 
 	*sudo* to obtain root access, and use *sudo* for all docker and/or docker-compose commands.
+```bash
+	URL_BASE=http://IP_ADDRESS docker-compose up -d
+```
+	
 
 2. **Wait a few seconds until the *make_project* container sets up the BOINC server and its mysql database**
 	This process is complete when a webpage is accessible on *SERVER_IP/boincserver*
@@ -47,16 +50,23 @@
 	* The mysql password has root user for BOINC by default
 	* The mysql connector IP must be specified to the same IP as the server itself
 
-6. **Run the setup file**
-	* *bash red_setup.sh*
-	* It will install all the necessary packages, python libraries, set-up the internal Redis database, properly locate the files, set-up the APIs, Reef cloud storage, and automatic job processing.
+6. **Run the setup file**  
+	* It will install all the necessary packages, python libraries, set-up the internal Redis database, properly locate the files, set-up the APIs, Reef cloud storage, and automatic job processin
+```bash
+	 bash red_setup.sh
+```
+
 
 7. **Create user tokens**
 	* A new token must be assigned to each new user (researcher who wants to submit BOINC jobs)
-	* To do this: *cd /root/project/html/user/token_data*
-		*python3 create_token FIRST_NAME LAST_NAME EMAIL*
-	* Tokens allow access to manual job submission, APIs and Reef cloud storage
+		* Tokens allow access to manual job submission, APIs and Reef cloud storage
 	* For more instructions on Reef usage, go to the api README in this repository
+	* Fr more instructions on supplying tokens through organizations, check the API documentation
+	* To do this:
+```bash
+	cd /root/project/html/user/token_data*
+	python3 create_token FIRST_NAME LAST_NAME EMAIL
+```
 
 
 [2]: https://docs.docker.com/install/linux/docker-ce/ubuntu/
@@ -67,14 +77,17 @@
 #### Future Use and Complains
 
 1. Disconnecting the APIs, including Reef:
-	*cd /root/project; ./API_Daemon.sh -down*
 	* Disconnecting the APIs will not delete any files currently saved in Reef
+```bash
+	cd /root/project
+	./API_Daemon.sh -down*
+```
 
 2. Pulling the APIs up again:
-	*cd /root/project; ./API_Daemon.sh -up*
+```bash
+	cd /root/project
+	./API_Daemon.sh -up*
+```
 
 3. I just submitted a job and it does not appear in the results ops page
 	* boinc-docker-server needs to download the images before any further processing is done. For large images (> 1 Gb) this process can take time if the server has a low amount of RAM.
-
-4. I submitted a job, it has been send, and appears as *in process*, but I know that the volunteer has finished
-	* This is most likely caused by binary files, since the server has problems retrieving them. In the future, avoid using binary files in the working directory.

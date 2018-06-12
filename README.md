@@ -17,8 +17,8 @@
 0. **Install [Docker][2] and [Docker-compose][3] in their most recent versions** 
 
 1. **Follow the installation instructions provided by [boinc-server-docker][1]**
-	* Modify the *docker-compose.yml* to make it similar to the one provided in thsi repository. This updated compose file opens the ports 
-	necessary for API usage.
+	* Modify the *docker-compose.yml* to make it similar to the one provided in this repository. This updated compose file opens the ports 
+	necessary for API usage. The only changes needed are in the ports for mysql and apache containers.
 	* Most likely, this server will be installed on a cloud server. If that is the case, do not compose up directly. It is necessary to specify
 	the IP of the system using the following syntax:
 	* If not using root, it is possible that an error appears about Docker not being able to connect to the daemon. If this is the case, use 
@@ -35,7 +35,7 @@
 	* Execute *docker ps* do obtain all the data about the BOINC containers. If the setup is done correctly, there is an apache container.
 	* Log into the apache container by using *docker exec -it {apache container ID} bash*
 	* Follow to the guide in [BOINC HTMLOps][4] to set -up an administrative account with .htpasswd
-	* .htpasswd is located in */root/project/html/ops*
+		* .htpasswd is located in */root/project/html/ops*
 	* Login into the administrative BOINC page at *SERVER_IP/boincserver_ops* with the username and password provided above
 
 4. **Clone this repository**
@@ -44,14 +44,22 @@
 	* Clone via: *git clone https://github.com/noderod/boinc-updates*
 	* *cd boinc-updates*
 
-5. **Change the mysql database and email credentials in email_assimilator.py**
-	* Use an organization email for better use
-	* Email frequency is specified as a cron job in */root/project/bproc.sh* as is set up to each 30 minutes by default
-	* The mysql password has root user for BOINC by default
-	* The mysql connector IP must be specified to the same IP as the server itself
+5. **Establish user email credentials**
+	* Run the appropriate bash script to set up the email and password
+	* The basic set-up only allows for gmail, for all others, modify both *./api/preprocessing.py* and *./email_assimilator.py*
+	* Be sure to have input the correct name and password, to change them again, change */root/.bashrc*
+	* Log out of the container and in again so the changes take effect
+	Do:
+```bash
+	 bash password_credentials.sh
+	 exit
+	 docker exec -it {APACHE SERVER} bash
+	 bash red_setup.sh
+```
 
 6. **Run the setup file**  
-	* It will install all the necessary packages, python libraries, set-up the internal Redis database, properly locate the files, set-up the APIs, Reef cloud storage, and automatic job processin
+	* It will install all the necessary packages, python libraries, set-up the internal Redis database, properly locate the files, set-up the APIs, Reef cloud storage, and automatic job processing
+	* The set-up file will also automatically prompt to enter the credentials for the email. Use caution, since an error would require to manually fix the /root/.bashrc file
 ```bash
 	 bash red_setup.sh
 ```
@@ -61,11 +69,11 @@
 	* A new token must be assigned to each new user (researcher who wants to submit BOINC jobs)
 		* Tokens allow access to manual job submission, APIs and Reef cloud storage
 	* For more instructions on Reef usage, go to the api README in this repository
-	* Fr more instructions on supplying tokens through organizations, check the API documentation
+	* For more instructions on supplying tokens through organizations, check the API documentation
 	* To do this:
 ```bash
-	cd /root/project/html/user/token_data*
-	python3 create_token FIRST_NAME LAST_NAME EMAIL
+	cd /root/project/html/user/token_data
+	python3 create_token.py FIRST_NAME LAST_NAME EMAIL ALLOCATION (Optional) (GB)
 ```
 
 
@@ -80,13 +88,13 @@
 	* Disconnecting the APIs will not delete any files currently saved in Reef
 ```bash
 	cd /root/project
-	./API_Daemon.sh -down*
+	./API_Daemon.sh -down
 ```
 
 2. Pulling the APIs up again:
 ```bash
 	cd /root/project
-	./API_Daemon.sh -up*
+	./API_Daemon.sh -up
 ```
 
 3. I just submitted a job and it does not appear in the results ops page

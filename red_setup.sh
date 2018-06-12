@@ -32,6 +32,7 @@ mv /root/project/boinc-updates/email_assimilator.py /root/project
 mv /root/project/boinc-updates/user-interface/* /root/project/html/user
 mv /root/project/boinc-updates/API_Daemon.sh  /root/project
 mv /root/project/boinc-updates/bproc.sh  /root/project
+mv /root/project/boinc-updates/password_credentials.sh /root/project
 
 chmod +x /root/project/email_assimilator.py
 chmod +x /root/project/api/server_checks.py

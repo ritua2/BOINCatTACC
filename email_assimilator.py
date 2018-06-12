@@ -20,7 +20,7 @@ from email.mime.text import MIMEText
 
 r = redis.Redis(host = '0.0.0.0', port = 6389, db = 0)
 
-boinc_db = mysql_con.connect(host = 'IP', port = 3306, user = 'root', password = 'PASSWORD', database = 'boincserver')
+boinc_db = mysql_con.connect(host = os.environ['SERVER_IP'], port = 3306, user = 'root', password = os.environ['MYSQL_1_ENV_MYSQL_ROOT_PASSWORD'], database = 'boincserver')
 
 cursor = boinc_db.cursor()
 
@@ -98,8 +98,8 @@ def result_ID_from_WUID(wuman):
 
 def send_mail(send_from, send_to, subject, text, attachments):
 
-    sender = 'EMAIL'
-    gmail_password = 'PASSWORD'
+    sender = os.environ['BOINC_EMAIL']
+    gmail_password = os.environ['BOINC_EMAIL_PASSWORD']
     
     # Create the enclosing (outer) message
     outer = MIMEMultipart()

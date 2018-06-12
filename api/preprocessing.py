@@ -68,8 +68,8 @@ def user_sandbox_size(TOK):
 # text (str): Text to be sent, always constant
 
 def send_mail(send_to, subject, text):
-    sender = 'EMAIL'
-    password = 'PASSWORD'
+    sender = os.environ['BOINC_EMAIL']
+    gmail_password = os.environ['BOINC_EMAIL_PASSWORD']
 
     # Creates the actual message
     msg = MIMEMultipart()

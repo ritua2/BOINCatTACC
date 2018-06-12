@@ -46,4 +46,10 @@ Tokens can be assigned in 2 different ways:
 2. Apply from within an authorized organization  
 
 If your organization wants to access the BOINC server and provide jobs for the volunteers, contact the server administrator and ask for an administrative organization account. If your request is approved, your organization will beprovided with a company token that individual researchers will use to apply for BOINC submission privileges.  
-Note: The organization token cannot be used to submit jobs.
+Note: The organization token cannot be used to submit jobs.  
+
+Request a token via your organization is a 2 step process:
+1. Submit a request using your organization's credentials; in some cases, your organization may provide a script that communicates to the API. Nonetheless, if you must do it alone, use the following syntax:
+	*curl -F name=NAME -F last_name=LAST_NAME -F email=EMAIL  http://SERVER_IP:5054/boincserver/v2/api/request_user_token/ORG_TOKEN*
+The server will then send an automated email with a temporary token, needed to request an actual token
+Note: The name and emails provided do not necessarily have to be the same as the user's email. This allows for the organization details to be shared only to those deemed necessary. User must provide their actual name and email address on the second step of the process

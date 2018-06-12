@@ -58,5 +58,4 @@ Note: The name and emails provided do not necessarily have to be the same as the
 If you must check your company's allocation, use the following syntax (returns company's max. allocation in GB):  
 	*curl http://SERVER_IP:5054/boincserver/v2/api/check_company_allocation/ORG_TOKEN*
 To add a user manually with the temporary token, do:
-	*curl -F name=NAME -F last_name=LAST_NAME -F email=EMAIL -F allocation=ALLOCATION (Must be number)* http://SERVER_IP:5054/boincserver/v2/api/*authenticated_request_token/ORG_TOKEN/TEMPORARY_TOKEN*
-Note: If no allocation is provided, the system will assign 2 GB
+	*curl -F name=NAME -F last_name=LAST_NAME -F email=EMAIL -F allocation=ALLOCATION* http://SERVER_IP:5054/boincserver/v2/api/*authenticated_request_token/ORG_TOKEN/TEMPORARY_TOKEN*

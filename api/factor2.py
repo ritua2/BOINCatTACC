@@ -7,11 +7,14 @@ Provides the framework to assign tokens based on a 2 factor authorization
 """
 
 import redis
+import random
+import json
 from flask import Flask, request
 from werkzeug.datastructures import ImmutableMultiDict
 import preprocessing as pp
 
 
+r_alloc = redis.Redis(host = '0.0.0.0', port = 6389, db =2)
 r_org = redis.Redis(host = '0.0.0.0', port = 6389, db=3)
 r_temp = redis.Redis(host = '0.0.0.0', port = 6389, db = 4)
 app = Flask(__name__)
@@ -110,6 +113,32 @@ def authenticated_request_token(orgtok, temptok):
     for otok, org in zip(all_org_keys, all_orgs):
         if otok == orgtok:
            user_org = org
+    
+    maxalloc = r_org.hget(user_org, 'Data Plan').decode('UTF-8')
+    if float(ALLOCATION) > float(maxalloc):
+       return 'Invalid: User requested allocation is larger than organization allows'
+
+    # Creates a final token for the user
+    SEQ = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
+    user_tok = ''
+    for qq in range(0, 14):
+        user_tok += random.choice(SEQ)
+    
+    Org_Users_Data = json.loads(r_org.hget(user_org, 'Users').decode('UTF-8'))
+    Org_Users_Data[user_tok]={'name':NAME, 'last name':LAST_NAME, 'email':EMAIL, 'allocation':ALLOCATION}
+    r_org.hset(user_org, 'Users', Org_Users_Data)
+    r_temp.delete(temptok)
+    r_org.hincrby(user_org, 'No. Users', 1)
+
+    # Adds the token to the token file
+    with open("/root/project/html/user/token_data/Tokens.txt", "a") as tokfile:
+         tokfile.write(NAME+" "+LAST_NAME+", "+user_tok+", "+EMAIL+'\n')
+
+    # Adds the allocation details
+    r_alloc.set(user_tok, ALLOCATION)
+
+    return 'User has been added, your new token is: '+user_tok
+
 
 
 if __name__ == '__main__':

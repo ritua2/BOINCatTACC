@@ -44,9 +44,9 @@ def request_user_token(orgtok):
        return 'Organization key invalid, access denied'
 
     dictdata = ImmutableMultiDict(request.form).to_dict(flat='')
-    NAME = str(dictdata['name'])
-    LAST_NAME = str(dictdata['last_name'])
-    EMAIL = str(dictdata['email'])
+    NAME = str(dictdata['name'][0])
+    LAST_NAME = str(dictdata['last_name'][0])
+    EMAIL = str(dictdata['email'][0])
     if '' in [NAME, LAST_NAME, EMAIL]:
        return 'Invalid request, not all information has been provided'
     # Creates a temporary token, sent to the user's email
@@ -57,7 +57,9 @@ def request_user_token(orgtok):
 
     Text = "Your token request has been approved.\nYour token is:    "+temptok+"\n\n\nInsert this token in the second step when prompted\n\n"
     Text += "Note: This is an automated message, all messages sent to this address will be ignored."
-
+    r_temp.setex(temptok, 24*3600, 1)
+    pp.send_mail(EMAIL, 'Temporary token requested', Text)
+    return 'An automatic email has been sent to the provided email address, this token will remain valid for 24 hours.'
 
 if __name__ == '__main__':
    app.run(host = '0.0.0.0', port = 5054)

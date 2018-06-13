@@ -17,6 +17,7 @@ import redis
 
 r = redis.Redis(host = '0.0.0.0', port = 6389, db=2)
 app = Flask(__name__)
+UPLOAD_FOLDER = "/root/project/api/sandbox_files"
 
 # Basic operational check
 @app.route("/boincserver/v2/midas_status")
@@ -115,8 +116,59 @@ def midas(toktok):
 
     if  pp.token_test(toktok) == False:
         return 'Invalid token'
+    
+    if request.method != 'POST':
+        return 'Invalid, no file submitted'
 
-    return 'Passed token test'
+    file = request.files['file']
+
+    try:
+       ALL_USER_DATA = os.listdir('/root/project/api/sandbox_files/DIR_'+str(toktok))
+
+    except:
+       return 'User sandbox is not set-up, create a sandbox firs'
+    
+    # No user can have more than 2 Gb
+    assigned_allocation = float(r.get(toktok).decode('UTF-8'))
+
+    if pp.user_sandbox_size(str(toktok)) > (assigned_allocation*1073741824):
+        return 'User has exceded asssigned allocation. Max. allocation is '+str(assigned_allocation)+' GB'
+
+    if file.filename == '':
+        return 'Invalid, no file uploaded'
+    if ',' in file.filename:
+        return "ERROR: No ',' allowed in filenames"
+    if ('.tar.gz' not in file.filename) and ('.tgz' not in file.filename):
+        return 'ERROR: Compression file not accepted, file must be .tgz or .tar.gz'
+
+
+    new_name = secure_filename(file.filename)
+    file.save(os.path.join(UPLOAD_FOLDER+'/DIR_'+str(toktok), new_name))
+    try:
+        TAR = tarfile.open(UPLOAD_FOLDER+'/DIR_'+str(toktok)+'/'+new_name)
+    except:
+        return 'ERROR: python cannot open tar file'
+    if not any('README.txt' in str(f) for f in TAR.getmembers()):
+        os.remove(os.path.join(UPLOAD_FOLDER+'/DIR_'+str(toktok), new_name))
+        return 'ERROR: tar file does not contain mandatory README.txt'
+
+    # Creates a new MIDAS directory with a new name
+    while True:
+        new_MID = 'MID_'+pp.random_dir_name()
+        if new_MID not in ALL_USER_DATA: break
+
+
+    # Checks the README for all necessary inputs
+    TAR_PATH = UPLOAD_FOLDER+'/DIR_'+str(toktok)+'/'+new_MID
+    os.makedirs(TAR_PATH)
+    TAR.extractall(TAR_PATH)
+
+    if not mdr.valid_README(TAR_PATH+'/README.txt'):
+        shutil.rmtree('/root/project/api/sandbox_files/DIR_'+str(toktok)+'/'+new_MID)
+        return 'ERROR: README is not valid'
+
+    return 'File submitted for processing'
+
 
 
 if __name__ == '__main__':

@@ -2,7 +2,7 @@ OS) Ubuntu_16.04
 # Comment
 LANGUAGE) C++
 LANGUAGE) python
-# User is REQUIRED to set-up armadillo paths manually
+# Only packages available through buckaroo will be automatically installed
 SETUP) setup_other_libraries.sh
 COMMAND) C++:bridge_collapse.cpp
 COMMAND) C++:paint_bridge.cpp

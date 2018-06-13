@@ -2,6 +2,9 @@
 
 **Set-up**  
 MIDAS (Multiple Input Docker Automation System) is a TACC tool designed for automatic dockerization. To use this tool, use the MIDAS API to submit either a *.tgz* or a *tar.gz* file containing all the necessary files.  
+This tar file must only contain the files and subdirectories, not the directory that contains them all. For eacample, if the files are 
+*f1.txt* and *f2.txt* inside the directory *midtest*, then the tar command would be *tar -cvzf TAR_FINAL_FILE.tar.gz .* within the *midtest*
+directory.  
 All files to be used must be inside, as well as a README.txt (required name, files without it will return an error) containing the set-up information.  
 Users may assume root access.  
 To do so, use:
@@ -11,7 +14,7 @@ To do so, use:
 
 #### README.txt 
 
-Required for MIDAS processing, it has 5 required sections (OS, LANGUAGE, LIBRARY, COMMAND, OUTPUT) and an optional one (USER_SETUP).  
+Required for MIDAS processing, it has 4 required sections (OS, LANGUAGE, COMMAND, OUTPUT) and two optionals (LIBRARY, USER_SETUP).  
 The absence of any of the required sections will raise an error, and keep the user from continuing.  
 Lines starting with *H* are comments. Same-line comments are not allowed.  The use of any OS or language not supported requires the user to create a set-up file.  Users are responsible to make sure that their programs run succesfully with files only allowed in local directories.  
 The API will enforce that all referenced files (set-up and command files) are present.  
@@ -46,10 +49,12 @@ To add a new language, do:
 	LANGUAGE) C++
 ```
 
-**Libraries**  
+**Libraries (Optional)**  
 Language libraries, installed in the order that the user provides. If they cannot be installed directly, add the explicit instructions in the
 set-up file. All libraries must be preceded by the language they support.  BOINC does not support software which requires a license or monetary
 cost to be used.  
+In the case of C/C++; we will use the buckaroo package manager because of its simplicity, This means that only packages available from buckarooo
+will be automatically set-up for the user. For all others, it is necessary to specify the build process directly in the set-up file.  
 Libraries will be installed via the default package manager (pip for python, cargo for Rust, etc).
 In the case of C and C++, the user must specify the install and set-up the appropriate paths using the set-up file.  
 To add a library, select the language first and then the language with the following syntax:

@@ -44,11 +44,11 @@ def random_file_name():
 def random_dir_name():
 
     TTT = 'abcdefghijklmnopqrstuvwxyz1234567890'
-    dirnam = 'dir-'
+    dirnam = ''
     for qq in range(0, 7):
-        dirnam += random.choice(HHH)
+        dirnam += random.choice(TTT)
 
-    return fnam
+    return dirnam
 
 
 # Computes the size of an user's sandbox

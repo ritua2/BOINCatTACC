@@ -13,12 +13,12 @@ PATH = "/work/"
 
 # Finds the files needed to move
 mov_files = []
-with open("README.txt", "r") as README:
+with open(PATH+"README.txt", "r") as README:
 
 	for line in README:
 		LLL = line.replace('\n', '')
 		if 'OUTPUT)' in LLL:
-			file_to_be_moved = LLL.replace('OUTPUT)', '').replace(' ')
+			file_to_be_moved = LLL.replace('OUTPUT)', '').replace(' ', '')
 			if 'ALL' == file_to_be_moved:
 				mov_files = os.listdir(PATH)
 				break

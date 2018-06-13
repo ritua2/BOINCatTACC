@@ -1,11 +1,11 @@
 #!/bin/bash
 
-#Sets up the email and password credentials for the BOINC server
+# Sets up the email and password credentials for the BOINC server
 # This file can only be run once
 # After this, it is necessary to manually modify /root/.bashrc
 
 
-printf "Append the user email and password, as well as the mysql password\n"
+printf "Append the user email and password\n"
 printf "WARNING\nThis file can only be run once, after it, modify the values directly in /root/.bashrc\n"
 printf "Leave empty for empty variable\n"
 

@@ -2,7 +2,8 @@
 
 **Set-up**  
 MIDAS (Multiple Input Docker Automation System) is a TACC tool designed for automatic dockerization. To use this tool, use the MIDAS API to submit either a *.tgz* or a *tar.gz* file containing all the necessary files.  
-All files to be used must be inside, as well as a README.txt (required name, files without it will return an error) containing the set-up information.
+All files to be used must be inside, as well as a README.txt (required name, files without it will return an error) containing the set-up information.  
+Users may assume root access.  
 To do so, use:
  ```bash
  	curl -F midas_file=MY_COMPRESSED_FILE.tgz http://SERVER_IP:5085/v2/midas_job/token=TOKEN
@@ -36,8 +37,8 @@ The languages supported by the program, more than one language may be used. The 
 	* C (gcc)
 	* C++ (g++)
 
-Each language is installed together with their package manager or, in the case of C++, MS vcpckg. The version installed for each language is the default used in the package manager. To use any custom manager, add the instruuctions in the setup file.  
-For the sake of future use, both python and python3 refer to python3 (same with pip), whereas python2 refers to python2. Python3 is always installed, since it is needed to recover the results for BOINC.  
+Each language is installed together with their package manager or. The version installed for each language is the default used in the package manager. To use any custom manager, add the instruuctions in the setup file.  
+For the sake of future use, both python and python3 refer to python3 (same with pip), whereas python2 refers to python2. Python3 is always installed, since it is needed to recover the results for BOINC.    
 Bash is also installed by default.
 To add a new language, do:
 ```
@@ -50,9 +51,7 @@ Language libraries, installed in the order that the user provides. If they canno
 set-up file. All libraries must be preceded by the language they support.  BOINC does not support software which requires a license or monetary
 cost to be used.  
 Libraries will be installed via the default package manager (pip for python, cargo for Rust, etc).
-In the case of C, the specific libraries and paths must be provided (working directory is always */work/*). For C++, however, we will provide MS
-vcpckg for simplicity. However, the user must make sure that the specific library can be downloaded via vcpckg. If it cannot, then the image will
-not be built, resulting an error. For all other packages, the exact process must be written in the set-up file.  
+In the case of C and C++, the user must specify the install and set-up the appropriate paths using the set-up file.  
 To add a library, select the language first and then the language with the following syntax:
 ```
 	LANGUAGE) python

@@ -48,10 +48,12 @@
 	* Run the appropriate bash script to set up the email and password
 	* The basic set-up only allows for gmail, for all others, modify both *./api/preprocessing.py* and *./email_assimilator.py*
 	* Be sure to have input the correct name and password, to change them again, change */root/.bashrc*
+	* The same applies to the Docker, MIDAS credentials
 	* Log out of the container and in again so the changes take effect
 	Do:
 ```bash
 	 bash password_credentials.sh
+	 bash dockerhub_credentials.sh
 	 exit
 	 docker exec -it {APACHE SERVER} bash
 	 bash red_setup.sh

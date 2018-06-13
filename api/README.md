@@ -59,3 +59,10 @@ If you must check your company's allocation, use the following syntax (returns c
 	*curl http://SERVER_IP:5054/boincserver/v2/api/check_company_allocation/ORG_TOKEN*
 To add a user manually with the temporary token, do:
 	*curl -F name=NAME -F last_name=LAST_NAME -F email=EMAIL -F allocation=ALLOCATION* http://SERVER_IP:5054/boincserver/v2/api/*authenticated_request_token/ORG_TOKEN/TEMPORARY_TOKEN*
+
+-------
+
+### MIDAS processing
+
+MIDAS (Multiple Input Docker Automation System) is a TACC tool designed for automatic dockerization.  
+For more information on MIDAS, consult the *processing_files* files directory, it contains example and a README guide.

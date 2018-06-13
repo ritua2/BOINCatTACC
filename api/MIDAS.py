@@ -7,8 +7,11 @@ MIDAS: Multiple Input Docker Automation System
 Generates a github image with all user commands inside to be submitted to BOINC
 """
 
-from flask import Flask, jsonify
-import tarfile, shutil, os
+from flask import Flask, request, jsonify
+import tarfile, shutil, os, sys
+import preprocessing as pp
+from werkzeug.utils import secure_filename
+import redis
 
 
 app = Flask(__name__)
@@ -41,6 +44,7 @@ def tutorial():
                             'Short Term Future Updates':'Python, Go, Bash scripts (Short Term)',
                             'Long Term Future Updates':'Haskell, OCaml, C, C++'
                            },
+    'Supported OS': {'Current':'Ubuntu 16.04'},
 
     'Root Access': 'Assume root access when installing dependencies trough a bash script'
 

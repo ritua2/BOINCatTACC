@@ -10,10 +10,12 @@ Generates a github image with all user commands inside to be submitted to BOINC
 from flask import Flask, request, jsonify
 import tarfile, shutil, os, sys
 import preprocessing as pp
+from midas_processing import midas_reader as mdr
 from werkzeug.utils import secure_filename
 import redis
 
 
+r = redis.Redis(host = '0.0.0.0', port = 6389, db=2)
 app = Flask(__name__)
 
 # Basic operational check
@@ -28,8 +30,7 @@ def tutorial():
    
     full = {
     'Basics' : 'MIDAS (Multiple Input Docker Automation System) is a TACC developed tool ',
-    'Disclaimer': 'API usage is restricted to users with granted access, Token required. To test token, curl ->\
-                  http://{BOINC_IP}:5000/boincserver/test_token=ENTER_TOKEN',
+    'Disclaimer': 'API usage is restricted to users with granted access, Token required. To test token, curl ->http://{BOINC_IP}:5000/boincserver/test_token=ENTER_TOKEN',
     'User guide': {'Steps': 'Submit a tar.gz file containing a compressed folder with all the files. File must be a tar.gz , all other inputs will not be accepted .',
                    'Contents' : 'All files must contain a README.txt (file ending MUST be .txt, all other inputs will not be accepted',
                    'README.txt': 'Follow instructions, curl -> http://SERVER_IP/boincserver/README_MIDAS_example.txt',
@@ -39,18 +40,16 @@ def tutorial():
 
                   },
                   
-    'Limitations': 'MIDAS is based on Docker publicly available Docker images. As such, only open-source, free to use software is allowed. No Intel compilers, software that requires key access, enterprise editions, or private OS (Windows, Mac are not allowed)'
-    'Supported Languages': {'Current': 'None',
-                            'Short Term Future Updates':'Python, Go, Bash scripts (Short Term)',
-                            'Long Term Future Updates':'Haskell, OCaml, C, C++'
-                           },
-    'Supported OS': {'Current':'Ubuntu 16.04'},
+    'Limitations': 'MIDAS is based on Docker publicly available Docker images. As such, only open-source, free to use software is allowed. No Intel compilers, software that requires key access, enterprise editions, or private OS (Windows, Mac are not allowed)',
+    'Supported Languages': 'python3, Go, Haskell, Rust, C, C++',
+    'Supported OS': 'Ubuntu 16.04',
 
     'Root Access': 'Assume root access when installing dependencies trough a bash script'
 
     }
 
     return jsonify(full)
+
 
 # Allows the user to see how much space is still available in his allocation
 # Allows to check the user's allocation status
@@ -65,6 +64,59 @@ def reef_allocation_status(toktok):
                 'Space available left': str((1 - used_space/float(assigned_allocation))*100)+'% allocation available'}
 
     return jsonify(all_info)
+
+
+# Returns all the OS and language references
+@app.route("/boincserver/v2/references/midas/token=<toktok>")
+def references(toktok):
+    if  pp.token_test(toktok) == False:
+        return 'Invalid token'
+    allref = {'OS':{'Ubuntu 16.04':'Ubuntu_16.04'},
+              'Languages':{'python2':'Not supported', 'python3':'python, python3', 'Go':'Go', 'C':'C', 'C++':'C++', 'Rust':'Rust', 'Haskell':'Haskell'}
+             }
+    return jsonify(allref)
+
+
+# Gets the user a list of all MIDAS directories
+@app.route("/boincserver/v2/dirs/midas/token=<toktok>")
+def dirs_midas(toktok):
+    if  pp.token_test(toktok) == False:
+        return 'Invalid token'
+    
+    midas_dirs = [x for x in os.listdir('/root/project/api/sandbox_files/DIR_'+str(toktok)) if 'MID_'==x[:4:]]
+    return ', '.join(midas_dirs)
+
+
+# Allows the user to delete a MIDAS directory with all the files it contains, irreversible
+@app.route("/boincserver/v2/delete_midas_dir/token=<toktok>", methods = ['GET', 'POST'])
+def delete_midas_dir(toktok):
+    if  pp.token_test(toktok) == False:
+        return 'Invalid token'
+    if request.method != 'POST':
+      return 'Invalid, provide a file to be deleted'
+
+    # Accounts for missing directories
+    if str('DIR_'+toktok) not in os.listdir('/root/project/api/sandbox_files'):
+       return 'User directory does not exist'
+    try: 
+       MIDIR = request.form['del']    
+       if MIDIR == '':    
+          return 'No file provided'     
+       shutil.rmtree('/root/project/api/sandbox_files/DIR_'+str(toktok)+'/'+str(MIDIR))
+       return 'Midas directory deleted'
+
+    except:
+       return 'MIDAS directory does not exist'
+
+
+# Uploads a file for further MIDAS processing
+@app.route('/boincserver/v2/midas/token=<toktok>', methods = ['GET', 'POST'])
+def midas(toktok):
+
+    if  pp.token_test(toktok) == False:
+        return 'Invalid token'
+
+    return 'Passed token test'
 
 
 if __name__ == '__main__':

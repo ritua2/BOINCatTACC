@@ -9,21 +9,20 @@ import os, sys
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+import redis
+
+
+r_val = redis.Redis(host = '0.0.0.0', port = 6389, db=2)
 
 
 
 # Finds if the token is valid
 def token_test(token):
 
-   if len(token) < 14:
-   	   return False
+   if r_val.get(token) is None:
+      return False
 
-   with open("/root/project/html/user/token_data/Tokens.txt", "r") as TFIL:
-       for line in TFIL:
-           if token in line:
-              return True
-       else:
-           return False
+   return True
 
 
 # Creates a random file name with 18 characters

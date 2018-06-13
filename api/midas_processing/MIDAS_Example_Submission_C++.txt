@@ -1,0 +1,13 @@
+OS) Ubuntu_16.04
+# Comment
+LANGUAGE) C++
+LANGUAGE) python
+LIBRARY) C++: armadillo
+# armadillo can be installed via vcpckg so installation is done automatically
+SETUP) setup_other_libraries.sh
+COMMAND) C++:bridge_collapse.cpp
+COMMAND) C++:paint_bridge.cpp
+COMMAND) python:input_file2.py
+# MIDAS will automatically extract the files, but they MUST be in the local directory
+OUTPUT) my_output.txt
+OUTPUT) image_out.jpg

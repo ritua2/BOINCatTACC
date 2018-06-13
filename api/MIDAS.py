@@ -52,6 +52,19 @@ def tutorial():
 
     return jsonify(full)
 
+# Allows the user to see how much space is still available in his allocation
+# Allows to check the user's allocation status
+@app.route('/boincserver/v2/midas_allocation_status/token=<toktok>')
+def reef_allocation_status(toktok):
+    if pp.token_test(toktok) == False:
+       return 'Invalid token'
+    used_space = pp.user_sandbox_size(str(toktok))/1073741824
+    assigned_allocation = r.get(toktok).decode('UTF-8')
+    all_info = {'Max. allocation': assigned_allocation+' GB',
+                'Used space': str(used_space)+' GB', 
+                'Space available left': str((1 - used_space/float(assigned_allocation))*100)+'% allocation available'}
+
+    return jsonify(all_info)
 
 
 if __name__ == '__main__':

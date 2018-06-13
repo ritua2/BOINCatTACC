@@ -121,6 +121,8 @@ def reef_upload(toktok):
 # Allows to check the user's allocation status
 @app.route('/boincserver/v2/reef_allocation_status/token=<toktok>')
 def reef_allocation_status(toktok):
+    if pp.token_test(toktok) == False:
+       return 'Invalid token'
     used_space = pp.user_sandbox_size(str(toktok))/1073741824
     assigned_allocation = r.get(toktok).decode('UTF-8')
     all_info = {'Max. allocation': assigned_allocation+' GB',

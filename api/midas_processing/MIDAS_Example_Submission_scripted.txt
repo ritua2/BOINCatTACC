@@ -1,7 +1,8 @@
 # This is a comment (MIDAS ignores it)
 
 OS) Ubuntu_16.04
-# Remember, base python refers to python3, python2 will refer to python2 (discontinued in 2020)
+# Python refers to python3, python2 is NOT supported
+# Python is also installed by default, no extra installation needed
 # More than one language may be selected
 LANGUAGE) python
 # MIDAS handles the installation, if and oonly if the libary is in the language's default package manager
@@ -16,4 +17,3 @@ COMMAND) python: input_file2.py
 # MIDAS will automatically extract the files, but they MUST be in the local directory
 OUTPUT) my_output.txt
 OUTPUT) image_out.jpg
-OUTPUT) compressed_folder.zip

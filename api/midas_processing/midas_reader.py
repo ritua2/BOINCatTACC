@@ -5,9 +5,13 @@ Analyzes the MIDAS README and draws conclusions.
 Deals with finding the OS and the languages used
 """
 
+import os
+
+
 # Finds the corresponding image to the OS
 OS_chart = {'Ubuntu_16.04':'carlosred/ubuntu-midas:16.04'}
-Allowed_languages = ['python', 'python3', 'go', 'c', 'c++', 'haskell', 'rust']
+# Python refers to python3 by default, python2 is not supported
+Allowed_languages = ['python', 'r', 'c', 'c++', 'haskell', 'fortran']
 
 
 
@@ -41,4 +45,42 @@ def valid_OS(README_path):
                     return onos
         
     # OS must be specified
-    raise
+    return False
+
+
+# Finds the language(s)
+def valid_language(README_path):
+
+    lang_used = []
+    with open(README_path, 'r') as README:
+        for line in README:
+            LLL = line.replace('\n', '').lower()
+            for lang in Allowed_languages:
+                if lang in LLL:
+                    lang_used.append(lang)
+
+        if len(lang_used) == 0:
+            return False
+
+        return lang_used
+
+
+# Finds all the input files
+# FILES_PATH (str): Path to all the files, inclusing the readme
+def present_input_files(FILES_PATH):
+    files_needed = os.listdir(FILES_PATH)
+    files_present = []
+
+    with open(FILES_PATH+"/README.txt", 'r') as README:
+        for line in README:
+            if "COMMAND)" not in line:
+                continue
+
+            LLL = line.replace("COMMAND)", '').replace('\n', '').replace(' ', '')
+            files_present.append(LLL.split(':')[-1])
+
+            if files_present[-1] not in files_needed:
+                return False
+
+    return files_present
+            

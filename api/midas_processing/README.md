@@ -34,8 +34,8 @@ Ubuntu 16.04
 **Language**  
 The languages supported by the program, more than one language may be used. The following languages are supported as of now and installed automatically:
 	* Python (3) (Only python3 is supported, included by default)
-	* Go
-	* Rust
+	* Fortran (gfortran)
+	* R
 	* Haskell
 	* C (gcc)
 	* C++ (g++)
@@ -53,10 +53,12 @@ To add a new language, do:
 Language libraries, installed in the order that the user provides. If they cannot be installed directly, add the explicit instructions in the
 set-up file. All libraries must be preceded by the language they support.  BOINC does not support software which requires a license or monetary
 cost to be used.  
+The name of the library must also be the name of the library when it is installed. This name may differe from the one used when it is called. For C++ libraries installed through buckaroo, use the buckaroo name, not the conventional one.  
 In the case of C/C++; we will use the buckaroo package manager because of its simplicity, This means that only packages available from buckarooo
 will be automatically set-up for the user. For all others, it is necessary to specify the build process directly in the set-up file.  
-Libraries will be installed via the default package manager (pip for python, cargo for Rust, etc).
-In the case of C and C++, the user must specify the install and set-up the appropriate paths using the set-up file.  
+Libraries will be installed via the default package manager (pip for python, cargo for Rust, etc).  
+Note: There are certain libraries (basemap in python, for example) that require a specific setup. These libraries cannot be setup in this command and the suer must do so in the set-up file.  
+In the case of C, Fortran, and C++, the user must specify the install and set-up the appropriate paths using the set-up file.  
 To add a library, select the language first and then the language with the following syntax:
 ```
 	LANGUAGE) python
@@ -74,10 +76,11 @@ More than one set-up file will be allowed but they will be executed in the order
 ```
 
 **Command**  
-The actual command, to be executed. Requires the syntax LANGUAGE: FILE. All commands must be done using this syntax, so plan accordingly. This
+The actual command, to be executed. Requires the syntax LANGUAGE: FILE.  Only one file may be issued after the command. All commands must be done using this syntax, so plan accordingly. This
 means no arguments in the command line. If you request specific commands, put them in a text file, include that file, and make the program read it.  
 In the case of scripted languages, the image will just execute the command.  
-For compiled languages, the image will first compile the file using the language's default compiler (gcc for C, etc) and then run the executable.  
+For compiled languages, the image will first compile the file using the language's default compiler (gcc for C, etc) and then run the executable.
+For C++ libraries installed using buckaroo, MIDAS will automatically set the -I flags to set-up the necessary libraries.    
 The program assumes that the user knows how the file extensions, so it will not raise an error if they do not match the language.  
 This form is, as of now, the only one available, only language commands may be executed.  
 Use the syntax:  

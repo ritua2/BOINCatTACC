@@ -136,6 +136,16 @@ def install_libraries(README_path):
     return LIBS_INSTRUCTIONS
 
 
+# Returns the copy instructions for all the files present
+def copy_files_to_image(FILES_PATH):
+
+    ins = []
+    for file in os.listdir(FILES_PATH):
+        ins.append("COPY "+file+" /work/"+file)
+
+    return ins
+
+
 # Returns a valid command
 # COMMAND (arr) (str): LANGUAGE, FILE
 # cpp_libs (arr) (str: C++ libraries, only useful for C++ 

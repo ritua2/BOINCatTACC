@@ -56,13 +56,13 @@
 	 bash dockerhub_credentials.sh
 	 exit
 	 docker exec -it {APACHE SERVER} bash
-	 bash red_setup.sh
 ```
 
 6. **Run the setup file**  
 	* It will install all the necessary packages, python libraries, set-up the internal Redis database, properly locate the files, set-up the APIs, Reef cloud storage, and automatic job processing
 	* The set-up file will also automatically prompt to enter the credentials for the email. Use caution, since an error would require to manually fix the /root/.bashrc file
 ```bash
+	 cd /root/project/boinc-updates
 	 bash red_setup.sh
 ```
 

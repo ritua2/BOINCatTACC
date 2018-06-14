@@ -63,11 +63,11 @@ To add a new language, do:
 Language libraries, installed in the order that the user provides. If they cannot be installed directly, add the explicit instructions in the
 set-up file. All libraries must be preceded by the language they support.  BOINC does not support software which requires a license or monetary
 cost to be used.  
-The name of the library must also be the name of the library when it is installed. This name may differe from the one used when it is called. For C++ libraries installed through buckaroo, use the buckaroo name, not the conventional one.  
+The name of the library must also be the name of the library when it is installed. This name may differ from the one used when it is called. For C++ libraries installed through buckaroo, use the buckaroo name, not the conventional one.  
 In the case of C/C++; we will use the buckaroo package manager because of its simplicity, This means that only packages available from buckarooo
 will be automatically set-up for the user. For all others, it is necessary to specify the build process directly in the set-up file.  
 Libraries will be installed via the default package manager (pip for python, cargo for Rust, etc).  
-Note: There are certain libraries (basemap in python, for example) that require a specific setup. These libraries cannot be setup in this command and the suer must do so in the set-up file.  
+Note: There are certain libraries (basemap in python, for example) that require a specific setup. These libraries cannot be setup in this command and the user must do so in the set-up file.  
 In the case of C, Fortran, and C++, the user must specify the install and set-up the appropriate paths using the set-up file.  
 To add a library, select the language first and then the language with the following syntax:
 ```
@@ -81,7 +81,7 @@ Allows the user to provide a set of bash scripts (MUST be bash scripts, ending i
 The user must make sure that the syntax is correct, otherwise the build will raise an error.  
 Makefiles in particular must be set-up using a set-up file.  
 More than one set-up file will be allowed but they will be executed in the order they are present.  
-NOTE: Contrary to the command input files, the server will not check that the set-up files are present, so the suer is responsible to make sure
+NOTE: Contrary to the command input files, the server will not check that the set-up files are present, so the user is responsible to make sure
 that they are present.  
 Use the following syntax:  
 ```

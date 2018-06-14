@@ -59,3 +59,16 @@ for HJK in to_be_processed:
 
         # Other languages
         FINAL_COMMANDS.append(mdr.execute_command(acom))
+
+
+    # All dockerfiles are named the same way {TOKEN}:{10 char hash}
+    DTAG = user_tok+':'+hashlib.sha256(str(datetime.datetime.now()).encode('UTF-8')).hexdigest()[:10:]
+
+    # Composes the dockerfile
+    duck = hti_OS+"\n\n\n"+"\n".join(mdr.copy_files_to_image('.'))
+    duck += "\n\n\nRUN "+" && ".join(hti_langs)+" &&\\\n"+" && ".join(hti_setup)+" &&\\\n"+" && ".join(hti_libs)
+    duck += "\n\nWORKDIR /work"
+
+    # Actual command
+    BOINC_COMMAND = DTAG+" /bin/bash -c  \""+"; ".join(FINAL_COMMANDS)+"\""
+

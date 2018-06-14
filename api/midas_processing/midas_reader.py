@@ -14,11 +14,11 @@ OS_chart = {'Ubuntu_16.04':'carlosred/ubuntu-midas:16.04'}
 # No need for installation
 # Avoids language names inside other language names
 Allowed_languages = list(reversed(sorted(['python', 'r', 'c', 'c++', 'haskell', 'fortran'])))
-language_instructions = {'python':''}
+language_instructions = {'python':'echo python is already installed by default'}
 libraries_instructions = {'python':'pip3 install LIBRARY'}
 language_compiled = {'python':False, 'c++':True}
 # C++ is going to require a lot of special instructions
-command_instructions = {'python':'python3 FILE'; }
+command_instructions = {'python':'python3 FILE'}
 
 
 

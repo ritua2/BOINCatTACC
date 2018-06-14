@@ -66,9 +66,13 @@ for HJK in to_be_processed:
 
     # Composes the dockerfile
     duck = hti_OS+"\n\n\n"+"\n".join(mdr.copy_files_to_image('.'))
-    duck += "\n\n\nRUN "+" && ".join(hti_langs)+" &&\\\n"+" && ".join(hti_setup)+" &&\\\n"+" && ".join(hti_libs)
+    for inst_set in [hti_langs, hti_setup, hti_libs]:
+        if inst_set == []:
+            continue
+        duck += "\nRUN "+" && ".join(inst_set)
+
+
     duck += "\n\nWORKDIR /work"
 
     # Actual command
-    BOINC_COMMAND = DTAG+" /bin/bash -c  \""+"; ".join(FINAL_COMMANDS)+"\""
-
+    BOINC_COMMAND = DTAG+" /bin/bash -c  \"cd /work; "+"; ".join(FINAL_COMMANDS)+"; python3 /Mov_Specific.py\""

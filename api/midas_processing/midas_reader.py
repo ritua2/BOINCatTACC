@@ -11,8 +11,14 @@ import os
 # Finds the corresponding image to the OS
 OS_chart = {'Ubuntu_16.04':'carlosred/ubuntu-midas:16.04'}
 # Python refers to python3 by default, python2 is not supported
-Allowed_languages = ['python', 'r', 'c', 'c++', 'haskell', 'fortran']
-
+# No need for installation
+# Avoids language names inside other language names
+Allowed_languages = list(reversed(sorted(['python', 'r', 'c', 'c++', 'haskell', 'fortran'])))
+language_instructions = {'python':''}
+libraries_instructions = {'python':'pip3 install LIBRARY'}
+language_compiled = {'python':False, 'c++':True}
+# C++ is going to require a lot of special instructions
+command_instructions = {'python':'python3 FILE'; }
 
 
 
@@ -55,14 +61,17 @@ def valid_language(README_path):
     with open(README_path, 'r') as README:
         for line in README:
             LLL = line.replace('\n', '').lower()
+            if 'language)' not in LLL:
+                continue
             for lang in Allowed_languages:
                 if lang in LLL:
                     lang_used.append(lang)
+                    break
 
-        if len(lang_used) == 0:
-            return False
+    if len(lang_used) == 0:
+        return False
 
-        return lang_used
+    return list(set(lang_used))
 
 
 # Finds all the input files
@@ -77,10 +86,39 @@ def present_input_files(FILES_PATH):
                 continue
 
             LLL = line.replace("COMMAND)", '').replace('\n', '').replace(' ', '')
-            files_present.append(LLL.split(':')[-1])
+            files_present.append(LLL.split(':'))
 
-            if files_present[-1] not in files_needed:
+            if files_present[-1][1] not in files_needed:
                 return False
 
     return files_present
-            
+
+
+# Installation instructions for each OS
+def install_OS(README_path):
+    actual_OS = valid_OS(README_path)
+    return 'FROM '+OS_chart[actual_OS]
+
+
+# Installation instructions for each language
+# LANGUAGE (str): Language name
+def install_language(LANGUAGE):
+    return language_instructions[LANGUAGE]
+
+
+# Returns a valid command
+# COMMAND (arr) (str): LANGUAGE, FILE
+# cpp_libs (arr) (str: C++ libraries, only useful for C++ 
+def execute_command(COMMAND, cpp_libs=[]):
+
+    # Finds the language
+    for lkj in Allowed_languages:
+        if lkj in COMMAND[0].lower():
+            LANG = lkj
+            break
+
+    if not language_compiled[LANG]:
+        return command_instructions[LANG].replace('FILE', COMMAND[1])
+
+
+

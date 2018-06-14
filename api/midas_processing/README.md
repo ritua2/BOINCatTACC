@@ -69,7 +69,11 @@ To add a library, select the language first and then the language with the follo
 Specially useful for C and C++.  
 Allows the user to provide a set of bash scripts (MUST be bash scripts, ending in *.sh*) that either install new programs or set-up paths.  
 The user must make sure that the syntax is correct, otherwise the build will raise an error.  
-More than one set-up file will be allowed but they will be executed in the order they are present. Use the following syntax:  
+Makefiles in particular must be set-up using a set-up file.  
+More than one set-up file will be allowed but they will be executed in the order they are present.  
+NOTE: Contrary to the command input files, the server will not check that the set-up files are present, so the suer is responsible to make sure
+that they are present.  
+Use the following syntax:  
 ```
 	USER_SETUP) file_setup1.sh
 	USER_SETUP) file_setup2.sh

@@ -83,3 +83,14 @@ def send_mail(send_to, subject, text):
          full_message = msg.as_string()
          s.sendmail(sender, send_to, full_message)
          s.close()
+
+
+# Obtains the email of a user provided a token
+# toktok (str): Token
+def obtain_email(toktok):
+    
+    toktok = toktok.replace('\n', '').replace(' ', '')
+    with open("/root/project/html/user/token_data/Tokens.txt", 'r') as TFIL:
+         for line in TFIL:
+             if toktok in line:
+                return line.split(',')[-1].replace('\n', '').replace(' ', '')

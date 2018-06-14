@@ -31,6 +31,9 @@ if [ $1 == "-up" ]; then
         > /dev/null 2>&1 & echo $! > /root/project/rrff_api.txt
    nohup /root/project/api/factor2.py & \
         > /dev/null 2>&1 & echo $! > /root/project/fac2_api.txt 
+   nohup /root/project/api/MIDAS.py & \
+        > /dev/null 2>&1 & echo $! > /root/project/midd_api.txt
+        
    printf "Server communication APIs are now active\n"
 fi
 
@@ -42,5 +45,6 @@ if [ $1 == "-down" ]; then
    kill -9 $(($(cat /root/project/sskk_api.txt) - 1))
    kill -9 $(($(cat /root/project/rrff_api.txt) - 1))
    kill -9 $(($(cat /root/project/fac2_api.txt) - 1))
+   kill -9 $(($(cat /root/project/midd_api.txt) - 1))
    printf "Server communication APIs have been disconnected\n"
 fi

@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+
 """
 BASICS
 
@@ -179,6 +182,9 @@ def midas(toktok):
         shutil.rmtree('/root/project/api/sandbox_files/DIR_'+str(toktok)+'/'+new_MID)
         return 'ERROR: Not all input files for commands are present'
 
+
+    # Creates a redis database with syntax {TOKEN}.{MID_DIRECTORY}
+    r.set(toktok+'.'+new_MID, 0)
 
     return 'File submitted for processing'
 

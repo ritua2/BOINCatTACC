@@ -60,9 +60,9 @@ def valid_language(README_path):
     lang_used = []
     with open(README_path, 'r') as README:
         for line in README:
-            LLL = line.replace('\n', '').lower()
-            if 'language)' not in LLL:
+            if 'LANGUAGE)' not in LLL:
                 continue
+            LLL = line.replace('\n', '').lower()
             for lang in Allowed_languages:
                 if lang in LLL:
                     lang_used.append(lang)
@@ -106,6 +106,36 @@ def install_language(LANGUAGE):
     return language_instructions[LANGUAGE]
 
 
+# Finds the setup files and executes the command bash on each of them
+def user_guided_setup(README_path):
+
+    SETUP_INSTRUCTIONS = []
+    with open(README_path, 'r') as README:
+        for line in README:
+            if "USER_SETUP)" not in line:
+                continue
+            SETUP_INSTRUCTIONS.append("bash "+line.replace("USER_SETUP)", '').replace('\n', '').replace(' ', ''))
+
+    return SETUP_INSTRUCTIONS
+
+
+# Finds the necessary libraries and returns instructions about how to install them
+def install_libraries(README_path):
+
+    LIBS_INSTRUCTIONS = []
+    with open(README_path, 'r') as README:
+        for line in README:
+            if 'LIBRARY)' not in line:
+                continue
+            LLL = line.lower().replace(' ', '').replace('\n', '').split(':')
+            for lkj in Allowed_languages:
+                if lkj in LLL[0]:
+                    LIBS_INSTRUCTIONS.append(libraries_instructions[lkj].replace('LIBRARY', LLL[1]))
+                    break
+
+    return LIBS_INSTRUCTIONS
+
+
 # Returns a valid command
 # COMMAND (arr) (str): LANGUAGE, FILE
 # cpp_libs (arr) (str: C++ libraries, only useful for C++ 
@@ -119,6 +149,4 @@ def execute_command(COMMAND, cpp_libs=[]):
 
     if not language_compiled[LANG]:
         return command_instructions[LANG].replace('FILE', COMMAND[1])
-
-
 

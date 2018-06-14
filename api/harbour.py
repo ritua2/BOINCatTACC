@@ -46,7 +46,8 @@ for HJK in to_be_processed:
     #hti: how to install
     hti_OS = mdr.install_OS('README.txt')
     hti_langs =[mdr.install_language(y) for y in mdr.valid_language('README.txt')]
-
+    hti_setup = mdr.user_guided_setup('README.txt')
+    hti_libs = mdr.install_libraries('README.txt')
 
     # Obtains the commands to run
     ALL_COMS = mdr.present_input_files('.')

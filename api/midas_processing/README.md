@@ -19,7 +19,17 @@ The absence of any of the required sections will raise an error, and keep the us
 Lines starting with *H* are comments. Same-line comments are not allowed.  The use of any OS or language not supported requires the user to create a set-up file.  Users are responsible to make sure that their programs run succesfully with files only allowed in local directories.  
 The API will enforce that all referenced files (set-up and command files) are present.  
 File names cannot have spaces, use underscores or dashes instead.  
-For examples for README.txt, 2 will be provided in this same directory: python, C++ and setup file.
+For examples for README.txt, 2 will be provided in this same directory: python, C++ and setup file.  
+
+**Order of Operations**  
+All BOINC jobs submitted through MIDAS will be executed in the image in the following order:  
+1. OS installation (base image selection)
+2. Language installation
+3. User set-up
+4. Library installation
+5. Commands
+6. Results retrieval
+
 
 **OS**  
 Refers to the base OS on which all the other commands are run. 
@@ -111,6 +121,7 @@ recovering binary files can sometimes cause problems.
 	OUTPUT) spinal_analysis.txt
 ```
 
+--------
 
 #### Where is each process executed?
 

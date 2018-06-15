@@ -44,6 +44,7 @@ chmod +x /root/project/bproc.sh
 chmod +x /root/project/html/user/token_data/create_organization.py
 chmod +x /root/project/html/user/token_data/modify_org.py
 chmod +x /root/project/api/factor2.py
+chmod +x /root/project/api/harbour.py
 
 /root/project/API_Daemon.sh -up
 nohup /root/project/bproc.sh &

@@ -112,10 +112,11 @@ for HJK in to_be_processed:
 
     # Composes the dockerfile
     duck = hti_OS+"\n\n\n"+"\n".join(mdr.copy_files_to_image('.'))
-    for inst_set in [hti_langs, hti_setup, hti_libs]:
+    duck += "\nRUN "+" && ".join(hti_langs)
+    for inst_set in [hti_setup, hti_libs]:
         if inst_set == []:
             continue
-        duck += "\nRUN "+" && ".join(inst_set)
+        duck += " &&\\\n    "+" && ".join(inst_set)
 
 
     duck += "\n\nWORKDIR /work"

@@ -173,10 +173,17 @@ def midas(toktok):
     if not mdr.valid_OS(TAR_PATH+'/README.txt'):
         shutil.rmtree('/root/project/api/sandbox_files/DIR_'+str(toktok)+'/'+new_MID)
         return 'ERROR: OS is not accepted'
+    if not mdr.present_input_files(TAR_PATH):
+        shutil.rmtree('/root/project/api/sandbox_files/DIR_'+str(toktok)+'/'+new_MID)
+        return 'ERROR: Not all input files for commands are present'
 
     if not mdr.valid_language(TAR_PATH+'/README.txt'):
         shutil.rmtree('/root/project/api/sandbox_files/DIR_'+str(toktok)+'/'+new_MID)
         return 'ERROR: Language is not accepted'
+
+    if not mdr.install_libraries(TAR_PATH+'/README.txt'):
+        shutil.rmtree('/root/project/api/sandbox_files/DIR_'+str(toktok)+'/'+new_MID)
+        return 'ERROR: Language does not support libraries'
 
 
     # Creates a redis database with syntax {TOKEN}.{MID_DIRECTORY}

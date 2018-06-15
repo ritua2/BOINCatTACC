@@ -13,12 +13,18 @@ OS_chart = {'Ubuntu_16.04':'carlosred/ubuntu-midas:16.04'}
 # Python refers to python3 by default, python2 is not supported
 # No need for installation
 # Avoids language names inside other language names
-Allowed_languages = list(reversed(sorted(['python', 'r', 'c', 'c++', 'haskell', 'fortran'])))
-language_instructions = {'python':{'Ubuntu_16.04':'echo python is already installed by default'}}
+Allowed_languages = sorted(['python', 'r', 'c', 'c++', 'haskell', 'fortran'], key=len, reverse=True)
+language_instructions = {
+        'python':{'Ubuntu_16.04':'echo python is already installed by default'},
+        'fortran':{'Ubuntu_16.04':'apt-get install gfortran'}}
 libraries_instructions = {'python':'pip3 install LIBRARY'}
-language_compiled = {'python':False, 'c++':True}
+# Does necessarily follow the convention, mostly as a 
+language_compiled = {'python':False, 'c++':True, 'fortran':True}
 # C++ is going to require a lot of special instructions
-command_instructions = {'python':'python3 FILE'}
+command_instructions = {
+        'python':'python3 FILE',
+        'fortran':'gfortran FILE -o a.out'
+}
 
 
 
@@ -60,7 +66,7 @@ def valid_language(README_path):
     lang_used = []
     with open(README_path, 'r') as README:
         for line in README:
-            if 'LANGUAGE)' not in LLL:
+            if 'LANGUAGE)' not in line:
                 continue
             LLL = line.replace('\n', '').lower()
             for lang in Allowed_languages:
@@ -120,6 +126,18 @@ def user_guided_setup(README_path):
     return SETUP_INSTRUCTIONS
 
 
+# Recognizes a programming language is a sentence in a sentence
+# SENTEN (str): Sentence to analyze
+def recognize_language(SENTEN):
+
+    for LANG in Allowed_languages:
+        if LANG in SENTEN:
+            return LANG
+
+    return False
+
+
+
 # Finds the necessary libraries and returns instructions about how to install them
 def install_libraries(README_path):
 
@@ -129,10 +147,11 @@ def install_libraries(README_path):
             if 'LIBRARY)' not in line:
                 continue
             LLL = line.lower().replace(' ', '').replace('\n', '').split(':')
-            for lkj in Allowed_languages:
-                if lkj in LLL[0]:
-                    LIBS_INSTRUCTIONS.append(libraries_instructions[lkj].replace('LIBRARY', LLL[1]))
-                    break
+            curlang = recognize_language(LLL[0])
+            if curlang not in libraries_instructions.keys():
+                return False
+
+            LIBS_INSTRUCTIONS.append(libraries_instructions[curlang].replace('LIBRARY', LLL[1]))
 
     return LIBS_INSTRUCTIONS
 
@@ -160,3 +179,9 @@ def execute_command(COMMAND, cpp_libs=[]):
 
     if not language_compiled[LANG]:
         return command_instructions[LANG].replace('FILE', COMMAND[1])
+
+    # Compiled instructions go line by line
+    if LANG == 'fortran':
+        # Cannot accept libraries
+        com1 = command_instructions[LANG].replace('FILE', COMMAND[1])
+        return com1+" && ./a.out"

@@ -44,7 +44,7 @@ Ubuntu 16.04
 **Language**  
 The languages supported by the program, more than one language may be used. The following languages are supported as of now and installed automatically:  
 	* Python (3) (Only python3 is supported, included by default)  
-	* Fortran (gfortran)  
+	* Fortran (90) (gfortran)  
 	* R  
 	* Haskell  
 	* C (gcc)  
@@ -69,6 +69,8 @@ will be automatically set-up for the user. For all others, it is necessary to sp
 Libraries will be installed via the default package manager (pip for python, cargo for Rust, etc).  
 Note: There are certain libraries (basemap in python, for example) that require a specific setup. These libraries cannot be setup in this command and the user must do so in the set-up file.  
 In the case of C, Fortran, and C++, the user must specify the install and set-up the appropriate paths using the set-up file.  
+Not all languages support automatic libraries. So far, only python, Haskell, and (to a lesser extent) C++ do. For the others, no libraries can
+be installed using MIDAS. They must be installed within a setup file (which must be a bash script). If the user, however, provides a library using the *LIBRARY)* syntax, it will return an error.  
 To add a library, select the language first and then the language with the following syntax:
 ```
 	LANGUAGE) python
@@ -90,7 +92,7 @@ Use the following syntax:
 ```
 
 **Command**  
-The actual command, to be executed. Requires the syntax LANGUAGE: FILE.  Only one file may be issued after the command. All commands must be done using this syntax, so plan accordingly. This
+The actual command, to be executed. Requires the syntax LANGUAGE: FILE.  Only one file may be issued after the command. All commands must be done using this syntax, so plan accordingly. MIDAS will check that all input files are present before running the command.  
 means no arguments in the command line. If you request specific commands, put them in a text file, include that file, and make the program read it.  
 In the case of scripted languages, the image will just execute the command.  
 For compiled languages, the image will first compile the file using the language's default compiler (gcc for C, etc) and then run the executable.
@@ -131,3 +133,14 @@ The server will provide the user with a new Docker image that will be pushed to 
 * **Commands**: Volunteer computer
 All commands are executed in the volunteers, any errors arising there will most likely result in a computational error, which the user will not
 receive until crash. This will not be available immediately and could take days to occur, as soon as the volunteer is done.
+
+---------
+
+#### Common Issues  
+
+* **Errors in plotting and graphics**  
+Most graphical libraries are designed to work with a screen in mind (take matplotlib, for example). If this is not the case, such as in BOINC,
+then the program will return an error and keep the job from being completed. MIDAS does not check for these types of errors and it is up to
+the user to correct them.  
+Bear in mind that that an error of this type would not be an image buuild error and so it would be the BOINC job that would fail, not the 
+image build. The user would, then, only be notified after the volunteer cannot run the job.  

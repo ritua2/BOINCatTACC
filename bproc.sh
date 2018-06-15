@@ -11,6 +11,7 @@
 
 # Initiates the cron job for emails
 crontab -l | { cat; echo "0,30 * * * * /root/project/email_assimilator.py"; } | crontab -
+crontab -l | { cat; echo "0,30 * * * * /root/project/api/harbour.py"; } | crontab -
 
 while true
 do

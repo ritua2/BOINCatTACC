@@ -42,13 +42,13 @@ Ubuntu 16.04
 ```
 
 **Language**  
-The languages supported by the program, more than one language may be used. The following languages are supported as of now and installed automatically:
-	* Python (3) (Only python3 is supported, included by default)
-	* Fortran (gfortran)
-	* R
-	* Haskell
-	* C (gcc)
-	* C++ (g++)
+The languages supported by the program, more than one language may be used. The following languages are supported as of now and installed automatically:  
+	* Python (3) (Only python3 is supported, included by default)  
+	* Fortran (gfortran)  
+	* R  
+	* Haskell  
+	* C (gcc)  
+	* C++ (g++)  
 
 Each language is installed together with their package manager or. The version installed for each language is the default used in the package manager. To use any custom manager, add the instruuctions in the setup file.  
 For the sake of future use, both python and python3 refer to python3 (same with pip), whereas python2 refers to python2. Python3 is always installed, since it is needed to recover the results for BOINC.    

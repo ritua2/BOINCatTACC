@@ -22,6 +22,37 @@ import preprocessing as pp
 
 
 r = redis.Redis(host = '0.0.0.0', port = 6389, db = 2)
+# Starts a client for docker
+client = docker.from_env()
+image = client.images
+
+
+Success_Message = "Your MIDAS job has generated an image submitted for processing.\nThis message was completed on DATETIME."
+Failure_Message = "Your MIDAS job has failed dockerfile construction.\nThis message was sent on DATETIME."
+
+# Creates a new docker image
+# Designed so that it is easy to silence for further testing
+
+# IMTAG (str): tag for the image
+# FILES_PATH (str): Path to the files, most likely it will be the current directory
+def user_image(IMTAG, FILES_PATH = '.'):
+
+    image.build(path=FILES_PATH, tag=IMTAG.lower())
+
+
+# Full process of building a docker image
+def complete_build(IMTAG, FILES_PATH='.'):
+
+    researcher_email = pp.obtain_email(IMTAG.split(':')[0])
+    try:
+        # image.build(IMTAG)
+        MESSAGE = Success_Message.replace("DATETIME", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+        pp.send_mail(researcher_email, 'Succesful MIDAS build', MESSAGE)
+    except:
+        MESSAGE = Failure_Message.replace("DATETIME", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+        pp.send_mail(researcher_email, 'Failed MIDAS build', MESSAGE)
+
+
 to_be_processed = [] # [[TOKEN, MIDAS directory], ...]
 
 # Finds all the submitted jobs
@@ -35,6 +66,7 @@ else:
         sys.exit()
 
 
+
 # Goes one by one in the list of submitted files
 for HJK in to_be_processed:
 
@@ -45,7 +77,7 @@ for HJK in to_be_processed:
     os.chdir(FILE_LOCATION)
     #hti: how to install
     hti_OS = mdr.install_OS('README.txt')
-    hti_langs =[mdr.install_language(y) for y in mdr.valid_language('README.txt')]
+    hti_langs =[mdr.install_language(y, mdr.valid_OS('README.txt')) for y in mdr.valid_language('README.txt')]
     hti_setup = mdr.user_guided_setup('README.txt')
     hti_libs = mdr.install_libraries('README.txt')
 
@@ -76,3 +108,7 @@ for HJK in to_be_processed:
 
     # Actual command
     BOINC_COMMAND = DTAG+" /bin/bash -c  \"cd /work; "+"; ".join(FINAL_COMMANDS)+"; python3 /Mov_Specific.py\""
+    complete_build(DTAG)
+
+
+

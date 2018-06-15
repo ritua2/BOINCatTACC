@@ -178,10 +178,6 @@ def midas(toktok):
         shutil.rmtree('/root/project/api/sandbox_files/DIR_'+str(toktok)+'/'+new_MID)
         return 'ERROR: Language is not accepted'
 
-    if not mdr.present_input_files(TAR_PATH):
-        shutil.rmtree('/root/project/api/sandbox_files/DIR_'+str(toktok)+'/'+new_MID)
-        return 'ERROR: Not all input files for commands are present'
-
 
     # Creates a redis database with syntax {TOKEN}.{MID_DIRECTORY}
     r.set(toktok+'.'+new_MID, 0)

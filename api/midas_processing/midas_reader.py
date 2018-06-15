@@ -14,7 +14,7 @@ OS_chart = {'Ubuntu_16.04':'carlosred/ubuntu-midas:16.04'}
 # No need for installation
 # Avoids language names inside other language names
 Allowed_languages = list(reversed(sorted(['python', 'r', 'c', 'c++', 'haskell', 'fortran'])))
-language_instructions = {'python':'echo python is already installed by default'}
+language_instructions = {'python':{'Ubuntu_16.04':'echo python is already installed by default'}}
 libraries_instructions = {'python':'pip3 install LIBRARY'}
 language_compiled = {'python':False, 'c++':True}
 # C++ is going to require a lot of special instructions
@@ -102,8 +102,9 @@ def install_OS(README_path):
 
 # Installation instructions for each language
 # LANGUAGE (str): Language name
-def install_language(LANGUAGE):
-    return language_instructions[LANGUAGE]
+# USED_OS (str)
+def install_language(LANGUAGE, USED_OS):
+    return language_instructions[LANGUAGE][USED_OS]
 
 
 # Finds the setup files and executes the command bash on each of them
@@ -159,4 +160,3 @@ def execute_command(COMMAND, cpp_libs=[]):
 
     if not language_compiled[LANG]:
         return command_instructions[LANG].replace('FILE', COMMAND[1])
-

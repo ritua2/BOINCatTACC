@@ -72,7 +72,7 @@ def send_mail(send_to, subject, text):
 
     # Creates the actual message
     msg = MIMEMultipart()
-    msg['Subject'] = 'Temporal token'
+    msg['Subject'] = subject
     msg['To'] = send_to
     msg['From'] = sender
     msg.attach(MIMEText(text, 'plain'))

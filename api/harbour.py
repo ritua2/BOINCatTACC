@@ -37,24 +37,25 @@ Failure_Message = "Your MIDAS job has failed dockerfile construction.\nThis mess
 # UTOK (str): The user's token
 # MIDIR (str): Midas directory
 # FILES_PATH (str): Path to the files, most likely it will be the current directory
+# COMMAND_TXT (str): Text file with the BOINC command
 def user_image(IMTAG, FILES_PATH = '.'):
 
     image.build(path=FILES_PATH, tag=IMTAG.lower())
 
 
 # Full process of building a docker image
-def complete_build(IMTAG, UTOK, MIDIR, FILES_PATH='.'):
+def complete_build(IMTAG, UTOK, MIDIR, COMMAND_TXT,FILES_PATH='.'):
 
-    researcher_email = pp.obtain_email(IMTAG.split(':')[0])
+    researcher_email = pp.obtain_email(UTOK)
     try:
-        image.build(IMTAG)
+        user_image(IMTAG)
 
         # Reduces the corresponding user's allocation
         # Docker represents image size in GB
         imsiz = float(image.get(IMTAG).attrs['Size'])/(10**9)
         r.incrbyfloat(UTOK, -imsiz)
         # Moves the file
-        shutil.move(namran+".txt", "root/project/html/user/token_data/process_files/"+namran+".txt")
+        shutil.move(COMMAND_TXT+".txt", "/root/project/html/user/token_data/process_files/"+COMMAND_TXT+".txt")
         # Deletes the key
         r.delete(UTOK+'.'+MIDIR)
         MESSAGE = Success_Message.replace("DATETIME", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
@@ -125,7 +126,7 @@ for HJK in to_be_processed:
     with open("Dockerfile", "w") as DOCKERFILE:
         DOCKERFILE.write(duck)
     with open(namran+".txt", "w") as COMFILE:
-        COMFILE.write(BOINC_COMMAND+'\n'+user_token)
+        COMFILE.write(BOINC_COMMAND+'\n'+user_tok)
 
-    complete_build(DTAG, user_tok, dir_midas)
+    complete_build(DTAG, user_tok, dir_midas, namran)
 

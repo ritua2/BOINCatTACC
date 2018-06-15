@@ -81,7 +81,7 @@ def send_mail(send_to, subject, text):
          s.starttls()
          s.login(sender, password)
          full_message = msg.as_string()
-         s.sendmail(sender, send_to, full_message)
+         s.sendmail(sender, [send_to], full_message)
          s.close()
 
 

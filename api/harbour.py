@@ -130,4 +130,3 @@ for HJK in to_be_processed:
         COMFILE.write(BOINC_COMMAND+'\n'+user_tok)
 
     complete_build(DTAG, user_tok, dir_midas, namran)
-

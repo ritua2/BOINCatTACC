@@ -41,12 +41,11 @@ Ubuntu 16.04
 	OS) Ubuntu_16.04
 ```
 
-**Language**  
+**Languages**  
 The languages supported by the program, more than one language may be used. The following languages are supported as of now and installed automatically:  
 	* Python (3) (Only python3 is supported, included by default)  
 	* Fortran (90) (gfortran)  
 	* R  
-	* Haskell  
 	* C (gcc)  
 	* C++ (g++)  
 

@@ -129,7 +129,7 @@ def midas(toktok):
        ALL_USER_DATA = os.listdir('/root/project/api/sandbox_files/DIR_'+str(toktok))
 
     except:
-       return 'User sandbox is not set-up, create a sandbox firs'
+       return 'User sandbox is not set-up, create a sandbox first'
     
     # No user can have more than 2 Gb
     assigned_allocation = float(r.get(toktok).decode('UTF-8'))

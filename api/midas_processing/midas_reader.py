@@ -16,7 +16,7 @@ OS_chart = {'Ubuntu_16.04':'carlosred/ubuntu-midas:16.04'}
 Allowed_languages = sorted(['python', 'r', 'c', 'c++', 'haskell', 'fortran'], key=len, reverse=True)
 language_instructions = {
         'python':{'Ubuntu_16.04':'echo python is already installed by default'},
-        'fortran':{'Ubuntu_16.04':'apt-get install gfortran'}}
+        'fortran':{'Ubuntu_16.04':'apt-get install gfortran -y'}}
 libraries_instructions = {'python':'pip3 install LIBRARY'}
 # Does necessarily follow the convention, mostly as a 
 language_compiled = {'python':False, 'c++':True, 'fortran':True}

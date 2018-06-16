@@ -10,7 +10,7 @@ import mysql.connector as mysql_con
 import redis
 import datetime
 import smtplib
-import os
+import os, shutil
 from os.path import basename
 from email import encoders
 from email.mime.base import MIMEBase
@@ -154,6 +154,9 @@ prestime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 # [ Result name, Outcome, Token ]
 to_be_notified = [[], [], [], []]
 
+# User tokens
+all_toks = []
+
 # Finds which ones have already been finished
 # Also updates the database to mark them as run
 for idid in range(0, allrun):
@@ -177,6 +180,7 @@ for idid in range(0, allrun):
             results_WUID -= 1
         # All results must have been received for the result to be valid
         if results_WUID == 0:
+            all_toks.append(r.lindex('Token', idid).decode('UTF-8'))
             to_be_notified[0].append(curname)
             to_be_notified[1].append(outcome)
             to_be_notified[2].append(obtain_email(r.lindex('Token', idid).decode('UTF-8')))
@@ -201,9 +205,10 @@ def automatic_text(timrec, Ocome):
     Text1 = "Your BOINC job has been completed with status: "+outcome
     Text2 = ".\nAll results files, if any, are attached.\nServer received results on: "
     Text3 = " UTC. This message was sent on "+prestime+" UTC.\n\n"
+    Text35 = "Your results are also available in your Reef account in the directory ___RESULTS.\n\n"
     Text4 = "Sincerely,\n  TACC BOINC research group\n\n\n"
     Text5 = "NOTE: This is an automated message, all emails received at this address will be ignored."
-    return Text1+Text2+timrec+Text3+Text4+Text5
+    return Text1+Text2+timrec+Text3+Text35+Text4+Text5
 
 # Sends the emails
 for nvnv in range(0, len(to_be_notified[0])):
@@ -212,4 +217,7 @@ for nvnv in range(0, len(to_be_notified[0])):
     email_text = automatic_text(to_be_notified[3][nvnv], to_be_notified[1][nvnv])
     researcher_email = to_be_notified[2][nvnv]
     print(researcher_email)
+    # Adds the result to a Reef folder
+    for resfil in attachments:
+        shutil.copy2(resfil, "/root/project/api/sandbox_files/DIR_"+all_toks[nvnv]+'/___RESULTS')
     send_mail('Automated BOINC Notifications', researcher_email, 'Completed Job', email_text, attachments)

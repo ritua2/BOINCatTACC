@@ -18,6 +18,6 @@ do
 
    python3 /root/project/html/user/token_data/redfile.py
    python3 /root/project/html/user/token_data/red_runner.py
-   sleep 3
+   sleep 15
 
 done

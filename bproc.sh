@@ -11,7 +11,11 @@
 
 # Initiates the cron job for emails
 crontab -l | { cat; echo "0,30 * * * * /root/project/email_assimilator.py"; } | crontab -
-crontab -l | { cat; echo "0,30 * * * * /root/project/api/harbour.py"; } | crontab -
+# Automatic dockerfile creation
+crontab -l | { cat; echo "*/15 * * * * /root/project/api/harbour.py"; } | crontab -
+# Erases all unaccounted images and stopped containers
+crontab -l | { cat; echo "*/15 * * * * docker ps -aq --no-trunc -f status=exited | xargs docker rm"; } | crontab -
+crontab -l | { cat; echo "*/15 * * * * docker images -q --filter dangling=true | xargs docker rmi -f"; } | crontab -
 
 while true
 do

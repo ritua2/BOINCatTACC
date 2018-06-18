@@ -48,6 +48,7 @@ The languages supported by the program, more than one language may be used. The 
 	* R  
 	* C (gcc)  
 	* C++ (g++)  
+	* Bash  
 
 Each language is installed together with their package manager or. The version installed for each language is the default used in the package manager. To use any custom manager, add the instruuctions in the setup file.  
 For the sake of future use, both python and python3 refer to python3 (same with pip), whereas python2 refers to python2. Python3 is always installed, since it is needed to recover the results for BOINC.    
@@ -67,7 +68,8 @@ The name of the library must also be the name of the library when it is installe
 In the case of C/C++; we will use the buckaroo package manager because of its simplicity, This means that only packages available from buckarooo
 will be automatically set-up for the user. For all others, it is necessary to specify the build process directly in the set-up file.  
 Libraries will be installed via the default package manager (pip for python, cargo for Rust, etc).  
-Note: There are certain libraries (basemap in python, for example) that require a specific setup. These libraries cannot be setup in this command and the user must do so in the set-up file.  
+Note: There are certain libraries (basemap in python, for example) that require a specific setup. These libraries cannot be setup in this command
+and the user must do so in the set-up file.  
 In the case of C, Fortran, and C++, the user must specify the install and set-up the appropriate paths using the set-up file.  
 Not all languages support automatic libraries. So far, only python, Haskell, and (to a lesser extent) C++ do. For the others, no libraries can
 be installed using MIDAS. They must be installed within a setup file (which must be a bash script). If the user, however, provides a library using the *LIBRARY)* syntax, it will return an error.  
@@ -85,6 +87,7 @@ Makefiles in particular must be set-up using a set-up file.
 More than one set-up file will be allowed but they will be executed in the order they are present.  
 NOTE: Contrary to the command input files, the server will not check that the set-up files are present, so the user is responsible to make sure
 that they are present.  
+NOTE: Do not execute job commands in the set-up, since this would not make use of BOINC at all.  
 Use the following syntax:  
 ```
 	USER_SETUP) file_setup1.sh
@@ -94,6 +97,7 @@ Use the following syntax:
 **Command**  
 The actual command, to be executed. Requires the syntax LANGUAGE: FILE.  Only one file may be issued after the command. All commands must be done using this syntax, so plan accordingly. MIDAS will check that all input files are present before running the command.  
 means no arguments in the command line. If you request specific commands, put them in a text file, include that file, and make the program read it.  
+It is also possible to use the bash command on bash files as a command, so that multiple instructions can be executed at the same time.  
 All output printed to the terminal will be lost since BOINC is not designed for an user interface for jobs.  
 In the case of scripted languages, the image will just execute the command.  
 For compiled languages, the image will first compile the file using the language's default compiler (gcc for C, etc) and then run the executable.
@@ -103,7 +107,9 @@ This form is, as of now, the only one available, only language commands may be e
 
 * *R*  
 	R requires a 3 step command structure, otherwise it will just print to console and the results will not be retrieved. To specify the end
-	file to where print the results, do as below:  
+	file to where print the results, do as below.  The R version provided is *r-base*, if you desire a more recent version, install it with the
+	set-up functionality and change the necessary paths.  
+	R also does not accept libraries from terminal, to install libraries, add them in the set-up script.    
 
 * *C*  
 	C requires a multiple command structure to specify which libraries will be used in a C program. The libraries will be added with the -I flag.  
@@ -141,10 +147,10 @@ recovering binary files can sometimes cause problems.
 
 #### Where is each process executed?
 
-* **OS, language and package installation, set-up**: BOINC server
+* **OS, language and package installation, set-up**: BOINC server  
 The server will provide the user with a new Docker image that will be pushed to Dockerhub and erased from the server immediately after build. If the build fails, the MIDAS API will return an error message.
 
-* **Commands**: Volunteer computer
+* **Commands**: Volunteer computer  
 All commands are executed in the volunteers, any errors arising there will most likely result in a computational error, which the user will not
 receive until crash. This will not be available immediately and could take days to occur, as soon as the volunteer is done.
 

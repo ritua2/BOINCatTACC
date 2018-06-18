@@ -98,9 +98,6 @@ for HJK in to_be_processed:
     ALL_COMS = mdr.present_input_files('.')
     FINAL_COMMANDS = []
     for acom in ALL_COMS:
-        # C++ is special because it requires some dependecies to be set-up
-        if 'c++' in acom[0].lower():
-            pass
 
         # Other languages
         FINAL_COMMANDS.append(mdr.execute_command(acom))

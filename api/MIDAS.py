@@ -16,11 +16,14 @@ import preprocessing as pp
 from midas_processing import midas_reader as mdr
 from werkzeug.utils import secure_filename
 import redis
+import docker
 
 
 r = redis.Redis(host = '0.0.0.0', port = 6389, db=2)
 app = Flask(__name__)
 UPLOAD_FOLDER = "/root/project/api/sandbox_files"
+client = docker.from_env()
+image = client.images
 
 # Basic operational check
 @app.route("/boincserver/v2/midas_status")
@@ -70,13 +73,29 @@ def reef_allocation_status(toktok):
     return jsonify(all_info)
 
 
+# Returns a list of all images owned by the user, as well as their size
+@app.route("/boincserver/v2/midas/user_images/token=<toktok>")
+def user_images(toktok):
+    if not pp.token_test(toktok):
+       return 'Invalid token'
+
+    user_images = {}
+
+    for IMAGE in client.images.list():
+        NAME = IMAGE.attrs['RepoTags'][0]
+        if NAME.split(':')[0] == toktok.lower():
+          user_images[NAME] = str(IMAGE.attrs['Size']/(10**9))+" GB"
+
+    return jsonify(user_images)
+
+
 # Returns all the OS and language references
 @app.route("/boincserver/v2/references/midas/token=<toktok>")
 def references(toktok):
     if  pp.token_test(toktok) == False:
         return 'Invalid token'
     allref = {'OS':{'Ubuntu 16.04':'Ubuntu_16.04'},
-              'Languages':{'python2':'Not supported', 'python3':'python, python3', 'Go':'Go', 'C':'C', 'C++':'C++', 'Rust':'Rust', 'Haskell':'Haskell'}
+              'Languages':{'python2':'Not supported', 'python3':'python, python3', 'Go':'Go', 'R':'R', 'Fortran':'Fortran90', 'C':'C', 'C++':'C++'}
              }
     return jsonify(allref)
 
@@ -181,7 +200,8 @@ def midas(toktok):
         shutil.rmtree('/root/project/api/sandbox_files/DIR_'+str(toktok)+'/'+new_MID)
         return 'ERROR: Language is not accepted'
 
-    if not mdr.install_libraries(TAR_PATH+'/README.txt'):
+    # Avoids cases where no libraries are needed at all
+    if (not mdr.install_libraries(TAR_PATH+'/README.txt')) and (mdr.install_libraries(TAR_PATH+'/README.txt') != []):
         shutil.rmtree('/root/project/api/sandbox_files/DIR_'+str(toktok)+'/'+new_MID)
         return 'ERROR: Language does not support libraries'
 

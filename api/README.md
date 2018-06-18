@@ -66,5 +66,9 @@ To add a user manually with the temporary token, do:
 
 MIDAS (Multiple Input Docker Automation System) is a TACC tool designed for automatic dockerization.  
 For more information on MIDAS, consult the *processing_files* files directory, it contains example and a README guide.  
-Use the following syntax to upload a file:
+Use the following syntax to upload a file:  
 	*curl -F file=@FILE http://SERVER_IP:5085/boincserver/v2/midas/token=TOKEN*
+
+Users are each assigned an allocation and allowed to submit images and jobs as long as these allocation is not exceeded.  
+To check the user's images, as well as their size, do:
+	

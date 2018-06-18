@@ -17,15 +17,17 @@ Allowed_languages = sorted(['python', 'r', 'c', 'c++', 'haskell', 'fortran', 'ba
 language_instructions = {
         'python':{'Ubuntu_16.04':'echo python is installed by default'},
         'fortran':{'Ubuntu_16.04':'apt-get install gfortran -y'},
-        'bash':{'Ubuntu_16.04':'echo bash is installed by default'}}
+        'bash':{'Ubuntu_16.04':'echo bash is installed by default'},
+        'r':{'Ubuntu_16.04':'apt-get install r-base -y'}}
 libraries_instructions = {'python':'pip3 install LIBRARY'}
 # Does necessarily follow the convention, mostly as a 
-language_compiled = {'python':False, 'c++':True, 'fortran':True, 'bash':False}
+language_compiled = {'python':False, 'c++':True, 'fortran':True, 'bash':False, 'r':True}
 # C++ is going to require a lot of special instructions
 command_instructions = {
         'python':'python3 FILE',
         'fortran':'gfortran FILE -o a.out',
-        'bash':'bash FILE'
+        'bash':'bash FILE',
+        'r':'Rscript FILE'
 }
 
 
@@ -154,7 +156,6 @@ def recognize_language(SENTEN):
     return False
 
 
-
 # Finds the necessary libraries and returns instructions about how to install them
 def install_libraries(README_path):
 
@@ -200,5 +201,9 @@ def execute_command(COMMAND, cpp_libs=[]):
         com1 = command_instructions[LANG].replace('FILE', COMMAND[1])
         return com1+" && ./a.out"
 
-    if lang == 'c':
+    if LANG == 'r':
+
+        com1 = command_instructions[LANG].replace('FILE', COMMAND[1])
+        if len(COMMAND) == 3:
+            return com1+" > "+str(COMMAND[2])
         

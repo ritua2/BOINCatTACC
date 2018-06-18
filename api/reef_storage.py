@@ -59,6 +59,7 @@ def new_sandbox():
            return 'Sandbox already available'
     else:
         os.makedirs('/root/project/api/sandbox_files/DIR_'+str(TOK))
+        os.makedirs('/root/project/api/sandbox_files/DIR_'+str(TOK)+'/___RESULTS')
         return 'reef cloud storage now available'
 
 

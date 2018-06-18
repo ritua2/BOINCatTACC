@@ -5,7 +5,7 @@ Analyzes the MIDAS README and draws conclusions.
 Deals with finding the OS and the languages used
 """
 
-import os
+import os, shutil
 
 
 # Finds the corresponding image to the OS
@@ -13,19 +13,20 @@ OS_chart = {'Ubuntu_16.04':'carlosred/ubuntu-midas:16.04'}
 # Python refers to python3 by default, python2 is not supported
 # No need for installation
 # Avoids language names inside other language names
-Allowed_languages = sorted(['python', 'r', 'c', 'c++', 'haskell', 'fortran'], key=len, reverse=True)
+Allowed_languages = sorted(['python', 'r', 'c', 'c++', 'haskell', 'fortran', 'bash'], key=len, reverse=True)
 language_instructions = {
-        'python':{'Ubuntu_16.04':'echo python is already installed by default'},
-        'fortran':{'Ubuntu_16.04':'apt-get install gfortran -y'}}
+        'python':{'Ubuntu_16.04':'echo python is installed by default'},
+        'fortran':{'Ubuntu_16.04':'apt-get install gfortran -y'},
+        'bash':{'Ubuntu_16.04':'echo bash is installed by default'}}
 libraries_instructions = {'python':'pip3 install LIBRARY'}
 # Does necessarily follow the convention, mostly as a 
-language_compiled = {'python':False, 'c++':True, 'fortran':True}
+language_compiled = {'python':False, 'c++':True, 'fortran':True, 'bash':False}
 # C++ is going to require a lot of special instructions
 command_instructions = {
         'python':'python3 FILE',
-        'fortran':'gfortran FILE -o a.out'
+        'fortran':'gfortran FILE -o a.out',
+        'bash':'bash FILE'
 }
-
 
 
 # Verifies that a file has all 5 required inputs
@@ -37,6 +38,8 @@ def valid_README(README_path):
     for nvnv in range(0, len(qualifier[0])):
         with open(README_path, 'r') as README:
             for line in README:
+                if '#' == line.replace(" ", '')[0]:
+                    continue
                 if qualifier[0][nvnv] in line:
                     qualifier[1][nvnv] = 1
                     break
@@ -44,6 +47,20 @@ def valid_README(README_path):
     if 0 in qualifier[1]:
         return False
     return True
+
+
+# Reads the README and writes if to a file of the same name (ignoring comments)
+# Writes a new README in the same folder
+def parser(README_path):
+
+    with open(README_path, "r") as README:
+        with open("READREAD.txt", 'w') as R2:
+            for line in README:
+                if line.replace(" ", '')[0] == '#':
+                    continue
+                R2.write(line)
+    os.remove("README.txt")
+    shutil.move("READREAD.txt", "README.txt")
 
 
 # Finds the OS
@@ -172,10 +189,7 @@ def copy_files_to_image(FILES_PATH):
 def execute_command(COMMAND, cpp_libs=[]):
 
     # Finds the language
-    for lkj in Allowed_languages:
-        if lkj in COMMAND[0].lower():
-            LANG = lkj
-            break
+    LANG = recognize_language(COMMAND[0].lower())
 
     if not language_compiled[LANG]:
         return command_instructions[LANG].replace('FILE', COMMAND[1])
@@ -185,3 +199,6 @@ def execute_command(COMMAND, cpp_libs=[]):
         # Cannot accept libraries
         com1 = command_instructions[LANG].replace('FILE', COMMAND[1])
         return com1+" && ./a.out"
+
+    if lang == 'c':
+        

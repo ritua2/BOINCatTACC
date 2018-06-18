@@ -16,7 +16,7 @@ To do so, use:
 
 Required for MIDAS processing, it has 4 required sections (OS, LANGUAGE, COMMAND, OUTPUT) and two optionals (LIBRARY, USER_SETUP).  
 The absence of any of the required sections will raise an error, and keep the user from continuing.  
-Lines starting with *H* are comments. Same-line comments are not allowed.  The use of any OS or language not supported requires the user to create a set-up file.  Users are responsible to make sure that their programs run succesfully with files only allowed in local directories.  
+Lines starting with *#* are comments. Same-line comments are not allowed.  The use of any OS or language not supported requires the user to create a set-up file.  Users are responsible to make sure that their programs run succesfully with files only allowed in local directories.  
 The API will enforce that all referenced files (set-up and command files) are present.  
 File names cannot have spaces, use underscores or dashes instead.  
 For examples for README.txt, 2 will be provided in this same directory: python, C++ and setup file.  
@@ -52,6 +52,7 @@ The languages supported by the program, more than one language may be used. The 
 Each language is installed together with their package manager or. The version installed for each language is the default used in the package manager. To use any custom manager, add the instruuctions in the setup file.  
 For the sake of future use, both python and python3 refer to python3 (same with pip), whereas python2 refers to python2. Python3 is always installed, since it is needed to recover the results for BOINC.    
 Bash is also installed by default.
+
 To add a new language, do:
 ```
 	LANGUAGE) python
@@ -93,19 +94,33 @@ Use the following syntax:
 **Command**  
 The actual command, to be executed. Requires the syntax LANGUAGE: FILE.  Only one file may be issued after the command. All commands must be done using this syntax, so plan accordingly. MIDAS will check that all input files are present before running the command.  
 means no arguments in the command line. If you request specific commands, put them in a text file, include that file, and make the program read it.  
+All output printed to the terminal will be lost since BOINC is not designed for an user interface for jobs.  
 In the case of scripted languages, the image will just execute the command.  
 For compiled languages, the image will first compile the file using the language's default compiler (gcc for C, etc) and then run the executable.
 For C++ libraries installed using buckaroo, MIDAS will automatically set the -I flags to set-up the necessary libraries.    
 The program assumes that the user knows how the file extensions, so it will not raise an error if they do not match the language.  
 This form is, as of now, the only one available, only language commands may be executed.  
+
+* *R*  
+	R requires a 3 step command structure, otherwise it will just print to console and the results will not be retrieved. To specify the end
+	file to where print the results, do as below:  
+
+* *C*  
+	C requires a multiple command structure to specify which libraries will be used in a C program. The libraries will be added with the -I flag.  
+* *C++*  
+	C++ requires a multiple command structure to specify which libraries will be used in a C program. The libraries will be added with the -I flag. Libraries installed through buckaroo (using the *LIBRARY)* command) may also be added in these way, but they require the BUCK flag 
+	in front of them.  
+
 Use the syntax:  
 ```
-	COMMAND) python:brain_analysis.py
+	COMMAND) python: brain_analysis.py
 	# python brain_analysis.py
-	COMMAND) C++:MRI_scanner.cpp
-	# g++ MRI_scanner.cpp -o MRI_scanner.out && MRI_scanner.out
-	COMMAND) Go:spinal.go
-	# go run spinal.go
+	COMMAND) R: call_center.R: results_center.txt
+	# Rscript call_center.R > results_center.txt
+	COMMAND) C++: MRI_scanner.cpp
+	# g++ MRI_scanner.cpp -o a.out && a.out
+	COMMAND) C++: vertebra.cpp: -BUCK eigen/eigen
+	# g++ -I BUCKAROO_DIR/eigen/eigen vertebra.cpp -o a.out && a.out
 ```
 
 **Output Files**
@@ -138,8 +153,7 @@ receive until crash. This will not be available immediately and could take days 
 #### Common Issues  
 
 * **Errors in plotting and graphics**  
-Most graphical libraries are designed to work with a screen in mind (take matplotlib, for example). If this is not the case, such as in BOINC,
-then the program will return an error and keep the job from being completed. MIDAS does not check for these types of errors and it is up to
+Most graphical libraries are designed to work with a screen in mind (take matplotlib, for example). If this is not the case, such as in BOINC, then the program will return an error and keep the job from being completed. MIDAS does not check for these types of errors and it is up to
 the user to correct them.  
 Bear in mind that that an error of this type would not be an image buuild error and so it would be the BOINC job that would fail, not the 
 image build. The user would, then, only be notified after the volunteer cannot run the job.  

@@ -71,4 +71,7 @@ Use the following syntax to upload a file:
 
 Users are each assigned an allocation and allowed to submit images and jobs as long as these allocation is not exceeded.  
 To check the user's images, as well as their size, do:
-	
+	*curl http://SERVER_IP:5085/boincserver/v2/midas/user_images/token=TOKEN*
+
+To delete an image, provide its name and tag (N:T), the name is the same as the user's token, or just the tag, using the syntax:  
+	*curl -F del=TAG http://SERVER_IP:5085/boincserver/v2/midas/user_images/token=TOKEN*

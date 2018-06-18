@@ -82,11 +82,41 @@ def user_images(toktok):
     user_images = {}
 
     for IMAGE in client.images.list():
-        NAME = IMAGE.attrs['RepoTags'][0]
+        try:
+            NAME = IMAGE.attrs['RepoTags'][0]
+        except:
+            continue
         if NAME.split(':')[0] == toktok.lower():
           user_images[NAME] = str(IMAGE.attrs['Size']/(10**9))+" GB"
 
     return jsonify(user_images)
+
+
+# Allows the user to delete an image
+# Allows the user to provide both the name and tag, or just the tag
+# After an image is deleted, the user's recovers its equivalent memory back into his allocation
+@app.route("/boincserver/v2/midas/delete_image/token=<toktok>", methods = ['GET', 'POST'])
+def delete_image(toktok):
+    if not pp.token_test(toktok):
+       return 'Invalid token'
+    if request.method != 'POST':
+      return 'Invalid, provide an image to be deleted'
+
+    UTOK = str(toktok).lower()
+    DATA = str(request.form['del'])
+    IMTAG = DATA
+
+    if ':' not in DATA:
+        IMTAG = UTOK.lower()+':'+DATA
+
+    try:
+        
+        r.incrbyfloat(toktok, float(client.images.get(IMTAG).attrs['Size'])/(10**9))
+        client.images.remove(image=IMTAG, force=True)
+        return 'User image has been deleted. User allocation is now '+r.get(toktok).decode('UTF-8')+" GB"
+
+    except:
+        return 'ERROR: Image does not exist or is not owned by user'
 
 
 # Returns all the OS and language references

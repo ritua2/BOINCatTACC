@@ -120,8 +120,16 @@ This form is, as of now, the only one available, only language commands may be e
 	Libraries must be provided with the path starting at the local level (no */* in front of them). If the libraries are installed with
 	*make install*, however, it may not be necessary to specify the path if the setup does already.   
 * *C++*  
-	C++ requires a multiple command structure to specify which libraries will be used in a C program. The libraries will be added with the -I flag. Libraries installed through buckaroo (using the *LIBRARY)* command) may also be added in these way, but they require the BUCK flag 
-	in front of them.  
+	C++ requires a multiple command structure to specify which libraries will be used in a C program. The libraries will be added with the -I
+	flag. Since cget contains a large amount of files (although definitely less than 15 MB), there are 2 options for C++: C++/C++ cget. C++ does
+	not allow cget usage and follows the same steps for library installation that C does. C++ cget requires installation and so it can take
+	significantly longer.
+	However, set-up is easier. For cget libraries, start the library call with the start library within the C++ file, i.e.:  
+		*#include <boost/numeric/ublas/matrix.hpp>* intead of */numeric/ublas/matrix.hpp*  
+		*#include <eigen2/Eigen/Dense>* instead of *#include <Eigen/Dense>*
+	Libraries installed through cget (using the *LIBRARY)* command) do not require any setup. They are always setup **in front of**
+	the file to be compiled.  
+
 
 Use the syntax:  
 ```
@@ -133,8 +141,8 @@ Use the syntax:
 	# gcc -I eigen-eigen-5a0156e40feb/Eigen/Dense small_eigen.c -o a.out && a.out
 	COMMAND) C++: MRI_scanner.cpp
 	# g++ MRI_scanner.cpp -o a.out && a.out
-	COMMAND) C++: vertebra.cpp: -BUCK eigen/eigen
-	# g++ -I BUCKAROO_DIR/eigen/eigen vertebra.cpp -o a.out && a.out
+	COMMAND) C++ cget: vertebra.cpp: _CGET eigen
+	# g++ -I CGETPATH/ vertebra.cpp -o a.out && a.out // Buckaroo will setup the appropriate paths if eigen/eigen was installed in the libraries section
 ```
 
 **Output Files**

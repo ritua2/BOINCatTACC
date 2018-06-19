@@ -20,9 +20,11 @@ language_instructions = {
         'bash':{'Ubuntu_16.04':'echo bash is installed by default'},
         'r':{'Ubuntu_16.04':'apt-get install r-base -y'},
         'c':{'Ubuntu_16.04':'echo gcc is installed by default'},
-        'c++':{'Ubuntu_16.04':'echo g++ is installed by default'}
+        'c++':{'Ubuntu_16.04':'echo g++ is installed by default'},
+        'c++ cget':{'Ubuntu_16.04':'pip3 install cget && export LC_ALL=C.UTF-8 && export LANG=C.UTF-8 && cget install pfultz2/cget-recipes'}
         }
-libraries_instructions = {'python':'pip3 install LIBRARY'}
+libraries_instructions = {'python':'pip3 install LIBRARY',
+                          'c++ cget':'cget install LIBRARY'}
 # Does necessarily follow the convention, mostly as a 
 language_compiled = {'python':False, 'c':True, 'c++':True, 'fortran':True, 'bash':False, 'r':True}
 # C++ is going to require a lot of special instructions
@@ -31,7 +33,9 @@ command_instructions = {
         'fortran':'gfortran FILE -o a.out',
         'bash':'bash FILE',
         'r':'Rscript FILE',
-        'c':'gcc LIBS_1 FILE LIBS_2 -o a.out && ./a.out'
+        'c':'gcc LIBS_1 FILE LIBS_2 -o a.out && ./a.out',
+        'c++': 'g++ LIBS_1 FILE LIBS_2 -o a.out && ./a.out',
+        'c++ cget':'g++ LIBS_1 FILE LIBS_2 -o a.out && ./a.out'
 }
 
 
@@ -93,6 +97,9 @@ def valid_language(README_path):
                 continue
             LLL = line.replace('\n', '').lower()
             for lang in Allowed_languages:
+                if lang in lang_used:
+                    # Allows double installations
+                    continue
                 if lang in LLL:
                     lang_used.append(lang)
                     break
@@ -231,6 +238,42 @@ def execute_command(COMMAND, cpp_libs=[]):
                 curcom += "-I "+COMMAND[hh].replace('__I', '')
 
             if '_1_' in COMMAND[hh]:
+                com2 += curcom.replace('_1_', '')+' '
+                continue
+
+            com3 += curcom.replace('_2_', '')+' '
+            continue
 
 
-        return com1
+        return com1.replace("LIBS_1", com2).replace("LIBS_2", com3)
+
+    # Simple c++, without buckaroo
+    if LANG = 'c++':
+
+        # Depends on the libraries provided
+        if len(COMMAND) == 2:
+            return com1.replace("LIBS_1", '').replace("LIBS_2", '')
+
+        com2 = ''
+        com3 =''
+
+        # Other dependencies
+        for hh in range(2, len(COMMAND)):
+
+            curcom = ''
+
+            if 'AS_IS' in COMMAND[hh]:
+                curcom += COMMAND[hh].replace('AS_IS', '')
+
+            if '__I' in COMMAND[hh]:
+                curcom += "-I "+COMMAND[hh].replace('__I', '')
+
+            if '_1_' in COMMAND[hh]:
+                com2 += curcom.replace('_1_', '')+' '
+                continue
+
+            com3 += curcom.replace('_2_', '')+' '
+            continue
+
+
+        return com1.replace("LIBS_1", com2).replace("LIBS_2", com3)

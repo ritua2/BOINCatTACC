@@ -101,7 +101,7 @@ It is also possible to use the bash command on bash files as a command, so that 
 All output printed to the terminal will be lost since BOINC is not designed for an user interface for jobs.  
 In the case of scripted languages, the image will just execute the command.  
 For compiled languages, the image will first compile the file using the language's default compiler (gcc for C, etc) and then run the executable.
-For C++ libraries installed using buckaroo, MIDAS will automatically set the -I flags to set-up the necessary libraries.    
+For C++ libraries installed using buckaroo, MIDAS will automatically set the -I flags to set-up the necessary libraries.  
 The program assumes that the user knows how the file extensions, so it will not raise an error if they do not match the language.  
 This form is, as of now, the only one available, only language commands may be executed.  
 
@@ -112,7 +112,9 @@ This form is, as of now, the only one available, only language commands may be e
 	R also does not accept libraries from terminal, to install libraries, add them in the set-up script.    
 
 * *C*  
-	C requires a multiple command structure to specify which libraries will be used in a C program. The libraries will be added with the -I flag.  
+	C requires a multiple command structure to specify which libraries will be used in a C program. The libraries will be added with the -I flag.
+	Libraries must be provided with the path starting at the local level (no */* in front of them). If the libraries are installed with
+	*make install*, however, it may not be necessary to specify the path if the setup does already.   
 * *C++*  
 	C++ requires a multiple command structure to specify which libraries will be used in a C program. The libraries will be added with the -I flag. Libraries installed through buckaroo (using the *LIBRARY)* command) may also be added in these way, but they require the BUCK flag 
 	in front of them.  
@@ -123,6 +125,8 @@ Use the syntax:
 	# python brain_analysis.py
 	COMMAND) R: call_center.R: results_center.txt
 	# Rscript call_center.R > results_center.txt
+	COMMAND) C: small_eigen.c: eigen-eigen-5a0156e40feb/Eigen/Dense
+	# gcc -I eigen-eigen-5a0156e40feb/Eigen/Dense small_eigen.c -o a.out && a.out
 	COMMAND) C++: MRI_scanner.cpp
 	# g++ MRI_scanner.cpp -o a.out && a.out
 	COMMAND) C++: vertebra.cpp: -BUCK eigen/eigen

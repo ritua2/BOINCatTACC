@@ -193,7 +193,9 @@ for idid in range(0, allrun):
 # Creates the main text submitted
 # timrec (str): Time received
 # Ocome (int): Outcome, 1 (Success), 3 (Computational Error)
-def automatic_text(timrec, Ocome):
+# TOK (str): User token
+# ATTA (arr) (str): Attachment files
+def automatic_text(timrec, Ocome, TOK, ATTA):
 
     if str(Ocome) == '1':
        outcome = "SUCCESS"
@@ -203,18 +205,25 @@ def automatic_text(timrec, Ocome):
        outcome = "UNKNOWN RESULT"
 
     Text1 = "Your BOINC job has been completed with status: "+outcome
-    Text2 = ".\nAll results files, if any, are attached.\nServer received results on: "
-    Text3 = " UTC. This message was sent on "+prestime+" UTC.\n\n"
-    Text35 = "Your results are also available in your Reef account in the directory ___RESULTS.\n\n"
-    Text4 = "Sincerely,\n  TACC BOINC research group\n\n\n"
-    Text5 = "NOTE: This is an automated message, all emails received at this address will be ignored."
-    return Text1+Text2+timrec+Text3+Text35+Text4+Text5
+    Text1 += ".\nAll results files, if any, are attached.\nServer received results on: "+timrec
+    Text1 += " UTC. This message was sent on "+prestime+" UTC.\n\n"
+    Text1 += "Your results are also available in your Reef account in the directory ___RESULTS.\n\n"
+    Text1 += "Click or copy the following URLs to access your results:\n"
+    for anat in ATTA:
+        ST = os.environ["SERVER_IP"]+":5060/boincserver/v2/reef/results/"
+        ST += TOK+"/"+anat.split("/")[-1]
+        Text1 += ST+'\n'
+
+
+    Text1 += "Sincerely,\n  TACC BOINC research group\n\n\n"
+    Text1 += "NOTE: This is an automated message, all emails received at this address will be ignored."
+    return Text1
 
 # Sends the emails
 for nvnv in range(0, len(to_be_notified[0])):
 
     attachments = job_result_files(to_be_notified[0][nvnv], to_be_notified[3][nvnv])
-    email_text = automatic_text(to_be_notified[3][nvnv], to_be_notified[1][nvnv])
+    email_text = automatic_text(to_be_notified[3][nvnv], to_be_notified[1][nvnv], all_toks[nvnv], attachments)
     researcher_email = to_be_notified[2][nvnv]
     print(researcher_email)
     # Adds the result to a Reef folder

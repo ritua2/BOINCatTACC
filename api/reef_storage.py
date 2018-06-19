@@ -172,6 +172,20 @@ def obtain_file(FIL, toktok):
     return send_file(USER_DIR+str(FIL))
 
 
+# Returns an user's results file
+@app.route('/boincserver/v2/reef/results/<toktok>/<FIL>')
+def results_file(FIL, toktok):
+    if pp.token_test(toktok) == False:
+       return 'Invalid token'
+    if str('DIR_'+toktok) not in os.listdir('/root/project/api/sandbox_files'):
+       return 'User directory does not exist'
+
+    USER_DIR = '/root/project/api/sandbox_files/DIR_'+str(toktok)+'/___RESULTS/'
+    if str(FIL) not in os.listdir(USER_DIR):
+       return 'File not available'
+
+    return send_file(USER_DIR+str(FIL))
+
 
 if __name__ == '__main__':
    app.run(host ='0.0.0.0', port = 5060)

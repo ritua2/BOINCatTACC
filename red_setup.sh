@@ -48,4 +48,3 @@ chmod +x /root/project/api/harbour.py
 
 /root/project/API_Daemon.sh -up
 nohup /root/project/bproc.sh &
-printf "Set-up is complete, BOINC server is ready\n"

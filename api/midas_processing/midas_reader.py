@@ -18,16 +18,20 @@ language_instructions = {
         'python':{'Ubuntu_16.04':'echo python is installed by default'},
         'fortran':{'Ubuntu_16.04':'apt-get install gfortran -y'},
         'bash':{'Ubuntu_16.04':'echo bash is installed by default'},
-        'r':{'Ubuntu_16.04':'apt-get install r-base -y'}}
+        'r':{'Ubuntu_16.04':'apt-get install r-base -y'},
+        'c':{'Ubuntu_16.04':'echo gcc is installed by default'},
+        'c++':{'Ubuntu_16.04':'echo g++ is installed by default'}
+        }
 libraries_instructions = {'python':'pip3 install LIBRARY'}
 # Does necessarily follow the convention, mostly as a 
-language_compiled = {'python':False, 'c++':True, 'fortran':True, 'bash':False, 'r':True}
+language_compiled = {'python':False, 'c':True, 'c++':True, 'fortran':True, 'bash':False, 'r':True}
 # C++ is going to require a lot of special instructions
 command_instructions = {
         'python':'python3 FILE',
         'fortran':'gfortran FILE -o a.out',
         'bash':'bash FILE',
-        'r':'Rscript FILE'
+        'r':'Rscript FILE',
+        'c':'gcc LIBS FILE -o a.out'
 }
 
 
@@ -206,4 +210,23 @@ def execute_command(COMMAND, cpp_libs=[]):
         com1 = command_instructions[LANG].replace('FILE', COMMAND[1])
         if len(COMMAND) == 3:
             return com1+" > "+str(COMMAND[2])
-        
+    
+    if LANG == 'c':
+
+        # Depends on the libraries provided
+        if len(COMMAND) == 2:
+            com1.replace("LIBS", '')
+            return com1+" && ./a.out"
+
+        com2 = ''
+
+        # Other dependencies
+        for hh in range(2, len(COMMAND)):
+
+            if 'AS_IS' in COMMAND[hh]:
+                com2 += COMMAND[hh].replace['AS_IS', '']
+
+            if '__I' in COMMAND[hh]:
+                com2 += "-I "+COMMAND[hh].replace['__I', '']
+
+        return com1.replace("LIBS", com2)

@@ -13,7 +13,7 @@ OS_chart = {'Ubuntu_16.04':'carlosred/ubuntu-midas:16.04'}
 # Python refers to python3 by default, python2 is not supported
 # No need for installation
 # Avoids language names inside other language names
-Allowed_languages = sorted(['python', 'r', 'c', 'c++', 'haskell', 'fortran', 'bash'], key=len, reverse=True)
+Allowed_languages = sorted(['python', 'r', 'c', 'c++', 'c++ cget', 'haskell', 'fortran', 'bash'], key=len, reverse=True)
 language_instructions = {
         'python':{'Ubuntu_16.04':'echo python is installed by default'},
         'fortran':{'Ubuntu_16.04':'apt-get install gfortran -y'},
@@ -22,11 +22,11 @@ language_instructions = {
         'c':{'Ubuntu_16.04':'echo gcc is installed by default'},
         'c++':{'Ubuntu_16.04':'echo g++ is installed by default'},
         'c++ cget':{'Ubuntu_16.04':'pip3 install cget && export LC_ALL=C.UTF-8 && export LANG=C.UTF-8 && cget install pfultz2/cget-recipes'}
-        }
+}
 libraries_instructions = {'python':'pip3 install LIBRARY',
                           'c++ cget':'cget install LIBRARY'}
 # Does necessarily follow the convention, mostly as a 
-language_compiled = {'python':False, 'c':True, 'c++':True, 'fortran':True, 'bash':False, 'r':True}
+language_compiled = {'python':False, 'c':True, 'c++':True, 'c++ cget':True, 'fortran':True, 'bash':False, 'r':True}
 # C++ is going to require a lot of special instructions
 command_instructions = {
         'python':'python3 FILE',
@@ -121,10 +121,10 @@ def present_input_files(FILES_PATH):
             if "COMMAND)" not in line:
                 continue
 
-            LLL = line.replace("COMMAND)", '').replace('\n', '').replace(' ', '')
+            LLL = line.replace("COMMAND)", '').replace('\n', '')
             files_present.append(LLL.split(':'))
 
-            if files_present[-1][1] not in files_needed:
+            if files_present[-1][1].replace(' ', '') not in files_needed:
                 return False
 
     return files_present
@@ -175,7 +175,7 @@ def install_libraries(README_path):
         for line in README:
             if 'LIBRARY)' not in line:
                 continue
-            LLL = line.lower().replace(' ', '').replace('\n', '').split(':')
+            LLL = line.lower().replace('library)', '').replace('\n', '').split(':')
             curlang = recognize_language(LLL[0])
             if curlang not in libraries_instructions.keys():
                 return False
@@ -247,8 +247,8 @@ def execute_command(COMMAND, cpp_libs=[]):
 
         return com1.replace("LIBS_1", com2).replace("LIBS_2", com3)
 
-    # Simple c++, without buckaroo
-    if LANG = 'c++':
+    # Simple C++, without cget
+    if LANG == 'c++':
 
         # Depends on the libraries provided
         if len(COMMAND) == 2:
@@ -277,3 +277,41 @@ def execute_command(COMMAND, cpp_libs=[]):
 
 
         return com1.replace("LIBS_1", com2).replace("LIBS_2", com3)
+
+    # C++ using the cget package manager
+    if LANG == "c++ cget":
+
+        # Depends on the libraries provided
+        if len(COMMAND) == 2:
+            return com1.replace("LIBS_1", '').replace("LIBS_2", '')
+
+        com2 = ''
+        com3 =''
+
+        # Other dependencies
+        for hh in range(2, len(COMMAND)):
+
+            curcom = ''
+
+            # Actual cget command
+            if "_CGET" in COMMAND[hh]:
+                com2 += " -I ./cget/include/ "
+                continue
+
+            if 'AS_IS' in COMMAND[hh]:
+                curcom += COMMAND[hh].replace('AS_IS', '')
+
+            if '__I' in COMMAND[hh]:
+                curcom += "-I "+COMMAND[hh].replace('__I', '')
+
+            if '_1_' in COMMAND[hh]:
+                com2 += curcom.replace('_1_', '')+' '
+                continue
+
+            com3 += curcom.replace('_2_', '')+' '
+            continue
+
+
+        return com1.replace("LIBS_1", com2).replace("LIBS_2", com3)
+
+

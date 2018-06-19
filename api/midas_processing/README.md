@@ -141,8 +141,8 @@ Use the syntax:
 	# gcc -I eigen-eigen-5a0156e40feb/Eigen/Dense small_eigen.c -o a.out && a.out
 	COMMAND) C++: MRI_scanner.cpp
 	# g++ MRI_scanner.cpp -o a.out && a.out
-	COMMAND) C++ cget: vertebra.cpp: _CGET eigen
-	# g++ -I CGETPATH/ vertebra.cpp -o a.out && a.out // Buckaroo will setup the appropriate paths if eigen/eigen was installed in the libraries section
+	COMMAND) C++ cget: vertebra.cpp: _CGET
+	# g++ -I CGETPATH/ vertebra.cpp -o a.out && a.out // cget will setup the appropriate paths for all installed libraries above
 ```
 
 **Output Files**

@@ -31,7 +31,7 @@ command_instructions = {
         'fortran':'gfortran FILE -o a.out',
         'bash':'bash FILE',
         'r':'Rscript FILE',
-        'c':'gcc LIBS FILE -o a.out'
+        'c':'gcc LIBS_1 FILE LIBS_2 -o a.out && ./a.out'
 }
 
 
@@ -199,15 +199,14 @@ def execute_command(COMMAND, cpp_libs=[]):
     if not language_compiled[LANG]:
         return command_instructions[LANG].replace('FILE', COMMAND[1])
 
+    com1 = command_instructions[LANG].replace('FILE', COMMAND[1])
+
     # Compiled instructions go line by line
     if LANG == 'fortran':
         # Cannot accept libraries
-        com1 = command_instructions[LANG].replace('FILE', COMMAND[1])
         return com1+" && ./a.out"
 
     if LANG == 'r':
-
-        com1 = command_instructions[LANG].replace('FILE', COMMAND[1])
         if len(COMMAND) == 3:
             return com1+" > "+str(COMMAND[2])
     
@@ -215,18 +214,23 @@ def execute_command(COMMAND, cpp_libs=[]):
 
         # Depends on the libraries provided
         if len(COMMAND) == 2:
-            com1.replace("LIBS", '')
-            return com1+" && ./a.out"
+            return com1.replace("LIBS_1", '').replace("LIBS_2", '')
 
         com2 = ''
+        com3 =''
 
         # Other dependencies
         for hh in range(2, len(COMMAND)):
 
+            curcom = ''
+
             if 'AS_IS' in COMMAND[hh]:
-                com2 += COMMAND[hh].replace['AS_IS', '']
+                curcom += COMMAND[hh].replace('AS_IS', '')
 
             if '__I' in COMMAND[hh]:
-                com2 += "-I "+COMMAND[hh].replace['__I', '']
+                curcom += "-I "+COMMAND[hh].replace('__I', '')
 
-        return com1.replace("LIBS", com2)
+            if '_1_' in COMMAND[hh]:
+
+
+        return com1

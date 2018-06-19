@@ -84,6 +84,8 @@ Specially useful for C and C++.
 Allows the user to provide a set of bash scripts (MUST be bash scripts, ending in *.sh*) that either install new programs or set-up paths.  
 The user must make sure that the syntax is correct, otherwise the build will raise an error.  
 Makefiles in particular must be set-up using a set-up file.  
+In general, avoid using user setup as much as possible, since it increases the size of the image. For all setup that does not require network
+access (package installation, curl, wget, ...) submit the instructions in a bash script executable with the *COMMAND* focus.  
 More than one set-up file will be allowed but they will be executed in the order they are present.  
 NOTE: Contrary to the command input files, the server will not check that the set-up files are present, so the user is responsible to make sure
 that they are present.  
@@ -102,7 +104,9 @@ All output printed to the terminal will be lost since BOINC is not designed for 
 In the case of scripted languages, the image will just execute the command.  
 For compiled languages, the image will first compile the file using the language's default compiler (gcc for C, etc) and then run the executable.
 For C++ libraries installed using buckaroo, MIDAS will automatically set the -I flags to set-up the necessary libraries.  
-The program assumes that the user knows how the file extensions, so it will not raise an error if they do not match the language.  
+For both C and C++, the program gives the suer liberty to locate the libraries and commands before or after the file, use *_1_* and
+*_2_* markers to denote previous and afterwards, respectively
+The program assumes that the user knows how to properly use file extensions, so it will not raise an error if they do not match the language.  
 This form is, as of now, the only one available, only language commands may be executed.  
 
 * *R*  

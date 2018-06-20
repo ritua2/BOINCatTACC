@@ -38,13 +38,14 @@ Failure_Message = "Your MIDAS job has failed dockerfile construction.\nThis mess
 # MIDIR (str): Midas directory
 # FILES_PATH (str): Path to the files, most likely it will be the current directory
 # COMMAND_TXT (str): Text file with the BOINC command
+# DOCK_DOCK (str): Actual dockerfile text
 def user_image(IMTAG, FILES_PATH = '.'):
 
     image.build(path=FILES_PATH, tag=IMTAG.lower())
 
 
 # Full process of building a docker image
-def complete_build(IMTAG, UTOK, MIDIR, COMMAND_TXT,FILES_PATH='.'):
+def complete_build(IMTAG, UTOK, MIDIR, COMMAND_TXT, DOCK_DOCK, FILES_PATH='.'):
 
     researcher_email = pp.obtain_email(UTOK)
     try:
@@ -58,11 +59,33 @@ def complete_build(IMTAG, UTOK, MIDIR, COMMAND_TXT,FILES_PATH='.'):
         shutil.move(COMMAND_TXT+".txt", "/root/project/html/user/token_data/process_files/"+COMMAND_TXT+".txt")
         # Deletes the key
         r.delete(UTOK+'.'+MIDIR)
+
+        # Saves the docker image and sends the user the dockerfile and a link to the tar ball
+        # docker-py documentation was erronous
+
+        img = image.get(IMTAG)
+        resp = img.save()
+
+        # Creates a file, recycled everytime the program runs
+        ff = open("image.tar.gz", 'wb')
+        for salmon in resp:
+            ff.write(salmon)
+        ff.close()
+
+        # Moves the file to the user's result folders
+        shutil.move("image.tar.gz", "/root/project/api/sandbox_files/DIR_"+UTOK+"/___RESULTS/image.tar.gz")
+
         MESSAGE = Success_Message.replace("DATETIME", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+        MESSAGE += "\n\nClick on the following link to obtain a compressed version of your image.\n"
+        MESSAGE += "Post it on dockerhub to make use of known commands API: \n"
+        MESSAGE += os.environ["SERVER_IP"]+":5060/boincserver/v2/reef/results/"+UTOK+"/image.tar.gz"
+
+        MESSAGE += "\n\nDockerfile created below: \n\n"+DOCK_DOCK
         pp.send_mail(researcher_email, 'Succesful MIDAS build', MESSAGE)
     except Exception as e:
         print(e)
         MESSAGE = Failure_Message.replace("DATETIME", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+        MESSAGE += "\n\nDockerfile created below: \n\n"+DOCK_DOCK
         pp.send_mail(researcher_email, 'Failed MIDAS build', MESSAGE)
 
 
@@ -126,4 +149,4 @@ for HJK in to_be_processed:
     with open(namran+".txt", "w") as COMFILE:
         COMFILE.write(BOINC_COMMAND+'\n'+user_tok)
 
-    complete_build(DTAG, user_tok, dir_midas, namran)
+    complete_build(DTAG, user_tok, dir_midas, namran, duck)

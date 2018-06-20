@@ -39,13 +39,14 @@ Failure_Message = "Your MIDAS job has failed dockerfile construction.\nThis mess
 # FILES_PATH (str): Path to the files, most likely it will be the current directory
 # COMMAND_TXT (str): Text file with the BOINC command
 # DOCK_DOCK (str): Actual dockerfile text
+# BOCOM (str): Boinc command to run
 def user_image(IMTAG, FILES_PATH = '.'):
 
     image.build(path=FILES_PATH, tag=IMTAG.lower())
 
 
 # Full process of building a docker image
-def complete_build(IMTAG, UTOK, MIDIR, COMMAND_TXT, DOCK_DOCK, FILES_PATH='.'):
+def complete_build(IMTAG, UTOK, MIDIR, COMMAND_TXT, DOCK_DOCK, BOCOM, FILES_PATH='.'):
 
     researcher_email = pp.obtain_email(UTOK)
     try:
@@ -76,11 +77,11 @@ def complete_build(IMTAG, UTOK, MIDIR, COMMAND_TXT, DOCK_DOCK, FILES_PATH='.'):
         shutil.move("image.tar.gz", "/root/project/api/sandbox_files/DIR_"+UTOK+"/___RESULTS/image.tar.gz")
 
         MESSAGE = Success_Message.replace("DATETIME", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-        MESSAGE += "\n\nClick on the following link to obtain a compressed version of your image.\n"
-        MESSAGE += "Post it on dockerhub to make use of known commands API: \n"
+        MESSAGE += "\n\nClick on the following link to obtain a compressed version of the application docker image.\n"
+        MESSAGE += "You are welcome to upload the image on dockerhub in order to reduce the future job processing time for the same application (no allocation will be discounted): \n"
         MESSAGE += os.environ["SERVER_IP"]+":5060/boincserver/v2/reef/results/"+UTOK+"/image.tar.gz"
-
-        MESSAGE += "\n\nDockerfile created below: \n\n"+DOCK_DOCK
+        MESSAGE += "\n\nRun the following command on the image: \n"+' '.join(BOCOM.split(' ')[1::])
+        MESSAGE += "\n\nThis is the Dockerfile we used to process your job: \n\n"+DOCK_DOCK
         pp.send_mail(researcher_email, 'Succesful MIDAS build', MESSAGE)
     except Exception as e:
         print(e)
@@ -149,4 +150,4 @@ for HJK in to_be_processed:
     with open(namran+".txt", "w") as COMFILE:
         COMFILE.write(BOINC_COMMAND+'\n'+user_tok)
 
-    complete_build(DTAG, user_tok, dir_midas, namran, duck)
+    complete_build(DTAG, user_tok, dir_midas, namran, duck, BOINC_COMMAND)

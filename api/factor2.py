@@ -133,7 +133,7 @@ def authenticated_request_token(orgtok, temptok):
 
     # Adds the token to the token file
     with open("/root/project/html/user/token_data/Tokens.txt", "a") as tokfile:
-         tokfile.write(NAME+" "+LAST_NAME+", "+user_tok+", "+EMAIL+'\n')
+         tokfile.write(NAME+" "+LAST_NAME+", "+user_tok+", "+EMAIL'\n')
 
     # Adds the allocation details
     r_alloc.set(user_tok, ALLOCATION)

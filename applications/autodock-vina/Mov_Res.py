@@ -31,5 +31,4 @@ for exot in Gib_outs:
         
         # Only moves those unaccounted
         if AAA==False:
-        	New_name = exot.split('/')[-1].replace(".pdbqt", ".txt")
-        	shutil.move(exot, "/root/shared/results/"+New_name) 
+        	shutil.move(exot, "/root/shared/results/"+exot.split('/')[-1]) 

@@ -187,5 +187,9 @@ def results_file(FIL, toktok):
     return send_file(USER_DIR+str(FIL))
 
 
+# Deletes all the user's data (including results and dockerfiles), and returns all the equivalent memory
+
+
+
 if __name__ == '__main__':
    app.run(host ='0.0.0.0', port = 5060)

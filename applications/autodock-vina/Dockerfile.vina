@@ -22,5 +22,9 @@ ENV _SECOND_AUTHOR "Carlos Redondo <carlos.red@utexas.edu"
 # Copies the unaccounted files to /root/shared/results
 COPY Mov_Res.py /Mov_Res.py
 
-RUN mkdir -p /root/shared/results && touch /All_pdbqt.txt &&\
-	for afil in $(find / -name '*.pdbqt'); do printf "$(readlink -e $afil)\n" >>  /All_pdbqt.txt; done
+RUN mkdir -p /root/shared/results && touch /All_pdbqt.txt && mkdir -p /data &&\
+    yum -y install wget; yum -y install  curl; yum -y install unzip; yum -y install tar &&\
+	for afil in $(find /data -name '*'); do printf "$(readlink -e $afil)\n" >>  /All_pdbqt.txt; done
+
+
+WORKDIR /data

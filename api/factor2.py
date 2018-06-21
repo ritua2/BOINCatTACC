@@ -22,7 +22,7 @@ app = Flask(__name__)
 
 
 # Verifies if 2-factr token APIs are active
-@app.route("/boincserver/v2/api/token-2factor")
+@app.route("/boincserver/v2/api/2factor_active")
 def factor2_operational():
     return '2-Factor token generation is active'
 
@@ -109,7 +109,7 @@ def check_company_allocation(orgtok):
 # Establishes user's allocation
 # Assigns the user to an organization
 # Deletes the temporary tokens
-@app.route("/boincserver/v2/api/authenticated_request_token/<temptok>", methods = ['GET', 'POST'])
+@app.route("/boincserver/v2/api/authenticated_request_token/<temptok>")
 def authenticated_request_token(temptok):
 
 
@@ -157,6 +157,30 @@ def authenticated_request_token(temptok):
     r_alloc.set(user_tok, ALLOCATION)
 
     return 'Your request has been approved, you may now submit BOINC jobs. Check your email for a token if you need terminal access.'
+
+
+
+# Returns the user's token after providing an email
+@app.route("/boincserver/v2/api/token_from_email", methods = ['GET', 'POST'])
+def token_from_email():
+
+    if request.method != "POST":
+        return "INVALID, no data provided"
+
+    EMAIL = request.form["email"]
+
+    # Searches the redis database for the token
+    all_orgs = [x.decode('UTF-8') for x in r_org.keys()]
+    Org_Users_Data = [json.loads(r_org.hget(x, 'Users').decode('UTF-8').replace('\"', 'UHJKNM').replace('\'', '\"').replace('UHJKLM', '\'')) for x in all_orgs]
+
+    # Searches all of them until it finds the user
+    for anorg in Org_Users_Data:
+
+        for user_token in anorg.keys():
+            if EMAIL == anorg[user_token]['email']:
+                return user_token
+
+    return 'INVALID, user is not registered as a researcher'
 
 
 

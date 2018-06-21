@@ -31,7 +31,7 @@ if float(Data_Plan) < 0:
 	raise SyntaxError
 
 Allowed_Users = str(input("Max. number of users allowed for this organization: "))
-print("Enter the list of allowed file email endings, comma separated")
+print("Enter the list of allowed file email endings (including the @), comma separated")
 Email_Term = str(input("Email ending: "))
 Email_Term = ';'.join(Email_Term.replace(' ', '').split(", "))
 

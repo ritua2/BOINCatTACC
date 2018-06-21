@@ -43,7 +43,7 @@ command_instructions = {
 # README_path (str): Must be the full path to the README
 def valid_README(README_path):
 	
-    qualifier = [['OS)', 'LANGUAGE)', 'COMMAND)', 'OUTPUT)'], [0, 0, 0, 0]]
+    qualifier = [['[OS]', '[LANGUAGE]', '[COMMAND]', '[OUTPUT]'], [0, 0, 0, 0]]
 
     for nvnv in range(0, len(qualifier[0])):
         with open(README_path, 'r') as README:
@@ -93,7 +93,7 @@ def valid_language(README_path):
     lang_used = []
     with open(README_path, 'r') as README:
         for line in README:
-            if 'LANGUAGE)' not in line:
+            if '[LANGUAGE]' not in line:
                 continue
             LLL = line.replace('\n', '').lower()
             for lang in Allowed_languages:
@@ -118,10 +118,10 @@ def present_input_files(FILES_PATH):
 
     with open(FILES_PATH+"/README.txt", 'r') as README:
         for line in README:
-            if "COMMAND)" not in line:
+            if "[COMMAND]" not in line:
                 continue
 
-            LLL = line.replace("COMMAND)", '').replace('\n', '')
+            LLL = line.replace("[COMMAND]", '').replace('\n', '')
             files_present.append(LLL.split(':'))
 
             if files_present[-1][1].replace(' ', '') not in files_needed:
@@ -149,9 +149,9 @@ def user_guided_setup(README_path):
     SETUP_INSTRUCTIONS = []
     with open(README_path, 'r') as README:
         for line in README:
-            if "USER_SETUP)" not in line:
+            if "[USER_SETUP]" not in line:
                 continue
-            SETUP_INSTRUCTIONS.append("bash "+line.replace("USER_SETUP)", '').replace('\n', '').replace(' ', ''))
+            SETUP_INSTRUCTIONS.append("bash "+line.replace("[USER_SETUP]", '').replace('\n', '').replace(' ', ''))
 
     return SETUP_INSTRUCTIONS
 
@@ -173,9 +173,9 @@ def install_libraries(README_path):
     LIBS_INSTRUCTIONS = []
     with open(README_path, 'r') as README:
         for line in README:
-            if 'LIBRARY)' not in line:
+            if '[LIBRARY]' not in line:
                 continue
-            LLL = line.lower().replace('library)', '').replace('\n', '').split(':')
+            LLL = line.lower().replace('[LIBRARY]', '').replace('\n', '').split(':')
             curlang = recognize_language(LLL[0])
             if curlang not in libraries_instructions.keys():
                 return False

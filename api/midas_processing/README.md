@@ -34,11 +34,11 @@ All BOINC jobs submitted through MIDAS will be executed in the image in the foll
 **OS**  
 Refers to the base OS on which all the other commands are run. 
 Introduced by:
-*OS)*  
+*[OS]*  
 The following OS are supported, and they are written as:
 Ubuntu 16.04
 ```
-	OS) Ubuntu_16.04
+	[OS] Ubuntu_16.04
 ```
 
 **Languages**  
@@ -56,8 +56,8 @@ Bash is also installed by default.
 
 To add a new language, do:
 ```
-	LANGUAGE) python
-	LANGUAGE) C++
+	[LANGUAGE] python
+	[LANGUAGE] C++
 ```
 
 **Libraries (Optional)**  
@@ -75,8 +75,8 @@ Not all languages support automatic libraries. So far, only python, Haskell, and
 be installed using MIDAS. They must be installed within a setup file (which must be a bash script). If the user, however, provides a library using the *LIBRARY)* syntax, it will return an error.  
 To add a library, select the language first and then the language with the following syntax:
 ```
-	LANGUAGE) python
-	LANGUAGE) C++
+	[LIBRARY] python: boost
+	[LIBRARY] C++ cget: boost
 ```
 
 **Set-up (Optional)**  
@@ -92,8 +92,8 @@ that they are present.
 NOTE: Do not execute job commands in the set-up, since this would not make use of BOINC at all.  
 Use the following syntax:  
 ```
-	USER_SETUP) file_setup1.sh
-	USER_SETUP) file_setup2.sh
+	[USER_SETUP] file_setup1.sh
+	[USER_SETUP] file_setup2.sh
 ```
 
 **Command**  
@@ -133,15 +133,15 @@ This form is, as of now, the only one available, only language commands may be e
 
 Use the syntax:  
 ```
-	COMMAND) python: brain_analysis.py
+	[COMMAND] python: brain_analysis.py
 	# python brain_analysis.py
-	COMMAND) R: call_center.R: results_center.txt
+	[COMMAND] R: call_center.R: results_center.txt
 	# Rscript call_center.R > results_center.txt
-	COMMAND) C: small_eigen.c: eigen-eigen-5a0156e40feb/Eigen/Dense
+	[COMMAND] C: small_eigen.c: eigen-eigen-5a0156e40feb/Eigen/Dense
 	# gcc -I eigen-eigen-5a0156e40feb/Eigen/Dense small_eigen.c -o a.out && a.out
-	COMMAND) C++: MRI_scanner.cpp
+	[COMMAND] C++: MRI_scanner.cpp
 	# g++ MRI_scanner.cpp -o a.out && a.out
-	COMMAND) C++ cget: vertebra.cpp: _CGET
+	[COMMAND] C++ cget: vertebra.cpp: _CGET
 	# g++ -I CGETPATH/ vertebra.cpp -o a.out && a.out // cget will setup the appropriate paths for all installed libraries above
 ```
 
@@ -151,12 +151,12 @@ selection. Alternatively, users may select *ALL* to recover everything in the wo
 recovering binary files can sometimes cause problems.
 ```
 	# Will recover all files in the /work/ directory, without distinction
-	OUTPUT) ALL
+	[OUTPUT] ALL
 ```
 ```
 	# Will recover only out1.txt and spinal_analysis.txt
-	OUTPUT) out1.txt
-	OUTPUT) spinal_analysis.txt
+	[OUTPUT] out1.txt
+	[OUTPUT] spinal_analysis.txt
 ```
 
 --------

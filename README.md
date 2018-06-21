@@ -7,12 +7,12 @@
 * applications: Dockerized applications for BOINC usage, do not run in the server.
 * stampede2-backend: Stampede2 connection, allows to establish a client for ieasier interaction with the server
 
-To execute the jobs submitted through this server, download [BOINC][14] and Virtualbox if not installed already. Then, add the project using:  
+To execute the jobs submitted through this server, download [BOINC][5] and Virtualbox if not installed already. Then, add the project using:  
 *http://SERVER_IP/boincserver*  
 The server will automatically recognize your system as a volunteer and submit tasks when they are available.  
 
 [1]: https://github.com/marius311/boinc-server-docker
-[14]: https://boinc.berkeley.edu/download.php
+[5]: https://boinc.berkeley.edu/download.php
 -------
 
 ### Installation Guide  

@@ -50,15 +50,11 @@ Note: The organization token cannot be used to submit jobs.
 
 Request a token via your organization is a 2 step process:
 1. Submit a request using your organization's credentials; in some cases, your organization may provide a script that communicates to the API. Nonetheless, if you must do it alone, use the following syntax:
-	*curl -F name=NAME -F last_name=LAST_NAME -F email=EMAIL  http://SERVER_IP:5054/boincserver/v2/api/request_user_token/ORG_TOKEN*
-The server will then send an automated email with a temporary token, needed to request an actual token. Temporary tokens are valid for 24 hours.
-Note: The name and emails provided do not necessarily have to be the same as the user's email. This allows for the organization details to be shared only to those deemed necessary. User must provide their actual name and email address on the second step of the process.  
+	*curl -F name=NAME -F last_name=LAST_NAME -F email=EMAIL  http://SERVER_IP:5054/boincserver/v2/api/request_user_token*  
 
-2. Once you have received the token in a personal email account, follow the instructions in your company's script to receive a permanent token. You will be prompted to enter your name, last name, and email again. However, this time, your email address must be yours since that is where the results will be sent. You will be also asked about an allocation, with the maximum being your company's allocation.
-If you must check your company's allocation, use the following syntax (returns company's max. allocation in GB):  
-	*curl http://SERVER_IP:5054/boincserver/v2/api/check_company_allocation/ORG_TOKEN*
-To add a user manually with the temporary token, do:
-	*curl -F name=NAME -F last_name=LAST_NAME -F email=EMAIL -F allocation=ALLOCATION* http://SERVER_IP:5054/boincserver/v2/api/*authenticated_request_token/ORG_TOKEN/TEMPORARY_TOKEN*
+2. The server will then send an automated email with a temporary link active for 24 h. Click on or paste it on the search bar to be authenticated.
+The server will aslo send another email with an user token. This token should be used to submit BOINC jobs without login into BOINC first.  
+Note: The name and emails provided do not necessarily have to be the same as the BOINC user email.  
 
 -------
 

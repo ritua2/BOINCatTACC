@@ -36,6 +36,7 @@ def verify_org(orgtok):
     return 'Organization token is invalid, access denied'
 
 
+
 # Allows to request a temporary token for an user to be used later
 @app.route("/boincserver/v2/api/request_user_token/<orgtok>", methods = ['GET', 'POST'])
 def request_user_token(orgtok):

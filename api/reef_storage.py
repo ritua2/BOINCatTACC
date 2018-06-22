@@ -172,6 +172,21 @@ def obtain_file(FIL, toktok):
     return send_file(USER_DIR+str(FIL))
 
 
+# Returns a list of all the files a user has in Reef results
+@app.route("/boincserver/v2/reef_results_all/<toktok>")
+def reef_results_all(toktok):
+    if pp.token_test(toktok) == False:
+       return 'Invalid token'
+    if str('DIR_'+toktok) not in os.listdir('/root/project/api/sandbox_files'):
+       return 'User directory does not exist'
+
+    USER_DIR = '/root/project/api/sandbox_files/DIR_'+str(toktok)+'/___RESULTS'
+
+    # Returns the results (space-separated)
+    return ' '.join(os.listdir(USER_DIR))
+
+
+
 # Returns an user's results file
 @app.route('/boincserver/v2/reef/results/<toktok>/<FIL>')
 def results_file(FIL, toktok):
@@ -184,11 +199,7 @@ def results_file(FIL, toktok):
     if str(FIL) not in os.listdir(USER_DIR):
        return 'File not available'
 
-    return send_file(USER_DIR+str(FIL))
-
-
-# Deletes all the user's data (including results and dockerfiles), and returns all the equivalent memory
-
+return send_file(USER_DIR+str(FIL))
 
 
 if __name__ == '__main__':

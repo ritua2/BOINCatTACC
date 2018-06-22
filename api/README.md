@@ -71,3 +71,20 @@ To check the user's images, as well as their size, do:
 
 To delete an image, provide its name and tag (N:T), the name is the same as the user's token, or just the tag, using the syntax:  
 	*curl -F del=TAG http://SERVER_IP:5085/boincserver/v2/midas/user_images/token=TOKEN*
+
+
+------------
+
+### Allocation processing  
+
+Useful only for checking the allocation of a user. These APIs are for terminal calls only and should be handled via the BOINC-submit script
+instead.  
+A simple allocation check is provided, returning *y* if the user has enough space to upload a file, and *n* if he does not. Do:  
+	*curl -F token=TOKEN http://SERVER_IP:5052/boincserver/v2/api/simple_allocation_check*
+
+To execute deleting operations and regain user allocation(use *y* for yes, ignore for no; however, all tags must be written, even if left empty):  
+	*curl -F token=TOKEN -F all=n -F basic=n -F ordinary=n -F results=n  http://SERVER_IP:5052/boincserver/v2/api/delete_user_data*
+* all: Delete all user data in Reef, including results  
+* basic: Delete MIDAS repositories, must be done from time to time  
+* ordinary: Delete all Reef files  
+* results: Deletes user's results (do with caution)  

@@ -59,6 +59,8 @@ def complete_build(IMTAG, UTOK, MIDIR, COMMAND_TXT, DOCK_DOCK, BOCOM, FILES_PATH
         #r.incrbyfloat(UTOK, -imsiz)
         # Moves the file
         shutil.move(COMMAND_TXT+".txt", "/root/project/html/user/token_data/process_files/"+COMMAND_TXT+".txt")
+        # Saving the image seems to be messing with BOINC so we need to build it again
+        user_image(IMTAG)
         # Deletes the key
         r.delete(UTOK+'.'+MIDIR)
 

@@ -149,15 +149,5 @@ def delete_user_data():
     return "Space recovered: "+str(recovered_space)+" GB; new allocated space: "+str(new_alloc)+" GB"
 
 
-
-
-
-
-
-
-
-
-
-
 if __name__ == '__main__':
    app.run(host = '0.0.0.0', port = 5052)

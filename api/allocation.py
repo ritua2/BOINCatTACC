@@ -39,7 +39,7 @@ def simple_allocation_check():
 
     toktok = request.form["token"]
     if pp.token_test(toktok) == False:
-       return 'Invalid token'
+       return 'INVALID token'
 
     assigned_allocation = float(r_alloc.get(toktok).decode('UTF-8'))
 

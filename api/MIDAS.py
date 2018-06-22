@@ -184,7 +184,7 @@ def midas(toktok):
     assigned_allocation = float(r.get(toktok).decode('UTF-8'))
 
     if pp.user_sandbox_size(str(toktok)) > (assigned_allocation*1073741824):
-        return 'User has exceded asssigned allocation. Current allocation is '+str(assigned_allocation)+' GB'
+        return 'User has exceded asssigned allocation. Current available allocation is '+str(assigned_allocation)+' GB'
 
     if file.filename == '':
         return 'Invalid, no file uploaded'

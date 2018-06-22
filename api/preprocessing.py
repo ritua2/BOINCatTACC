@@ -94,3 +94,14 @@ def obtain_email(toktok):
          for line in TFIL:
              if toktok in line:
                 return line.split(',')[-1].replace('\n', '').replace(' ', '')
+
+
+# Changes y/yes to True, all other to False
+# usans (str): User-provided answer
+def y_parser(usans):
+
+    if (usans == 'y') or (usans == 'yes'):
+        return True
+
+    return False
+    

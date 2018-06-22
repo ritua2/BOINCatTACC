@@ -105,7 +105,7 @@ def reef_upload(toktok):
    assigned_allocation = float(r.get(toktok).decode('UTF-8'))
 
    if pp.user_sandbox_size(str(toktok)) > (assigned_allocation*1073741824):
-      return 'User has exceded asssigned allocation. Max. allocation is '+str(assigned_allocation)+' GB'
+      return 'User has exceded asssigned allocation. Max. available allocation is '+str(assigned_allocation)+' GB'
 
    # Avoids empty filenames and those with commas
    if file.filename == '':

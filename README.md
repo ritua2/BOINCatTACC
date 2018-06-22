@@ -7,17 +7,15 @@
 * applications: Dockerized applications for BOINC usage, do not run in the server.
 * stampede2-backend: Stampede2 connection, allows to establish a client for ieasier interaction with the server
 
-To execute the jobs submitted through this server, download [BOINC][5] and Virtualbox if not installed already. Then, add the project using:  
+To execute the jobs submitted through this server, download [BOINC][2] and Virtualbox if not installed already. Then, add the project using:  
 *http://SERVER_IP/boincserver*  
 The server will automatically recognize your system as a volunteer and submit tasks when they are available.  
 
-[1]: https://github.com/marius311/boinc-server-docker
-[5]: https://boinc.berkeley.edu/download.php
 -------
 
 ### Installation Guide  
 
-0. **Install [Docker][2] and [Docker-compose][3] in their most recent versions** 
+0. **Install [Docker][3] and [Docker-compose][4] in their most recent versions** 
 
 1. **Follow the installation instructions provided by [boinc-server-docker][1]**
 	* Modify the *docker-compose.yml* to make it similar to the one provided in this repository. This updated compose file opens the ports 
@@ -37,7 +35,7 @@ The server will automatically recognize your system as a volunteer and submit ta
 3. **Set-up basic administrative credentials**  
 	* Execute *docker ps* do obtain all the data about the BOINC containers. If the setup is done correctly, there is an apache container.
 	* Log into the apache container by using *docker exec -it {apache container ID} bash*
-	* Follow to the guide in [BOINC HTMLOps][4] to set -up an administrative account with .htpasswd
+	* Follow to the guide in [BOINC HTMLOps][5] to set -up an administrative account with .htpasswd
 		* .htpasswd is located in */root/project/html/ops*
 	* Login into the administrative BOINC page at *SERVER_IP/boincserver_ops* with the username and password provided above
 
@@ -81,10 +79,11 @@ The server will automatically recognize your system as a volunteer and submit ta
 	python3 create_token.py FIRST_NAME LAST_NAME EMAIL ALLOCATION (Optional) (GB)
 ```
 
-
-[2]: https://docs.docker.com/install/linux/docker-ce/ubuntu/
-[3]: https://docs.docker.com/compose/install/
-[4]: https://boinc.berkeley.edu/trac/wiki/HtmlOps
+[1]: https://github.com/marius311/boinc-server-docker
+[2]: https://boinc.berkeley.edu/download.php
+[3]: https://docs.docker.com/install/linux/docker-ce/ubuntu/
+[4]: https://docs.docker.com/compose/install/
+[5]: https://boinc.berkeley.edu/trac/wiki/HtmlOps
 
 
 #### Future Use and Complains

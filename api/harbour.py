@@ -55,7 +55,8 @@ def complete_build(IMTAG, UTOK, MIDIR, COMMAND_TXT, DOCK_DOCK, BOCOM, FILES_PATH
         # Reduces the corresponding user's allocation
         # Docker represents image size in GB
         imsiz = float(image.get(IMTAG).attrs['Size'])/(10**9)
-        r.incrbyfloat(UTOK, -imsiz)
+        # No longer accounting for images in user's accounts
+        #r.incrbyfloat(UTOK, -imsiz)
         # Moves the file
         shutil.move(COMMAND_TXT+".txt", "/root/project/html/user/token_data/process_files/"+COMMAND_TXT+".txt")
         # Deletes the key

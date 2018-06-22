@@ -26,6 +26,30 @@ def allocation_active():
     return "Allocation APIs are active"
 
 
+# Checks if the user has enough space available in their allocation to do any processing
+# Only returns, y/n
+@app.route("/boincserver/v2/api/simple_allocation_check", methods = ['GET', 'POST'])
+def simple_allocation_check():
+
+    if request.method != 'POST':
+        return "INVALID, no data provided"
+
+    if request.form['token'] == '':
+        return "INVALID, no token provided"
+
+    toktok = request.form["token"]
+    if pp.token_test(toktok) == False:
+       return 'Invalid token'
+
+    assigned_allocation = float(r_alloc.get(toktok).decode('UTF-8'))
+
+    if assigned_allocation > 0:
+        return 'y'
+
+    return 'n'
+
+
+
 # Allows the user to see how much space is still available in his allocation
 # Allows to check the user's allocation status
 @app.route('/boincserver/v2/api/allocation_status', methods = ['GET', 'POST'])
@@ -68,10 +92,11 @@ def delete_user_data():
     if pp.token_test(toktok) == False:
         return "Invalid token"
 
+    # All of the options must be selected with either y, or left blank
     # Sets up what to delete (more than one option may be selected):
     #     - all: Deletes all the data in Reef, including directories
     #     - basic: Deletes the temporary MIDAS directories, non-accessible to users in regular cases
-    #     - ordinary: Deletes Reef documents
+    #     - ordinary: Deletes Reef documents, not results, or MIDAS
     #     - results: Deletes the results
     # Write y/Y/yes/YES to delete, all other commands will not delete
 
@@ -79,7 +104,7 @@ def delete_user_data():
     delete_basic = str(request.form['basic']).lower()
     delete_ordinary = str(request.form['ordinary']).lower()
     delete_results = str(request.form['results']).lower()
-    user_commands = map(pp.y_parser, [delete_all, delete_basic, delete_ordinary, delete_results])
+    user_commands = list(map(pp.y_parser, [delete_all, delete_basic, delete_ordinary, delete_results]))
 
     # Avoids users who do not want to delete any data
     if all((not x) for x in user_commands):
@@ -87,6 +112,41 @@ def delete_user_data():
 
     # Computes the starting user space
     used_space = pp.user_sandbox_size(str(toktok))/1073741824
+
+    # Finds all the user data
+    USER_PATH = "/root/project/api/sandbox_files/DIR_"+toktok
+    user_files = os.listdir(USER_PATH)
+
+    if user_commands[0]:
+        # Calls all delete options
+        user_commands = [True, True, True, True]    
+
+    if user_commands[1]:
+        # Deletes all MIDAS directories
+        ALL_MIDAS = [USER_PATH+'/'+x for x in user_files if x[:4:]=="MID_"]
+        for y in ALL_MIDAS:
+            shutil.rmtree(y)
+
+    if user_commands[2]:
+        # Deletes regular user files
+        REGULAR_REEF = [USER_PATH+'/'+x for x in user_files if (not os.path.isdir(USER_PATH+'/'+x))]
+        for z in REGULAR_REEF:
+            os.remove(z)
+
+    if user_commands[3]:
+        # Deletes the results
+        RESULTS = os.listdir(USER_PATH+"/___RESULTS")
+        for w in RESULTS:
+            os.remove(USER_PATH+"/___RESULTS/"+w)
+
+
+    # Computes the saved space
+    now_space = pp.user_sandbox_size(str(toktok))/1073741824
+    recovered_space = used_space - now_space
+    r_alloc.incrbyfloat(toktok, recovered_space)
+    new_alloc = r_alloc.get(toktok).decode("UTF-8")
+
+    return "Space recovered: "+str(recovered_space)+" GB; new allocated space: "+str(new_alloc)+" GB"
 
 
 

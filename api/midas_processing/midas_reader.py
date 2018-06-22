@@ -294,7 +294,7 @@ def execute_command(COMMAND, cpp_libs=[]):
             curcom = ''
 
             # Actual cget command
-            if "_CGET" in COMMAND[hh]:
+            if "CGET" in COMMAND[hh]:
                 com2 += " -I ./cget/include/ "
                 continue
 

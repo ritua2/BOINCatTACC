@@ -66,11 +66,14 @@ def job_result_files(namnam, YYYYMMDD):
     PPP = []
     MAIN_DIR = "/results/boinc2docker/"
     FULLPATH = MAIN_DIR+YYYYMMDD.split(" ")[0] + "/"
+
+    try:
     
-    for filfil in os.listdir(FULLPATH):
-        if namnam in filfil:
-           PPP.append(FULLPATH+"/"+str(filfil))
-    
+        for filfil in os.listdir(FULLPATH):
+            if namnam in filfil:
+                PPP.append(FULLPATH+"/"+str(filfil))
+    except:
+        return PPP
     return PPP    
 
 

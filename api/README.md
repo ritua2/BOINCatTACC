@@ -33,11 +33,11 @@
 **Summary**  
 Using Reef, it is now possible to:  
 	- Upload files to the cloud, favoring integration with local file systems  
-	- Delete files when they are no longer useful
-	- Maintain a sandbox of data for future BOINC projects
-	- Download files using curl or wget
-	- Check used disk space allocation, as of now, all user's are assigned 2 GB of space
-	- Download the results files
+	- Delete files when they are no longer useful  
+	- Maintain a sandbox of data for future BOINC projects  
+	- Download files using curl or wget  
+	- Check used disk space allocation, as of now, all user's are assigned 2 GB of space  
+	- Download the results files  
 
 ----
 

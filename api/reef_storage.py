@@ -87,10 +87,10 @@ def all_user_files(toktok):
 def reef_upload(toktok):
 
    if pp.token_test(toktok) == False:
-      return 'Invalid token'
+      return 'INVALID token'
 
    if request.method != 'POST':
-      return 'Invalid, no file submitted'
+      return 'INVALID, no file submitted'
 
    file = request.files['file']
 
@@ -99,19 +99,19 @@ def reef_upload(toktok):
       os.listdir('/root/project/api/sandbox_files/DIR_'+str(toktok))
 
    except:
-   	  return 'User sandbox is not set-up, create a sandbox first'
+   	  return 'INVALID, user sandbox is not set-up, create a sandbox first'
 
    # No user can have more than 2 Gb
    assigned_allocation = float(r.get(toktok).decode('UTF-8'))
 
    if pp.user_sandbox_size(str(toktok)) > (assigned_allocation*1073741824):
-      return 'User has exceded asssigned allocation. Max. available allocation is '+str(assigned_allocation)+' GB'
+      return 'INVALID, User has exceded asssigned allocation. Max. available allocation is '+str(assigned_allocation)+' GB'
 
    # Avoids empty filenames and those with commas
    if file.filename == '':
-      return 'Invalid, no file uploaded'
+      return 'INVALID, no file uploaded'
    if ',' in file.filename:
-      return "ERROR: No ',' allowed in filenames"
+      return "INVALID, no ',' allowed in filenames"
 
    # Ensures no commands within the file
    new_name = secure_filename(file.filename)

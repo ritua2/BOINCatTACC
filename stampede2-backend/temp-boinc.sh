@@ -64,9 +64,23 @@ alloc_color "   2  Submitting a BOINC job from a dockerhub image using local fil
 declare -A dockapps
 dockapps=( ["autodock-vina"]="carlosred/autodock-vina:latest" ["bedtools"]="carlosred/bedtools:latest" ["blast"]="carlosred/blast:latest"
            ["bowtie"]="carlosred/bowtie:built" ["gromacs"]="carlosred/gromacs:latest"
-           ["htseq"]="carlosred/htseq:latest" ["mpi-lammps"]="carlosred/mpi-lammps:latest" ["namd"]="carlosred/namd:latest")
+           ["htseq"]="carlosred/htseq:latest" ["mpi-lammps"]="carlosred/mpi-lammps:latest" ["namd"]="carlosred/namd:latest"
+           ["opensees"]="carlosred/opensees:latest")
 
 numdocks=(1 2 3 4 5 6 7 8)
+docknum=( ["1"]="autodock-vina" ["2"]="bedtools" ["3"]="blast"
+           ["4"]="bowtie" ["5"]="gromacs"
+           ["6"]="htseq" ["7"]="mpi-lammps" ["8"]="namd"
+           ["9"]="opensees")
+
+# Extra commands before each app
+dockcomm=( ["autodock-vina"]= ["bedtools"]= ["blast"]= ["bowtie"]= ["gromacs"]="source /usr/local/gromacs/bin/GMXRC.bash; "
+           ["htseq"]= ["mpi-lammps"]= ["namd"]= ["opensees"]=)
+
+# Some images don't accept curl, so they will use wget
+curl_or_wget=( ["autodock-vina"]="curl -O FILE;" ["bedtools"]="wget FILE;" ["blast"]="wget FILE;"
+            ["bowtie"]="curl -O FILE;" ["gromacs"]="curl -O FILE;" ["htseq"]="curl -O FILE;"
+            ["mpi-lammps"]="curl -O FILE;" ["namd"]="curl -O FILE;" ["opensees"]="curl -O FILE;")
 
 
 
@@ -83,9 +97,11 @@ case "$user_option" in
         read filetosubmit
 
         if [ ! -f $filetosubmit ]; then
-            printf "File does not exist, program exited\n"
+            printf "${REDRED}File $filetosubmit does not exist, program exited${NCNC}\n"
             exit 0
         fi
+
+        printf "\n$TOKEN >> $filetosubmit"
 
         curl -F file=@$filetosubmit http://$SERVER_IP:5075/boincserver/v2/submit_known/token=$TOKEN
         printf "\n"
@@ -95,7 +111,7 @@ case "$user_option" in
         printf "\nSubmitting a BOINC job to a known image, select the image below:\n"
 
         # All the options
-        printf "  1 Autodock-vina\n  2 Bedtools\n  3 Blast\n  4 Bowtie\n  5 Gromacs\n  6 HTSeq\n  7 MPI-LAMMPS\n  8 NAMD\n"
+        printf "  1 Autodock-vina\n  2 Bedtools\n  3 Blast\n  4 Bowtie\n  5 Gromacs\n  6 HTSeq\n  7 MPI-LAMMPS\n  8 NAMD\n  9 OpenSEES\n"
         printf "Enter option number: "
         read option2
 
@@ -105,7 +121,64 @@ case "$user_option" in
             exit 0
         fi
 
+        user_app=${dockapps[${docknum[$option2]}]}
+
+        # Obtains the image and the base commands
+         # Add the possible source (such as in gromacs at the start
+        user_command="$user_app /bin/bash -c \"cd /data; POSCOM"
+
+
+        printf "Enter the list of input files (space-separated):\n"
+        read -a user_ff
         
+
+        # Checks the file and uploads it ito Reef (after checking that all the files exist)
+        for ff in "${user_ff[@]}"
+        do
+            if [ ! -f $ff ]; then
+                printf "${REDRED}File $ff does not exist, program exited${NCNC}\n"
+                exit 0
+            fi
+
+        done
+
+        for ff in "${user_ff[@]}"
+        do
+            AA=$(curl -s -F file=@$ff http://$SERVER_IP:5060/boincserver/v2/upload_reef/token=$TOKEN)
+
+            if [[ $AA = *"INVALID"* ]]; then
+                printf "${REDRED}$AA\n${NCNC}Program exited\n"
+                exit 0
+            fi
+
+            # Appends to the user commands list
+            user_command="$user_command curl http://$SERVER_IP:5060/boincserver/v2/reef/$TOKEN/$ff;"
+
+        done
+
+        printf "\n${GREENGREEN}Files succesfully uploaded to BOINC server${NCNC}\n"
+
+
+        # Asks the user for the lists of commands
+        printf "\nEnter the list of commands, one at a time, as you would in the program itself (empty command to end):\n"
+        while true
+        do
+            read COM
+
+            if [ -z "$COM" ]; then
+                break
+            fi
+
+            user_command="$user_command $COM;"
+
+        done
+
+
+        user_command="$user_command python /Mov_Res.py\""
+        # Appends the job to a file and submits it
+        printf "$user_command\n$TOKEN" > BOINC_Proc_File.txt
+        #curl -F file=@BOINC_Proc_File.txt http://$SERVER_IP:5075/boincserver/v2/submit_known/token=$TOKEN
+        #printf "\n"        
         ;;
 
     *)

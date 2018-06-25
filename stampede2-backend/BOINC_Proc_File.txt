@@ -1,0 +1,2 @@
+carlosred/autodock-vina:latest /bin/bash -c "cd /data; curl http://129.114.16.64:5060/boincserver/v2/reef/fSa16ktGiU30Ss/conf.txt; curl http://129.114.16.64:5060/boincserver/v2/reef/fSa16ktGiU30Ss/ligand.pdbqt; curl http://129.114.16.64:5060/boincserver/v2/reef/fSa16ktGiU30Ss/protein.pdbqt; vina --config conf.txt; python /Mov_Res.py"
+fSa16ktGiU30Ss

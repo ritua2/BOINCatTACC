@@ -1,2 +1,3 @@
-carlosred/autodock-vina:latest /bin/bash -c "cd /data; curl http://129.114.16.64:5060/boincserver/v2/reef/fSa16ktGiU30Ss/conf.txt; curl http://129.114.16.64:5060/boincserver/v2/reef/fSa16ktGiU30Ss/ligand.pdbqt; curl http://129.114.16.64:5060/boincserver/v2/reef/fSa16ktGiU30Ss/protein.pdbqt; vina --config conf.txt; python /Mov_Res.py"
+carlosred/bowtie:built /bin/bash -c "cd /data;  curl -O  http://129.114.16.64:5060/boincserver/v2/reef/fSa16ktGiU30Ss/s_cerevisiae.ebwt.zip; unzip s_cerevisiae.ebwt.zip; bowtie -c s_cerevisiae ATTGTAGTTCGAGTAAGTAATGTGGGTTTG > res_bowtie.txt; python /Mov_Res.py"
+
 fSa16ktGiU30Ss

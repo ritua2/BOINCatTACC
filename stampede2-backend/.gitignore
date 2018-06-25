@@ -1,3 +1,6 @@
 conf.txt
 *.pdb
 *.pdbqt
+*.tcl
+*.bed
+*.zip

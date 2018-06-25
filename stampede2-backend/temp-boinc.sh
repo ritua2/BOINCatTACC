@@ -26,7 +26,7 @@ TOKEN=$(curl -s -F email=$userEmail http://$SERVER_IP:5054/boincserver/v2/api/to
 
 
 # Checks that the token is valid
-if [[ $TOKEN = *"INVALID"* ]]; then
+if [[ $TOKEN = *"INVALID"* || -z "$TOKEN" ]]; then
     printf "${REDRED}User name is not valid or has not been registered\n${NCNC}Program exited\n"
     exit 0
 fi
@@ -67,21 +67,22 @@ dockapps=( ["autodock-vina"]="carlosred/autodock-vina:latest" ["bedtools"]="carl
            ["htseq"]="carlosred/htseq:latest" ["mpi-lammps"]="carlosred/mpi-lammps:latest" ["namd"]="carlosred/namd:latest"
            ["opensees"]="carlosred/opensees:latest")
 
-numdocks=(1 2 3 4 5 6 7 8)
+numdocks=(1 2 3 4 5 6 7 8 9)
 docknum=( ["1"]="autodock-vina" ["2"]="bedtools" ["3"]="blast"
            ["4"]="bowtie" ["5"]="gromacs"
            ["6"]="htseq" ["7"]="mpi-lammps" ["8"]="namd"
            ["9"]="opensees")
 
 # Extra commands before each app
-dockcomm=( ["autodock-vina"]= ["bedtools"]= ["blast"]= ["bowtie"]= ["gromacs"]="source /usr/local/gromacs/bin/GMXRC.bash; "
-           ["htseq"]= ["mpi-lammps"]= ["namd"]= ["opensees"]=)
+dockcomm=( ["1"]="" ["2"]="" ["3"]=""
+           ["4"]="" ["5"]="source /usr/local/gromacs/bin/GMXRC.bash; "
+           ["6"]="" ["7"]="" ["8"]=""
+           ["9"]="")
 
 # Some images don't accept curl, so they will use wget
-curl_or_wget=( ["autodock-vina"]="curl -O FILE;" ["bedtools"]="wget FILE;" ["blast"]="wget FILE;"
-            ["bowtie"]="curl -O FILE;" ["gromacs"]="curl -O FILE;" ["htseq"]="curl -O FILE;"
-            ["mpi-lammps"]="curl -O FILE;" ["namd"]="curl -O FILE;" ["opensees"]="curl -O FILE;")
-
+curl_or_wget=( ["1"]="curl -O" ["2"]="wget " ["3"]="wget " 
+            ["4"]="curl -O " ["5"]="curl -O " ["6"]="curl -O " 
+            ["7"]="curl -O " ["8"]="curl -O " ["9"]="curl -O ")
 
 
 
@@ -101,7 +102,7 @@ case "$user_option" in
             exit 0
         fi
 
-        printf "\n$TOKEN >> $filetosubmit"
+        printf "\n$TOKEN" >> $filetosubmit
 
         curl -F file=@$filetosubmit http://$SERVER_IP:5075/boincserver/v2/submit_known/token=$TOKEN
         printf "\n"
@@ -124,8 +125,9 @@ case "$user_option" in
         user_app=${dockapps[${docknum[$option2]}]}
 
         # Obtains the image and the base commands
-         # Add the possible source (such as in gromacs at the start
+        # Add the possible source (such as in gromacs at the start
         user_command="$user_app /bin/bash -c \"cd /data; POSCOM"
+        user_command=${user_command/POSCOM/${dockcomm[$option2]}}
 
 
         printf "Enter the list of input files (space-separated):\n"
@@ -152,9 +154,12 @@ case "$user_option" in
             fi
 
             # Appends to the user commands list
-            user_command="$user_command curl http://$SERVER_IP:5060/boincserver/v2/reef/$TOKEN/$ff;"
+            user_command="$user_command GET_FILE http://$SERVER_IP:5060/boincserver/v2/reef/$TOKEN/$ff;"
 
         done
+
+        # Replaces them by curl or wget, depending on the image
+        user_command=${user_command//GET_FILE/${curl_or_wget[$option2]}}
 
         printf "\n${GREENGREEN}Files succesfully uploaded to BOINC server${NCNC}\n"
 
@@ -170,15 +175,15 @@ case "$user_option" in
             fi
 
             user_command="$user_command $COM;"
-
         done
 
 
         user_command="$user_command python /Mov_Res.py\""
         # Appends the job to a file and submits it
-        printf "$user_command\n$TOKEN" > BOINC_Proc_File.txt
-        #curl -F file=@BOINC_Proc_File.txt http://$SERVER_IP:5075/boincserver/v2/submit_known/token=$TOKEN
-        #printf "\n"        
+        printf "$user_command\n\n$TOKEN" > BOINC_Proc_File.txt
+        curl -F file=@BOINC_Proc_File.txt http://$SERVER_IP:5075/boincserver/v2/submit_known/token=$TOKEN
+        #rm BOINC_Proc_File.txt
+        printf "\n"        
         ;;
 
     *)
@@ -187,4 +192,3 @@ case "$user_option" in
 
 
 esac
-

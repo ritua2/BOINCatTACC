@@ -199,7 +199,7 @@ def results_file(FIL, toktok):
     if str(FIL) not in os.listdir(USER_DIR):
        return 'File not available'
 
-return send_file(USER_DIR+str(FIL))
+    return send_file(USER_DIR+str(FIL))
 
 
 if __name__ == '__main__':

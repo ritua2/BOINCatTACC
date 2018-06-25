@@ -68,15 +68,21 @@ The server will automatically recognize your system as a volunteer and submit ta
 ```
 
 
-7. **Create user tokens**
+7. **Create organization acounts**  
+	* 
 	* A new token must be assigned to each new user (researcher who wants to submit BOINC jobs)
-		* Tokens allow access to manual job submission, APIs and Reef cloud storage
-	* For more instructions on Reef usage, go to the api README in this repository
+	* There are 2 options on assigning tokens:
+		* Create one automatically through *create_token.py* (deprecated)
+		* Create organization accounts
+	* Organization accounts are preferred since they allow users to sign up in an easier way
+	* Furthermore, users signing signing through this way will have to provide email authorization
+	* To create an organization, following the instructions below and enter inputs accordingly
+	* An automatic Reef account will be created for each user signing up through this method
 	* For more instructions on supplying tokens through organizations, check the API documentation
 	* To do this:
 ```bash
 	cd /root/project/html/user/token_data
-	python3 create_token.py FIRST_NAME LAST_NAME EMAIL ALLOCATION (Optional) (GB)
+	python3 create_organization.py
 ```
 
 [1]: https://github.com/marius311/boinc-server-docker

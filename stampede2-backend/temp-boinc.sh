@@ -8,15 +8,16 @@
 printf "Welcome to Boinc job submission\n\n"
 printf "NOTE: NO MPI Jobs,No GPU, No jobs with external communication or large data transfer.\n"
 # Server IP or domain must be declared before
-SERVER_IP=USER_SETUP # Declare it the first time this program is run
+SERVER_IP= # Declare it the first time this program is run
 
 
 # Colors, helpful for printing
 REDRED='\033[0;31m'
 GREENGREEN='\033[0;32m'
+YELLOWYELLOW='\033[1;33m'
 NCNC='\033[0m' # No color
 
-printf "$filetosubmit"
+
 printf "Enter researcher email (must be registered first): "
 read userEmail
 
@@ -57,12 +58,27 @@ printf      "   1  Submitting a file with a list of commands from a dockerhub im
 alloc_color "   2  Submitting a BOINC job from a dockerhub image using local files in this machine"
 
 
+
+# All the allowed applications
+# Each application contains: app=[image:version]
+declare -A dockapps
+dockapps=( ["autodock-vina"]="carlosred/autodock-vina:latest" ["bedtools"]="carlosred/bedtools:latest" ["blast"]="carlosred/blast:latest"
+           ["bowtie"]="carlosred/bowtie:built" ["gromacs"]="carlosred/gromacs:latest"
+           ["htseq"]="carlosred/htseq:latest" ["mpi-lammps"]="carlosred/mpi-lammps:latest" ["namd"]="carlosred/namd:latest")
+
+numdocks=(1 2 3 4 5 6 7 8)
+
+
+
+
 printf "Enter your selected option: "
 read user_option
 
 case "$user_option" in 
 
     "1")
+        printf "\nSubmitting a file for a known dockerhub image with commands present\n"
+        printf "\n${YELLOWYELLOW}WARNING${NCNC}\nAll commands must be entered, including results retrieval"
         printf "\nEnter the path of the file which contains list of serial commands: "
         read filetosubmit
 
@@ -73,6 +89,23 @@ case "$user_option" in
 
         curl -F file=@$filetosubmit http://$SERVER_IP:5075/boincserver/v2/submit_known/token=$TOKEN
         printf "\n"
+        ;;
+
+    "2")
+        printf "\nSubmitting a BOINC job to a known image, select the image below:\n"
+
+        # All the options
+        printf "  1 Autodock-vina\n  2 Bedtools\n  3 Blast\n  4 Bowtie\n  5 Gromacs\n  6 HTSeq\n  7 MPI-LAMMPS\n  8 NAMD\n"
+        printf "Enter option number: "
+        read option2
+
+        # Checks if the user has inputted a wrong option
+        if [[ ${numdocks[*]} != *$option2* ]]; then
+            printf "${REDRED}Application is not accepted\n${NCNC}Program exited\n"
+            exit 0
+        fi
+
+        
         ;;
 
     *)

@@ -54,13 +54,8 @@ def complete_build(IMTAG, UTOK, MIDIR, COMMAND_TXT, DOCK_DOCK, BOCOM, FILES_PATH
 
         # Reduces the corresponding user's allocation
         # Docker represents image size in GB
-        imsiz = float(image.get(IMTAG).attrs['Size'])/(10**9)
-        # No longer accounting for images in user's accounts
-        #r.incrbyfloat(UTOK, -imsiz)
         # Moves the file
         shutil.move(COMMAND_TXT+".txt", "/root/project/html/user/token_data/process_files/"+COMMAND_TXT+".txt")
-        # Saving the image seems to be messing with BOINC so we need to build it again
-        user_image(IMTAG)
         # Deletes the key
         r.delete(UTOK+'.'+MIDIR)
 
@@ -71,18 +66,20 @@ def complete_build(IMTAG, UTOK, MIDIR, COMMAND_TXT, DOCK_DOCK, BOCOM, FILES_PATH
         resp = img.save()
 
         # Creates a file, recycled everytime the program runs
-        ff = open("image.tar.gz", 'wb')
+        saved_name = "image."+hashlib.sha256(str(datetime.datetime.now()).encode('UTF-8')).hexdigest()[:4:]+".tar.gz"
+        ff = open(saved_name, 'wb')
         for salmon in resp:
             ff.write(salmon)
         ff.close()
-
+        # Saving the image seems to be messing with BOINC so we need to build it again
+        user_image(IMTAG)
         # Moves the file to the user's result folders
-        shutil.move("image.tar.gz", "/root/project/api/sandbox_files/DIR_"+UTOK+"/___RESULTS/image.tar.gz")
+        shutil.move(saved_name, "/root/project/api/sandbox_files/DIR_"+UTOK+"/___RESULTS/"+saved_name)
 
         MESSAGE = Success_Message.replace("DATETIME", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
         MESSAGE += "\n\nClick on the following link to obtain a compressed version of the application docker image.\n"
         MESSAGE += "You are welcome to upload the image on dockerhub in order to reduce the future job processing time for the same application (no allocation will be discounted): \n"
-        MESSAGE += os.environ["SERVER_IP"]+":5060/boincserver/v2/reef/results/"+UTOK+"/image.tar.gz"
+        MESSAGE += os.environ["SERVER_IP"]+":5060/boincserver/v2/reef/results/"+UTOK+"/"+saved_name
         MESSAGE += "\n\nRun the following command on the image: \n"+' '.join(BOCOM.split(' ')[1::])
         MESSAGE += "\n\nThis is the Dockerfile we used to process your job: \n\n"+DOCK_DOCK
         pp.send_mail(researcher_email, 'Succesful MIDAS build', MESSAGE)

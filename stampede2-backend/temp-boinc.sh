@@ -15,6 +15,7 @@ SERVER_IP= # Declare it the first time this program is run
 REDRED='\033[0;31m'
 GREENGREEN='\033[0;32m'
 YELLOWYELLOW='\033[1;33m'
+BLUEBLUE='\033[1;34m'
 NCNC='\033[0m' # No color
 
 
@@ -56,6 +57,7 @@ alloc_color () {
 printf      "The allowed options are below:\n"
 printf      "   1  Submitting a file with a list of commands from a dockerhub image (no extra files on this machine)\n"
 alloc_color "   2  Submitting a BOINC job from a dockerhub image using local files in this machine"
+alloc_color "   3  Submitting a BOINC job from a set of commands, unknown image, local files"
 
 
 
@@ -64,7 +66,7 @@ alloc_color "   2  Submitting a BOINC job from a dockerhub image using local fil
 declare -A dockapps
 dockapps=( ["autodock-vina"]="carlosred/autodock-vina:latest" ["bedtools"]="carlosred/bedtools:latest" ["blast"]="carlosred/blast:latest"
            ["bowtie"]="carlosred/bowtie:built" ["gromacs"]="carlosred/gromacs:latest"
-           ["htseq"]="carlosred/htseq:latest" ["mpi-lammps"]="carlosred/mpi-lammps:latest" ["namd"]="carlosred/namd:latest"
+           ["htseq"]="carlosred/htseq:latest" ["mpi-lammps"]="carlosred/mpi-lammps:latest" ["namd"]="carlosred/namd-cpu:latest"
            ["opensees"]="carlosred/opensees:latest")
 
 numdocks=(1 2 3 4 5 6 7 8 9)
@@ -83,6 +85,14 @@ dockcomm=( ["1"]="" ["2"]="" ["3"]=""
 curl_or_wget=( ["1"]="curl -O" ["2"]="wget " ["3"]="wget " 
             ["4"]="curl -O " ["5"]="curl -O " ["6"]="curl -O " 
             ["7"]="curl -O " ["8"]="curl -O " ["9"]="curl -O ")
+
+
+########################################
+# MIDAS OPTIONS
+########################################
+
+allowed_OS=("Ubuntu_16.04")
+allowed_languages=("c" "c++" "c++ cget " "python" "python3" "fortran" "r" "bash" "")
 
 
 
@@ -182,8 +192,46 @@ case "$user_option" in
         # Appends the job to a file and submits it
         printf "$user_command\n\n$TOKEN" > BOINC_Proc_File.txt
         curl -F file=@BOINC_Proc_File.txt http://$SERVER_IP:5075/boincserver/v2/submit_known/token=$TOKEN
-        #rm BOINC_Proc_File.txt
+        rm BOINC_Proc_File.txt
         printf "\n"        
+        ;;
+
+    "3")
+
+        # MIDAS Processing
+        printf "\nMIDAS job submission\n"
+        printf "${YELLOWYELLOW}WARNING${NCNC} MIDAS is designed for prototyping\n"
+        printf "For large scale job submission, use options 1 and 2\n"
+        printf "\n"
+        printf "%0.s-" {1..20}
+        printf "\nAllowed OS:\n${BLUEBLUE}${allowed_OS[*]}${NCNC}\n"
+        printf "Allowed languages:\n${BLUEBLUE}${allowed_languages[*]}${NCNC}\n"
+        printf "%0.s-" {1..20}
+
+
+        # In case the suer provides their own README
+        printf "\nAre you providing a pre-compiled tar file (including README.txt) for MIDAS use in this directory?[y/n]\n"
+        read README_ready
+        if [[ "${README_ready,,}" = "y" ]]; then
+
+            # How to process the README
+            exit 0
+        fi
+
+
+        printf "Enter languages used (space-separated):\n"
+        read -a user_langs
+
+        for LLL in "${user_langs[@]}"
+        do
+            printf "$LLL\n"
+            if [[ "${allowed_languages[*]}" != *"${LLL,,}"* ]]; then
+                printf "${REDRED}Language $LLL is not accepted\n${NCNC}Program exited\n"
+                exit 0
+            fi
+        done
+
+
         ;;
 
     *)

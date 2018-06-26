@@ -48,7 +48,7 @@ def tutorial():
                   },
                   
     'Limitations': 'MIDAS is based on Docker publicly available Docker images. As such, only open-source, free to use software is allowed. No Intel compilers, software that requires key access, enterprise editions, or private OS (Windows, Mac are not allowed)',
-    'Supported Languages': 'python3, Go, Haskell, Rust, C, C++',
+    'Supported Languages': 'python3, C, C++, C++ cget, R, bash, Fortran',
     'Supported OS': 'Ubuntu 16.04',
 
     'Root Access': 'Assume root access when installing dependencies trough a bash script'

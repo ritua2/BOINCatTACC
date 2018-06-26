@@ -109,3 +109,8 @@ The server will automatically recognize your system as a volunteer and submit ta
 
 3. I just submitted a job and it does not appear in the results ops page
 	* boinc-docker-server needs to download the images before any further processing is done. For large images (> 1 Gb) this process can take time if the server has a low amount of RAM.
+
+4. I received a job without an empty compressed results file  
+Try to obtain your results in a regular file, since those are the files that our file retrieval tool supports. In general, use the general outputs
+or texts files. Avoid images and binary files for results. Using plotting inside a BOINC job may cause problems, since most graphic libraries 
+assume a screen.  

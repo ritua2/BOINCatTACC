@@ -1,3 +1,0 @@
-carlosred/bowtie:built /bin/bash -c "cd /data;  curl -O  http://129.114.16.64:5060/boincserver/v2/reef/fSa16ktGiU30Ss/s_cerevisiae.ebwt.zip; unzip s_cerevisiae.ebwt.zip; bowtie -c s_cerevisiae ATTGTAGTTCGAGTAAGTAATGTGGGTTTG > res_bowtie.txt; python /Mov_Res.py"
-
-fSa16ktGiU30Ss

@@ -214,7 +214,26 @@ case "$user_option" in
         read README_ready
         if [[ "${README_ready,,}" = "y" ]]; then
 
-            # How to process the README
+            # Simply uploads the compressed file to MIDAS
+            printf "\nEnter the compressed MIDAS job file: "
+            read completed_midas
+
+            if [ ! -f $completed_midas ]; then
+                printf "${REDRED}File $completed_midas does not exist, program exited${NCNC}\n"
+                exit 0
+            fi
+
+            # Makes sure that there is a README
+
+            if ! tar --list --verbose --file=$completed_midas | grep -q "README.txt"; then
+                printf "${REDRED}Invalid tar file, README missing${NCNC}\nProgram exited${NCNC}\n"
+                exit 0
+            fi
+
+
+
+            #curl -F file=@$completed_midas  http://$SERVER_IP:5085/boincserver/v2/midas/token=$TOKEN
+            printf "\n"
             exit 0
         fi
 

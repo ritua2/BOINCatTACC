@@ -93,7 +93,7 @@ curl_or_wget=( ["1"]="curl -O" ["2"]="wget " ["3"]="wget "
 ########################################
 
 allowed_OS=("Ubuntu_16.04")
-allowed_languages=("c" "c++" "c++ cget " "python" "python3" "fortran" "r" "bash" "")
+allowed_languages=("c" "c++" "c++ cget " "python" "python3" "fortran" "r" "bash" )
 languages_with_libs=("python" "python3" "c++ cget")
 
 
@@ -309,6 +309,10 @@ case "$user_option" in
 
         done
 
+        # Creates a new directory in which to temporarily put the files in
+        rm -rf Temp-BOINC
+        mkdir Temp-BOINC
+
 
         setfiles=()
         printf "\nEnter the ${PURPLEPURPLE}setup files${NCNC} (one per line), leave empty to exit:\n"
@@ -325,8 +329,10 @@ case "$user_option" in
                 exit 0
             fi
 
+            cp $setfil Temp-BOINC/
+
             setfiles+=("$setfil")
-            printf "[USER_SETUP] $setfil\n"
+            printf "[USER_SETUP] $setfil\n" >> README.txt
 
         done
 
@@ -335,10 +341,6 @@ case "$user_option" in
 
         comfiles=()
         printf "\n\nEnter the ${PURPLEPURPLE}commands${NCNC} below, leave empty to exit section:\n"
-
-        # Creates a new directory in which to temporarily put the files in
-        rm -rf Temp-BOINC
-        mkdir Temp-BOINC
 
 
         while true
@@ -351,7 +353,7 @@ case "$user_option" in
                 break
             fi
 
-            if [[ "${user_langs[*]}" != *"${comlang,,}"* ]]; then
+            if [[ "${user_langs[*],,}" != *"${comlang,,}"* ]]; then
                 printf "${REDRED}Language $comlang was not entered before\n${NCNC}Program exited\n"
                 exit 0
             fi
@@ -379,6 +381,77 @@ case "$user_option" in
                     fi
 
                     comfiles+=("$comlang: $comfil: $rwriter")
+                    ;;
+
+                "c")
+                    printf "Answer the following questions, leave empty for None:\n"
+                    ccom="$comlang: $comfil "
+                    while true
+                    do
+                        printf "Enter any libraries (without -I flag): "
+                        read newlib
+
+                        if [ ! -z "$newlib" ]; then
+                            ccom="$ccom: _1_ __I $newlib"
+                        fi
+
+                        printf "Enter any other flags or inputs (as is): "
+                        read other_flags
+                        if [ ! -z "$other_flags" ]; then
+                            printf '2 for after file (i.e. gcc myfile -lgmp), any other for before: '
+                            read flagorder
+
+                            if [ "$flagorder" = "2" ]; then
+                                ccom="$ccom: _2_ AS_IS $other_flags"
+                            else
+                                ccom="$ccom: _1_ AS_IS $other_flags"
+                            fi
+                        fi
+
+                        printf "Continue?[y/n (empty is also no)]: "
+                        read quescon
+
+                        if [[ -z "$quescon" || "${quescon,,}" = "n" ]]; then
+                            break
+                        fi
+                    done
+                    comfiles+=("$ccom")
+                    ;;
+
+                "c++")
+                    # Same as C, done in this way in case of future requirements
+                    printf "Answer the following questions, leave empty for None:\n"
+                    ccom="$comlang: $comfil "
+                    while true
+                    do
+                        printf "Enter any libraries (without -I flag): "
+                        read newlib
+
+                        if [ ! -z "$newlib" ]; then
+                            ccom="$ccom: _1_ __I $newlib"
+                        fi
+
+                        printf "Enter any other flags or inputs (as is): "
+                        read other_flags
+                        if [ ! -z "$other_flags" ]; then
+                            printf '2 for after file (i.e. gcc myfile -lgmp), any other for before: '
+                            read flagorder
+
+                            if [ "$flagorder" = "2" ]; then
+                                ccom="$ccom: _2_ AS_IS $other_flags"
+                            else
+                                ccom="$ccom: _1_ AS_IS $other_flags"
+                            fi
+                        fi
+
+                        printf "Continue?[y/n (empty is also no)]: "
+                        read quescon
+
+                        if [[ -z "$quescon" || "${quescon,,}" = "n" ]]; then
+                            break
+                        fi
+                    done
+                    comfiles+=("$ccom")
                     ;;
 
                 *) 

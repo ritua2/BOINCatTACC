@@ -20,3 +20,8 @@ alanin.*
 README.txt
 BOINC_Proc_File.txt
 Temp-BOINC/*
+*.R
+*.f90
+*.c
+setter2.sh
+complex_setup.sh

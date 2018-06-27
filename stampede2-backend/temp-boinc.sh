@@ -93,6 +93,7 @@ curl_or_wget=( ["1"]="curl -O" ["2"]="wget " ["3"]="wget "
 
 allowed_OS=("Ubuntu_16.04")
 allowed_languages=("c" "c++" "c++ cget " "python" "python3" "fortran" "r" "bash" "")
+languages_with_libs=("python" "python3" "c++ cget")
 
 
 
@@ -205,7 +206,9 @@ case "$user_option" in
         printf "\n"
         printf "%0.s-" {1..20}
         printf "\nAllowed OS:\n${BLUEBLUE}${allowed_OS[*]}${NCNC}\n"
-        printf "Allowed languages:\n${BLUEBLUE}${allowed_languages[*]}${NCNC}\n"
+        printf "Allowed languages:\n${BLUEBLUE}"
+        printf "   %s" "${allowed_languages[@]}"
+        printf "${NCNC}\n* python refers to python 3, since python2 is not accepted for MIDAS use\n"
         printf "%0.s-" {1..20}
 
 
@@ -231,24 +234,72 @@ case "$user_option" in
             fi
 
 
-
-            #curl -F file=@$completed_midas  http://$SERVER_IP:5085/boincserver/v2/midas/token=$TOKEN
+            curl -F file=@$completed_midas  http://$SERVER_IP:5085/boincserver/v2/midas/token=$TOKEN
             printf "\n"
             exit 0
         fi
 
+
+        printf "Enter OS:\n"
+        read user_OS
+        if [[ "${allowed_OS[*]}" != *"$user_OS"* ]]; then
+            printf "${REDRED}OS $user_OS is not accepted\n${NCNC}Program exited\n"
+            exit 0
+        fi
+
+
+        printf "[OS] $user_OS\n" > README.txt
+        
 
         printf "Enter languages used (space-separated):\n"
         read -a user_langs
 
         for LLL in "${user_langs[@]}"
         do
-            printf "$LLL\n"
             if [[ "${allowed_languages[*]}" != *"${LLL,,}"* ]]; then
                 printf "${REDRED}Language $LLL is not accepted\n${NCNC}Program exited\n"
                 exit 0
             fi
+            printf "[LANGUAGE] $LLL\n" >> README.txt
         done
+
+        # Language libraries, taking into account that the language accepts them
+        printf "Libraries:\n\n"
+        printf "As of now, only the following languages accept libraries:\n python(3)   c++ cget\n"
+        printf "Leave empty and press enter to skip or exit this prompt:\n\n"
+        while true
+        do
+            printf "Enter language: "
+            read liblang
+
+            if [ -z "$liblang" ]; then
+                break
+            fi
+
+            if [[ "${user_langs[*]}" != *"${liblang,,}"* ]]; then
+                printf "${REDRED}Language $liblang was not entered before\n${NCNC}Program exited\n"
+                exit 0
+            fi
+
+            if [[ "${languages_with_libs[*]}" != *"${liblang,,}"* ]]; then
+                printf "${REDRED}Language $liblang does not accept libraries${NCNC}\nProgram exited"
+                exit 0
+            fi
+
+            printf "Enter library: "
+            read LIB
+
+            if [ -z "$LIB" ]; then
+                printf "${YELLOWYELLOW}WARNING ${NCNC} No libraries provided for $liblang, language skipped\n"
+                continue
+            fi
+
+            printf "[LIBRARY] $liblang: $LIB\n" >> README.txt
+
+
+
+        done
+
 
 
         ;;

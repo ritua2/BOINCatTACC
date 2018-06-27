@@ -23,5 +23,6 @@ Temp-BOINC/*
 *.R
 *.f90
 *.c
+*.cpp
 setter2.sh
 complex_setup.sh

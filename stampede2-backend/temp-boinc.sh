@@ -93,8 +93,8 @@ curl_or_wget=( ["1"]="curl -O" ["2"]="wget " ["3"]="wget "
 ########################################
 
 allowed_OS=("Ubuntu_16.04")
-allowed_languages=("c" "c++" "c++ cget " "python" "python3" "fortran" "r" "bash" )
-languages_with_libs=("python" "python3" "c++ cget")
+allowed_languages=("c" "c++" "python" "python3" "fortran" "r" "bash" )
+languages_with_libs=("python" "python3" "c++")
 
 
 
@@ -275,8 +275,8 @@ case "$user_option" in
         done
 
         # Language libraries, taking into account that the language accepts them
-        printf "${PURPLEPURPLE}Libraries${NCNC}\n\n"
-        printf "As of now, only the following languages accept libraries:\n python(3)   c++ cget\n"
+        printf "\n${PURPLEPURPLE}Libraries${NCNC}\n"
+        printf "As of now, only the following languages accept libraries:\n python(3)   c++ (using cget)\n"
         printf "Leave empty and press enter to skip or exit this prompt:\n\n"
         while true
         do
@@ -287,7 +287,7 @@ case "$user_option" in
                 break
             fi
 
-            if [[ "${user_langs[*]}" != *"${liblang,,}"* ]]; then
+            if [[ "${user_langs[*],,}" != *"${liblang,,}"* ]]; then
                 printf "${REDRED}Language $liblang was not entered before\n${NCNC}Program exited\n"
                 exit 0
             fi
@@ -295,6 +295,10 @@ case "$user_option" in
             if [[ "${languages_with_libs[*]}" != *"${liblang,,}"* ]]; then
                 printf "${REDRED}Language $liblang does not accept libraries${NCNC}\nProgram exited"
                 exit 0
+            fi
+
+            if [ "${liblang,,}" = "c++" ]; then
+                liblang="C++ cget"
             fi
 
             printf "Enter library: "
@@ -383,9 +387,22 @@ case "$user_option" in
                     comfiles+=("$comlang: $comfil: $rwriter")
                     ;;
 
-                "c")
+                "c++")
                     printf "Answer the following questions, leave empty for None:\n"
                     ccom="$comlang: $comfil "
+
+                    printf "Does it require CGET libraries?[y/n (empty is also no)]: "
+                    read using_cget
+
+                    if [ "${using_cget,,}" =  "y" ]; then
+                        ccom="$ccom: using CGET"
+
+                        if ! cat README.txt |  grep -s 'LANGUAGE] C++ cget' ; then
+                            printf "[LANGUAGE] C++ cget\n" >> README.txt
+                        fi
+                        printf "If these are the only libraries required, do not mention any more libraries in the section below\n"
+                    fi
+
                     while true
                     do
                         printf "Enter any libraries (without -I flag): "
@@ -408,6 +425,7 @@ case "$user_option" in
                             fi
                         fi
 
+
                         printf "Continue?[y/n (empty is also no)]: "
                         read quescon
 
@@ -418,8 +436,8 @@ case "$user_option" in
                     comfiles+=("$ccom")
                     ;;
 
-                "c++")
-                    # Same as C, done in this way in case of future requirements
+
+                "c")
                     printf "Answer the following questions, leave empty for None:\n"
                     ccom="$comlang: $comfil "
                     while true

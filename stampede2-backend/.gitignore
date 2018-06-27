@@ -19,3 +19,4 @@ alanin.*
 *.tgz
 README.txt
 BOINC_Proc_File.txt
+Temp-BOINC/*

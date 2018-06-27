@@ -16,6 +16,7 @@ REDRED='\033[0;31m'
 GREENGREEN='\033[0;32m'
 YELLOWYELLOW='\033[1;33m'
 BLUEBLUE='\033[1;34m'
+PURPLEPURPLE='\033[1;35m'
 NCNC='\033[0m' # No color
 
 
@@ -240,18 +241,28 @@ case "$user_option" in
         fi
 
 
-        printf "Enter OS:\n"
+        printf "Enter ${PURPLEPURPLE}OS${NCNC}:\n"
         read user_OS
-        if [[ "${allowed_OS[*]}" != *"$user_OS"* ]]; then
-            printf "${REDRED}OS $user_OS is not accepted\n${NCNC}Program exited\n"
+
+        for exOS in "${allowed_OS[@]}"
+        do
+            if [[ "$exOS" = *"$user_OS"* ]]; then
+                used_OS="$exOS"
+            fi
+            break
+        done
+
+
+        if [ -z "$used_OS" ]; then
+            printf "${REDRED}OS is invalid or not declared, program exited${NCNC}\n"
             exit 0
         fi
 
 
-        printf "[OS] $user_OS\n" > README.txt
+        printf "[OS] $used_OS\n" > README.txt
         
 
-        printf "Enter languages used (space-separated):\n"
+        printf "Enter ${PURPLEPURPLE}languages${NCNC} used (space-separated):\n"
         read -a user_langs
 
         for LLL in "${user_langs[@]}"
@@ -264,7 +275,7 @@ case "$user_option" in
         done
 
         # Language libraries, taking into account that the language accepts them
-        printf "Libraries:\n\n"
+        printf "${PURPLEPURPLE}Libraries${NCNC}\n\n"
         printf "As of now, only the following languages accept libraries:\n python(3)   c++ cget\n"
         printf "Leave empty and press enter to skip or exit this prompt:\n\n"
         while true
@@ -296,17 +307,142 @@ case "$user_option" in
 
             printf "[LIBRARY] $liblang: $LIB\n" >> README.txt
 
-
-
         done
 
 
+        setfiles=()
+        printf "\nEnter the ${PURPLEPURPLE}setup files${NCNC} (one per line), leave empty to exit:\n"
+        while true
+        do
+            read setfil
+
+            if [ -z "$setfil" ]; then
+                break
+            fi
+
+            if [ ! -f $setfil ]; then
+                printf "${REDRED}File $setfil does not exist, program exited${NCNC}\n"
+                exit 0
+            fi
+
+            setfiles+=("$setfil")
+            printf "[USER_SETUP] $setfil\n"
+
+        done
+
+        printf "${setfiles[*]}\n"
+
+
+        comfiles=()
+        printf "\n\nEnter the ${PURPLEPURPLE}commands${NCNC} below, leave empty to exit section:\n"
+
+        # Creates a new directory in which to temporarily put the files in
+        rm -rf Temp-BOINC
+        mkdir Temp-BOINC
+
+
+        while true
+        do
+
+            printf "Enter language: "
+            read comlang
+
+            if [ -z "$comlang" ]; then
+                break
+            fi
+
+            if [[ "${user_langs[*]}" != *"${comlang,,}"* ]]; then
+                printf "${REDRED}Language $comlang was not entered before\n${NCNC}Program exited\n"
+                exit 0
+            fi
+
+            printf "Enter file for command: "
+            read comfil
+            if [[ -z "$comfil" || ! -f $comfil ]]; then
+                printf "${REDRED}File $comfil does not exist${NCNC}\n"
+                continue
+            fi
+
+            cp $comfil Temp-BOINC/
+
+
+            # Languages C, C++, C++ CGET, and R require extra instructions
+
+            case "${comlang,,}" in
+
+                "r")
+                    printf "Enter file to which write results (R only), leave empty to skip: "
+                    read rwriter
+
+                    if [ -z "$rwriter" ]; then
+                        comfiles+=("$comlang: $comfil")
+                    fi
+
+                    comfiles+=("$comlang: $comfil: $rwriter")
+                    ;;
+
+                *) 
+                    # All other languages
+                    comfiles+=("$comlang: $comfil")
+
+            esac
+        done
+
+
+        # MIDAS requires commands to run
+        if [ -z "${comfiles[*]}" ]; then
+            printf "${REDRED}No commands provided, program exited${NCNC}\n"
+            exit 0
+        fi
+
+        # Adds the commands to the README
+        for nvnv in "${comfiles[@]}"
+        do
+            printf "[COMMAND] $nvnv\n" >> README.txt
+        done
+
+
+        # Asks which ouput files will be required
+        # Avoids empty outputs
+        while true
+        do
+            printf "Enter ${PURPLEPURPLE}output files${NCNC} or ALL, leave empty to exit: "
+            read outfil
+
+            if [ -z "$outfil" ]; then
+                break
+            fi
+
+            prevfil=outfil
+            if [ $outfil = "ALL" ]; then
+                printf "[OUTPUT] $outfil\n" >> README.txt
+                break
+            fi
+
+            printf "[OUTPUT] $outfil\n" >> README.txt
+        done
+
+
+        if [ -z "$prevfil" ]; then
+            printf "${REDRED}No outputs provided, program exited${NCNC}\n"
+            exit 0
+        fi
+
+        cp README.txt Temp-BOINC/
+
+        # Tars the files and uploads the result to BOINC
+        cd Temp-BOINC/
+        Tnam="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1).tar.gz"
+        tar -czf "$Tnam" .
+
+        curl -F file=@$Tnam http://$SERVER_IP:5085/boincserver/v2/midas/token=$TOKEN
+        printf "\n"
+        cd ..
 
         ;;
 
     *)
         printf "${REDRED}Invalid answer, program exited${NCNC}\n"
         exit 0
-
 
 esac

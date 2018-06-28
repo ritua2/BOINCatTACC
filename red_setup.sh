@@ -33,6 +33,8 @@ mv /root/project/boinc-updates/user-interface/* /root/project/html/user
 mv /root/project/boinc-updates/API_Daemon.sh  /root/project
 mv /root/project/boinc-updates/bproc.sh  /root/project
 mv /root/project/boinc-updates/password_credentials.sh /root/project
+mv /root/project/boinc-updates/dockerhub_credentials.sh /root/project
+mv /root/project/boinc-updates/idir.py /root/project
 
 chmod +x /root/project/email_assimilator.py
 chmod +x /root/project/api/server_checks.py
@@ -46,6 +48,7 @@ chmod +x /root/project/html/user/token_data/modify_org.py
 chmod +x /root/project/api/factor2.py
 chmod +x /root/project/api/harbour.py
 chmod +x /root/project/api/allocation.py
+chmod +x /root/project/idir.py
 
 /root/project/API_Daemon.sh -up
 nohup /root/project/bproc.sh &

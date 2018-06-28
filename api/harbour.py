@@ -71,8 +71,7 @@ def complete_build(IMTAG, UTOK, MIDIR, COMMAND_TXT, DOCK_DOCK, BOCOM, FILES_PATH
         for salmon in resp:
             ff.write(salmon)
         ff.close()
-        # Saving the image seems to be messing with BOINC so we need to build it again
-        user_image(IMTAG)
+
         # Moves the file to the user's result folders
         shutil.move(saved_name, "/root/project/api/sandbox_files/DIR_"+UTOK+"/___RESULTS/"+saved_name)
 

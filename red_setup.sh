@@ -49,6 +49,7 @@ chmod +x /root/project/api/factor2.py
 chmod +x /root/project/api/harbour.py
 chmod +x /root/project/api/allocation.py
 chmod +x /root/project/idir.py
+chmod +x /root/project/api/personal_area.py
 
 /root/project/API_Daemon.sh -up
 nohup /root/project/bproc.sh &

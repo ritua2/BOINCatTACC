@@ -397,7 +397,7 @@ case "$user_option" in
                     if [ "${using_cget,,}" =  "y" ]; then
                         ccom="$ccom: using CGET"
 
-                        if ! cat README.txt |  grep -s 'LANGUAGE] C++ cget' ; then
+                        if ! cat README.txt |  grep -q 'LANGUAGE] C++ cget' ; then
                             printf "[LANGUAGE] C++ cget\n" >> README.txt
                         fi
                         printf "If these are the only libraries required, do not mention any more libraries in the section below\n"

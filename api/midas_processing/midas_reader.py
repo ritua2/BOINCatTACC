@@ -247,7 +247,6 @@ def execute_command(COMMAND, cpp_libs=[]):
 
         return com1.replace("LIBS_1", com2).replace("LIBS_2", com3)
 
-    # Simple C++, without cget
     if LANG == 'c++':
 
         # Depends on the libraries provided
@@ -262,41 +261,9 @@ def execute_command(COMMAND, cpp_libs=[]):
 
             curcom = ''
 
-            if 'AS_IS' in COMMAND[hh]:
-                curcom += COMMAND[hh].replace('AS_IS', '')
-
-            if '__I' in COMMAND[hh]:
-                curcom += "-I "+COMMAND[hh].replace('__I', '')
-
-            if '_1_' in COMMAND[hh]:
-                com2 += curcom.replace('_1_', '')+' '
-                continue
-
-            com3 += curcom.replace('_2_', '')+' '
-            continue
-
-
-        return com1.replace("LIBS_1", com2).replace("LIBS_2", com3)
-
-    # C++ using the cget package manager
-    if LANG == "c++ cget":
-
-        # Depends on the libraries provided
-        if len(COMMAND) == 2:
-            return com1.replace("LIBS_1", '').replace("LIBS_2", '')
-
-        com2 = ''
-        com3 =''
-
-        # Other dependencies
-        for hh in range(2, len(COMMAND)):
-
-            curcom = ''
-
-            # Actual cget command
+            # Commands that use libraries installed via cget
             if "CGET" in COMMAND[hh]:
                 com2 += " -I ./cget/include/ "
-                continue
 
             if 'AS_IS' in COMMAND[hh]:
                 curcom += COMMAND[hh].replace('AS_IS', '')
@@ -309,9 +276,6 @@ def execute_command(COMMAND, cpp_libs=[]):
                 continue
 
             com3 += curcom.replace('_2_', '')+' '
-            continue
 
 
         return com1.replace("LIBS_1", com2).replace("LIBS_2", com3)
-
-

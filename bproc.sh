@@ -8,6 +8,10 @@
 #    | 4) Sends the emails every 30 minutes
 
 # Designed to be continously running using nohup#!/bin/bash
+# Adds environmental variables to the crontab
+crontab -l | { cat; echo "SERVER_IP=$SERVER_IP"; } | crontab -
+crontab -l | { cat; echo "BOINC_EMAIL=$BOINC_EMAIL"; } | crontab -
+crontab -l | { cat; echo "BOINC_EMAIL_PASSWORD=$BOINC_EMAIL_PASSWORD"; } | crontab -
 
 # Initiates the cron job for emails
 crontab -l | { cat; echo "0,30 * * * * /root/project/email_assimilator.py"; } | crontab -

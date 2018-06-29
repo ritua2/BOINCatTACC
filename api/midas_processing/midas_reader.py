@@ -16,7 +16,7 @@ OS_chart = {'Ubuntu_16.04':'carlosred/ubuntu-midas:16.04'}
 Allowed_languages = sorted(['python', 'r', 'c', 'c++', 'c++ cget', 'haskell', 'fortran', 'bash'], key=len, reverse=True)
 language_instructions = {
         'python':{'Ubuntu_16.04':'echo python is installed by default'},
-        'fortran':{'Ubuntu_16.04':'apt-get install gfortran -y'},
+        'fortran':{'Ubuntu_16.04':'apt-get update && apt-get install gfortran -y'},
         'bash':{'Ubuntu_16.04':'echo bash is installed by default'},
         'r':{'Ubuntu_16.04':'apt-get install r-base -y'},
         'c':{'Ubuntu_16.04':'echo gcc is installed by default'},

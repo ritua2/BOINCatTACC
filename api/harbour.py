@@ -85,6 +85,8 @@ def complete_build(IMTAG, UTOK, MIDIR, COMMAND_TXT, DOCK_DOCK, BOCOM, FILES_PATH
     except Exception as e:
         print(e)
         r.delete(UTOK+'.'+MIDIR)
+        # Deletes the unused container
+        client.containers.prune()
         MESSAGE = Failure_Message.replace("DATETIME", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
         MESSAGE += "\n\nDockerfile created below: \n\n"+DOCK_DOCK
         pp.send_mail(researcher_email, 'Failed MIDAS build', MESSAGE)

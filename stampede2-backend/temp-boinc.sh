@@ -10,7 +10,6 @@ printf "NOTE: NO MPI jobs distributed accross more than one volunteer, No jobs w
 # Server IP or domain must be declared before
 SERVER_IP= # Declare it the first time this program is run
 
-
 # Colors, helpful for printing
 REDRED='\033[0;31m'
 GREENGREEN='\033[0;32m'
@@ -34,12 +33,8 @@ fi
 ORK=$(cat Org_Key1.txt)
 
 
-curl -F email=$userEmail -F org_key=$ORK http://$SERVER_IP:5054/boincserver/v2/api/authorize_from_org
-exit 0
-
 # Validates the researcher's email against the server's API
-TOKEN=$(curl -s -F email=$userEmail http://$SERVER_IP:5054/boincserver/v2/api/token_from_email)
-
+TOKEN=$(curl -s -F email=$userEmail -F org_key=$ORK http://$SERVER_IP:5054/boincserver/v2/api/authorize_from_org)
 
 # Checks that the token is valid
 if [ $TOKEN = *"INVALID"* ]; then
@@ -47,7 +42,7 @@ if [ $TOKEN = *"INVALID"* ]; then
     exit 0
 fi
 
-printf "${GREENGREEN}User verified with BOINC${NCNC}\n"
+printf "${GREENGREEN}BOINC connection established${NCNC}\n"
 
 
 # Checks the user's allocation
@@ -72,7 +67,7 @@ alloc_color () {
 printf      "The allowed options are below:\n"
 alloc_color "   1  Submitting a BOINC job from TACC supported docker images using local files in this machine"
 printf      "   2  Submitting a file with a list of commands from an existing dockerhub image (no extra files on this machine)\n"
-alloc_color "   3  Submitting a BOINC job from a set of commands (source code, input local files)"
+alloc_color "   3  Submitting a BOINC job from a set of commands (source code, input local files) (MIDAS)"
 
 
 
@@ -216,7 +211,7 @@ case "$user_option" in
 
         # MIDAS Processing
         printf "\nMIDAS job submission\n"
-        printf "${YELLOWYELLOW}WARNING${NCNC} MIDAS is designed for prototyping\n"
+        printf "${YELLOWYELLOW}WARNING${NCNC} MIDAS is designed for prototyping only, not for continuous job submission\n"
         printf "For large scale job submission, use options 1 and 2\n"
         printf "\n"
         printf "%0.s-" {1..20}

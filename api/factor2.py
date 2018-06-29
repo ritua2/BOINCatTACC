@@ -218,6 +218,35 @@ def authorize_from_org():
         pass
 
     # The user has never used BOINC before, a new account must be created
+    # Creates a final token for the user
+    SEQ = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
+    user_tok = ''
+    for qq in range(0, 14):
+        user_tok += random.choice(SEQ)
+
+    # Since the only information is their email, we will assume the following:
+    # EMAIL: NAME*.LAST_NAME@*
+    # Note: This allows for a person to have similar NAME and LAST NAME: i.e. john@gmail.com
+    NAME = EMAIL.split("@")[0].split(".")[0]
+    LAST_NAME = EMAIL.split("@")[0].split(".")[-1]
+    
+    # Replaces single quotes by double quotes
+    Org_Users_Data[user_tok]={'name':NAME, 'last name':LAST_NAME, 'email':EMAIL, 'allocation':4000000}
+    r_org.hset(user_org, 'Users', Org_Users_Data)
+    r_org.hincrby(user_org, 'No. Users', 1)
+
+    # Also creates a Reef directory
+    os.makedirs('/root/project/api/sandbox_files/DIR_'+str(user_tok))
+    os.makedirs('/root/project/api/sandbox_files/DIR_'+str(user_tok)+'/___RESULTS')
+
+    # Prints the result to the token file because of backwards compatibility
+    with open("/root/project/html/user/token_data/Tokens.txt", 'a') as TFIL:
+        TFIL.write(NAME+" "+LAST_NAME+", "+user_tok+", "+EMAIL+"\n")
+
+    # Adds the allocation details
+    r_alloc.set(user_tok, 4000000)
+
+    return user_tok
 
 
 

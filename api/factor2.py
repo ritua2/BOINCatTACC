@@ -183,6 +183,44 @@ def token_from_email():
     return 'INVALID, user is not registered as a researcher'
 
 
+# Registers an user if they come from TACC or any other allowed organization
+# No email authorization required
+# The allocation gets assigned to 4000000 GB, so as to no one can reach it
+# If they are already registered, then they simply run the job
+@app.route("/boincserver/v2/api/authorize_from_org", methods = ['GET', 'POST'])
+def authorize_from_org():
+
+    if request.method != "POST":
+        return "INVALID, no data provided"
+
+    EMAIL = request.form["email"]
+    ORG_KEY = request.form["org_key"]
+
+    if EMAIL=='':
+        return "INVALID, email was not provided"
+
+
+    all_orgs = [x.decode('UTF-8') for x in r_org.keys()]
+    all_org_keys = [r_org.hmget(x.decode('UTF-8'), 'Organization Token')[0].decode('UTF-8') for x in r_org.keys()]
+
+    if ORG_KEY not in all_org_keys:
+        return "INVALID, user organization is not registered"
+
+    user_org = [all_orgs[x] for x in range(0, len(all_orgs)) if all_org_keys[x] == ORG_KEY][0]
+
+    Org_Users_Data = json.loads(r_org.hget(user_org, 'Users').decode('UTF-8').replace('\"', 'UHJKNM').replace('\'', '\"').replace('UHJKLM', '\''))
+
+
+    # If the user has already executed any BOINC programs before, then it simply returns its account keys
+    try:
+        return [x for x in Org_Users_Data.keys() if Org_Users_Data[x]['email']==EMAIL][0]
+    except:
+        pass
+
+    # The user has never used BOINC before, a new account must be created
+
+
+
 
 if __name__ == '__main__':
    app.run(host = '0.0.0.0', port = 5054)

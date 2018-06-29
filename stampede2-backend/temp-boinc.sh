@@ -6,7 +6,7 @@
 
 
 printf "Welcome to Boinc job submission\n\n"
-printf "NOTE: NO MPI Jobs,No GPU, No jobs with external communication or large data transfer.\n"
+printf "NOTE: NO MPI jobs distributed accross more than one volunteer, No jobs with external downloads while the job is running (no curl, wget, rsync, ..).\n"
 # Server IP or domain must be declared before
 SERVER_IP= # Declare it the first time this program is run
 
@@ -20,16 +20,30 @@ PURPLEPURPLE='\033[1;35m'
 NCNC='\033[0m' # No color
 
 
-printf "Enter researcher email (must be registered first): "
+printf "Enter email to which send results: "
 read userEmail
+
+
+if [[ -z "$userEmail" || "$userEmail" != *"@"*"."* ]]; then 
+    printf "${REDRED}Invalid format, not an email\n${NCNC}Program exited\n"
+    exit 0
+fi
+
+
+# Gets the account for the org
+ORK=$(cat Org_Key1.txt)
+
+
+curl -F email=$userEmail -F org_key=$ORK http://$SERVER_IP:5054/boincserver/v2/api/authorize_from_org
+exit 0
 
 # Validates the researcher's email against the server's API
 TOKEN=$(curl -s -F email=$userEmail http://$SERVER_IP:5054/boincserver/v2/api/token_from_email)
 
 
 # Checks that the token is valid
-if [[ $TOKEN = *"INVALID"* || -z "$TOKEN" ]]; then
-    printf "${REDRED}User name is not valid or has not been registered\n${NCNC}Program exited\n"
+if [ $TOKEN = *"INVALID"* ]; then
+    printf "${REDRED}Organization does not have access to BOINC\n${NCNC}Program exited\n"
     exit 0
 fi
 
@@ -56,9 +70,9 @@ alloc_color () {
 
 # Asks the user what they want to do
 printf      "The allowed options are below:\n"
-printf      "   1  Submitting a file with a list of commands from a dockerhub image (no extra files on this machine)\n"
-alloc_color "   2  Submitting a BOINC job from a dockerhub image using local files in this machine"
-alloc_color "   3  Submitting a BOINC job from a set of commands, unknown image, local files"
+alloc_color "   1  Submitting a BOINC job from TACC supported docker images using local files in this machine"
+printf      "   2  Submitting a file with a list of commands from an existing dockerhub image (no extra files on this machine)\n"
+alloc_color "   3  Submitting a BOINC job from a set of commands (source code, input local files)"
 
 
 
@@ -103,7 +117,7 @@ read user_option
 
 case "$user_option" in 
 
-    "1")
+    "2")
         printf "\nSubmitting a file for a known dockerhub image with commands present\n"
         printf "\n${YELLOWYELLOW}WARNING${NCNC}\nAll commands must be entered, including results retrieval"
         printf "\nEnter the path of the file which contains list of serial commands: "
@@ -120,7 +134,7 @@ case "$user_option" in
         printf "\n"
         ;;
 
-    "2")
+    "1")
         printf "\nSubmitting a BOINC job to a known image, select the image below:\n"
 
         # All the options

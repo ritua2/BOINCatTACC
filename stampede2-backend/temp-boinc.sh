@@ -349,8 +349,6 @@ case "$user_option" in
 
         done
 
-        printf "${setfiles[*]}\n"
-
 
         comfiles=()
         printf "\n\nEnter the ${PURPLEPURPLE}commands${NCNC} below, leave empty to exit section:\n"
@@ -379,6 +377,10 @@ case "$user_option" in
             fi
 
             cp $comfil Temp-BOINC/
+
+            # Changes the value of the file to delete the path in the name
+            IFS='/' read -ra comfil <<< "$comfil"
+            comfil="${comfil[-1]}"
 
 
             # Languages C, C++, C++ CGET, and R require extra instructions
@@ -414,7 +416,7 @@ case "$user_option" in
 
                     while true
                     do
-                        printf "Enter any libraries (without -I flag): "
+                        printf "Enter any linked libraries (without -I flag): "
                         read newlib
 
                         if [ ! -z "$newlib" ]; then
@@ -451,7 +453,7 @@ case "$user_option" in
                     ccom="$comlang: $comfil "
                     while true
                     do
-                        printf "Enter any libraries (without -I flag): "
+                        printf "Enter any linked libraries (without -I flag): "
                         read newlib
 
                         if [ ! -z "$newlib" ]; then

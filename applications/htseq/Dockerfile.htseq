@@ -29,7 +29,7 @@ COPY Mov_Res.py /Mov_Res.py
 
 
 
-RUN apt-get update && apt-get install curl wget -y &&\
+RUN apt-get update && apt-get install unzip curl wget -y &&\
     mkdir -p /root/shared/results && apt-get install -y coreutils && touch /All_outs.txt &&\
 	for afil in $(find /data -name '*.txt'); do printf "$(realpath $afil)\n" >>  /All_outs.txt; done &&\
 	for afil in $(find /data -name '*.jpeg'); do printf "$(realpath $afil)\n" >>  /All_outs.txt; done &&\

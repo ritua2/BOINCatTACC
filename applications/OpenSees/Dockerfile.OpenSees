@@ -25,6 +25,6 @@ USER root
 # Copies the unaccounted files to /root/shared/results
 COPY Mov_Res.py /Mov_Res.py
 
-RUN apt-get update -y && apt-get install curl -y &&\
+RUN apt-get update -y && apt-get install unzip curl -y &&\
     mkdir -p /root/shared/results && apt-get install -y realpath && touch /All_outs.txt &&\
 	for afil in $(find / -name '*.out'); do printf "$(realpath $afil)\n" >>  /All_outs.txt; done

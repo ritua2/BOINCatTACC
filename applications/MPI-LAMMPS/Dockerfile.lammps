@@ -25,7 +25,7 @@ USER root
 # Sets up the basic LAMMPS as well
 RUN yum -y localinstall --nogpgcheck http://git.icms.temple.edu/rpm/centos/lammps-centos-rhel-repo-1-2.noarch.rpm &&\
     cd /etc/yum.repos.d/ &&\
-    yum -y install lammps
+    yum -y install lammps unzip
 
 WORKDIR /data
 

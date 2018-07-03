@@ -44,7 +44,7 @@ RUN cd /build &&\
     tar -xvzf NAMD_Linux-x86_64-multicore.tar.gz &&\
     cd NAMD* &&\
     cp namd2 /usr/local/bin/namd2 && cp charmrun /usr/local/bin/charmrun &&\
-    apt-get update && apt-get install curl wget python -y &&\
+    apt-get update && apt-get install unzip curl wget python -y &&\
     mkdir -p /root/shared/results && touch /All_outs.txt && mkdir /data &&\
 	for afil in $(find /data -name '*.txt'); do printf "$(realpath $afil)\n" >>  /All_outs.txt; done
 

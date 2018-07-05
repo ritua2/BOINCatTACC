@@ -141,7 +141,6 @@ do
     break
 done
 
-printf "$TOKEN\n"
 
 case "$user_option" in 
 
@@ -155,8 +154,6 @@ case "$user_option" in
             printf "${REDRED}File $filetosubmit does not exist, program exited${NCNC}\n"
             exit 0
         fi
-
-        printf "\n$TOKEN" >> $filetosubmit
 
         curl -F file=@$filetosubmit -F app=$boapp http://$SERVER_IP:5075/boincserver/v2/submit_known/token=$TOKEN
         printf "\n"
@@ -233,8 +230,7 @@ case "$user_option" in
 
 
         user_command="$user_command python /Mov_Res.py\""
-        # Appends the job to a file and submits it
-        printf "$user_command\n\n$TOKEN" > BOINC_Proc_File.txt
+
         curl -F file=@BOINC_Proc_File.txt -F app=$boapp http://$SERVER_IP:5075/boincserver/v2/submit_known/token=$TOKEN
         rm BOINC_Proc_File.txt
         printf "\n"        
@@ -570,7 +566,7 @@ case "$user_option" in
         Tnam="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1).tar.gz"
         tar -czf "$Tnam" .
 
-        curl -F file=@$Tnam http://$SERVER_IP:5085/boincserver/v2/midas/token=$TOKEN
+        curl -F file=@$Tnam -F app=$boapp http://$SERVER_IP:5085/boincserver/v2/midas/token=$TOKEN
         printf "\n"
         cd ..
 

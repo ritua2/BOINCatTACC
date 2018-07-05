@@ -179,8 +179,16 @@ def midas(toktok):
 
     except:
        return 'User sandbox is not set-up, create a sandbox first'
+
+    # If no app is provided, it will assume BOINC
+    try:
+        boapp = request.form["app"].lower()
+        if (boapp != "boinc2docker") and (boapp != "adtdp"):
+            return "INVALID app"
+    except:
+        boapp = "boinc2docker"
     
-    # No user can have more than 2 Gb
+    # No user can submit jobs with a full allocation
     assigned_allocation = float(r.get(toktok).decode('UTF-8'))
 
     if pp.user_sandbox_size(str(toktok)) > (assigned_allocation*1073741824):
@@ -238,7 +246,7 @@ def midas(toktok):
 
 
     # Creates a redis database with syntax {TOKEN}.{MID_DIRECTORY}
-    r.set(toktok+'.'+new_MID, 0)
+    r.set(toktok+'.'+new_MID, boapp)
 
     return 'File submitted for processing'
 

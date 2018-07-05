@@ -51,7 +51,7 @@ def upload_file(toktok):
     with open(UPLOAD_FOLDER+'/'+new_filename, 'a') as nod:
         nod.write('\n'+str(TOK))
 
-    if app == "boin2docker":
+    if app == "boinc2docker":
         shutil.move(UPLOAD_FOLDER+'/'+new_filename, FINAL_FOLDER+'/'+new_filename)
     if app == "adtdp":
         shutil.move(UPLOAD_FOLDER+'/'+new_filename, ADTDP_FOLDER+'/'+new_filename)

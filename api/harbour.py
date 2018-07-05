@@ -55,7 +55,12 @@ def complete_build(IMTAG, UTOK, MIDIR, COMMAND_TXT, DOCK_DOCK, BOCOM, FILES_PATH
         # Reduces the corresponding user's allocation
         # Docker represents image size in GB
         # Moves the file
-        shutil.move(COMMAND_TXT+".txt", "/root/project/html/user/token_data/process_files/"+COMMAND_TXT+".txt")
+        boapp = r.get(UTOK+'.'+MIDIR).decode("UTF-8")
+        if app == "boinc2docker":
+            shutil.move(COMMAND_TXT+".txt", "/root/project/html/user/token_data/process_files/"+COMMAND_TXT+".txt")
+        if app == "adtdp":
+            shutil.move(COMMAND_TXT+".txt", "/root/project/adtd-protocol/process_files/"+COMMAND_TXT+".txt")
+
         # Deletes the key
         r.delete(UTOK+'.'+MIDIR)
 

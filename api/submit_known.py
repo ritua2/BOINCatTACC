@@ -14,6 +14,7 @@ import preprocessing as pp
 
 app = Flask(__name__)
 UPLOAD_FOLDER = "/root/project/api/sandbox_files"
+ADTDP_FOLDER = "/root/project/adtd-protocol/process_files"
 FINAL_FOLDER = "/root/project/html/user/token_data/process_files"
 
 
@@ -28,6 +29,15 @@ def upload_file(toktok):
        return "Invalid. Submit a text file"    
 
     file = request.files['file']
+
+    # If no app is provided, it will assume BOINC
+    try:
+        app = request.form["app"].lower()
+        if (app != "boinc2docker") and (app != "adtdp"):
+            return "INVALID app"
+    except:
+        app = "boinc2docker"
+
     # Avoids empty files and non-text files
     if file.filename == '':
        return 'No file submitted'
@@ -40,9 +50,12 @@ def upload_file(toktok):
     # Adds the token at the end of the file
     with open(UPLOAD_FOLDER+'/'+new_filename, 'a') as nod:
         nod.write('\n'+str(TOK))
-    
-    shutil.move(UPLOAD_FOLDER+'/'+new_filename, FINAL_FOLDER+'/'+new_filename)
-     
+
+    if app == "boin2docker":
+        shutil.move(UPLOAD_FOLDER+'/'+new_filename, FINAL_FOLDER+'/'+new_filename)
+    if app == "adtdp":
+        shutil.move(UPLOAD_FOLDER+'/'+new_filename, ADTDP_FOLDER+'/'+new_filename)
+
     return "File submitted for processing"
 
     

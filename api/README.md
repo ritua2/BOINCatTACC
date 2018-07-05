@@ -5,7 +5,8 @@
 * Test token before submitting tasks
 * Server will not notify if the tasks have failed immediately
 * For a job file submission, use the following curl method:  
-	*curl -F file=@Example_multi_submit.txt http://SERVER_IP:5075/boincserver/v2/submit_known/token=TOKEN*  
+	*curl -F app=boinc2docker -F file=@Example_multi_submit.txt http://SERVER_IP:5075/boincserver/v2/submit_known/token=TOKEN*   
+There are 2 apps available: boinc2docker (classic BOINC) and adtdp (see README).  
 
 ----
 

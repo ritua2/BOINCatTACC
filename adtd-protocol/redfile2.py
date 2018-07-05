@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 """
 BASICS
 
@@ -38,7 +40,6 @@ def summarizer(linlin):
    L1 = LLL[0]
    L2 = ' '.join(LLL[1::])
    return [L1, L2]
-
 
 
 for file in glob.glob("/root/project/adtd-protocol/process_files/*.txt"):

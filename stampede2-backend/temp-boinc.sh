@@ -110,6 +110,39 @@ languages_with_libs=("python" "python3" "c++")
 printf "Enter your selected option: "
 read user_option
 
+
+# Asks the user what option they prefer for job submission
+printf "Do you wish to use the adtd-protocol?[y/n/h for help]: "
+
+while true
+do
+    read user_ADTDP
+    user_ADTDP="${user_ADTDP,,}"
+
+    if [ "$user_ADTDP" = "h" ]; then
+        printf "The Automated Docker Task Distribution Protocol (adtd-p) is a substitute form of executing BOINC jobs through Docker containers.\n"
+        printf "Advantages:\n+ Supports CUDA usage\n+ Guaranteed volunteers to run results\n+ Less data transfer for volunteers\n"
+        printf "+ Does not require VirtualBox as an intermediary\n+ Error feedback if a job fails\n"
+        printf "Disadvantages:\n- Experimental\n- No BOINC community support\n- Jobs are most likely run by servers, not volunteers\n"
+    fi
+
+
+    if [[ "$user_ADTDP" != "y" && "$user_ADTDP" != "n" ]]; then
+        printf "Please enter [y/n/h for help]: "
+        continue
+    fi
+
+    if [ "$user_ADTDP" = "y" ]; then
+        boapp="adtdp"
+        break
+    fi
+
+    boapp="boinc2docker"
+    break
+done
+
+printf "$TOKEN\n"
+
 case "$user_option" in 
 
     "2")
@@ -125,7 +158,7 @@ case "$user_option" in
 
         printf "\n$TOKEN" >> $filetosubmit
 
-        curl -F file=@$filetosubmit http://$SERVER_IP:5075/boincserver/v2/submit_known/token=$TOKEN
+        curl -F file=@$filetosubmit -F app=$boapp http://$SERVER_IP:5075/boincserver/v2/submit_known/token=$TOKEN
         printf "\n"
         ;;
 
@@ -202,7 +235,7 @@ case "$user_option" in
         user_command="$user_command python /Mov_Res.py\""
         # Appends the job to a file and submits it
         printf "$user_command\n\n$TOKEN" > BOINC_Proc_File.txt
-        curl -F file=@BOINC_Proc_File.txt http://$SERVER_IP:5075/boincserver/v2/submit_known/token=$TOKEN
+        curl -F file=@BOINC_Proc_File.txt -F app=$boapp http://$SERVER_IP:5075/boincserver/v2/submit_known/token=$TOKEN
         rm BOINC_Proc_File.txt
         printf "\n"        
         ;;

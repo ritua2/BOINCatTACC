@@ -28,6 +28,7 @@ pip3 install redis Flask Werkzeug docker
 # Moves all the APIs and email commands
 # Requires to be cloned inside project
 mv /root/project/boinc-updates/api /root/project
+mv /root/project/boinc-updates/adtd-protocol /root/project
 mv /root/project/boinc-updates/email_assimilator.py /root/project
 mv /root/project/boinc-updates/user-interface/* /root/project/html/user
 mv /root/project/boinc-updates/API_Daemon.sh  /root/project
@@ -35,6 +36,8 @@ mv /root/project/boinc-updates/bproc.sh  /root/project
 mv /root/project/boinc-updates/password_credentials.sh /root/project
 mv /root/project/boinc-updates/dockerhub_credentials.sh /root/project
 mv /root/project/boinc-updates/idir.py /root/project
+mkdir /root/project/adtd-protocol/process_files
+mkdir /root/project/adtd-protocol/tasks
 
 chmod +x /root/project/email_assimilator.py
 chmod +x /root/project/api/server_checks.py
@@ -50,6 +53,7 @@ chmod +x /root/project/api/harbour.py
 chmod +x /root/project/api/allocation.py
 chmod +x /root/project/idir.py
 chmod +x /root/project/api/personal_area.py
+chmod +x /root/project/adtd-protocol/redfile2.py
 
 /root/project/API_Daemon.sh -up
 nohup /root/project/bproc.sh &

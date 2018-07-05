@@ -273,7 +273,7 @@ case "$user_option" in
             fi
 
 
-            curl -F file=@$completed_midas  http://$SERVER_IP:5085/boincserver/v2/midas/token=$TOKEN
+            curl -F file=@$completed_midas -F app=$boapp  http://$SERVER_IP:5085/boincserver/v2/midas/token=$TOKEN
             printf "\n"
             exit 0
         fi
@@ -565,6 +565,7 @@ case "$user_option" in
         cd Temp-BOINC/
         Tnam="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1).tar.gz"
         tar -czf "$Tnam" .
+
 
         curl -F file=@$Tnam -F app=$boapp http://$SERVER_IP:5085/boincserver/v2/midas/token=$TOKEN
         printf "\n"

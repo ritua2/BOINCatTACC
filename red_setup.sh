@@ -37,6 +37,7 @@ mv /root/project/boinc-updates/password_credentials.sh /root/project
 mv /root/project/boinc-updates/dockerhub_credentials.sh /root/project
 mv /root/project/boinc-updates/idir.py /root/project
 mkdir /root/project/adtd-protocol/process_files
+mkdir /root/project/adtd-protocol/tasks
 
 
 chmod +x /root/project/email_assimilator.py
@@ -54,6 +55,8 @@ chmod +x /root/project/api/allocation.py
 chmod +x /root/project/idir.py
 chmod +x /root/project/api/personal_area.py
 chmod +x /root/project/adtd-protocol/redfile2.py
+chmod +x /root/project/adtd-protocol/red_runner2.py
+chmod +x /root/project/api/adtdp_common.py
 
 /root/project/API_Daemon.sh -up
 nohup /root/project/bproc.sh &

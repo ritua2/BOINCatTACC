@@ -43,7 +43,17 @@ for qq in range(0, r.llen('Token')):
       data = {"Image":acim, "Command":accom, "Results":"/root/shared/results", "ID":identity, "Error":"Not Run", 
               "Processed":prestime}
 
+      # Checks if the image is on the server, if not, it downloads it from dockerhub
+      all_images = [y.tags[0] for y in image.list()]
+      if acim not in all_images:
+        try:
+            image.pull(acim)
+        except:
+            r.lset('Date (Run)', qq, 'Image does not exist')
+            continue
+
       # Saves the image into a tar file and tars the data with it
+      r.lset('Date (Run)', qq, 'ADTD (Ready)')
       img = image.get(acim)
       resp = img.save()
       os.mkdir(TASKS_FOLDER+identity)
@@ -59,6 +69,5 @@ for qq in range(0, r.llen('Token')):
           tar.add("image.tar.gz")
           tar.add("adtdp.json")
 
-      r.lset('Date (Run)', qq, 'ADTD (Ready)')
       r_adtd.hmset(identity, data)
       r.lset('Error', qq, identity)

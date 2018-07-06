@@ -18,6 +18,13 @@ import preprocessing as pp
 r = redis.Redis(host = '0.0.0.0', port = 6389, db = 14)
 app = Flask(__name__)
 
+
+# Ensures that the server is ADTDP available
+@app.route("/boincserver/v2/api/adtdp_server")
+def adtdp_server():
+    return "Server is ADTDP able"
+
+
 # Returns if there are available jobs
 @app.route("/boincserver/v2/api/available_adtdp")
 def available_adtdp():
@@ -53,8 +60,7 @@ def request_work():
     if work_ID not in ava_jobs:
         return "INVALID, job ID is not available"
 
-    #r.hset(work_ID, "Error", "Running")
-
+    r.hset(work_ID, "Error", "Running")
     return send_file("/root/project/adtd-protocol/tasks/"+work_ID+"/tbp.tar.gz")
 
 

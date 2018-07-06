@@ -38,6 +38,7 @@ mv /root/project/boinc-updates/dockerhub_credentials.sh /root/project
 mv /root/project/boinc-updates/idir.py /root/project
 mkdir /root/project/adtd-protocol/process_files
 mkdir /root/project/adtd-protocol/tasks
+mkdir /results/adtdp
 
 
 chmod +x /root/project/email_assimilator.py

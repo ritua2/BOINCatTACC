@@ -1,6 +1,7 @@
 #!/bin/bash
 
-#Starts both BOINC APIs as background jobs that stay connected after ssh signal is over
+
+# Starts both BOINC APIs as background jobs that stay connected after ssh signal is over
 
 
 # Both starts and finishes the jobs depending on the command

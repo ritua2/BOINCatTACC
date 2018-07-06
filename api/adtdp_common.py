@@ -10,12 +10,16 @@ sends tar archives with instructions and receives the results
 import redis
 import random
 import json
+import datetime
 import os, shutil
 from flask import Flask, request, send_file
+from werkzeug.utils import secure_filename
 import preprocessing as pp
 
 
 r = redis.Redis(host = '0.0.0.0', port = 6389, db = 14)
+r_run = redis.Redis(host = '0.0.0.0', port = 6389, db =0)
+UPLOAD_FOLDER = "/results/adtdp/"
 app = Flask(__name__)
 
 
@@ -64,6 +68,80 @@ def request_work():
     return send_file("/root/project/adtd-protocol/tasks/"+work_ID+"/tbp.tar.gz")
 
 
+# Erases a job when it returns an error
+@app.route("/boincserver/v2/api/adtdp/failed_job", methods = ["GET", "POST"])
+def failed_job():
+
+    if request.method != "POST":
+        return "INVALID, no data provided"
+
+    try:
+        work_ID = request.form["work_ID"]
+    except:
+        return "INVALID, no data provided"
+
+    if work_ID == '':
+        return "INVALID, no data provided"
+
+    all_jobs = [x.decode('UTF-8') for x in r.keys()]
+    ava_jobs = [z for z in all_jobs if r.hget(z, "Error").decode("UTF-8") == "Running"]
+
+    if work_ID not in ava_jobs:
+        return "INVALID, job ID is not available"
+
+    # Changes the status
+    r.hset(work_ID, "Error", "Failed")
+    r.delete(work_ID)
+    # Updates the main database
+    for nvnv in range(0, r_run.llen('Token')):
+
+        if r_run.lindex(hh, "Error").decode("UTF-8") == work_ID:
+            r_run.lset("Date (Run)", nvnv, datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+            r_run.lset("Error", nvnv, work_ID+"| Failed")
+            break
+
+    return "Succesfully updated failed job DB"
+
+
+# Updates the database for succesful jobs
+@app.route("/boincserver/v2/api/adtdp/succesful_job", methods=["GET", "POST"])
+def succesful_job():
+
+    if request.method != "POST":
+        return "INVALID, no data provided"
+
+    try:
+        work_ID = request.form["work_ID"]
+    except:
+        return "INVALID, no data provided"
+
+    if work_ID == '':
+        return "INVALID, no data provided"
+
+    try:
+        file = request.files["resfil"]
+    except:
+        return "INVALID, file not provided"
+
+    all_jobs = [x.decode('UTF-8') for x in r.keys()]
+    ava_jobs = [z for z in all_jobs if r.hget(z, "Error").decode("UTF-8") == "Running"]
+
+    if work_ID not in ava_jobs:
+        return "INVALID, job ID is not available"
+
+    for nvnv in range(0, r_run.llen('Token')):
+
+        if r_run.lindex(hh, "Error").decode("UTF-8") == work_ID:
+            prestime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            r_run.lset("Date (Run)", nvnv, prestime)
+            r_run.lset("Error", nvnv, work_ID+" | Success")
+            break
+
+    # Moves the file
+    new_name = secure_filename(file.filename)
+    file.save(os.path.join(UPLOAD_FOLDER+prestime(" ")[0], newname))
+    r.hset(work_ID, "Error", "Success")
+    return "Succesfully updated succesful job DB"
 
 
 if __name__ == '__main__':

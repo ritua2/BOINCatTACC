@@ -20,6 +20,7 @@ import preprocessing as pp
 r = redis.Redis(host = '0.0.0.0', port = 6389, db = 14)
 r_run = redis.Redis(host = '0.0.0.0', port = 6389, db =0)
 UPLOAD_FOLDER = "/results/adtdp/"
+TASKS_FOLDER = "/root/project/adtd-protocol/tasks/"
 app = Flask(__name__)
 
 
@@ -95,7 +96,7 @@ def failed_job():
     # Updates the main database
     for nvnv in range(0, r_run.llen('Token')):
 
-        if r_run.lindex(hh, "Error").decode("UTF-8") == work_ID:
+        if work_ID in r_run.lindex("Error", nvnv).decode("UTF-8"):
             r_run.lset("Date (Run)", nvnv, datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
             r_run.lset("Error", nvnv, work_ID+"| Failed")
             break
@@ -112,6 +113,8 @@ def succesful_job():
 
     try:
         work_ID = request.form["work_ID"]
+        good_results = request.form["gr"]
+        bad_results = request.form["br"]
     except:
         return "INVALID, no data provided"
 
@@ -131,15 +134,25 @@ def succesful_job():
 
     for nvnv in range(0, r_run.llen('Token')):
 
-        if r_run.lindex(hh, "Error").decode("UTF-8") == work_ID:
+        if work_ID == r_run.lindex("Error", nvnv).decode("UTF-8"):
             prestime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             r_run.lset("Date (Run)", nvnv, prestime)
-            r_run.lset("Error", nvnv, work_ID+" | Success")
+            r_run.lset("Error", nvnv, work_ID+" | Success | "+good_results+","+bad_results)
             break
 
     # Moves the file
     new_name = secure_filename(file.filename)
-    file.save(os.path.join(UPLOAD_FOLDER+prestime(" ")[0], newname))
+    # Creates a new directory if it does not exist
+    short_date = prestime.split(" ")[0]
+    if short_date not in os.listdir(UPLOAD_FOLDER):
+        os.mkdir(UPLOAD_FOLDER+short_date)
+
+    file.save(os.path.join(UPLOAD_FOLDER+short_date, new_name))
+    # Changes the name
+    shutil.move(UPLOAD_FOLDER+short_date+"/"+new_name, UPLOAD_FOLDER+short_date+"/"+work_ID+".tar.gz")
+    # Deletes the information file
+    os.remove(TASKS_FOLDER+work_ID+"/tbp.tar.gz")
+
     r.hset(work_ID, "Error", "Success")
     return "Succesfully updated succesful job DB"
 

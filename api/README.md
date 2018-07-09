@@ -6,6 +6,8 @@
 * Server will not notify if the tasks have failed immediately
 * For a job file submission, use the following curl method:  
 	*curl -F app=boinc2docker -F file=@Example_multi_submit.txt http://SERVER_IP:5075/boincserver/v2/submit_known/token=TOKEN*   
+* For an individual summary of jobs run, do:
+	*curl http://SERVER_IP:5075/boincserver/v2/api/user_data/personal/TOKEN*
 There are 2 apps available: boinc2docker (classic BOINC) and adtdp (see README).  
 
 ----
@@ -39,6 +41,7 @@ Using Reef, it is now possible to:
 	- Download files using curl or wget  
 	- Check used disk space allocation, as of now, all user's are assigned 2 GB of space  
 	- Download the results files  
+	- Get a summary of jobs submitted
 
 ----
 

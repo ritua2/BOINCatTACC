@@ -27,4 +27,8 @@ with open(PATH+"README.txt", "r") as README:
 
 # Actually moves the files
 for afil in mov_files:
-	shutil.move(afil, "/root/shared/results/"+afil) 
+	try:
+		shutil.move(afil, "/root/shared/results/"+afil) 
+	except:
+		pass
+		

@@ -134,7 +134,7 @@ def succesful_job():
 
     for nvnv in range(0, r_run.llen('Token')):
 
-        if work_ID == r_run.lindex("Error", nvnv).decode("UTF-8"):
+        if work_ID in r_run.lindex("Error", nvnv).decode("UTF-8"):
             prestime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             r_run.lset("Date (Run)", nvnv, prestime)
             r_run.lset("Error", nvnv, work_ID+" | Success | "+good_results+","+bad_results)
@@ -151,7 +151,7 @@ def succesful_job():
     # Changes the name
     shutil.move(UPLOAD_FOLDER+short_date+"/"+new_name, UPLOAD_FOLDER+short_date+"/"+work_ID+".tar.gz")
     # Deletes the information file
-    os.remove(TASKS_FOLDER+work_ID+"/tbp.tar.gz")
+    shutil.rmtree(TASKS_FOLDER+work_ID)
 
     r.hset(work_ID, "Error", "Success")
     return "Succesfully updated succesful job DB"

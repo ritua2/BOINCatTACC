@@ -8,6 +8,7 @@
 	*curl -F app=boinc2docker -F file=@Example_multi_submit.txt http://SERVER_IP:5075/boincserver/v2/submit_known/token=TOKEN*   
 * For an individual summary of jobs run, do:  
 	*curl http://SERVER_IP:5075/boincserver/v2/api/user_data/personal/TOKEN*
+
 There are 2 apps available: boinc2docker (classic BOINC) and adtdp (see README).  
 
 ----

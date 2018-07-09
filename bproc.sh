@@ -15,6 +15,7 @@ crontab -l | { cat; echo "BOINC_EMAIL_PASSWORD=$BOINC_EMAIL_PASSWORD"; } | cront
 
 # Initiates the cron job for emails
 crontab -l | { cat; echo "0,30 * * * * /root/project/email_assimilator.py"; } | crontab -
+crontab -l | { cat; echo "0,30 * * * * /root/project/email2.py"; } | crontab -
 # Deletes unnecessary images and containers every hour
 crontab -l | { cat; echo "0 * * * * /root/project/idir.py"; } | crontab -
 # Automatic dockerfile creation

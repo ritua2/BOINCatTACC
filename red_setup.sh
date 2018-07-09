@@ -30,6 +30,7 @@ pip3 install redis Flask Werkzeug docker
 mv /root/project/boinc-updates/api /root/project
 mv /root/project/boinc-updates/adtd-protocol /root/project
 mv /root/project/boinc-updates/email_assimilator.py /root/project
+mv /root/project/boinc-updates/email2.py /root/project
 mv /root/project/boinc-updates/user-interface/* /root/project/html/user
 mv /root/project/boinc-updates/API_Daemon.sh  /root/project
 mv /root/project/boinc-updates/bproc.sh  /root/project
@@ -58,6 +59,7 @@ chmod +x /root/project/api/personal_area.py
 chmod +x /root/project/adtd-protocol/redfile2.py
 chmod +x /root/project/adtd-protocol/red_runner2.py
 chmod +x /root/project/api/adtdp_common.py
+chmod +x /root/project/email2.py
 
 /root/project/API_Daemon.sh -up
 nohup /root/project/bproc.sh &

@@ -8,7 +8,7 @@
 printf "Welcome to Boinc job submission\n\n"
 printf "NOTE: NO MPI jobs distributed accross more than one volunteer, No jobs with external downloads while the job is running (no curl, wget, rsync, ..).\n"
 # Server IP or domain must be declared before
-SERVER_IP= # Declare it the first time this program is run
+SERVER_IP=149.165.169.133 # Declare it the first time this program is run
 
 # Colors, helpful for printing
 REDRED='\033[0;31m'

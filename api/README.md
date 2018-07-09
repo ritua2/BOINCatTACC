@@ -6,7 +6,7 @@
 * Server will not notify if the tasks have failed immediately
 * For a job file submission, use the following curl method:  
 	*curl -F app=boinc2docker -F file=@Example_multi_submit.txt http://SERVER_IP:5075/boincserver/v2/submit_known/token=TOKEN*   
-* For an individual summary of jobs run, do:
+* For an individual summary of jobs run, do:  
 	*curl http://SERVER_IP:5075/boincserver/v2/api/user_data/personal/TOKEN*
 There are 2 apps available: boinc2docker (classic BOINC) and adtdp (see README).  
 
@@ -24,11 +24,11 @@ There are 2 apps available: boinc2docker (classic BOINC) and adtdp (see README).
 	*curl http://SERVER_IP:5060/boincserver/v2/all_files/token=TOKEN*
 * Upload a file using the syntax:  
 	*curl -F file=@FILE.txt http://SERVER_IP:5060/boincserver/v2/upload_reef/token=TOKEN*
-* Delete a file using the syntax:
+* Delete a file using the syntax:  
 	*curl -d del=FILE_NAME  http://SERVER_IP:5060/boincserver/v2/delete_file/token=TOKEN*
-* Download a file using curl/wget with the syntax:  
+* Download a file using curl/wget with the syntax:   
 	*curl http://SERVER_IP:5060/boincserver/v2/reef/TOKEN/FILE_NAME*
-* Get user allocation and space used with:
+* Get user allocation and space used with:  
 	*curl http://SERVER_IP:5060/boincserver/v2/reef_allocation_status/token=TOKEN*
 
 

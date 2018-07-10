@@ -255,6 +255,45 @@ case $server in
         printf "Enter the list of input files (space-separated):\n"
         read -a user_ff
         
+		        # Asks the user for directories
+        printf "Enter list of local directories used (each in a new line, leave empty to exit):\n"
+        printf "WARNING Local directories will maintain local structure in BOINC, user must take files out in a command if needed\n"
+        UDIR=()
+        while true
+        do
+
+            not_originally_here="False"
+            read new_udir
+
+            if [ -z "$new_udir" ]; then
+                printf "No more directories have been added\n"
+                break
+            fi
+
+            if [ ! -d "$new_udir" ]; then
+                printf "${REDRED}$new_udir does not exist${NCNC}\nProgram exited\n"
+                exit 0
+            fi
+
+            # If the directory is in a different location, it moves it to the present location and tars it
+            if [ ! $(ls -d */ | grep "$new_udir") ]; then
+                not_originally_here="True"
+                cp -r "$new_udir" .
+            fi
+
+            # Changes the value of the file to delete the path in the name
+            IFS='/' read -ra new_udir <<< "$new_udir"
+            new_dir="${new_udir[-1]}"
+            UDIR+=("$new_udir")
+
+            tar -czf "$new_udir".tar.gz "$new_udir"
+
+            # Removes local version of the repository, if it was not originally here
+            if [ "$not_originally_here" = "True" ]; then
+                rm -rf "$new_udir"
+            fi
+
+        done
 
         # Checks the file and uploads it ito Reef (after checking that all the files exist)
         for ff in "${user_ff[@]}"
@@ -279,6 +318,24 @@ case $server in
             user_command="$user_command GET_FILE http://$SERVER_IP:5060/boincserver/v2/reef/$TOKEN/$ff;"
 
         done
+		
+		# Uploads the directories to Reef in their tar form
+        for dirdir in "${UDIR[@]}"
+        do
+            Tarred_File="$dirdir".tar.gz
+            AA=$(curl -s -F file=@$Tarred_File http://$SERVER_IP:5060/boincserver/v2/upload_reef/token=$TOKEN)
+
+            if [[ $AA = *"INVALID"* ]]; then
+                printf "${REDRED}$AA\n${NCNC}Program exited\n"
+                exit 0
+            fi
+
+            # Adds directions to get the file and untar it
+            user_command="$user_command GET_FILE http://$SERVER_IP:5060/boincserver/v2/reef/$TOKEN/$Tarred_File;"
+            user_command="$user_command tar -xzf $Tarred_File;"
+
+        done
+
 
         # Replaces them by curl or wget, depending on the image
         user_command=${user_command//GET_FILE/${curl_or_wget[$option2]}}
@@ -301,6 +358,10 @@ case $server in
 
 
         user_command="$user_command python /Mov_Res.py\""
+		
+        # Adds the commands to a text file to be submitted
+        printf "$user_command" > BOINC_Proc_File.txt
+
 
         curl -F file=@BOINC_Proc_File.txt -F app=$boapp http://$SERVER_IP:5075/boincserver/v2/submit_known/token=$TOKEN
         rm BOINC_Proc_File.txt

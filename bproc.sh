@@ -29,6 +29,8 @@ do
 
    python3 /root/project/html/user/token_data/redfile.py
    python3 /root/project/html/user/token_data/red_runner.py
+   python3 /root/project/adtd-protocol/redfile2.py
+   python3 /root/project/adtd-protocol/red_runner2.py
    sleep 15
 
 done

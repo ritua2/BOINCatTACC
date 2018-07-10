@@ -14,7 +14,7 @@ servers that will execute the results must obtain the client code.
 * Nvidia-Docker (for CUDA jobs)  
 * Python3 and Pip3  
 
-**Instructions** 
+**Installation** 
 1. Install [docker](https://docs.docker.com/install/linux/docker-ce/ubuntu/) and [nvidia-docker](https://github.com/NVIDIA/nvidia-docker)
 if not already installed, nvidia-docker is only useful for GPU jobs
 2. Install this github repository

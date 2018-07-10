@@ -140,9 +140,6 @@ prestime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 # [ Result name, Outcome, Token, Time Received results ]
 to_be_notified = [[], [], [], []]
 
-# User tokens
-all_toks = []
-
 # Finds which ones have already been finished
 # Also updates the database to mark them as run
 for idid in range(0, allrun):

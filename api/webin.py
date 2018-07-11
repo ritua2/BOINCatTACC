@@ -80,16 +80,16 @@ def process_web_jobs():
 
 
     with open(UPLOAD_FOLDER+new_filename, "w") as comfil:
-        comfil.write(Image + "/bin/bash -c ")
+        comfil.write(Image + " /bin/bash -c ")
         Invalid_Custom = False
 
         # Custom images require more work because we must ensure the results will be back
         if Custom == "Yes":
-            comfil.write("\""+Command+"; mkdir -p /root/shared/results/; mv ./* /root/shared/results\"")
+            comfil.write("\""+Command+" mkdir -p /root/shared/results/; mv ./* /root/shared/results\"")
             comfil.write("\n"+str(TOK))
 
         elif Custom == "No":
-            comfil.write("\"cd /data; "+Command+"; python /Mov_Res.py\"")
+            comfil.write("\"cd /data; "+Command+" python /Mov_Res.py\"")
             comfil.write("\n"+str(TOK))
 
         else:

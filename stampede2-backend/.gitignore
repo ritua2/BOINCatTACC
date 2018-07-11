@@ -24,7 +24,7 @@ Temp-BOINC/*
 *.f90
 *.c
 *.cpp
-setter2.sh
+set*
 complex_setup.sh
 Org_Key1.txt
 *.f90

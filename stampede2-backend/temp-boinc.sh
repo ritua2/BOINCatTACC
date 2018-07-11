@@ -373,6 +373,7 @@ case "$user_option" in
             printf "[LANGUAGE] $LLL\n" >> README.txt
         done
 
+
         # Language libraries, taking into account that the language accepts them
         printf "\n${PURPLEPURPLE}Libraries${NCNC}\n"
         printf "As of now, only the following languages accept libraries:\n python(3)   c++ (using cget)\n"
@@ -417,7 +418,41 @@ case "$user_option" in
         mkdir Temp-BOINC
 
 
+        # Asks for user directories to be added to MIDAS
+        # Asks the user for directories
+        printf "\n\n\nEnter list of ${PURPLEPURPLE}local directories${NCNC} used (each in a new line, leave empty to exit):\n"
+        printf "WARNING Local directories will maintain local structure in BOINC, MIDAs will automatically untar them\n"
+        UDIR=()
+        while true
+        do
+
+            read new_udir
+
+            if [ -z "$new_udir" ]; then
+                printf "No more directories have been added\n"
+                break
+            fi
+
+            if [ ! -d "$new_udir" ]; then
+                printf "${REDRED}$new_udir does not exist${NCNC}\nProgram exited\n"
+                exit 0
+            fi
+
+            UDIR+=("$new_udir")
+
+        done
+
+
+        # Copies the directories to the inside of the MIDAS directory to be tarred
+        # Adds a setup file to untar the directory
+        for dirdir in "${UDIR[@]}"
+        do
+            cp -r "$dirdir" Temp-BOINC/
+        done
+
+
         setfiles=()
+
         printf "\nEnter the ${PURPLEPURPLE}setup files${NCNC} (one per line), leave empty to exit:\n"
         while true
         do
@@ -626,7 +661,6 @@ case "$user_option" in
         cd Temp-BOINC/
         Tnam="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1).tar.gz"
         tar -czf "$Tnam" .
-
 
         curl -F file=@$Tnam -F app=$boapp http://$SERVER_IP:5085/boincserver/v2/midas/token=$TOKEN
         printf "\n"

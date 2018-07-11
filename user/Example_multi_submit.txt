@@ -1,0 +1,3 @@
+python:alpine python -c "open('/root/shared/results/hello.txt','w').write('Hello BOINC')"
+carlosred/autodock-vina:latest /bin/bash -c "touch /practice.pdbqt; printf 'somestuff' >> /practice.pdbqt; python /Mov_Res.py"
+carlosred/opensees:latest /bin/bash -c "touch /example.out; printf 'functional\n' >> /example.out; python /Mov_Res.py"

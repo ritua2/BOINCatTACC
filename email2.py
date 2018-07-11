@@ -154,7 +154,7 @@ for idid in range(0, allrun):
     this_nam = all_names[idid]
 
     # Filters those not processed by adtdp
-    if '|' not in this_nam:
+    if ('|' not in this_nam):
         continue
 
     # Parses through all the rest

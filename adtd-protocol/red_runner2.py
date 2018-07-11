@@ -49,7 +49,8 @@ for qq in range(0, r.llen('Token')):
         try:
             image.pull(acim)
         except:
-            r.lset('Date (Run)', qq, 'Image does not exist')
+            r.lset('Error', qq, identity+' | ERROR, Image does not exist')
+            r.lset('Date (Run)', qq, ' | ERROR, Image does not exist')
             continue
 
       # Saves the image into a tar file and tars the data with it

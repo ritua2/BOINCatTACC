@@ -1,0 +1,5 @@
+{
+	"Image":"carlosred/opensees:latest",
+	"Custom":"No",
+	"Command":"wget http://opensees.berkeley.edu/wiki/images/3/3d/MomentCurvature.tcl; OpenSees < MomentCurvature.tcl;"
+}

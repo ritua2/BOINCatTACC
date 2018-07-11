@@ -47,6 +47,7 @@ chmod +x /root/project/api/server_checks.py
 chmod +x /root/project/api/submit_known.py
 chmod +x /root/project/api/reef_storage.py
 chmod +x /root/project/api/MIDAS.py
+chmod +x /root/project/api/webin.py
 chmod +x /root/project/API_Daemon.sh
 chmod +x /root/project/bproc.sh
 chmod +x /root/project/html/user/token_data/create_organization.py

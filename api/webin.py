@@ -12,7 +12,7 @@ from flask import Flask, request, jsonify, send_file
 import preprocessing as pp
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import ImmutableMultiDict
-import redis
+
 
 
 
@@ -62,9 +62,8 @@ def process_web_jobs():
 
 
     try:
-        ff = open(UPLOAD_FOLDER+new_filename)
-        command_data = json.load(ff.read())
-        ff.close()
+        with open(UPLOAD_FOLDER+new_filename, 'r') as ff:
+            command_data = json.load(ff)
     except:
         os.remove(UPLOAD_FOLDER+new_filename)
         return "INVALID, json could not be parsed"

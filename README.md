@@ -1,7 +1,13 @@
 ### TACC-2-BOINC project ###
 
-This project provides a conduit for routing High-Throughput Computing (HTC) jobs from TACC rsources to BOINC clients (which run on volunteered hardware resources).
+This project provides a conduit for routing High-Throughput Computing (HTC) jobs from TACC rsources to BOINC clients (which run on volunteered hardware resources). The code in this repository can be customized for supporting similar projects at other institutions as well.
 
+This repository includes the following:
+
+1) Front-end code for the TACC-2-BOINC website.
+2) Scripts and API that run on the BOINC server for pulling job requests from TACC resources and pushing the requests to BOINC clients.
+3) A back-end script that can be run on TACC resources for determining if a job can be run on BOINC clients, or whether it should be run on TACC resources only.
+4) A system for generating docker images from source code.
 
 
 ## Updates to the BOINC-Docker system created by [Marius Millea][1]

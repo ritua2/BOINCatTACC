@@ -1,15 +1,28 @@
-## Updates to the BOINC-Docker system created by [Marius Millea][1]
+### TACC-2-BOINC project ###
+
+This project provides a conduit for routing High-Throughput Computing (HTC) jobs from TACC rsources to a BOINC server, and from there, to the BOINC clients (which run on volunteered hardware resources). The project is funded through NSF Award #1664022.
+
+This repository includes the following:
+
+1) Front-end code for the TACC-2-BOINC website.
+2) Scripts and API that run on the BOINC server for pulling job requests from TACC resources and pushing the requests to the BOINC clients.
+3) A back-end script that can be run on TACC resources for determining if a job can be run on BOINC clients, or whether it should be run on TACC resources only.
+4) A system for generating docker images from source code.
+5) A mechanism for running BOINC jobs directly inside a Docker container instead of running them in VirtualBox. This is useful for institutional donors who may have volunteered VMs in the cloud.
 
 
+## The project leverages the BOINC-Docker software developed by [Marius Millea][1]
 
-* user-interface: Creates a web interface to allow users to submit jobs more easily. Designed for slow, _personal_ interactions, not for APIs.
-* api: Designed for large job batches.
-* applications: Dockerized applications for BOINC usage, do not run in the server.
-* stampede2-backend: Stampede2 connection, allows to establish a client for ieasier interaction with the server
+* user-interface: Creates a web interface to allow researchers to submit and track jobs. 
+* API (api): Designed for large job batches.
+* applications: Dockerized applications for running on BOINC clients.
+* stampede2-backend: A command-line interface for submitting BOINC jobs from the Stampede2 superocmputer at TACC. This script can be run on any Linux system that has the SLURM scheduler available. 
 
-To execute the jobs submitted through this server, download [BOINC][2] and Virtualbox if not installed already. Then, add the project using:  
+To execute the jobs submitted through the BOINC server, that is, to become a BOINC client, download [BOINC][2] and Virtualbox if not installed already. Then, add the project using:  
+
 *http://SERVER_IP/boincserver*  
-The server will automatically recognize your system as a volunteer and submit tasks when they are available.  
+
+The BOINC server will automatically recognize your system as a volunteer and will submit jobs to it when they are available.  
 
 -------
 
@@ -35,22 +48,22 @@ The server will automatically recognize your system as a volunteer and submit ta
 3. **Set-up basic administrative credentials**  
 	* Execute *docker ps* do obtain all the data about the BOINC containers. If the setup is done correctly, there is an apache container.
 	* Log into the apache container by using *docker exec -it {apache container ID} bash*
-	* Follow to the guide in [BOINC HTMLOps][5] to set -up an administrative account with .htpasswd
+	* Follow  the guide in [BOINC HTMLOps][5] to set -up an administrative account with .htpasswd
 		* .htpasswd is located in */root/project/html/ops*
 	* Login into the administrative BOINC page at *SERVER_IP/boincserver_ops* with the username and password provided above
 
 4. **Clone this repository**
 	* If git is not installed, do it by executing: *apt-get update && apt-get install git-core -y*
 	* If not already there, *cd /root/project*
-	* Clone via: *git clone https://github.com/noderod/boinc-updates*
-	* *cd boinc-updates*
+	* Clone via: *git clone https://github.com/ritua2/BOINC*
+	* *cd BOINC*
 
 5. **Establish user email credentials**
 	* Run the appropriate bash script to set up the email and password
 	* The basic set-up only allows for gmail, for all others, modify both *./api/preprocessing.py* and *./email_assimilator.py*
 	* Be sure to have input the correct name and password, to change them again, change */root/.bashrc*
-	* The same applies to the Docker, MIDAS credentials
-	* Log out of the container and in again so the changes take effect
+	* The same applies to the Docker, MIDAS credentials - MIDAS is a software component for creating docker images from source-code
+	* Log out of the container and then log back in again so the changes will take effect
 	Do:
 ```bash
 	 bash password_credentials.sh
@@ -68,7 +81,7 @@ The server will automatically recognize your system as a volunteer and submit ta
 ```
 
 
-7. **Create organization acounts**  
+7. **Create organization acounts (This feature will NOT be used in future)**  
 	* 
 	* A new token must be assigned to each new user (researcher who wants to submit BOINC jobs)
 	* There are 2 options on assigning tokens:

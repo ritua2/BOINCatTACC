@@ -11,13 +11,18 @@ printf "Leave empty for empty variable\n"
 
 printf "Enter server IP (without http or port): "
 read SERVER_IP
+printf "Enter MySQL password credentials (empty for no password): "
+read MYSQL_UPASS
+
 printf "\nEnter email address: "
 read BOINC_EMAIL
 printf "\nEnter email password: "
 read BOINC_EMAIL_PASSWORD
 
 printf "\nexport SERVER_IP=$SERVER_IP\nexport BOINC_EMAIL=$BOINC_EMAIL\nexport BOINC_EMAIL_PASSWORD=$BOINC_EMAIL_PASSWORD\n" >> /root/.bashrc
+printf "\nexport MYSQL_UPASS=$MYSQL_UPASS\n"
 export SERVER_IP=$SERVER_IP
+export MYSQL_UPASS="$MYSQL_UPASS"
 export BOINC_EMAIL=$BOINC_EMAIL
 export BOINC_EMAIL_PASSWORD=$BOINC_EMAIL_PASSWORD
 printf "Your variables have now been set and are accessible from command line\n"

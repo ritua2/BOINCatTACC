@@ -8,6 +8,7 @@ This repository includes the following:
 2) Scripts and API that run on the BOINC server for pulling job requests from TACC resources and pushing the requests to BOINC clients.
 3) A back-end script that can be run on TACC resources for determining if a job can be run on BOINC clients, or whether it should be run on TACC resources only.
 4) A system for generating docker images from source code.
+5) A mechanism for running BOINC jobs directly inside a Docker container instead of running them in VirtualBox. This is useful for institutional donors who may have volunteered VMs in the cloud.
 
 
 ## Updates to the BOINC-Docker system created by [Marius Millea][1]

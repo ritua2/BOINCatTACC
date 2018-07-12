@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+input[type=text], select, textarea {
+	width: 100%;
+	padding: 12px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+	margin-top: 6px;
+	margin-bottom: 16px;
+	resize: vertical;
+}
+
+input[type=submit] {
+	background-color: #4CAF50;
+	color: white;
+	padding: 12px 20px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+input[type=submit]:hover {
+	background-color: #45a049;
+}
+
+input[type=File] {
+	background-color: #4CAF50;
+	color: white;
+	padding: 12px 20px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+input[type=File]:hover {
+	background-color: #45a049;
+}
+
+.container {
+	border-radius: 5px;
+	background-color: #f2f2f2;
+	padding: 20px;
+}
+
+div {
+	background-color: DodgerBlue;
+	padding: 25px;
+	margin: 25px;
+}
+/* Popup container - can be anything you want */
+.popup {
+	position: relative;
+	display: inline-block;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+/* The actual popup */
+.popup .popuptext {
+	visibility: hidden;
+	width: 200%;
+	background-color: #555;
+	color: #fff;
+	text-align: center;
+	border-radius: 6px;
+	padding: 8px 0;
+	position: absolute;
+	z-index: 1;
+	bottom: 125%;
+	left: 50%;
+	margin-left: -80px;
+}
+
+/* Popup arrow */
+.popup .popuptext::after {
+	content: "";
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	margin-left: -5px;
+	border-width: 5px;
+	border-style: solid;
+	border-color: #555 transparent transparent transparent;
+}
+
+/* Toggle this class - hide and show the popup */
+.popup .show {
+	visibility: visible;
+	-webkit-animation: fadeIn 1s;
+	animation: fadeIn 1s;
+}
+
+/* Add animation (fade in the popup) */
+@
+-webkit-keyframes fadeIn {
+	from {opacity: 0;
+}
+
+to {
+	opacity: 1;
+}
+
+}
+@
+keyframes fadeIn {
+	from {opacity: 0;
+}
+
+to {
+	opacity: 1;
+}
+}
+</style>
+<title>Multiple job submission</title>
+</head>
+
+<body>
+	<div class="container">
+		<div>
+			<h3>Interactive BOINC web interface for mutiple job submission</h3>
+		</div>
+		<div class="container">
+			<span class="popup" onclick="myFunction()"><font color=green>Help
+					for command structure!!</font><span class="popuptext" id="myPopup">
+					<p>
+					</h4>Submit jobs via boinc2docker with a text file.
+					</h4>
+					</p>
+					<p>
+						Write the commands in the following form:<br /> {DOCKERHUB IMAGE}
+						{LIST OF COMMANDS}<br />i.e. :<br /> python:alpine python -c
+						"print('Hello BOINC')"<br />
+						<br /> Only ASCII characters allowed inside files, no images or
+						binaries
+					</p>
+			</span> <br>Example submission: <a href="./Example_multi_submit.txt"download>File</a> </span>
+			<form action="proc_multi.php" method="post"
+				enctype="multipart/form-data">
+				Token: <input type="text" name="TOK" id="TOK" value=""
+					onkeydown="if (event.keyCode==13) {alert('ENTER key use is not allowed'); return false;}" /><br>
+
+				Select file to upload: <input type="file" name="filfil" id="filfil" /><br />
+				<br /> Press button to submit: <input type="submit" value="Submit" />
+			</form>
+		</div></div>
+		<script>
+// When the user clicks on div, open the popup
+function myFunction() {
+    var popup = document.getElementById("myPopup");
+    popup.classList.toggle("show");
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,249 @@
+//Added by Joshua
+*{
+  margin:0;
+  padding:0;
+}
+
+.highlight {
+  text-decoration: underline;
+  color: black;
+}
+
+.highlight:hover{
+  color: #174b63;
+  text-decoration: underline;
+}
+
+.noMargin {
+  margin:0;
+  padding:0;
+  position: fixed;
+  left: 0;
+  right: 0;
+}
+
+.navbar{
+    background-image: none;
+}
+
+.marginAuto {
+  margin: auto;
+}
+
+.navbar-default {
+  background-color: #174b63;
+  border: none;
+  border-radius: 0px;
+  z-index: 5;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.navbar-default .navbar-brand {
+  color: #ecf0f1;
+}
+
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
+  color: #ffffff;
+}
+
+.navbar-default .navbar-text {
+  color: #ecf0f1;
+}
+
+.navbar-default .navbar-nav > li > a {
+  color: #ecf0f1;
+}
+
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+  color: #ffffff;
+}
+
+.navbar-default .navbar-nav > li > .dropdown-menu {
+  background-color: #174b63;
+}
+
+.navbar-default .navbar-nav > li > .dropdown-menu > li > a {
+  color: #ecf0f1;
+}
+
+.navbar-default .navbar-nav > li > .dropdown-menu > li > a:hover,
+.navbar-default .navbar-nav > li > .dropdown-menu > li > a:focus {
+  color: #174b63;
+}
+
+.navbar-default .navbar-nav > li > .dropdown-menu > li.divider {
+  background-color: #174b63;
+}
+
+.navbar-default .navbar-nav .open .dropdown-menu > .active > a,
+.navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,
+.navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
+  color: #ffffff;
+  background-color: #174b63;
+}
+
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+  color: #ffffff;
+  background-color: #174b63;
+}
+
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:hover,
+.navbar-default .navbar-nav > .open > a:focus {
+  color: #ffffff;
+  background-color: #174b63;
+}
+
+.navbar-default .navbar-toggle {
+  border-color: #174b63;
+}
+
+.navbar-default .navbar-toggle:hover,
+.navbar-default .navbar-toggle:focus {
+  background-color: #174b63;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+  background-color: #ecf0f1;
+}
+
+.navbar-default .navbar-collapse,
+.navbar-default .navbar-form {
+  border-color: #ecf0f1;
+}
+
+.navbar-default .navbar-link {
+  color: #ecf0f1;
+}
+
+.navbar-default .navbar-link:hover {
+  color: #ffffff;
+}
+
+@media (max-width: 767px) {
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a {
+    color: #ecf0f1;
+  }
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
+    color: #ffffff;
+  }
+  .navbar-default .navbar-nav .open .dropdown-menu > .active > a,
+  .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,
+  .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
+    color: #ffffff;
+    background-color: #174b63;
+  }
+}
+
+.boincWrapper{
+  width:13em;
+  float: left;
+}
+
+.taccWrapper {
+  float: left;
+  margin-top: .6em;
+  width:13em;
+}
+
+.topBackground {
+  background-color: white;
+}
+
+.welcomeTitle {
+  position: absolute;
+  z-index: 1;
+  top: 27%;
+  left: 12%;
+  right: 12%;
+  text-align: center;
+  font-weight:bold;
+  font-size: 5em;
+  color: white;
+}
+
+.researchers {
+  top: 35%;
+}
+
+.boincSumWrapper {
+  position: absolute;
+  z-index: 1;
+  top: 45%;
+  left: 12%;
+  right: 12%;
+  text-align: center;
+  font-weight:bold;
+  font-size: 1.2em;
+  background-color: white;
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+  padding: 1em;
+  border-radius: 25px;
+}
+
+.researchersSum {
+    top: 50%;
+}
+
+.nsfAcknowledgement {
+  padding: 1.2em;
+  color: white;
+  text-align: center;
+  background-color: #174b63;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.text {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.custom1 {
+  text-align: center;
+}
+
+.floatLeft {
+  float: left;
+}
+
+.nsfLogoWrapper {
+  margin-top: -.7em;
+  margin-left: .5em;
+}
+
+.nsfLogo {
+  width: 2em;
+  height: 2em;
+}
+
+.boincSummary{
+  color: black;
+  z-index: 2;
+}
+
+.border {
+  border: 1px solid red;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.bottomSection {
+  background-color: white;
+  background-size:cover;
+  background-position:center;
+  height:10vh;
+}
+
+//End of Joshua's Edit

@@ -1,0 +1,74 @@
+<?php
+
+/*
+Apply to be a Researcher webpage
+6/27/2018
+Thomas Hilton Johnson III
+BOINC Project
+Based off of create_account_form.php
+*/
+
+
+require_once('../inc/boinc_db.inc');
+require_once('../inc/util.inc');
+require_once('../inc/account.inc');
+require_once('../inc/countries.inc');
+require_once('../inc/translation.inc');
+require_once('../inc/recaptchalib.php');
+
+check_get_args(array("next_url", "teamid"));
+
+$next_url = sanitize_local_url(get_str('next_url', true));
+
+redirect_to_secure_url("apply_to_be_a_researcher_form.php?next_url=$next_url");
+
+$config = get_config();
+if (parse_bool($config, "disable_account_creation")) {
+    error_page("This project has disabled account creation");
+}
+
+if (parse_bool($config, "no_web_account_creation")) {
+    error_page("This project has disabled Web account creation");
+}
+
+page_head(
+    tra("Apply to be a Researcher"), null, null, null, boinc_recaptcha_get_head_extra()
+);
+
+if (!NO_COMPUTING) {
+    echo "<p class=\"lead\">"
+        .tra(
+            "If you already have an account and want to run %1 on this computer, %2 go here %3.",
+            PROJECT,
+            '<a href=join.php>',
+            '</a>'
+        )
+        ."</p>
+    ";
+}
+
+$teamid = get_int("teamid", true);
+if ($teamid) {
+    $team = BoincTeam::lookup_id($teamid);
+    $user = BoincUser::lookup_id($team->userid);
+    if (!$user) {
+        error_page("Team $team->name has no founder");
+        $teamid = 0;
+    } else {
+        echo "<b>".tra("This account will belong to the team %1 and will have the project preferences of its founder.", "<a href=\"team_display.php?teamid=$team->id\">$team->name</a>")."</b><p>";
+    }
+}
+
+form_start("create_account_action.php","post");
+create_account_form($teamid, $next_url);
+if ($recaptcha_public_key) {
+    form_general("", boinc_recaptcha_get_html($recaptcha_public_key));
+}
+form_submit(tra("Send Validation to Become a Researcher"));
+form_end();
+
+page_tail();
+
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
+?>
+

@@ -62,5 +62,22 @@ chmod +x /root/project/adtd-protocol/red_runner2.py
 chmod +x /root/project/api/adtdp_common.py
 chmod +x /root/project/email2.py
 
+
+# Changes the document root to the sites available
+# Uses @ because slashes are already present
+
+# Adds a DocumentRoot to the approproate configuration file
+sed -i "s@DocumentRoot.*@DocumentRoot /root/project/html/user/\n@"  /etc/apache2/sites-enabled/000-default.conf
+
+# Changes the master URL to just the root
+sed -i "s@<master_url>.*</master_url>@<master_url>$URL_BASE/</master_url>"*"@" /root/project/config.xml
+
+# Restarts apache
+service apache2 restart
+
+
 /root/project/API_Daemon.sh -up
 nohup /root/project/bproc.sh &
+
+
+

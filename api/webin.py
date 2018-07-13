@@ -23,6 +23,52 @@ UPLOAD_FOLDER = "/root/project/api/"
 SERVER_IP = os.environ['SERVER_IP']
 
 
+# List of TACC images and their download commands (curl/wget)
+TACCIM = {"carlosred/autodock-vina:latest":"curl -O ", "carlosred/bedtools:latest":"wget",
+            "carlosred/blast:latest":"curl -O ", "carlosred/bowtie:built":"curl -O ",
+            "carlosred/gromacs:latest":"curl -O ", "carlosred/htseq:latest":"curl -O ",
+            "carlosred/mpi-lammps:latest":"curl -O ", "carlosred/namd-cpu:latest":"curl -O ",
+            "carlosred/opensees:latest":"curl -O "
+ }
+
+
+# Returns a files download type
+# If custom, it uses curl -O
+# IMIM (str): Image name
+
+def howto_download(IMIM):
+
+    if IMIM not in TACCIM.keys():
+        # File is custom
+        return "curl -O "
+
+    return TACCIM[IMIM]
+
+
+
+# Gives precise instructions on how to download a file from Reef
+# If it is a compressed file, it also uncompresses it
+# TOK (str): Token, guaranteed to work, since checked before
+# filnam (str): File name
+
+def get_reef_file(IMIM, TOK, filnam):
+
+    # Calls the file from Reef
+    Com = howto_download(IMIM)+" http://"+os.environ["SERVER_IP"]+":5060/boincserver/v2/reef/"+TOK+"/"+filnam+";"
+
+    # If the file is zipped or tar, it must be uncompressed
+    if (filnam.split(".")[-1] == "tgz") or (".".join(filnam.split(".")[::-1][:2:][::-1]) == "tar.gz"):
+        Com += "tar -xzf "+filnam+";"
+    if (filnam.split(".")[-1] == "zip"):
+        Com += "unzip "+filnam+";"
+
+    return Com
+
+
+
+
+
+
 @app.route("/boincserver/v2/api/process_web_jobs", methods=['GET', 'POST'])
 def process_web_jobs():
 
@@ -71,25 +117,35 @@ def process_web_jobs():
     # All JSON files must have the following:
     # Image, Image is custom, Command
     try:
+        Reefil = command_data["Files"]
         Image = command_data["Image"]
         Custom = command_data["Custom"]
         Command = command_data["Command"]
     except:
         os.remove(UPLOAD_FOLDER+new_filename)
-        return "INVALID, json lacks at least one field (keys: Image, Custom, Command)"
+        return "INVALID, json lacks at least one field (keys: Files, Image, Custom, Command)"
 
 
     with open(UPLOAD_FOLDER+new_filename, "w") as comfil:
         comfil.write(Image + " /bin/bash -c ")
-        Invalid_Custom = False
 
-        # Custom images require more work because we must ensure the results will be back
+        # Custom images require more work because it must be ensured the results will be back
         if Custom == "Yes":
-            comfil.write("\""+Command+" mkdir -p /root/shared/results/; mv ./* /root/shared/results\"")
+            comfil.write("\"")
+            # Adds the files
+            for FF in Reefil:
+                comfil.write(get_reef_file(Image, TOK, FF)+" ")
+
+            comfil.write(Command+" mkdir -p /root/shared/results/; mv ./* /root/shared/results\"")
             comfil.write("\n"+str(TOK))
 
         elif Custom == "No":
-            comfil.write("\"cd /data; "+Command+" python /Mov_Res.py\"")
+            comfil.write("\"cd /data; ")
+            # Adds the files
+            for FF in Reefil:
+                comfil.write(get_reef_file(Image, TOK, FF)+" ")
+
+            comfil.write(Command+" python /Mov_Res.py\"")
             comfil.write("\n"+str(TOK))
 
         else:

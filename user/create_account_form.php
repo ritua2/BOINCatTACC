@@ -47,7 +47,12 @@ page_head(
 echo '<meta name = "viewport" content = "width=device-width, initial-scale=1.0">';
 
 //'<div style ="position:relative; left:36%;"> Original div used for spacing, caused issues as the div always retains the same amount of area in a webpage
-echo '<font size=+3 style ="position:relative; left:36%;">'.tra("Create a Volunteer Account").'</font>';//Repositions the `Create Account text on the webpage
+echo '<a data-toggle="tooltip" style="border-bottom: 1px dotted #000;text-decoration: none; position:relative; left:36%;"
+title="Those interested in supporting R&D activities of researchers
+and scholars using TACC resources are invited to join the
+TACC-2-BOINC project as volunteers and the job for volunteers are
+to donate their spare compute-cycles to the TACC-2-BOINC projects.">
+<font size=+3">'.tra("Create a Volunteer Account").'</font></a>';//Repositions the `Create Account text on the webpage
 
 echo '<br>';// Keeps the text from running into each other
 
@@ -78,12 +83,13 @@ if ($teamid) {
 echo '<br>';
 
 //Using the tool-tip script that Joshua utilized on index.php
-echo /*attribute href of html tag a was removed by Gerald Joshua*/'<a data-toggle="tooltip" style="border-bottom: 1px dotted #000;text-decoration: none; position:relative; left:36%;" 
-title="Those interested in supporting R&D activities of researchers 
-and scholars using TACC resources are invited to join the 
-TACC-2-BOINC project as volunteers and the job for volunteers are 
+/*echo /*attribute href of html tag a was removed by Gerald Joshua*//*'<a data-toggle="tooltip" style="border-bottom: 1px dotted #000;text-decoration: none; position:relative; left:36%;"
+title="Those interested in supporting R&D activities of researchers
+and scholars using TACC resources are invited to join the
+TACC-2-BOINC project as volunteers and the job for volunteers are
 to donate their spare compute-cycles to the TACC-2-BOINC projects.">
 <font size=+1>'.tra("Become a Volunteer:").'</font></a>';//Establishes the `Become a Volunteer` Tooltip with associated information, font size was manipulated as wel as position
+*/
 echo '<br>';
 
 form_start("create_account_action.php","post");//Starts the form for information input for the Volunteer
@@ -132,7 +138,7 @@ echo '<script>
   function activateButton(element) {
 
       if(element.checked) {
-      	
+
         document.getElementById("submit").disabled = false;
        }
        else  {
@@ -149,9 +155,10 @@ echo '<body onload="disableSubmit()">
 <br>
  <input type="checkbox" name="terms" id="terms" onchange="activateButton(this)" >I have read and agree to the Terms of Use of being a BOINC Volunteer.
 <br><form method="post" action="">
+<br>
   <input class="btn btn-success" type="submit" name="submit" id="submit" value="Create Volunteer Account"></form>
   </span>';//Places the Javascript button which had to have a different position measurement than the other elements of the webpage (The button is a checkbox, once clicked allows for the creation of a Volunteer Account), Joshua assisted with class which made the button matche the rest in style
-  
+echo "<br>";
 //--------=====---------========------------================--------------==========--------------=====-----------------====--
 form_end();
 
@@ -161,8 +168,8 @@ form_end();
 //Using the tool-tip script that Joshua utilized on index.php
 /*attribute href of html tag a was removed by Gerald Joshua*/
 /*
-echo '<font size=+1 style = "position:relative; left:36%;"><a data-toggle="tooltip" style="border-bottom: 1px dotted #000;text-decoration: none;" 
-//title="All active users of TACC resources are eligible to run jobs 
+echo '<font size=+1 style = "position:relative; left:36%;"><a data-toggle="tooltip" style="border-bottom: 1px dotted #000;text-decoration: none;"
+//title="All active users of TACC resources are eligible to run jobs
 //through the TACC-2-BOINC infrastructure and qualify as researchers.
 ">'.tra("Become a Researcher:").'</a></font>';//Establishes the Tooltip for `Become a Researcher`, has positioning and font size alterations
 echo '<br>';//Separation for aesthetic appeal
@@ -188,7 +195,7 @@ echo '<script>
   function activateButton(element) {
 
       if(element.checked) {
-      	
+
         document.getElementById("submit").disabled = false;
        }
        else  {

@@ -25,7 +25,7 @@ page_head(null, null, null, null, null, tra('About'));
 
 //Page Title
 //Thomas Johnson's edit to Gerald Joshua's edit: Rmoved the centering alignment tag
-echo '<h3>'.tra("Project Overview").'</h3><br />';
+echo '<h3>'.tra("Project Overview").'</h3><p></p>';
 
 //Project Overview
 //Thomas Johnson's edit to Gerald Joshua's edit: Removed style that set fixed size fo the font for project overview
@@ -39,7 +39,7 @@ Through the TACC-2-BOINC website (the website of our VC project), we are providi
 //.tra("<h3>Principal Investigator of %1",PROJECT).":</h3>
 
      //<li><a href=\"https://www.tacc.utexas.edu/about/directory/ritu-arora\">".tra("Ritu Arora")."</a></ul>";
-	echo "<tr><td>".tra("<h3>Project Team:</h3>") .'<ul>
+	echo "<tr><td>".tra("<h3>Project Team</h3>") .'<ul>
      <li><a href="https://www.linkedin.com/in/anubhawn/">'.tra("Anubhaw  Nand").'</a> (Graduate Student Intern, Software Development & Testing)
      <li><a href="https://www.linkedin.com/in/carlos-redondo-albertos">'.tra("Carlos Redondo").'</a> (Undergraduate Student Intern, Software Development & Testing)
      <li><a href="https://www.linkedin.com/in/geraldjoshua">'.tra("Gerald Joshua").'</a> (Undergraduate Student Intern, Software Development & Testing)
@@ -47,7 +47,7 @@ Through the TACC-2-BOINC website (the website of our VC project), we are providi
      <li><a href ="http://nia.ecsu.edu/sp/1617/johnson/">'.tra("Thomas Johnson").'</a> (Undergraduate Student Intern, Software Development & Testing)
 </ul></tr></td>';
 echo "<br>";
-echo tra("<font size=+2>Contact:</font> For all questions, please feel free to contact Ritu Arora at rauta@tacc.utexas.edu, with \"TACC-2-BOINC\" included in the subject-line.");
+echo tra("<h3>Contact</h3><p></p> For all questions, please feel free to contact Ritu Arora at rauta@tacc.utexas.edu, with \"TACC-2-BOINC\" included in the subject-line.");
 echo "<br>";
 /*
 echo '<center><h1>'.tra("Principal Investigator of the Project").'</h1></center>';

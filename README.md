@@ -11,7 +11,7 @@ This repository includes the following:
 5) A mechanism for running BOINC jobs directly inside a Docker container instead of running them in VirtualBox. This is useful for institutional donors who may have volunteered VMs in the cloud.
 
 
-## The project leverages the BOINC-Docker software developed by [Marius Millea][1]
+## The project leverages the boinc-server-docker software developed by [Marius Millea][1]
 
 * user-interface: Creates a web interface to allow researchers to submit and track jobs. 
 * API (api): Designed for large job batches.

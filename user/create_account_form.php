@@ -47,7 +47,7 @@ page_head(
 echo '<meta name = "viewport" content = "width=device-width, initial-scale=1.0">';
 
 //'<div style ="position:relative; left:36%;"> Original div used for spacing, caused issues as the div always retains the same amount of area in a webpage
-echo '<font size=+3 style ="position:relative; left:36%;">'.tra("Create Account").'</font>';//Repositions the `Create Account text on the webpage
+echo '<font size=+3 style ="position:relative; left:36%;">'.tra("Create a Volunteer Account").'</font>';//Repositions the `Create Account text on the webpage
 
 echo '<br>';// Keeps the text from running into each other
 
@@ -155,18 +155,21 @@ echo '<body onload="disableSubmit()">
 //--------=====---------========------------================--------------==========--------------=====-----------------====--
 form_end();
 
-echo '<br>';
+
+//echo '<br>';
 //echo '<center><font size=+2>'.tra("Become a Researcher:").'</font></center>'; //Code that was originally used when Thomas was separating the accounts' elements
 //Using the tool-tip script that Joshua utilized on index.php
-echo /*attribute href of html tag a was removed by Gerald Joshua*/'<font size=+1 style = "position:relative; left:36%;"><a data-toggle="tooltip" style="border-bottom: 1px dotted #000;text-decoration: none;" 
-title="All active users of TACC resources are eligible to run jobs 
-through the TACC-2-BOINC infrastructure and qualify as researchers.
+/*attribute href of html tag a was removed by Gerald Joshua*/
+/*
+echo '<font size=+1 style = "position:relative; left:36%;"><a data-toggle="tooltip" style="border-bottom: 1px dotted #000;text-decoration: none;" 
+//title="All active users of TACC resources are eligible to run jobs 
+//through the TACC-2-BOINC infrastructure and qualify as researchers.
 ">'.tra("Become a Researcher:").'</a></font>';//Establishes the Tooltip for `Become a Researcher`, has positioning and font size alterations
 echo '<br>';//Separation for aesthetic appeal
 echo '<div>';
 echo '<span style="position:relative; left:36.335%;"><a href="https://portal.tacc.utexas.edu/account-request" class="btn btn-success"><font
 >'.tra('Create Researcher Account').'</font></a></span>';////Establishes the Tooltip for `Become a Researcher`, has positioning alterations
- 
+*/
  //based off of https://www.w3schools.com/tags/tryit.asp?filename=tryhtml_input_checked code
 /*echo '<form action="" method="get">
   <input type="checkbox" name="Accept" value="Acceptance">I have read and Accept the Terms and Agreements or using TACC-2-BOINC and related BOINC software.

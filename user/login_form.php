@@ -63,12 +63,12 @@ if (!parse_bool($config, "disable_account_creation")
     echo"<!-- <center><h1>Or <a href=\"create_account_form.php?next_url=$next_url\">Create an Account</h1></a></center> --><br />
 ";
 }
-
+/*
 //Added by Gerald Joshua, second Login button placement edited by Thomas Johnson
 echo "<a data-toggle='tooltip'  style='margin-left: 35%;font-size: 24px;border-bottom:1px dotted #000;text-decoration: none;' title='All active users of TACC resources are eligible to run jobs through the TACC-2-BOINC infrastructure and qualify as researchers.'>Log In as a Researcher</a>
 	<div style='margin-left: 35.45%;margin-top: 10px;'><a href='https://portal.tacc.utexas.edu/home?p_p_id=58&p_p_lifecycle=0&p_p_state=maximized&p_p_mode=view&saveLastPath=0&_58_struts_action=%2Flogin%2Flogin' class='btn btn-success'>Log In</a></div>";
 //End of Gerald Joshua's edit
-
+*/
 
 echo "
     <script type=\"text/javascript\">

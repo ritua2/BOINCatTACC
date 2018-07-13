@@ -32,7 +32,7 @@ page_head(null, null, null, null, null, "Job History");
 echo '<style>
 
 table, td, th {
-    border: 1px solid #ddd;
+    border: 1px solid #7c7c7c;
     text-align: left;
 }
 
@@ -53,7 +53,7 @@ td {
 
 th, td {
     padding: 15px;
-    border: 4px solid #ddd; 
+    border: 4px solid #7c7c7c; 
 }
 
 </style>';

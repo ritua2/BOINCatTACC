@@ -66,11 +66,13 @@ form_input_text(/*Commented out by Gerald Joshua
             '<!-- attribute href of html tag a was removed by Gerald Joshua --><a data-toggle="tooltip" style="border-bottom: 1px dotted #000;text-decoration: none;" 
             title="The name of the Dockerhub Image that will be utilized for this job submission. Provide the name, not the URL.">'.tra("Docker Hub Image").'</a>'
         ) End of Gerald Joshua's edit*/ "" ,
-        "Image", "", "",/*Added by Gerald Joshua */"id='dockerHubFile' placeholder='e.g., tacc/docker2singularity (provide the name, not the URL)'"
+        "Image", "", "",/*Added by Gerald Joshua */"style='margin-bottom: 15px;' id='dockerHubFile' placeholder='e.g., tacc/docker2singularity (provide the name, not the URL)'"
 /*End of Gerald Joshua's edit*/);
 
 //Added by Gerald Joshua
-echo "<br /><br /></div>";
+echo "
+	<input class='btn btn-success' id='checkBtn' value='Check if exists' style='font-weight: bold; margin-left: 34.5%;'>
+	<br /><br /></div>";
 //End of Gerald Joshua's edit
 
 /*Commented out by Gerald Joshua
@@ -91,7 +93,7 @@ form_input_text(sprintf('<!-- style of span was added by Gerald Joshua--><span s
 //Section for commands
 echo '<span style="margin-left: 21.3%; font-weight:bold;"><a data-toggle="tooltip" style ="border-bottom: 1px dotted #000; text-decoration: none;" title="The list of commands that will be used in processing the data. Must provide all necessary commands.">'.tra("List of commands").'</a></span>';
 
-echo '<textarea id="commandLines" style="margin-top: -20px;margin-left: 34.5%;width: 64.5%;padding: 10px; border-radius: 5px;" rows="7" placeholder="e.g., gcc -o hello.exe hello.c"></textarea><br /><br />';
+echo '<textarea id="commandLines" style="margin-top: -20px;margin-left: 34.5%;width: 64.5%;padding: 10px; border-radius: 5px;" rows="7" placeholder="e.g., gcc -o hello.exe hello.c (hit enter at each of the end the command line)"></textarea><br /><br />';
 tra("Please upload your relevant tar (.tgz or .tar.gz extensions only) or zip (.zip extenstion only) for the current submission.");
 //End of commands section
 
@@ -117,6 +119,9 @@ echo '<span style="margin-left: 26%; float:left; font-weight:bold;"><a data-togg
 <input class="btn btn-success" type="submit" id="submitBtn" value="Submit the job" style="font-weight: bold;">
 </form>';
 
+echo "<input class='btn btn-success' value='test'  onclick='testFunction();'>";
+
+
 //End of Thomas Johnson's edit
 
 //Beginning of Gerald Joshua's edit
@@ -127,6 +132,16 @@ echo'
 	var isDockerChosen = false;
 	var isCommandInputed = false;
 	var isFileUploaded = false;
+
+	function testFunction(){
+		$.ajax({
+  			type: "POST",
+  url: "http://129.114.16.64/boincserver/some.php",
+  data: { name: "John" },
+  success: function(result){
+	console.log(result);
+}})  	
+	}
 
 	//Submit button will be available if all fields are filled out
 	function activateSubmitBtn(taccDocker, command, file){
@@ -181,6 +196,13 @@ echo'
 			else {
 				isCommandInputed = false;
 				$("#submitBtn").prop("disabled", true);
+			}
+		});
+
+		//Put a semicolon at end of each command line if it does not hav e one
+		$("#commandLines").keypress(function(theEnter){
+			if (theEnter.keyCode == 13 && $(this).val().substring($(this).val().length - 1) != ";") {
+        			$(this).val($(this).val() + "; ");
 			}
 		});
 		
@@ -238,29 +260,36 @@ echo'
 			theFileLocation = $(this).val();
   			$("#fileLocation").text(theFileLocation);
 		});
+		
 		/*$.ajax({
 			url: "https://index.docker.io/v1/repositories/tacc/docker2singularity/images",
-			crossDomain: true,
+			//crossDomain: true,
 			success: function(response){
 				console.log("success");
 			}
-		});*/
+		});
 		$.ajax({
 
-  type: "GET",
+  type: "POST",
+
+  // The URL to make the request to.
   url: "https://index.docker.io/v1/repositories/tacc/docker2singularity/images",
-  contentType: "text/plain",
+
   xhrFields: {
     withCredentials: false
   },
+
   headers: {
+	"Access-Control-Allow-Origin": "*"
   },
+
   success: function() {
-    console.log("success");
-  },
+  	console.log("success");
+	},
+
   error: function() {
   }
-});
+});*/
 	});
 </script>
 ';

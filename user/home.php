@@ -16,10 +16,13 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+//Edited by Thomas Johnson III
+
 require_once("../inc/util.inc");
 require_once("../inc/user.inc");
 require_once("../inc/boinc_db.inc");
 require_once("../inc/forum.inc");
+
 
 check_get_args(array());
 
@@ -46,8 +49,12 @@ if ($init) {
         .tra("If you have not already done so, %1 download BOINC client software %2.", "<a href=\"https://boinc.berkeley.edu/download.php\">", "</a>")."</p>";
     }
 } else {
-    page_head(tra("Your account"));
+    page_head(
+        null, null, null, null, null, "Your Account"//Keeps the tab title as Create Account without making the tab title subject to changes in the <body>
+    );
 }
+echo'<br><br>';
+echo '<font size=+3 style ="position:relative; left:36%;">'.tra("Your Account").'</font>';//Repositions the `Your Account` (user) text on the webpage
 
 show_account_private($user);
 

@@ -17,6 +17,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // An interface to bootstrap navbars and grids.
+//Edited by Thomas Johnson and Gerald Joshua
 
 $fixed_navbar = false;
 
@@ -66,7 +67,7 @@ function navbar_end() {
     </div>
   </div>
 </nav>
-<!-- Added by Gerald Joshua, so there is enough space 
+<!-- Added by Gerald Joshua, so there is enough space
 between navbar and the content -->
 <br /><br />
 <!-- End of Gerald Joshuas edit -->
@@ -75,6 +76,7 @@ between navbar and the content -->
 
 // put the login/logout stuff at the right side of navbar
 //
+//Edit by Thomas Johnson: Drop down menus for Sign Up and Login webpages
 function navbar_right($user) {
     global $is_login_page;
     echo '
@@ -93,14 +95,75 @@ function navbar_right($user) {
             );
         } else {
             echo sprintf('
-                <li><a href="%screate_account_form.php">Sign Up</a></li>
-                <li><a href="%slogin_form.php">Login</a></li>
-                ', url_base(), url_base()
+                <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Sign Up
+                <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                <li><a href="%screate_account_form.php">Sign Up as a Volunteer</a></li>
+                <li><a href="%screate_researcher_account_form.php">Sign Up as a Researcher</a></li>
+                </ul></li>
+                <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Log In
+                <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                <li><a href="%slogin_form.php">Log In as a Volunteer</a></li>
+                <li><a href="%slogin_as_a_researcher_form.php">Log In as a Researcher</a></li>
+                </ul></li>
+                ', url_base(), url_base(),url_base(),url_base()
             );
         }
     }
 }
+/* https://getbootstrap.com/docs/4.0/components/navbar/
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Navbar</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Dropdown
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled" href="#">Disabled</a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
+
+*/
+/*
+navbar_menu(tra("Sign Up"), array(
+array(tra("As Researcher"), $url_prefix."create_researcher_account_form.php"),
+array(tra("As Volunteer"), $url_prefix."create_account_form.php")
+));
+
+navbar_menu(tra("Log In"), array(
+array(tra("As Researcher"), $url_prefix."login_as_a_researcher_form.php"),
+array(tra("As Volunteer"), $url_prefix."login_form.php")
+));
+
+*/
 // add a dropdown menu
 //
 function navbar_menu($name, $items) {
@@ -155,8 +218,8 @@ function sample_navbar(
     $brand = "<a class=\"navbar-brand\" href=$master_url>".PROJECT."</a>";
     navbar_start($brand, $fixed, $inverse);
 
-    navbar_item("About", "http://129.114.16.64/boincserver/about.php");  
- 
+    navbar_item("About", "http://129.114.16.64/boincserver/about.php");
+
     $x = array();
     if ($user) {
         $x[] = array(tra("Account"), $url_prefix.USER_HOME);
@@ -218,17 +281,27 @@ function sample_navbar(
     ));
 
     // add your own menu here if you want
-    //Added by Gerald Joshua 
+    //Added by Gerald Joshua
     //News menu on the navbar that is accessible to the public
     navbar_item("News", "http://129.114.16.64/boincserver/news.php");
-    
-    //Job Submission and Job History menus on the navbar 
+    /*Added by Thomas Johnson for reference and as temporary placeholder
+    navbar_menu(tra("Sign Up"), array(
+    array(tra("As Researcher"), $url_prefix."create_researcher_account_form.php"),
+    array(tra("As Volunteer"), $url_prefix."create_account_form.php")
+    ));
+
+    navbar_menu(tra("Log In"), array(
+    array(tra("As Researcher"), $url_prefix."login_as_a_researcher_form.php"),
+    array(tra("As Volunteer"), $url_prefix."login_form.php")
+    ));
+    */
+    //Job Submission and Job History menus on the navbar
     //will only be available to researchers
     if($user){
     	navbar_item("Job Submission", "http://129.114.16.64/boincserver/job_submission.php");
         navbar_item("Job History", "http://129.114.16.64/boincserver/job_history.php");
     }
-    //End of Gerald Joshua's edit 
+    //End of Gerald Joshua's edit
     navbar_right($user);
     navbar_end();
 }

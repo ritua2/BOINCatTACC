@@ -123,7 +123,41 @@ function project_banner($title, $prefix, $is_main) {
         New line character causes space between nav-bar and the image below it.
         */
     }
+    /*
+    Means of creating the two columns
+    https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_two_columns
+    Adding a dividing border between the columns
+    https://stackoverflow.com/questions/3313456/css-borders-between-table-columns-only
+    */
     if ($is_main) {
+      echo '<style>
+* {
+    box-sizing: border-box;
+}
+
+/* Create two equal columns that floats next to each other */
+.column {
+    float: left;
+    width: 50%;
+    padding: 10px;
+    border-right: solid;
+}
+.column:last-child
+{
+    border-right: none;
+}
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+    width: 100%;
+}
+.footer
+{
+    overflow: hidden;
+}
+</style>';
         echo '<div style="position: absolute; z-index: 1; top: 29%;left: 12%;right: 12%;text-align: center;font-weight:bold;font-size: 60px;
   color: white;">
 			Welcome to TACC-2-BOINC!
@@ -138,22 +172,24 @@ function project_banner($title, $prefix, $is_main) {
   font-weight:bold;
   font-size: 1.2em;
   background-color: white;
-  opacity: 0.75;
+  <!--opacity: 0.75; Commented out for solid white box-->
   filter: alpha(opacity=50);
   padding: 1em;
   border-radius: 25px;">
-			<div style="color: black;z-index: 2;">			BOINC is an open-source software platform for volunteer computing.
+      <div class="row">
+			<div style="color: black;" class="column">			BOINC is an open-source software platform for volunteer computing.
 			BOINC has a client-server architecture. Once a BOINC client is downloaded on a device
 			(desktop, laptop, phone, and a tablet) owned by a 
 <a data-toggle="tooltip"  style="border-bottom: 1px dotted #000;text-decoration: none;" title="Those interested in supporting R&D activities of researchers and scholars using TACC resources are invited to join the TACC-2-BOINC project as volunteers and the job for volunteers are to donate their spare compute-cycles to the TACC-2-BOINC projects.">volunteer</a>,
 			the BOINC server starts sending computational tasks to the client when it is plugged in to the power supply
 			and is available to accept tasks. Upon the completion of the tasks,
 			the results are gathered from the clients participating in the computations,
-			and are uploaded to the BOINC server, from where they are then forwarded to the <a data-toggle="tooltip"  style="border-bottom:1px dotted #000;text-decoration: none;" title="All active users of TACC resources are eligible to run jobs through the TACC-2-BOINC infrastructure and qualify as researchers.">users/researchers</a>.<br /><br />
-			The TACC-2-BOINC project brings the power of volunteer computing to the <a data-toggle="tooltip"  style="border-bottom:1px dotted #000;text-decoration: none;" title="All active users of TACC resources are eligible to run jobs through the TACC-2-BOINC infrastructure and qualify as researchers.">users/researchers</a> using TACC resources.
+			and are uploaded to the BOINC server, from where they are then forwarded to the <a data-toggle="tooltip"  style="border-bottom:1px dotted #000;text-decoration: none;" title="All active users of TACC resources are eligible to run jobs through the TACC-2-BOINC infrastructure and qualify as researchers.">users/researchers</a>.</div>
+			<div style="color: black;" class="column">The TACC-2-BOINC project brings the power of volunteer computing to the <a data-toggle="tooltip"  style="border-bottom:1px dotted #000;text-decoration: none;" title="All active users of TACC resources are eligible to run jobs through the TACC-2-BOINC infrastructure and qualify as researchers.">users/researchers</a> using TACC resources.
 			By taking advantage of the computing cycles donated by the <a data-toggle="tooltip"  style="border-bottom: 1px dotted #000;text-decoration: none;" title="Those interested in supporting R&D activities of researchers and scholars using TACC resources are invited to join the TACC-2-BOINC project as volunteers and the job for volunteers are to donate their spare compute-cycles to the TACC-2-BOINC projects.">volunteer</a>,
 			<a data-toggle="tooltip"  style="border-bottom:1px dotted #000;text-decoration: none;" title="All active users of TACC resources are eligible to run jobs through the TACC-2-BOINC infrastructure and qualify as researchers.">users/researchers</a> can supplement the compute cycles granted to them as part of the TACC/XSEDE allocation process.
-			</div>
+      </div>
+      </div>
 		</div><img class="img-responsive" style="height: 500px;width: 100%;" src="img/stampede.jpg">';//water.jpg was a placeholder
     }
     /*

@@ -31,11 +31,17 @@ page_head(
 
 echo '<meta name = "viewport" content = "width=device-width, initial-scale=1.0">';
 
+
+
 //'<div style ="position:relative; left:36%;"> Original div used for spacing, caused issues as the div always retains the same amount of area in a webpage
 echo '<a data-toggle="tooltip" style="margin-left: 36%; border-bottom: 1px dotted #000;text-decoration: none;"
 title="All active users of TACC resources are eligible to run jobs
 through the TACC-2-BOINC infrastructure and qualify as researchers."><font size=+3>'.tra("Create a Researcher Account").'</font></a>';//Repositions the `Create Account text on the webpage
 
+echo "<br>";
+echo "<div align=\"center\">";
+echo "<font size=+1 align=\"center\">".tra("<p>IPT uses the TACC Identity Service. To use IPT you need to register for a TACC Account. With a TACC Account you will be able</p> <p>to access IPT as well as additional services provided by TACC. See the TACC Website for more information.</p>")."</font>";
+echo "</div>";
 echo '<br></br>';// Keeps the text from running into each other
 
 echo '<span style="position:relative; left:36.335%;"><a href="https://portal.tacc.utexas.edu/account-request" class="btn btn-success"><font

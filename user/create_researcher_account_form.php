@@ -40,10 +40,106 @@ through the TACC-2-BOINC infrastructure and qualify as researchers."><font size=
 
 echo "<br>";
 echo "<div align=\"center\">";
-echo "<font size=+1 align=\"center\">".tra("<p>IPT uses the TACC Identity Service. To use IPT you need to register for a TACC Account. With a TACC Account you will be able</p> <p>to access IPT as well as additional services provided by TACC. See the TACC Website for more information.</p>")."</font>";
+echo "<font size=+1 align=\"center\">".tra("<p>TACC-2-BOINC uses the TACC Identity Service. To use TACC-2-BOINC you need to register for a TACC Account. With a TACC Account you will be able</p> <p>to access TACC-2-BOINC as well as additional services provided by TACC. See the TACC Website for more information.</p>")."</font>";
 echo "</div>";
 echo '<br></br>';// Keeps the text from running into each other
+function create_researcher_account_form() {
+    global $recaptcha_public_key;
+/*    form_input_hidden('next_url', $next_url);
 
+    if ($teamid) {
+        form_input_hidden('teamid', $teamid);
+    } */
+form_input_text(
+    sprintf('<span title="%s">%s</span>',
+        tra("Your first name according government records."),
+        '<!-- attribute href of html tag a was removed by Gerald Joshua --><a data-toggle="tooltip" style="border-bottom: 1px dotted #000;text-decoration: none;position: relative; left: 65%;"
+        title="The first name that is listed for you on government records.
+">'.tra("First Name").'</a>'
+    ),
+    "first_name"
+);
+echo "<p></p>";
+form_input_text(
+    sprintf('<span title="%s">%s</span>',
+        tra("Your last name according government records."),
+        '<!-- attribute href of html tag a was removed by Gerald Joshua --><a data-toggle="tooltip" style="border-bottom: 1px dotted #000;text-decoration: none;position: relative; left: 65%;"
+        title="The last name that is listed for you on government records.
+">'.tra("Last Name").'</a>'
+    ),
+    "last_name"
+);
+echo "<p></p>";
+form_input_text(
+    sprintf('<span title="%s">%s</span>',
+        tra("Must be a valid address of the form 'name@domain'."),
+        '<!-- attribute href of html tag a was removed by Gerald Joshua --><a data-toggle="tooltip" style="border-bottom: 1px dotted #000;text-decoration: none;position: relative; left: 65%;"
+        title="The email address must be submitted in the form of `name@domain` and will
+be used to contact you regarding any communications or related to this system,
+website, etc.">'.tra("Email address").'</a>'
+    ),
+    "new_email_addr"
+);
+echo "<p></p>";
+form_input_text(
+    sprintf('<span title="%s">%s</span>',
+        tra("The organization you are with."),
+        '<!-- attribute href of html tag a was removed by Gerald Joshua --><a data-toggle="tooltip" style="border-bottom: 1px dotted #000;text-decoration: none;position: relative; left: 65%;"
+        title="The organization that you are working under.">'.tra("Institution").'</a>'
+    ),
+    "institution"
+);
+echo "<p></p>";
+form_select(
+    sprintf('<span title="%s">%s</span>',
+        tra("Country you live in."),
+        '<!-- attribute href of html tag a was removed by Gerald Joshua --><a data-toggle="tooltip" style="border-bottom: 1px dotted #000;text-decoration: none;position: relative; left: 65%;"
+        title="The country in which you are currently a resident.">'.tra("Country of Residence").'</a>'
+    ),
+    "country_residence", country_select_options()
+);
+echo "<p></p>";
+form_select(
+    sprintf('<span title="%s">%s</span>',
+        tra("Your password check for the website."),
+        '<!-- attribute href of html tag a was removed by Gerald Joshua --><a data-toggle="tooltip" style="border-bottom: 1px dotted #000;text-decoration: none;position: relative; left: 65%;"
+        title="What country do you currently hold citizenship in?">'.tra("Country of Citizenship").'</a>'
+    ),
+    "country_citizen", country_select_options()
+);
+echo "<p></p>";
+form_input_text(
+    sprintf('<span title="%s">%s</span>',
+        tra("Your username for the site."),
+        '<!-- attribute href of html tag a was removed by Gerald Joshua --><a data-toggle="tooltip" style="border-bottom: 1px dotted #000;text-decoration: none;position: relative; left: 65%;"
+        title="The username that will given to identify you on the site.
+Note that it must be 3-8 characters in length, start with a letter
+and can contain only lowercase letters, numbers, or underscore.">'.tra("Username").'</a>'
+    ),
+    "username_sys"
+);
+echo "<p></p>";
+form_input_text(
+    sprintf('<span title="%s">%s</span>',
+        tra("Your password for the website."),
+        '<!-- attribute href of html tag a was removed by Gerald Joshua --><a data-toggle="tooltip" style="border-bottom: 1px dotted #000;text-decoration: none;position: relative; left: 65%;"
+        title="Look at the notes below for information
+on creating a valid password.">'.tra("Password").'</a>'
+    ),
+    "passoword_sys"
+);
+echo "<p></p>";
+form_input_text(
+    sprintf('<span title="%s">%s</span>',
+        tra("Your password check for the website."),
+        '<!-- attribute href of html tag a was removed by Gerald Joshua --><a data-toggle="tooltip" style="border-bottom: 1px dotted #000;text-decoration: none;position: relative; left: 65%;"
+        title="Make a secure passphrase for logging in as a
+researcher.">'.tra("Password Check").'</a>'
+    ),
+    "passowrd_sys_check"
+);
+}
+create_researcher_account_form();
 echo '<span style="position:relative; left:36.335%;"><a href="https://portal.tacc.utexas.edu/account-request" class="btn btn-success"><font
 >'.tra('Create Researcher Account').'</font></a></span>';////Establishes the Button for `Become a Researcher`, has positioning alterations
 //echo '<center><font size=+2>'.tra("Become a Researcher:").'</font></center>'; //Code that was originally used when Thomas was separating the accounts' elements

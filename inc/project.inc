@@ -158,10 +158,9 @@ function project_banner($title, $prefix, $is_main) {
     overflow: hidden;
 }
 </style>';
-        echo '<div style="position: absolute; z-index: 1; top: 29%;left: 12%;right: 12%;text-align: center;font-weight:bold;font-size: 60px;
-  color: white;">
-			Welcome to TACC-2-BOINC!
-		</div>
+        echo '<!-- <div style="position: absolute; z-index: 1; top: 29%;left: 12%;right: 12%;text-align: center;font-weight:bold;font-size: 60px;color: white;"> -->
+			<!-- Welcome to TACC-2-BOINC! -->
+
 		<!-- Small Summary about Boinc -->
 		<div class="container-fluid" style="position: absolute;
   z-index: 1;

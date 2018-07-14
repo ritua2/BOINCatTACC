@@ -44,8 +44,8 @@ if ($user) {
 page_head(null, null, null, null,  null, "Log In");
 
 echo "
-	<a data-toggle='tooltip'  style='margin-left: 36%;font-size: 24px;border-bottom:1px solid #000;text-decoration: none;' title='Those interested in supporting R&D activities of researchers and scholars using TACC resources are invited to join the TACC-2-BOINC project as volunteers and the job for volunteers are to donate their spare compute-cycles to the TACC-2-BOINC projects.'>Log In as a Volunteer</a>";//End of edit by Gerald Joshua
-
+	<a data-toggle='tooltip'  style='margin-left: 36%;font-size: 24px;border-bottom:1px dotted #000;text-decoration: none;' title='Those interested in supporting R&D activities of researchers and scholars using TACC resources are invited to join the TACC-2-BOINC project as volunteers and the job for volunteers are to donate their spare compute-cycles to the TACC-2-BOINC projects.'>Log In as a Volunteer</a>";//End of edit by Gerald Joshua
+echo "<br>";
 if (0) {
 echo '
     <a href="openid_login.php?openid_iden<a href=\"create_account_form.php?next_url=$next_url\">tifier=https://www.google.com/accounts/o8/id"><img src=img/google-button.png></a>

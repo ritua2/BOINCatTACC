@@ -22,10 +22,10 @@
 require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/account.inc");
-
+/*
 define("LDAP_HOST", "ldap.tacc.utexas.edu");
 define("LDAP_BASE_DN", "uid=ldapbind,ou=People,dc=tacc,dc=utexas,dc=edu");
-
+*/
 page_head(null, null, null, null,  null, "Log In");
 
 echo "<a data-toggle=\"tooltip\"  style=\"margin-left: 36%;font-size: 24px;border-bottom:1px dotted #000;text-decoration: none;\" title=\"All active users of TACC resources are eligible to run jobs through the TACC-2-BOINC infrastructure and qualify as researchers.\"><font size=+3>".tra("Log in as a Researcher")."</a></font>

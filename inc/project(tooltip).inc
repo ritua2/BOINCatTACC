@@ -129,10 +129,6 @@ function project_banner($title, $prefix, $is_main) {
     Adding a dividing border between the columns
     https://stackoverflow.com/questions/3313456/css-borders-between-table-columns-only
     */
-    /*
-    For the popups
-    https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_popup
-    */
     if ($is_main) {
       echo '<style>
 * {
@@ -161,61 +157,6 @@ function project_banner($title, $prefix, $is_main) {
 {
     overflow: hidden;
 }
-/* Popup container - can be anything you want */
-.popup {
-    position: relative;
-    display: inline-block;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-
-/* The actual popup */
-.popup .popuptext {
-    visibility: hidden;
-    width: 22vw;
-    background-color: #174b63;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 8px 0;
-    position: absolute;
-    z-index: 1;
-    bottom: 125%;
-    left: 50%;
-    margin-left: -80px;
-}
-
-/* Popup arrow */
-.popup .popuptext::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 25%;
-    margin-left: -5px;
-    border-width: px;
-    border-style: solid;
-    border-color: #174b63 transparent transparent transparent;
-}
-
-/* Toggle this class - hide and show the popup */
-.popup .show {
-    visibility: visible;
-    -webkit-animation: fadeIn 1s;
-    animation: fadeIn 1s;
-}
-/* Add animation (fade in the popup) */
-@-webkit-keyframes fadeIn {
-    from {opacity: 0;}
-    to {opacity: 1;}
-}
-
-@keyframes fadeIn {
-    from {opacity: 0;}
-    to {opacity:1 ;}
-}
 </style>';
 //Get rid of the `bold` effect on`text box https://jalbum.net/forum/thread.jspa?threadID=37879
 
@@ -240,14 +181,14 @@ function project_banner($title, $prefix, $is_main) {
 			<div  class="column">			<span style="font-weight:normal;font-size:1.3vw">BOINC is an open-source software platform for volunteer computing.
 			BOINC has a client-server architecture. Once a BOINC client is downloaded on a device
 			(desktop, laptop, phone, and a tablet) owned by a
-<a class="popup" onclick="myFunction()">volunteer<span class="popuptext" id="Popup">Those interested in supporting R&D activities of researchers and scholars using TACC resources are invited to join the TACC-2-BOINC project as volunteers and the job for volunteers are to donate their spare compute-cycles to the TACC-2-BOINC projects.</span></a>,
+<a data-toggle="tooltip"  style="border-bottom: 1px dotted #000;text-decoration: none;" title="Those interested in supporting R&D activities of researchers and scholars using TACC resources are invited to join the TACC-2-BOINC project as volunteers and the job for volunteers are to donate their spare compute-cycles to the TACC-2-BOINC projects.">volunteer</a>,
 			the BOINC server starts sending computational tasks to the client when it is plugged in to the power supply
 			and is available to accept tasks. Upon the completion of the tasks,
 			the results are gathered from the clients participating in the computations,
-			and are uploaded to the BOINC server, from where they are then forwarded to the <a  class="popup" onclick="myFunction2()"> users/researchers <span class="popuptext" id="Popup2"> All active users of TACC resources are eligible to run jobs through the TACC-2-BOINC infrastructure and qualify as researchers. </span></a>.</span></div>
-			<div class="column"><span style="font-weight:normal;font-size:1.3vw">The TACC-2-BOINC project brings the power of volunteer computing to the <a class="popup" onclick="myFunction3()">users/researchers<span class="popuptext" id="Popup3"> All active users of TACC resources are eligible to run jobs through the TACC-2-BOINC infrastructure and qualify as researchers. </span></a> using TACC resources.
-			By taking advantage of the computing cycles donated by the <a class="popup" onclick="myFunction4()">volunteer<span class="popuptext" id="Popup4">Those interested in supporting R&D activities of researchers and scholars using TACC resources are invited to join the TACC-2-BOINC project as volunteers and the job for volunteers are to donate their spare compute-cycles to the TACC-2-BOINC projects.</span></a>,
-			<a class="popup" onclick="myFunction5()">users/researchers<span class="popuptext" id="Popup5">All active users of TACC resources are eligible to run jobs through the TACC-2-BOINC infrastructure and qualify as researchers.</span></a> can supplement the compute cycles granted to them as part of the TACC/XSEDE allocation process.</span>
+			and are uploaded to the BOINC server, from where they are then forwarded to the <a data-toggle="tooltip"  style="border-bottom:1px dotted #000;text-decoration: none;" title="All active users of TACC resources are eligible to run jobs through the TACC-2-BOINC infrastructure and qualify as researchers.">users/researchers</a>.</span></div>
+			<div class="column"><span style="font-weight:normal;font-size:1.3vw">The TACC-2-BOINC project brings the power of volunteer computing to the <a data-toggle="tooltip"  style="border-bottom:1px dotted #000;text-decoration: none;" title="All active users of TACC resources are eligible to run jobs through the TACC-2-BOINC infrastructure and qualify as researchers.">users/researchers</a> using TACC resources.
+			By taking advantage of the computing cycles donated by the <a data-toggle="tooltip"  style="border-bottom: 1px dotted #000;text-decoration: none;" title="Those interested in supporting R&D activities of researchers and scholars using TACC resources are invited to join the TACC-2-BOINC project as volunteers and the job for volunteers are to donate their spare compute-cycles to the TACC-2-BOINC projects.">volunteer</a>,
+			<a data-toggle="tooltip"  style="border-bottom:1px dotted #000;text-decoration: none;" title="All active users of TACC resources are eligible to run jobs through the TACC-2-BOINC infrastructure and qualify as researchers.">users/researchers</a> can supplement the compute cycles granted to them as part of the TACC/XSEDE allocation process.</span>
       </div>
       </div>
 		</div><img class="img-responsive" style="height: 473px;width: 100%;" src="img/stampede.jpg">';//water.jpg was a placeholder
@@ -449,30 +390,5 @@ function project_team_credit($team) {
 }
 
 }   // if(0)
-/*
-https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_popup
-*/
-echo "<script>
-// When the user clicks on the `link` a popup appears
-function myFunction() {
-    var popup = document.getElementById(\"Popup\");
-    popup.classList.toggle(\"show\");
-}
-function myFunction2() {
-    var popup = document.getElementById(\"Popup2\");
-    popup.classList.toggle(\"show\");
-}
-function myFunction3() {
-    var popup = document.getElementById(\"Popup3\");
-    popup.classList.toggle(\"show\");
-}
-function myFunction4() {
-    var popup = document.getElementById(\"Popup4\");
-    popup.classList.toggle(\"show\");
-}
-function myFunction5() {
-    var popup = document.getElementById(\"Popup5\");
-    popup.classList.toggle(\"show\");
-}
-</script>";
+
 ?>

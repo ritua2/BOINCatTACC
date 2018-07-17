@@ -48,6 +48,8 @@ Through the TACC-2-BOINC website (the website of our VC project), we are providi
 </ul></tr></td>';
 /*Source of Team Website Template
 https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_team
+Table for organization notes
+https://computerservices.temple.edu/creating-tables-html
 */
 
 /*

@@ -19,8 +19,9 @@
 //Added by Gerald Joshua
 
 require_once("../inc/util.inc");
+require_once("../inc/red_keys.inc");
+$TACC_org_key=get_ok("TACC");
 
-check_get_args(array());
 
 //Any website visitors who have not signed in yet will be
 //redirected to the sign in page
@@ -38,7 +39,7 @@ table, td, th {
 
 th{
     background-color: #174b63;
-    
+
     color: white;
 }
 
@@ -53,7 +54,7 @@ td {
 
 th, td {
     padding: 15px;
-    border: 4px solid #7c7c7c; 
+    border: 4px solid #7c7c7c;
 }
 
 </style>';
@@ -94,6 +95,7 @@ curl_close ($ch);
 echo $return;
 */
 $SERVER_IP="0.0.0.0";
+
 /*
 https://davidwalsh.name/curl-post
 */
@@ -104,7 +106,7 @@ $ch2 = curl_init();
 curl_setopt($ch2, CURLOPT_URL, "http://$SERVER_IP:5054/boincserver/v2/api/authorize_from_org");
 curl_setopt($ch2, CURLOPT_RETURNTRANSFER, 1);
 //Gerald Joshua and Thomas Johnson joint edit
-curl_setopt($ch2, CURLOPT_POSTFIELDS, "email=$user->email_addr&org_key=d3fw115lVInWgihpEIU1lBu8");
+curl_setopt($ch2, CURLOPT_POSTFIELDS, "email=$user->email_addr&org_key=$TACC_org_key");
 //End joint edit
 curl_setopt($ch2, CURLOPT_POST, 1);
 

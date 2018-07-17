@@ -10,6 +10,7 @@
 
 require_once("../inc/util.inc");
 
+
 //-------------- Project name and owner
 
 define("PROJECT", "TACC-2-BOINC");//"REPLACE WITH PROJECT NAME"
@@ -107,15 +108,18 @@ function make_php_mailer() {
 // Put your project title and logo here
 // If you include any links, prepend URL with $prefix
 // if you need to open divs here close them in project_footer()
-//
+//For getting the footer to stay down on the page
+//https://css-tricks.com/fun-viewport-units/
 function project_banner($title, $prefix, $is_main) {
-	echo '
+	echo '<div class="container">
+  <a href="index.php"><span style="position:absolute; top:0px; left:0px; font-size:4.7vw;">TACC-2-BOINC</span></a>
   <a href="https://boinc.berkeley.edu/">
-		<img class="img-responsive" style="width: 208px; margin-bottom: 23px;" src="./img1/boincLogo.jpg" alt="Boinc Logo">
+		<img class="img-responsive" style="width: 208px; margin-bottom: 23px; position:relative; right:-800px; top:0px" src="./img1/boincLogo.jpg" alt="Boinc Logo">
 	      </a>
 	      <a href="https://www.tacc.utexas.edu/">
-		<img class="img-responsive" style="width: 208px; position: absolute; top: 9px; right: 15px;" src="./img1/taccLogo.png" alt="Boinc Logo">
+		<img class="img-responsive" style="width: 208px; position: absolute; top: 9px; right: 15px;" src="./img1/taccLogo.png" alt="TACC Logo">
 	      </a>
+        </div>
 					';
     sample_navbar(secure_url_base(), get_logged_in_user(false), false);
     if ($title) {
@@ -129,6 +133,14 @@ function project_banner($title, $prefix, $is_main) {
     https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_two_columns
     Adding a dividing border between the columns
     https://stackoverflow.com/questions/3313456/css-borders-between-table-columns-only
+    */
+    /*
+    For the popups
+    https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_popup
+    */
+    /*
+    Reference for handling text box over an image
+    https://www.w3schools.com/howto/howto_css_image_text_blocks.asp
     */
     if ($is_main) {
       echo '<style>
@@ -158,18 +170,77 @@ function project_banner($title, $prefix, $is_main) {
 {
     overflow: hidden;
 }
+/* Popup container - can be anything you want */
+.popup {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* The actual popup */
+.popup .popuptext {
+    visibility: hidden;
+    width: 22vw;
+    background-color: #174b63;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -80px;
+}
+
+/* Popup arrow */
+.popup .popuptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 25%;
+    margin-left: -5px;
+    border-width: px;
+    border-style: solid;
+    border-color: #174b63 transparent transparent transparent;
+}
+
+/* Toggle this class - hide and show the popup */
+.popup .show {
+    visibility: visible;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s;
+}
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity:1 ;}
+}
 </style>';
+//Get rid of the `bold` effect on`text box https://jalbum.net/forum/thread.jspa?threadID=37879
+
         echo '<!-- <div style="position: absolute; z-index: 1; top: 29%;left: 12%;right: 12%;text-align: center;font-weight:bold;font-size: 60px;color: white;"> -->
 			<!-- Welcome to TACC-2-BOINC! -->
-
+<!-- </div> -->
 		<!-- Small Summary about Boinc -->
+    <div class="container-fluid">
+    <img class="img-responsive" style="height: 56%;width: 100%;" src="img1/stampedecropped.jpg">
 		<div class="container-fluid" style="position: absolute;
   z-index: 1;
-  top: 47%;
+  top: 36%;
   left: 5%;
   right: 5%;
   text-align: left;
-  font-weight:bold;
+  <!-- font-weight:bold; --><!-- Commented out for font size responsive to viewport size (Thomas Johnson)-->
   font-size: 1.2em;
   background-color: white;
   <!--opacity: 0.75; Commented out for solid white box-->
@@ -177,20 +248,22 @@ function project_banner($title, $prefix, $is_main) {
   padding: 1em;
   border-radius: 25px;">
       <div class="row">
-			<div style= class="column">			<p>BOINC is an open-source software platform for volunteer computing.
+
+			<div  class="col-md-6" style="border-right:solid black;">			<span style="font-weight:normal;font-size:1.19vw">BOINC is an open-source software platform for volunteer computing.
 			BOINC has a client-server architecture. Once a BOINC client is downloaded on a device
 			(desktop, laptop, phone, and a tablet) owned by a
-<a data-toggle="tooltip"  style="border-bottom: 1px dotted #000;text-decoration: none;" title="Those interested in supporting R&D activities of researchers and scholars using TACC resources are invited to join the TACC-2-BOINC project as volunteers and the job for volunteers are to donate their spare compute-cycles to the TACC-2-BOINC projects.">volunteer</a>,
+<a class="popup" data-toggle="tooltip" onclick="myFunction()" style="border-bottom: 1px dotted #000;text-decoration: none;">volunteer<span class="popuptext" id="Popup">Those interested in supporting R&D activities of researchers and scholars using TACC resources are invited to join the TACC-2-BOINC project as volunteers and the job for volunteers are to donate their spare compute-cycles to the TACC-2-BOINC projects.</span></a>,
 			the BOINC server starts sending computational tasks to the client when it is plugged in to the power supply
 			and is available to accept tasks. Upon the completion of the tasks,
 			the results are gathered from the clients participating in the computations,
-			and are uploaded to the BOINC server, from where they are then forwarded to the <a data-toggle="tooltip"  style="border-bottom:1px dotted #000;text-decoration: none;" title="All active users of TACC resources are eligible to run jobs through the TACC-2-BOINC infrastructure and qualify as researchers.">users/researchers</a></p>.</div>
-			<div class="column"><p>The TACC-2-BOINC project brings the power of volunteer computing to the <a data-toggle="tooltip"  style="border-bottom:1px dotted #000;text-decoration: none;" title="All active users of TACC resources are eligible to run jobs through the TACC-2-BOINC infrastructure and qualify as researchers.">users/researchers</a> using TACC resources.
-			By taking advantage of the computing cycles donated by the <a data-toggle="tooltip"  style="border-bottom: 1px dotted #000;text-decoration: none;" title="Those interested in supporting R&D activities of researchers and scholars using TACC resources are invited to join the TACC-2-BOINC project as volunteers and the job for volunteers are to donate their spare compute-cycles to the TACC-2-BOINC projects.">volunteer</a>,
-			<a data-toggle="tooltip"  style="border-bottom:1px dotted #000;text-decoration: none;" title="All active users of TACC resources are eligible to run jobs through the TACC-2-BOINC infrastructure and qualify as researchers.">users/researchers</a> can supplement the compute cycles granted to them as part of the TACC/XSEDE allocation process.</p>
+			and are uploaded to the BOINC server, from where they are then forwarded to the <a  class="popup" data-toggle="tooltip" onclick="myFunction2()" style="border-bottom: 1px dotted #000;text-decoration: none;"> users/researchers <span class="popuptext" id="Popup2"> All active users of TACC resources are eligible to run jobs through the TACC-2-BOINC infrastructure and qualify as researchers. </span></a>.</span></div>
+			<div class="col-md-6"><span style="font-weight:normal;font-size:1.19vw">The TACC-2-BOINC project brings the power of volunteer computing to the <a class="popup" data-toggle="tooltip" onclick="myFunction3()" style="border-bottom: 1px dotted #000;text-decoration: none;">users/researchers<span class="popuptext" id="Popup3"> All active users of TACC resources are eligible to run jobs through the TACC-2-BOINC infrastructure and qualify as researchers. </span></a> using TACC resources.
+			By taking advantage of the computing cycles donated by the <a class="popup" data-toggle="tooltip" onclick="myFunction4()" style="border-bottom: 1px dotted #000;text-decoration: none;">volunteer<span class="popuptext" id="Popup4">Those interested in supporting R&D activities of researchers and scholars using TACC resources are invited to join the TACC-2-BOINC project as volunteers and the job for volunteers are to donate their spare compute-cycles to the TACC-2-BOINC projects.</span></a>,
+			<a class="popup" data-toggle="tooltip" onclick="myFunction5()" style="border-bottom: 1px dotted #000;text-decoration: none;">users/researchers<span class="popuptext" id="Popup5">All active users of TACC resources are eligible to run jobs through the TACC-2-BOINC infrastructure and qualify as researchers.</span></a> can supplement the compute cycles granted to them as part of the TACC/XSEDE allocation process.</span>
       </div>
       </div>
-		</div><img class="img-responsive" style="height: 473px;width: 100%;" src="img/stampede.jpg">';//water.jpg was a placeholder
+		</div>
+    </div>';//water.jpg was a placeholder
     }
     /*
     https://upload.wikimedia.org/wikipedia/commons/1/14/Coyote_closeup.jpg
@@ -212,8 +285,12 @@ function project_footer($show_return, $show_date, $prefix) {
     // If you include any links, prepend URL with $prefix
     //
     //TACC Logo Edit
+    //Thomas Johnson (Footer at the bottom of the page)
+    //For getting the footer to stay down on the page
+    //https://css-tricks.com/fun-viewport-units/
     echo '
-        <footer style="position:relative; margin-left: -15px; margin-right: -15px; bottom: 0;left:0; right:0; background-color: #174b63; padding: 10px; text-align:center; color:#fff;">
+    <div id="footer">
+        <footer style="position:relative; margin-left: -15px; margin-right: -15px; bottom: 0;left:0; right:0; background-color: #174b63; padding: 10px; text-align:center; color:#fff;height=105px;">
         <div class="container-fluid">
                         <span style="font-size:20px; font-weight:bold;"> This project has been generously funded by the National
  Science Foundation (NSF) Award #1664022.
@@ -226,6 +303,7 @@ function project_footer($show_return, $show_date, $prefix) {
                 </div>
         </div>
         </footer>
+        </div>
     ';
     /*
     Original code for the logos of TACC and BOINC
@@ -390,4 +468,31 @@ function project_team_credit($team) {
 
 }   // if(0)
 
+/*
+For the popups
+https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_popup
+*/
+echo "<script>
+// When the user clicks on the `link` a popup appears
+function myFunction() {
+    var popup = document.getElementById(\"Popup\");
+    popup.classList.toggle(\"show\");
+}
+function myFunction2() {
+    var popup = document.getElementById(\"Popup2\");
+    popup.classList.toggle(\"show\");
+}
+function myFunction3() {
+    var popup = document.getElementById(\"Popup3\");
+    popup.classList.toggle(\"show\");
+}
+function myFunction4() {
+    var popup = document.getElementById(\"Popup4\");
+    popup.classList.toggle(\"show\");
+}
+function myFunction5() {
+    var popup = document.getElementById(\"Popup5\");
+    popup.classList.toggle(\"show\");
+}
+</script>";
 ?>

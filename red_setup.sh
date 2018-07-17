@@ -15,7 +15,7 @@
 # Sets up a Redis client on port 6389
 
 apt-get update -y
-apt-get install redis-server git-core -y
+apt-get install redis-server vim git-core -y
 git clone git://github.com/nrk/predis.git
 mv predis/* ./user-interface/token_data
 # Sets up a redis server on port 6389, which must be open in the docker-compose.yml
@@ -27,19 +27,30 @@ pip3 install redis Flask Werkzeug docker
 
 # Moves all the APIs and email commands
 # Requires to be cloned inside project
-mv /root/project/boinc-updates/api /root/project
-mv /root/project/boinc-updates/adtd-protocol /root/project
-mv /root/project/boinc-updates/email_assimilator.py /root/project
-mv /root/project/boinc-updates/email2.py /root/project
-mv /root/project/boinc-updates/user-interface/* /root/project/html/user
-mv /root/project/boinc-updates/API_Daemon.sh  /root/project
-mv /root/project/boinc-updates/bproc.sh  /root/project
-mv /root/project/boinc-updates/password_credentials.sh /root/project
-mv /root/project/boinc-updates/dockerhub_credentials.sh /root/project
-mv /root/project/boinc-updates/idir.py /root/project
+mv ./api /root/project
+mv ./adtd-protocol /root/project
+mv ./email_assimilator.py /root/project
+mv ./email2.py /root/project
+mv ./user-interface/* /root/project/html/user
+mv ./API_Daemon.sh  /root/project
+mv ./bproc.sh  /root/project
+mv ./password_credentials.sh /root/project
+mv ./dockerhub_credentials.sh /root/project
+mv ./idir.py /root/project
 mkdir /root/project/adtd-protocol/process_files
 mkdir /root/project/adtd-protocol/tasks
 mkdir /results/adtdp
+
+# Moves the front end files
+mv ./user/img1 /root/project/html/user/
+mv ./user/* /root/project/html/user/
+
+
+# Substitutes the project and inc files by their new equivalents
+mv /root/project/html/inc /root/project/html/inc_previous
+mv ./inc /root/project/html/inc
+mv /root/project/html/project /root/project/html/project_old
+mv ./project /root/project/html/project
 
 
 chmod +x /root/project/email_assimilator.py
@@ -63,8 +74,12 @@ chmod +x /root/project/api/adtdp_common.py
 chmod +x /root/project/email2.py
 
 
-# Changes the document root to the sites available
-# Uses @ because slashes are already present
+# Asks the user to make the main directory available
+printf "Enter the apache2.conf and comment out the main directory restrictions"
+sleep 30
+vi /etc/apache2/apache2.conf
+
+
 
 # Adds a DocumentRoot to the approproate configuration file
 sed -i "s@DocumentRoot.*@DocumentRoot /root/project/html/user/\n@"  /etc/apache2/sites-enabled/000-default.conf
@@ -78,6 +93,3 @@ service apache2 restart
 
 /root/project/API_Daemon.sh -up
 nohup /root/project/bproc.sh &
-
-
-

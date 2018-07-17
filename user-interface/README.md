@@ -2,5 +2,5 @@
 
 -------
 
-* Python code must be refreshed manually (as of now), to avoid possible problems
-* API calls only available when user knows the docker image
+* Designed for automatic processing of BOINC jobs
+* Submits the necessary docker image and commands as a boinc2docker job

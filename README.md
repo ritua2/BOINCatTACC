@@ -16,7 +16,7 @@ This repository includes the following:
 * user-interface: Creates a web interface to allow researchers to submit and track jobs. 
 * API (api): Designed for large job batches.
 * applications: Dockerized applications for running on BOINC clients.
-* stampede2-backend: A command-line interface for submitting BOINC jobs from the Stampede2 superocmputer at TACC. This script can be run on any Linux system that has the SLURM scheduler available. 
+* stampede2-backend: A command-line interface for submitting BOINC jobs from the Stampede2 supercomputer at TACC. This script can be run on any Linux system that has the SLURM scheduler available. 
 
 To execute the jobs submitted through the BOINC server, that is, to become a BOINC client, download [BOINC][2] and Virtualbox if not installed already. Then, add the project using:  
 
@@ -81,7 +81,7 @@ The BOINC server will automatically recognize your system as a volunteer and wil
 	* It will install all the necessary packages, python libraries, set-up the internal Redis database, properly locate the files, set-up the APIs, Reef cloud storage, and automatic job processing
 	* The set-up file will also automatically prompt to enter the credentials for the email. Use caution, since an error would require to manually fix the /root/.bashrc file
 ```bash
-	 cd /root/project/boinc-updates
+	 cd /root/project/BOINC
 	 bash red_setup.sh
 ```
 
@@ -93,7 +93,7 @@ The BOINC server will automatically recognize your system as a volunteer and wil
 		* Create one automatically through *create_token.py* (deprecated)
 		* Create organization accounts
 	* Organization accounts are preferred since they allow users to sign up in an easier way
-	* Furthermore, users signing signing through this way will have to provide email authorization
+	* Furthermore, users signing through this way will have to provide email authorization
 	* To create an organization, following the instructions below and enter inputs accordingly
 	* An automatic Reef account will be created for each user signing up through this method
 	* For more instructions on supplying tokens through organizations, check the API documentation

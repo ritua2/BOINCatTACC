@@ -10,8 +10,6 @@ import os, sys, shutil
 import json
 from flask import Flask, request, jsonify, send_file
 import preprocessing as pp
-from werkzeug.utils import secure_filename
-from werkzeug.datastructures import ImmutableMultiDict
 
 
 
@@ -32,6 +30,10 @@ TACCIM = {"carlosred/autodock-vina:latest":"curl -O ", "carlosred/bedtools:lates
  }
 
 
+# List of extra commands needed for some files
+EXIM = {"carlosred/gromacs:latest":"source /usr/local/gromacs/bin/GMXRC.bash; "}
+
+
 # Returns a files download type
 # If custom, it uses curl -O
 # IMIM (str): Image name
@@ -43,6 +45,15 @@ def howto_download(IMIM):
         return "curl -O "
 
     return TACCIM[IMIM]
+
+
+# Adds extra commands depending on the image
+def extra_image_commands(IMIM):
+
+    if IMIM not in EXIM:
+        return ''
+
+    return EXIM[IMIM]
 
 
 
@@ -65,10 +76,6 @@ def get_reef_file(IMIM, TOK, filnam):
     return Com
 
 
-
-
-
-
 @app.route("/boincserver/v2/api/process_web_jobs", methods=['GET', 'POST'])
 def process_web_jobs():
 
@@ -80,50 +87,40 @@ def process_web_jobs():
     if (request.remote_addr != '0.0.0.0') and (request.remote_addr != SERVER_IP):
         return "INVALID, API for internal use only"
 
-    dictdata = ImmutableMultiDict(request.form).to_dict(flat='')
+    try:
+        dictdata = request.get_json()
+    except:
+        return "INVALID, JSON could not be parsed"
 
-    TOK = dictdata["token"][0]
+    try:
+        TOK = dictdata["Token"]
+        boapp = dictdata['Boapp'].lower()
+        Reefil = dictdata["Files"]
+        Image = dictdata["Image"]
+        Custom = dictdata["Custom"]
+        Command = dictdata["Command"]
+    except:
+        return "INVALID, json lacks at least one field (keys: Token, Boapp, Files, Image, Custom, Command)"
+
+
     if pp.token_test(TOK) == False:
         return "INVALID token"
 
     # Checks if user wants boinc2docker or adtd-p
     try:
-        boapp = dictdata['boapp'][0].lower()
         if (boapp != "boinc2docker") and (boapp != "adtdp"):
             return "INVALID application"
 
     except:
         return "INVALID, application not provided"
 
-    file = request.files['file']
-    # Files must be JSON
-    if file.filename == '':
-        return "INVALID, no file provided"
-    if file.filename.split('.')[-1] != 'json':
-       return "File type invalid, only JSON files are acccepted"
+    if (Custom != "Yes") and (Custom != "No"):
+        return "INVALID, Custom value can only be [Yes/No]"
+
+
 
     # Writes the commands to a random file
     new_filename = pp.random_file_name()
-    file.save(UPLOAD_FOLDER+new_filename)
-
-
-    try:
-        with open(UPLOAD_FOLDER+new_filename, 'r') as ff:
-            command_data = json.load(ff)
-    except:
-        os.remove(UPLOAD_FOLDER+new_filename)
-        return "INVALID, json could not be parsed"
-
-    # All JSON files must have the following:
-    # Image, Image is custom, Command
-    try:
-        Reefil = command_data["Files"]
-        Image = command_data["Image"]
-        Custom = command_data["Custom"]
-        Command = command_data["Command"]
-    except:
-        os.remove(UPLOAD_FOLDER+new_filename)
-        return "INVALID, json lacks at least one field (keys: Files, Image, Custom, Command)"
 
 
     with open(UPLOAD_FOLDER+new_filename, "w") as comfil:
@@ -141,6 +138,7 @@ def process_web_jobs():
 
         elif Custom == "No":
             comfil.write("\"cd /data; ")
+            comfil.write(extra_image_commands(Image))
             # Adds the files
             for FF in Reefil:
                 comfil.write(get_reef_file(Image, TOK, FF)+" ")
@@ -148,13 +146,6 @@ def process_web_jobs():
             comfil.write(Command+" python /Mov_Res.py\"")
             comfil.write("\n"+str(TOK))
 
-        else:
-            Invalid_Custom = True
-
-    if Invalid_Custom:
-        # There is no need to keep the file after if has been deleted
-        os.remove(UPLOAD_FOLDER+new_filename)
-        return "INVALID, custom value can only be Yes/No"
 
     # Submits the file for processing
     if boapp == "boinc2docker":

@@ -53,7 +53,7 @@ Tokens can be assigned in 2 different ways:
 1. Contact the server administrator and request a token
 2. Apply from within an authorized organization  
 
-If your organization wants to access the BOINC server and provide jobs for the volunteers, contact the server administrator and ask for an administrative organization account. If your request is approved, your organization will beprovided with a company token that individual researchers will use to apply for BOINC submission privileges.  
+If your organization wants to access the BOINC server and provide jobs for the volunteers, contact the server administrator and ask for an administrative organization account. If your request is approved, your organization will be provided with a company token that individual researchers will use to apply for BOINC submission privileges.  
 Note: The organization token cannot be used to submit jobs.  
 
 Request a token via your organization is a 2 step process:
@@ -79,7 +79,7 @@ If the user has already registered, this API can be used to obtain the user toke
 **Email Privacy Concerns**  
 Your email will not be shared with any users within or outside your organization, nor will it be used for any promotional materials or
 commercial events.  
-Your email will only be used for BOINC notifications, such as success/failed jobs, dockerfile build, etc.
+Your email will only be used for BOINC notifications, such as success/failed jobs, dockerfile builds, etc.
 
 
 -------
@@ -87,7 +87,7 @@ Your email will only be used for BOINC notifications, such as success/failed job
 ### MIDAS processing
 
 MIDAS (Multiple Input Docker Automation System) is a TACC tool designed for automatic dockerization.  
-For more information on MIDAS, consult the *processing_files* files directory, it contains example and a README guide.  
+For more information on MIDAS, consult the *processing_files* files directory, it contains examples and a README guide.  
 Use the following syntax to upload a file:  
 >	*curl -F file=@FILE http://SERVER_IP:5085/boincserver/v2/midas/token=TOKEN*
 

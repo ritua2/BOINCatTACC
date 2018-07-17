@@ -93,7 +93,7 @@ echo tra("<h3>Project Team</h3>") .'
 <div class="row">
   <div class="column">
     <div class="card">
-      <img src="/img/Anubhaw.jpg.jpeg" alt="Anubhaw" style="width:100%">
+      <img src="/img1/Anubhaw.jpg.jpeg" alt="Anubhaw" style="width:100%">
       <div class="container">
         <h2>Anubhaw Nand</h2>
         <p class="title">Graduate Student Intern</p>
@@ -104,7 +104,7 @@ echo tra("<h3>Project Team</h3>") .'
 
   <div class="column">
     <div class="card">
-      <img src="/img/Joshua.jpg.jpeg" alt="Joshua" style="width:100%">
+      <img src="/img1/Joshua.jpg.jpeg" alt="Joshua" style="width:100%">
       <div class="container">
         <h2>Gerald Joshua</h2>
         <p class="title">Undergraduate Student Intern</p>
@@ -112,9 +112,19 @@ echo tra("<h3>Project Team</h3>") .'
       </div>
     </div>
   </div>
+	<div class="column">
+    <div class="card">
+      <img src="/img1/ritu-2017.jpg" alt="Ritu" style="width:100%">
+      <div class="container">
+        <h2>Ritu Arora</h2>
+        <p class="title"><strong>Project PI</strong></p>
+        <p>Software Design and Architecture</p>
+      </div>
+    </div>
+  </div>
   <div class="column">
     <div class="card">
-      <img src="/img/Thomas.jpg.jpeg.JPG" alt="Thomas" style="width:100%">
+      <img src="/img1/Thomas.jpg.jpeg.JPG" alt="Thomas" style="width:100%">
       <div class="container">
         <h2>Thomas Johnson</h2>
         <p class="title">Undergraduate Student Intern</p>

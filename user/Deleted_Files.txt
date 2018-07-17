@@ -8,11 +8,6 @@ Asterisks (*) represent any character or characters.
 ------------------------------------------------------
 FILES:
 
-favicon/*
-
-font-awesome/*
-
-img/*
 
 token-data/*
 # Already added in a different directory within this repository
@@ -49,12 +44,10 @@ cert_team.php
 consideration.html
 cpu_list.php
 create_account_action.php
-create_account.php
 create_profile.php
 create_account_form.php
 create_account.php
 create_profile.php
-create_researcher_account_form.php
 create_team.php
 currency.js
 delete_account.php
@@ -78,7 +71,6 @@ Example_multi_submit.txt
 explain_state.php
 ffmail_action.php
 ffmail_form.php
-file_upload_page.php
 forum_banishment_vote_action.php
 forum_banishment_vote.php
 forum_edit.php
@@ -117,7 +109,6 @@ host_update_credit.php
 host_venue_action.php
 html.php
 index1.php
-index.php
 info.php
 job_file.php
 join.php
@@ -134,7 +125,6 @@ merge_by_name.php
 moderation.php
 moderator_instructions.php
 motd.php
-news.php
 notices.php
 notify_rss.php
 old_news.php
@@ -148,7 +138,6 @@ prefs_default.php
 prefs_edit.php
 prefs.php
 prefs_remove.php
-profile_menu.php
 profile_rate.php
 profile_search_action.php
 register.php
@@ -206,16 +195,13 @@ team_quit_form.php
 team_remove_inactive_action.php
 team_remove_inactive_form.php
 team_search.php
-terms.php
 testingPurposes.php
-testpage.html
 top_hosts.php
 top_teams.php
 top_users.php
 translate.php
 tree_threader.php
 uotd_gadget.php
-uotd.php
 user_permissions.php
 user_search.php
 userw.php

@@ -16,7 +16,6 @@ function get_ok($ONAM){
 	             "host"=>"0.0.0.0",
 	             "port"=>6389,
 	         	 "database"=> 3));
-	   echo "Succesful connection to redis";
 	}
 	catch (Exception $exce) {
 	   echo "<p>Could not connect to Redis</p>";

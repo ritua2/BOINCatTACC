@@ -15,7 +15,7 @@
 # Sets up a Redis client on port 6389
 
 apt-get update -y
-apt-get install redis-server vim git-core -y
+apt-get install python-ldap redis-server vim git-core -y
 git clone git://github.com/nrk/predis.git
 mv predis/* ./user-interface/token_data
 # Sets up a redis server on port 6389, which must be open in the docker-compose.yml

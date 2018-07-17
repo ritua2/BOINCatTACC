@@ -305,10 +305,12 @@ function page_head(
     if ($fixed_navbar) {
         $body_attrs .= ' style="padding-top:70px"';
     }
+    //For keeping the footer down on all screens
+    //https://css-tricks.com/couple-takes-sticky-footer/
     echo "<body $body_attrs>";
     display_cvs_versions();
     echo '<div class="container-fluid">
-    <div id="main" style="min-height:83.4vh">
+    <div id="main" style="min-height: calc(100vh - 105px);">
     ';
 
     switch($title) {    //kludge

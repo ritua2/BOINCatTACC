@@ -26,7 +26,7 @@ page_head(null, null, null, null, null, "News");
 echo '<center><h1>News</h1></center><br />';
 
 //List of News Updates
-echo '<pre style="margin-left: 20%;margin-right: 20%;"><center><li style="font-size:14px;font-weight: bold;">There are currently no news available.</li></center></pre><br />';
+echo '<pre style="margin-left: 20%;margin-right: 20%;"><center><li style="font-size:14px;font-weight: bold;">TACC-2-BOINC project goes live on July 16th. We are looking for donors of compute-cycles.</li></center></pre><br />';
 
 page_tail();
 //End of Gerald Joshua's Edit

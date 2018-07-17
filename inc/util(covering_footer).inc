@@ -305,10 +305,33 @@ function page_head(
     if ($fixed_navbar) {
         $body_attrs .= ' style="padding-top:70px"';
     }
-    echo "<body $body_attrs>";
+    echo "<body $body_attrs>
+    <style>
+        html,
+    body {
+       margin:0;
+       padding:0;
+       height:100%;
+    }
+    #body {
+       padding:10px;
+       padding-bottom:105px;   /* Height of the footer */
+    }
+    #container {
+       min-height:100%;
+       position:sticky;
+    }
+    #footer {
+       position:absolute;
+       bottom:0;
+       width:100%;
+       height:105px;   /* Height of the footer */
+       background:#6cf;
+       overflow: hidden;
+    }
+    </style>";
     display_cvs_versions();
-    echo '<div class="container-fluid">
-    <div id="main" style="min-height:83.4vh">
+    echo '<div id="body"><div class="container-fluid">
     ';
 
     switch($title) {    //kludge
@@ -323,10 +346,7 @@ function page_head(
     project_banner($title, $url_prefix, $is_main);
 }
 }
-/*
-Extra div tags are for the footer id=body id=footer
-Source: https://matthewjamestaylor.com/blog/keeping-footers-at-the-bottom-of-the-page
-*/
+
 // See the comments for page_head()
 //
 if (!function_exists("page_tail")){

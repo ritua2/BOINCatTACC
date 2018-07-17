@@ -215,8 +215,8 @@ function sample_navbar(
 ) {
     global $master_url;
 
-    $brand = "<a class=\"navbar-brand\" href=$master_url>".PROJECT."</a>";
-    navbar_start($brand, $fixed, $inverse);
+    //$brand = "<a class=\"navbar-brand\" href=$master_url>".PROJECT."</a>";
+    navbar_start(null, $fixed, $inverse);//First argument was $brand
 
     navbar_item("About", "http://129.114.16.64/boincserver/about.php");
 
@@ -564,4 +564,3 @@ function form_checkbox($label, $name, $checked=false) {
         ', $name, $checked?"checked":"", $label
     );
 }
-

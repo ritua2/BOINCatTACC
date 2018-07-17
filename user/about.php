@@ -46,7 +46,98 @@ Through the TACC-2-BOINC website (the website of our VC project), we are providi
      <li><a href="https://www.tacc.utexas.edu/about/directory/ritu-arora">'.tra("Ritu Arora").'</a> (<strong>Project PI</strong>, Software Design and Architecture)
      <li><a href ="http://nia.ecsu.edu/sp/1617/johnson/">'.tra("Thomas Johnson").'</a> (Undergraduate Student Intern, Software Development & Testing)
 </ul></tr></td>';
-echo "<br>";
+/*Source of Team Website Template
+https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_team
+*/
+
+/*
+echo tra("<h3>Project Team</h3>") .'
+<style>
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+.column {
+  float: left;
+  width: 33.3%;
+  margin-bottom: 16px;
+  padding: 0 8px;
+}
+
+@media screen and (max-width: 650px) {
+  .column {
+    width: 100%;
+    display: block;
+  }
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.container {
+  padding: 0 16px;
+}
+
+.container::after, .row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.title {
+  color: grey;
+}
+
+</style>
+<div class="row">
+  <div class="column">
+    <div class="card">
+      <img src="/img1/Anubhaw.jpg.jpeg" alt="Anubhaw" style="width:100%">
+      <div class="container">
+        <h2>Anubhaw Nand</h2>
+        <p class="title">Graduate Student Intern</p>
+        <p>Software Development & Testing</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="column">
+    <div class="card">
+      <img src="/img1/Joshua.jpg.jpeg" alt="Joshua" style="width:100%">
+      <div class="container">
+        <h2>Gerald Joshua</h2>
+        <p class="title">Undergraduate Student Intern</p>
+        <p>Software Development & Testing</p>
+      </div>
+    </div>
+  </div>
+	<div class="column">
+    <div class="card">
+      <img src="/img1/ritu-2017.jpg" alt="Ritu" style="width:100%">
+      <div class="container">
+        <h2>Ritu Arora</h2>
+        <p class="title"><strong>Project PI</strong></p>
+        <p>Software Design and Architecture</p>
+      </div>
+    </div>
+  </div>
+  <div class="column">
+    <div class="card">
+      <img src="/img1/Thomas.jpg.jpeg.JPG" alt="Thomas" style="width:100%">
+      <div class="container">
+        <h2>Thomas Johnson</h2>
+        <p class="title">Undergraduate Student Intern</p>
+        <p>Software Development & Testing</p>
+      </div>
+    </div>
+  </div>
+</div>
+';
+*/
+//"/img/Thomas.jpg.jpeg.JPG"
+//"/img/Joshua.jpg.jpeg"
+//"/img/Anubhaw.jpg.jpeg"
 echo tra("<h3>Contact</h3><p></p> For all questions, please feel free to contact Ritu Arora at rauta@tacc.utexas.edu, with \"TACC-2-BOINC\" included in the subject-line.");
 echo "<br>";
 /*

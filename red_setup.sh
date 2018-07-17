@@ -51,6 +51,8 @@ mv /root/project/html/inc /root/project/html/inc_previous
 mv ./inc /root/project/html/inc
 mv /root/project/html/project /root/project/html/project_old
 mv ./project /root/project/html/project
+mv /root/project/html/user_profile /root/project/html/user_profile_old
+mv ./user_profile /root/project/html/user_profile
 
 
 chmod +x /root/project/email_assimilator.py

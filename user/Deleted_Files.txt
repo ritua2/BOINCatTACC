@@ -36,6 +36,7 @@ bolt_course_sample.php
 bolt.css
 bolt.php
 bolt_sched.php
+bootstrap.min.css
 bootstrap.min.js
 bossa_apps.php
 bossa_example4.php
@@ -50,6 +51,10 @@ cpu_list.php
 create_account_action.php
 create_account.php
 create_profile.php
+create_account_form.php
+create_account.php
+create_profile.php
+create_researcher_account_form.php
 create_team.php
 currency.js
 delete_account.php

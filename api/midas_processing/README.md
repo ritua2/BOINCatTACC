@@ -9,7 +9,7 @@ All files to be used must be inside, as well as a README.txt (required name, fil
 Users may assume root access.  
 To do so, use:
  ```bash
- 	curl -F midas_file=MY_COMPRESSED_FILE.tgz http://SERVER_IP:5085/v2/midas_job/token=TOKEN
+ 	curl -F midas_file=@MY_COMPRESSED_FILE.tgz http://SERVER_IP:5085/v2/midas_job/token=TOKEN
  ```
 
 #### README.txt 
@@ -50,7 +50,7 @@ The languages supported by the program, more than one language may be used. The 
 	* C++ (g++)  
 	* Bash  
 
-Each language is installed together with their package manager or. The version installed for each language is the default used in the package manager. To use any custom manager, add the instruuctions in the setup file.  
+Each language is installed together with their package manager or. The version installed for each language is the default used in the package manager. To use any custom manager, add the instructions in the setup file.  
 For the sake of future use, both python and python3 refer to python3 (same with pip), whereas python2 refers to python2. Python3 is always installed, since it is needed to recover the results for BOINC.    
 Bash is also installed by default.
 
@@ -64,8 +64,8 @@ To add a new language, do:
 Language libraries, installed in the order that the user provides. If they cannot be installed directly, add the explicit instructions in the
 set-up file. All libraries must be preceded by the language they support.  BOINC does not support software which requires a license or monetary
 cost to be used.  
-The name of the library must also be the name of the library when it is installed. This name may differ from the one used when it is called. For C++ libraries installed through buckaroo, use the buckaroo name, not the conventional one.  
-In the case of C/C++; we will use the buckaroo package manager because of its simplicity, This means that only packages available from buckarooo
+The name of the library must also be the name of the library when it is installed. This name may differ from the one used when it is called. For C++ libraries installed through cget, use the cget name, not the conventional one.  
+In the case of C/C++; we will use the cget package manager because of its simplicity, This means that only packages available from buckarooo
 will be automatically set-up for the user. For all others, it is necessary to specify the build process directly in the set-up file.  
 Libraries will be installed via the default package manager (pip for python, cargo for Rust, etc).  
 Note: There are certain libraries (basemap in python, for example) that require a specific setup. These libraries cannot be setup in this command

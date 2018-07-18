@@ -86,16 +86,18 @@ The BOINC server will automatically recognize your system as a volunteer and wil
 ```
 
 
-7. **Create organization acounts (This feature will NOT be used in future)**  
+7. **Create organization acounts**  
 	* 
 	* A new token must be assigned to each new user (researcher who wants to submit BOINC jobs)
 	* There are 2 options on assigning tokens:
 		* Create one automatically through *create_token.py* (deprecated)
 		* Create organization accounts
 	* Organization accounts are preferred since they allow users to sign up in an easier way
-	* Furthermore, users signing through this way will have to provide email authorization
+	* Furthermore, users signing through this way will not have to provide further email authorization
 	* To create an organization, following the instructions below and enter inputs accordingly
 	* An automatic Reef account will be created for each user signing up through this method
+	* Organizations themselves are required to submit jobs using the Stampede2 backend
+	* Only one organization is needed. However, more can be created in order to separate and differentiate users
 	* For more instructions on supplying tokens through organizations, check the API documentation
 	* To do this:
 ```bash

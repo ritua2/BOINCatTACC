@@ -71,9 +71,13 @@ Trusted organizations are those entered into an agreement with the server provid
 server authentication. To apply from an organization, the org. key is required. This key cannot be used to submit jobs per se, only to add more
 users. Registering through a trusted organization also creates a Reef account for the user.  
 To register, do:
->	*curl -F email=EMAIL -F ork_key=ORG_KEY http://SERVER_IP:5054/boincserver/v2/api/authorize_from_org*
+>	*curl -F email=$EMAIL -F ork_key=$ORG_KEY http://SERVER_IP:5054/boincserver/v2/api/authorize_from_org*
 After doing so, you will be returned your new token to process more jobs.  
 If the user has already registered, this API can be used to obtain the user token.  
+Within an organization, users can be tracked y both their provided emails or their usernames. To associate an email or more to a username, do:  
+> 	*curl -s http://$SERVER_IP:5078/boincserver/v2/api/add_username/$USERNAME/$EMAIL/$TOKEN/$ORK*
+If the email is already associated, the API will return a warning, but it will not cause any problems.  
+The same email can be associated to different usernames.  
 
 
 **Email Privacy Concerns**  

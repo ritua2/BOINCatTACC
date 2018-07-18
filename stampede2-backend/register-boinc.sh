@@ -36,7 +36,7 @@ TOKEN=$(curl -s -F email=$userEmail -F org_key=$ORK http://$SERVER_IP:5054/boinc
 
 # Gets the actual user name
 IFS='/' read -ra unam <<< "$PWD"
-unam="${unam[2]}"
+unam="${unam[3]}"
 
 # Adds the username to the database if necessary
 registerUser=$(curl -s http://$SERVER_IP:5078/boincserver/v2/api/add_username/$unam/$userEmail/$TOKEN/$ORK)

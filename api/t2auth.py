@@ -15,8 +15,8 @@ from flask import Flask, request
 import preprocessing as pp
 
 
-r = redis.Redis(host='0.0.0.0', port=6389, db = 16)
-r_org = redis.Redis(host = '0.0.0.0', port = 6389, db=3)
+r = redis.Redis(host='0.0.0.0', port=6389, db = 8)
+r_org = redis.Redis(host = '0.0.0.0', port = 6389, db = 3)
 app = Flask(__name__)
 
 
@@ -30,13 +30,13 @@ app = Flask(__name__)
 def user_emails(username, org_key):
 
     all_org_keys = [r_org.hmget(x.decode('UTF-8'), 'Organization Token')[0].decode('UTF-8') for x in r_org.keys()]
-    if orgtok not in all_org_keys:
+    if org_key not in all_org_keys:
        return 'Organization key invalid, access denied'
 
     # Gets the organization name
     for y in r_org.keys():
         if org_key == r_org.hmget(y, 'Organization Token')[0].decode('UTF-8'):
-            ORG = y
+            ORG = y.decode('UTF-8')
             break
 
     # Checks if an organization has already been registered
@@ -51,6 +51,45 @@ def user_emails(username, org_key):
     return ','.join([z.decode("UTF-8") for z in r.hkeys(username)])
 
 
+# Adds a username to the registered database, creates a new hash and updates the list if needed if needed
+# Hashes are needed since it is possible for a single user to have multiple emails assigned to their account
+# If teh user is already registered, it does nothing
+@app.route("/boincserver/v2/api/add_username/<username>/<email>/<toktok>/<org_key>")
+def add_username(username, email, toktok, org_key):
+
+    all_org_keys = [r_org.hmget(x.decode('UTF-8'), 'Organization Token')[0].decode('UTF-8') for x in r_org.keys()]
+    if org_key not in all_org_keys:
+       return 'Organization key invalid, access denied'
+
+    if pp.token_test(toktok) == False:
+        return "INVALID token"
+
+    for y in r_org.keys():
+        if org_key == r_org.hmget(y, 'Organization Token')[0].decode('UTF-8'):
+            ORG = y.decode('UTF-8')
+            break
+
+
+    # If the user is already registered it does nothing
+    for qq in range(0, r.llen(ORG)):
+        if username == r.lindex(ORG, qq).decode("UTF-8"):
+            break
+    else:
+        # Adds a new row for the user
+        r.rpush(ORG, username)
+        # Creates a new hash
+        r.hmset(username, {email:toktok})
+        return "Added new username to the database"
+
+    # Checks if the user has already set this email
+    for zz in r.hkeys(username):
+        if zz.decode('UTF-8') == email:
+            return "User email already in database"
+
+    # Adds another email to the user
+    r.hset(username, email, toktok)
+
+    return "Added another user email"
 
 
 

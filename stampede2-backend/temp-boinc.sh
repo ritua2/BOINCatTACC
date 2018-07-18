@@ -36,6 +36,19 @@ ORK=$(cat Org_Key1.txt)
 # Validates the researcher's email against the server's API
 TOKEN=$(curl -s -F email=$userEmail -F org_key=$ORK http://$SERVER_IP:5054/boincserver/v2/api/authorize_from_org)
 
+
+# Adds the username to the database if necessary
+# Gets the actual user name
+IFS='/' read -ra unam <<< "$PWD"
+unam="${unam[2]}"
+
+# Adds the username to the database if necessary
+# Adds the username to the database if necessary
+registerUser=$(curl -s http://$SERVER_IP:5078/boincserver/v2/api/add_username/$unam/$userEmail/$TOKEN/$ORK)
+
+printf "\n${GREENGREEN}$registerUser${NCNC}\n"
+
+
 # Checks that the token is valid
 if [ $TOKEN = *"INVALID"* ]; then
     printf "${REDRED}Organization does not have access to BOINC\n${NCNC}Program exited\n"

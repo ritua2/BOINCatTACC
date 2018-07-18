@@ -15,7 +15,7 @@
 # Sets up a Redis client on port 6389
 
 apt-get update -y
-apt-get install python-ldap redis-server vim git-core -y
+apt-get install redis-server vim git-core -y
 git clone git://github.com/nrk/predis.git
 mv predis/* ./user-interface/token_data
 # Sets up a redis server on port 6389, which must be open in the docker-compose.yml
@@ -23,7 +23,7 @@ redis-server --port 6389 &
 # Sets up python3, needed
 apt-get install python3 python3-pip python3-mysql.connector -y
 # Python modules
-pip3 install redis Flask Werkzeug docker
+pip3 install redis Flask Werkzeug docker ldap3 requests
 
 # Moves all the APIs and email commands
 # Requires to be cloned inside project
@@ -68,6 +68,8 @@ chmod +x /root/project/html/user/token_data/modify_org.py
 chmod +x /root/project/api/factor2.py
 chmod +x /root/project/api/harbour.py
 chmod +x /root/project/api/allocation.py
+chmod +x /root/project/api/ualdap.py
+chmod +x /root/project/api/t2auth.py
 chmod +x /root/project/idir.py
 chmod +x /root/project/api/personal_area.py
 chmod +x /root/project/adtd-protocol/redfile2.py

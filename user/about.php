@@ -66,7 +66,7 @@ echo tra("<h3>Project Team</h3>") .'<br>
 <div class="row">
   <div class="col-md-4">
     <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
-      <img src="/img1/Anubhaw.jpg.jpeg" alt="Anubhaw" class="img-responsive">
+      <img src="/img1/Anubhaw.jpg.jpeg" alt="Anubhaw" style="width:100%;height:50%;">
       <div class="info" style="padding: 10px 10px;">
         <h2><a href="https://www.linkedin.com/in/anubhawn/">Anubhaw Nand</a></h2>
         <p class="title">Graduate Student Intern</p>
@@ -77,7 +77,7 @@ echo tra("<h3>Project Team</h3>") .'<br>
 
   <div class="col-md-4">
     <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
-      <img src="/img1/gerald_joshua.jpeg" alt="Joshua" class="img-responsive">
+      <img src="/img1/gerald_joshua.jpeg" alt="Joshua" style="width:100%;height:50%;">
       <div class="info" style="padding: 10px 10px;">
         <h2><a href="https://www.linkedin.com/in/geraldjoshua">Gerald Joshua</a></h2>
         <p class="title">Undergraduate Student Intern</p>
@@ -89,7 +89,7 @@ echo tra("<h3>Project Team</h3>") .'<br>
 <!-- Added by Gerald Joshua, copied from above -->
   <div class="col-md-4">
     <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
-      <img src="/img1/ritu-2017.jpg" alt="Ritu" class="img-responsive">
+      <img src="/img1/ritu-2017.jpg" alt="Ritu" style="width:100%;height:50%;">
       <div class="info" style="padding: 10px 10px;">
         <h2><a href="https://www.tacc.utexas.edu/about/directory/ritu-arora">Ritu Arora</a></h2>
         <p class="title"><strong>Project PI</strong></p>
@@ -104,7 +104,7 @@ echo tra("<h3>Project Team</h3>") .'<br>
   <div class="row">
   <div class="col-md-4">
     <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
-      <img src="/img1/Thomas.jpg.jpeg.JPG" alt="Thomas" class="img-responsive">
+      <img src="/img1/Thomas.jpg.jpeg.JPG" alt="Thomas" style="width:100%;height:50%;">
       <div class="info" style="padding: 10px 10px;">
         <h2><a href ="http://nia.ecsu.edu/sp/1617/johnson/">Thomas Johnson</a></h2>
         <p class="title">Undergraduate Student Intern</p>
@@ -116,7 +116,7 @@ echo tra("<h3>Project Team</h3>") .'<br>
 
 	<div class="col-md-4">
     <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
-      <img src="/img1/Carlos_2018_unrotated.jpeg" alt="Carlos" class="img-responsive">
+      <img src="/img1/Carlos_2018_unrotated.jpeg" alt="Carlos" style="width:100%;height:50%;">
         <div class="info" style="padding: 10px 10px;">
         <h2><a href="https://www.linkedin.com/in/carlos-redondo-albertos">Carlos Redondo</a></h2>
         <p class="title">Undergraduate Student Intern</p>

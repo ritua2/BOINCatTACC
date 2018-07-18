@@ -42,7 +42,7 @@ Using Reef, it is now possible to:
 	- Delete files when they are no longer useful  
 	- Maintain a sandbox of data for future BOINC projects  
 	- Download files using curl or wget  
-	- Check used disk space allocation, as of now, all user's are assigned 2 GB of space  
+	- Check used disk space allocation
 	- Download the results files  
 	- Get a summary of jobs submitted
 
@@ -74,7 +74,7 @@ To register, do:
 >	*curl -F email=$EMAIL -F ork_key=$ORG_KEY http://SERVER_IP:5054/boincserver/v2/api/authorize_from_org*
 After doing so, you will be returned your new token to process more jobs.  
 If the user has already registered, this API can be used to obtain the user token.  
-Within an organization, users can be tracked y both their provided emails or their usernames. To associate an email or more to a username, do:  
+Within an organization, users can be tracked by both their provided emails or their usernames. To associate an email or more to a username, do:  
 > 	*curl -s http://$SERVER_IP:5078/boincserver/v2/api/add_username/$USERNAME/$EMAIL/$TOKEN/$ORK*
 If the email is already associated, the API will return a warning, but it will not cause any problems.  
 The same email can be associated to different usernames.  
@@ -95,7 +95,7 @@ For more information on MIDAS, consult the *processing_files* files directory, i
 Use the following syntax to upload a file:  
 >	*curl -F file=@FILE http://SERVER_IP:5085/boincserver/v2/midas/token=TOKEN*
 
-Users are each assigned an allocation and allowed to submit images and jobs as long as these allocation is not exceeded.  
+Users are each assigned an allocation and allowed to submit images and jobs as long as this allocation is not exceeded.  
 To check the user's images, as well as their size, do:
 >	*curl http://SERVER_IP:5085/boincserver/v2/midas/user_images/token=TOKEN*
 

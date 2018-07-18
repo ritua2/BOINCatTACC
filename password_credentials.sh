@@ -20,7 +20,7 @@ printf "\nEnter email password: "
 read BOINC_EMAIL_PASSWORD
 
 printf "\nexport SERVER_IP=$SERVER_IP\nexport BOINC_EMAIL=$BOINC_EMAIL\nexport BOINC_EMAIL_PASSWORD=$BOINC_EMAIL_PASSWORD\n" >> /root/.bashrc
-printf "\nexport MYSQL_UPASS=$MYSQL_UPASS\n"
+printf "\nexport MYSQL_UPASS=$MYSQL_UPASS\n" >> /root/.bashrc
 export SERVER_IP=$SERVER_IP
 export MYSQL_UPASS="$MYSQL_UPASS"
 export BOINC_EMAIL=$BOINC_EMAIL

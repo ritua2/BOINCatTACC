@@ -35,12 +35,13 @@ def user_emails(username, org_key):
 
     # Gets the organization name
     for y in r_org.keys():
-        if org_key == r_org.hmget(y, 'Organization Token')[0].decode('UTF-8'):
-            ORG = y.decode('UTF-8')
+        syg = y.decode("UTF-8")
+        if org_key == r_org.hmget(syg, 'Organization Token')[0].decode('UTF-8'):
+            ORG = syg
             break
 
     # Checks if an organization has already been registered
-    if ORG not in r.keys():
+    if ORG.encode() not in r.keys():
         return "NOT REGISTERED"
 
     # Checks if a user exists in an organization
@@ -51,9 +52,36 @@ def user_emails(username, org_key):
     return ','.join([z.decode("UTF-8") for z in r.hkeys(username)])
 
 
+# Gets the list of tokens for a given username
+@app.route("/boincserver/v2/api/user_tokens/<username>/<org_key>")
+def user_tokens(username, org_key):
+
+    all_org_keys = [r_org.hmget(x.decode('UTF-8'), 'Organization Token')[0].decode('UTF-8') for x in r_org.keys()]
+    if org_key not in all_org_keys:
+       return 'Organization key invalid, access denied'
+
+    # Gets the organization name
+    for y in r_org.keys():
+        syg = y.decode("UTF-8")
+        if org_key == r_org.hmget(syg, 'Organization Token')[0].decode('UTF-8'):
+            ORG = syg
+            break
+
+    # Checks if an organization has already been registered
+    if ORG.encode() not in r.keys():
+        return "NOT REGISTERED"
+
+    # Checks if a user exists in an organization
+    if username not in [r.lindex(ORG, w).decode('UTF-8') for w in range(0, r.llen(ORG))]:
+        return "NOT REGISTERED"
+
+    # The user is registered, so it returns a list of all its email addresses used so far (comma-separated)
+    return ','.join([r.hget(username, z.decode("UTF-8")).decode("UTF-8") for z in r.hkeys(username)])
+
+
 # Adds a username to the registered database, creates a new hash and updates the list if needed if needed
 # Hashes are needed since it is possible for a single user to have multiple emails assigned to their account
-# If teh user is already registered, it does nothing
+# If the user is already registered, it does nothing
 @app.route("/boincserver/v2/api/add_username/<username>/<email>/<toktok>/<org_key>")
 def add_username(username, email, toktok, org_key):
 

@@ -268,11 +268,11 @@ function page_head(
 	$t = $tabTitle?$tabTitle:PROJECT;
     //End of Gerald Joshua's edit
     echo "<title>$t</title>\n";
-//Cloud flare link added by Joshua
-    echo '
+	
+	
+    echo /*Added by Gerald Joshua*/'
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <meta charset="utf-8">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fontt
--awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
@@ -281,7 +281,7 @@ function page_head(
 	<meta name="msapplication-TileColor" content="#da532c">
 	<meta name="theme-color" content="#ffffff">
 	<link type="text/css" rel="stylesheet" href="'.secure_url_base().'/bootstrap.min.css" media="all">
-	';
+	'/*End of Gerald Joshua's edit*/;
     if (defined('STYLESHEET')) {
         $stylesheet = $url_base.STYLESHEET;
         echo "
@@ -307,8 +307,6 @@ function page_head(
     if ($fixed_navbar) {
         $body_attrs .= ' style="padding-top:70px"';
     }
-    //For keeping the footer down on all screens
-    //https://css-tricks.com/couple-takes-sticky-footer/
     echo "<body $body_attrs>";
     display_cvs_versions();
     echo '<div class="container-fluid">

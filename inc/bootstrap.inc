@@ -100,7 +100,7 @@ function navbar_right($user) {
                 <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                 <li><a href="%screate_account_form.php">Sign Up as a Volunteer</a></li>
-                <li><a href="%screate_researcher_account_form.php">Sign Up as a Researcher</a></li>
+                <li><a href="%screate_researcher_account_form.php" style="pointer-events:none; color:gray;">Sign Up as a Researcher</a></li>
                 </ul></li>
                 <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Log In
@@ -564,3 +564,6 @@ function form_checkbox($label, $name, $checked=false) {
         ', $name, $checked?"checked":"", $label
     );
 }
+
+
+

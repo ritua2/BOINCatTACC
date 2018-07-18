@@ -157,21 +157,6 @@ done
 
 case "$user_option" in 
 
-    "2")
-        printf "\nSubmitting a file for a known dockerhub image with commands present\n"
-        printf "\n${YELLOWYELLOW}WARNING${NCNC}\nAll commands must be entered, including results retrieval"
-        printf "\nEnter the path of the file which contains list of serial commands: "
-        read filetosubmit
-
-        if [ ! -f $filetosubmit ]; then
-            printf "${REDRED}File $filetosubmit does not exist, program exited${NCNC}\n"
-            exit 0
-        fi
-
-        curl -F file=@$filetosubmit -F app=$boapp http://$SERVER_IP:5075/boincserver/v2/submit_known/token=$TOKEN
-        printf "\n"
-        ;;
-
     "1")
         printf "\nSubmitting a BOINC job to a known image, select the image below:\n"
 
@@ -309,7 +294,22 @@ case "$user_option" in
         rm BOINC_Proc_File.txt
         printf "\n"        
         ;;
+		
+    "2")
+        printf "\nSubmitting a file for a known dockerhub image with commands present\n"
+        printf "\n${YELLOWYELLOW}WARNING${NCNC}\nAll commands must be entered, including results retrieval"
+        printf "\nEnter the path of the file which contains list of serial commands: "
+        read filetosubmit
 
+        if [ ! -f $filetosubmit ]; then
+            printf "${REDRED}File $filetosubmit does not exist, program exited${NCNC}\n"
+            exit 0
+        fi
+
+        curl -F file=@$filetosubmit -F app=$boapp http://$SERVER_IP:5075/boincserver/v2/submit_known/token=$TOKEN
+        printf "\n"
+        ;;
+		
     "3")
 
         # MIDAS Processing

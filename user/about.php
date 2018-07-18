@@ -34,6 +34,7 @@ echo tra("Volunteer computing (VC) uses donated computing time to do scientific 
 Through the TACC-2-BOINC website (the website of our VC project), we are providing the capability of routing *qualified* High-Throughput Computing (HTC) jobs from the supercomputers at the Texas Advanced Computing Center (TACC) to the volunteered devices running the BOINC clients for the project. This integration of VC with supercomputing can potentially help those researchers/scholars who are running low on allocations of compute-time on our supercomputers, or are interested in reducing the turnaround time of their jobs when our supercomputers are over-subscribed. We are funded by NSF (under award # 1664022) to develop the BOINC-based VC conduit that can be used by other supercomputing facilities as well.").'
 <br /><br />';
 
+/*Commented out by Gerald Joshua since the pictures are now available
 //Principal investigator
 //Beginning of Thomas Johnson's edit on Gerald Joshua's edit: Provided a table that mimics the style and format of the stats.php page
 //.tra("<h3>Principal Investigator of %1",PROJECT).":</h3>
@@ -46,97 +47,88 @@ Through the TACC-2-BOINC website (the website of our VC project), we are providi
      <li><a href="https://www.tacc.utexas.edu/about/directory/ritu-arora">'.tra("Ritu Arora").'</a> (<strong>Project PI</strong>, Software Design and Architecture)
      <li><a href ="http://nia.ecsu.edu/sp/1617/johnson/">'.tra("Thomas Johnson").'</a> (Undergraduate Student Intern, Software Development & Testing)
 </ul></tr></td>';
-/*Source of Team Website Template
-https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_team
-Table for organization notes
-https://computerservices.temple.edu/creating-tables-html
 */
 
+/*Source of Team Website Template
+https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_team
+*/
 /*
-echo tra("<h3>Project Team</h3>") .'
-<style>
-*, *:before, *:after {
-  box-sizing: inherit;
-}
+Bootstrap example for reference:
+https://bootsnipp.com/snippets/featured/profile-card
+*/
+/*
+Restructured due to div bug by Thomas
+*/
 
-.column {
-  float: left;
-  width: 33.3%;
-  margin-bottom: 16px;
-  padding: 0 8px;
-}
 
-@media screen and (max-width: 650px) {
-  .column {
-    width: 100%;
-    display: block;
-  }
-}
-
-.card {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-}
-
-.container {
-  padding: 0 16px;
-}
-
-.container::after, .row::after {
-  content: "";
-  clear: both;
-  display: table;
-}
-
-.title {
-  color: grey;
-}
-
-</style>
+echo tra("<h3>Project Team</h3>") .'<br>
+<div class="container">
 <div class="row">
-  <div class="column">
-    <div class="card">
-      <img src="/img1/Anubhaw.jpg.jpeg" alt="Anubhaw" style="width:100%">
-      <div class="container">
-        <h2>Anubhaw Nand</h2>
+  <div class="col-md-4">
+    <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
+      <img src="/img1/Anubhaw.jpg.jpeg" alt="Anubhaw" class="img-responsive">
+      <div class="info" style="padding: 10px 10px;">
+        <h2><a href="https://www.linkedin.com/in/anubhawn/">Anubhaw Nand</a></h2>
         <p class="title">Graduate Student Intern</p>
         <p>Software Development & Testing</p>
-      </div>
+        </div>
     </div>
   </div>
 
-  <div class="column">
-    <div class="card">
-      <img src="/img1/Joshua.jpg.jpeg" alt="Joshua" style="width:100%">
-      <div class="container">
-        <h2>Gerald Joshua</h2>
+  <div class="col-md-4">
+    <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
+      <img src="/img1/gerald_joshua.jpeg" alt="Joshua" class="img-responsive">
+      <div class="info" style="padding: 10px 10px;">
+        <h2><a href="https://www.linkedin.com/in/geraldjoshua">Gerald Joshua</a></h2>
         <p class="title">Undergraduate Student Intern</p>
         <p>Software Development & Testing</p>
-      </div>
+        </div>
     </div>
   </div>
-	<div class="column">
-    <div class="card">
-      <img src="/img1/ritu-2017.jpg" alt="Ritu" style="width:100%">
-      <div class="container">
-        <h2>Ritu Arora</h2>
+
+<!-- Added by Gerald Joshua, copied from above -->
+  <div class="col-md-4">
+    <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
+      <img src="/img1/ritu-2017.jpg" alt="Ritu" class="img-responsive">
+      <div class="info" style="padding: 10px 10px;">
+        <h2><a href="https://www.tacc.utexas.edu/about/directory/ritu-arora">Ritu Arora</a></h2>
         <p class="title"><strong>Project PI</strong></p>
         <p>Software Design and Architecture</p>
       </div>
     </div>
   </div>
-  <div class="column">
-    <div class="card">
-      <img src="/img1/Thomas.jpg.jpeg.JPG" alt="Thomas" style="width:100%">
-      <div class="container">
-        <h2>Thomas Johnson</h2>
+  </div>
+  </div>
+  <br>
+  <div class="container">
+  <div class="row">
+  <div class="col-md-4">
+    <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
+      <img src="/img1/Thomas.jpg.jpeg.JPG" alt="Thomas" class="img-responsive">
+      <div class="info" style="padding: 10px 10px;">
+        <h2><a href ="http://nia.ecsu.edu/sp/1617/johnson/">Thomas Johnson</a></h2>
         <p class="title">Undergraduate Student Intern</p>
         <p>Software Development & Testing</p>
       </div>
     </div>
   </div>
+
+
+	<div class="col-md-4">
+    <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
+      <img src="/img1/Carlos_2018_unrotated.jpeg" alt="Carlos" class="img-responsive">
+        <div class="info" style="padding: 10px 10px;">
+        <h2><a href="https://www.linkedin.com/in/carlos-redondo-albertos">Carlos Redondo</a></h2>
+        <p class="title">Undergraduate Student Intern</p>
+        <p>Software Development & Testing</p>
+        </div>
+    </div>
+  </div>
 </div>
+</div>
+<br>
 ';
-*/
+
 //"/img/Thomas.jpg.jpeg.JPG"
 //"/img/Joshua.jpg.jpeg"
 //"/img/Anubhaw.jpg.jpeg"

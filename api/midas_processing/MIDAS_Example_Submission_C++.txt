@@ -1,0 +1,14 @@
+# Checks the use of C++ and C++ with the cget package manager
+
+[OS] Ubuntu_16.04
+
+[LANGUAGE] C++
+[LANGUAGE] C++ cget
+[LIBRARY] C++ cget: eigen
+[LIBRARY] C++ cget: boost
+[COMMAND] C++: nolibs.cpp
+[COMMAND] C++ cget: eigen_norms.cpp: using CGET
+[COMMAND] C++ cget: odeint.cpp: using CGET
+[OUTPUT] Simple_case.txt
+[OUTPUT] norms.txt
+[OUTPUT] ODE.txt

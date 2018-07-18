@@ -1,0 +1,30 @@
+#################################################
+# OpenSees 
+
+# Largery based on stevemock/docker-opensees
+# All commands are the same as the ones from the base image
+# To obtain the results in the final folder, simply run
+# License: Apache License 2.0
+
+#################################################
+
+
+FROM stevemock/docker-opensees
+MAINTAINER Carlos Redondo <carlos.red@utexas.edu>
+ENV _SECOND_AUTHOR "Carlos Redondo <carlos.red@utexas.edu"
+# Because the previous user is Ubuntu and BOINC requires access to the /root/ folder
+USER root
+
+
+# Installs realpath command so that the program can access the full path information of stuff
+# The container already accounts fro the known .out files and saves their names accordingly
+# There will be a file to move all the unaccounted .out files to the /root/shared/results folder
+# Then, it changes their type to .txt files
+
+
+# Copies the unaccounted files to /root/shared/results
+COPY Mov_Res.py /Mov_Res.py
+
+RUN apt-get update -y && apt-get install unzip curl -y &&\
+    mkdir -p /root/shared/results && apt-get install -y realpath && touch /All_outs.txt &&\
+	for afil in $(find / -name '*.out'); do printf "$(realpath $afil)\n" >>  /All_outs.txt; done

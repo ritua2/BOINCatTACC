@@ -1,0 +1,20 @@
+# This is a comment (MIDAS ignores it)
+
+[OS] Ubuntu_16.04
+# Python refers to python3, python2 is NOT supported
+# Python is also installed by default, no extra installation needed
+# More than one language may be selected
+[LANGUAGE] python
+# MIDAS handles the installation, if and oonly if the libary is in the language's default package manager
+# If not, provide a setup file
+[LIBRARY] python: numpy
+[LIBRARY] python: matplotlib
+[LIBRARY] python: scipy
+# The names of the input files must correspond to those provided in the tar file
+# For scripted languages, provide the language and the file in which to execute the command
+# All commands must be within the local directory
+[COMMAND] python: matrix_test.py
+[COMMAND] python: voronoi_test.py
+# MIDAS will automatically extract the files, but they MUST be in the local directory
+[OUTPUT] matrix_results.txt
+[OUTPUT] voronoi_results.png

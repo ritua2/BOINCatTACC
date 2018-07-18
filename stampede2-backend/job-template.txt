@@ -1,1 +1,1 @@
-#This is sample file
+carlosred/opensees:latest /bin/bash -c "cd /data; curl -O http://opensees.berkeley.edu/wiki/images/3/3d/MomentCurvature.tcl; OpenSees < MomentCurvature.tcl; python /Mov_Res.py"

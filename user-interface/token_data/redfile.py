@@ -40,7 +40,7 @@ def summarizer(linlin):
 
 
 
-for file in glob.glob("./process_files/*.txt"):
+for file in glob.glob("/root/project/html/user/token_data/process_files/*.txt"):
     
     with open(file, "r") as filproc:    
          # Moves all the data into redis   
@@ -61,6 +61,7 @@ for file in glob.glob("./process_files/*.txt"):
              r.rpush('Date (Sub)', prestime)
              r.rpush('Date (Run)', '0')
              r.rpush('Error', '0')
+             r.rpush('Notified', '0')
 
  
     # Erases the file

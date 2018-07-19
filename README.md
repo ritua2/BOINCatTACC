@@ -60,8 +60,8 @@ The BOINC server will automatically recognize your system as a volunteer and wil
 4. **Clone this repository**
 	* If git is not installed, do it by executing: *apt-get update && apt-get install git-core -y*
 	* If not already there, *cd /root/project*
-	* Clone via: *git clone https://github.com/ritua2/BOINC*
-	* *cd BOINC*
+	* Clone via: *git clone https://github.com/ritua2/TACC-2-BOINC*
+	* *cd TACC-2-BOINC*
 
 5. **Establish user email credentials**
 	* Run the appropriate bash script to set up the email and password
@@ -81,13 +81,13 @@ The BOINC server will automatically recognize your system as a volunteer and wil
 	* It will install all the necessary packages, python libraries, set-up the internal Redis database, properly locate the files, set-up the APIs, Reef cloud storage, and automatic job processing
 	* The set-up file will also automatically prompt to enter the credentials for the email. Use caution, since an error would require to manually fix the /root/.bashrc file
 ```bash
-	 cd /root/project/BOINC
+	 cd /root/project/TACC-2-BOINC
 	 bash red_setup.sh
 ```
 
 
 7. **Create organization acounts**  
-	* 
+	 
 	* A new token must be assigned to each new user (researcher who wants to submit BOINC jobs)
 	* There are 2 options on assigning tokens:
 		* Create one automatically through *create_token.py* (deprecated)

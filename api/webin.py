@@ -82,10 +82,6 @@ def process_web_jobs():
        return "INVALID, no data provided"  
 
 
-    # Only for internal use, all other use will return an error
-    if (request.remote_addr != '0.0.0.0') and (request.remote_addr != SERVER_IP):
-        return "INVALID, API for internal use only"
-
     try:
         dictdata = request.get_json()
     except:
@@ -156,4 +152,5 @@ def process_web_jobs():
 
 
 if __name__ == '__main__':
-app.run(host = '0.0.0.0', port = 5096)
+    # Outside of container
+    app.run(host = '0.0.0.0', port = 6035)

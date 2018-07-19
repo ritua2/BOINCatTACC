@@ -15,12 +15,12 @@ r = redis.Redis(host = '0.0.0.0', port = 6389, db =2)
 
 
 if len(sys.argv) < 4:
-   print("Not enough arguments. Provide the following (comma separated):\n {FIRSTNAME}, {LASTNAME}, {EMAIL}, {ALLOCATION (GB) (Optional)}")
+   print("Not enough arguments. Provide the following (comma separated):\n {FIRSTNAME} {LASTNAME} {EMAIL} {ALLOCATION (GB) (Optional)}")
    print("If no allocation is provided, then 2 GB will be assigned")
    sys.exit(1)
 
 if len(sys.argv) > 5:
-   print("Too many arguments. Provide the following (comma separated):\n {FIRSTNAME}, {LASTNAME}, {EMAIL}, {ALLOCATION (GB) (Optional)}")
+   print("Too many arguments. Provide the following (comma separated):\n {FIRSTNAME} {LASTNAME} {EMAIL} {ALLOCATION (GB) (Optional)}")
    print("If no allocation is provided, then 2 GB will be assigned")
    sys.exit(1)
 

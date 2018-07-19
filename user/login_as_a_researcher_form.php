@@ -22,18 +22,17 @@
 require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/account.inc");
-<<<<<<< HEAD
 /*
 define("LDAP_HOST", "ldap.tacc.utexas.edu");
 define("LDAP_BASE_DN", "uid=ldapbind,ou=People,dc=tacc,dc=utexas,dc=edu");
 */
-=======
+
 // Connects to LDAP
 require_once("/root/project/html/project/project.inc");
-require_once("../inc/ldap.inc");
+//require_once("../inc/ldap.inc");
 
 
->>>>>>> 04b63e6f25ac279444e9e57304dbb7223184ab3f
+
 page_head(null, null, null, null,  null, "Log In");
 
 

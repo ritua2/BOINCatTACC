@@ -20,7 +20,7 @@ from email.mime.text import MIMEText
 
 r = redis.Redis(host = '0.0.0.0', port = 6389, db = 0)
 
-boinc_db = mysql_con.connect(host = os.environ['SERVER_IP'], port = 3306, user = 'root', password = os.environ['MYSQL_UPASS'], database = 'boincserver')
+boinc_db = mysql_con.connect(host = os.environ['URL_BASE'].split('/')[-1], port = 3306, user = 'root', password = os.environ['MYSQL_UPASS'], database = 'boincserver')
 
 cursor = boinc_db.cursor()
 

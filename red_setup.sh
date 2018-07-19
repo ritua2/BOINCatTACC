@@ -45,6 +45,8 @@ mkdir /results/adtdp
 mv ./user/img1 /root/project/html/user/
 mv ./user/* /root/project/html/user/
 
+# Required because images is its own directory
+mv -f ./user/img/* /root/project/html/user/img
 
 # Substitutes the project and inc files by their new equivalents
 mv /root/project/html/inc /root/project/html/inc_previous
@@ -79,7 +81,7 @@ chmod +x /root/project/email2.py
 
 
 # Asks the user to make the main directory available
-printf "Enter the apache2.conf and comment out the main directory restrictions"
+printf "Enter the apache2.conf and comment out the main directory restrictions\nThis message will stay for 30 s\n"
 sleep 30
 vi /etc/apache2/apache2.conf
 
@@ -97,3 +99,7 @@ service apache2 restart
 
 /root/project/API_Daemon.sh -up
 nohup /root/project/bproc.sh &
+
+# Needed to avoid confusion
+sleep 2
+printf "\nSet-up completed, server is ready now\n"

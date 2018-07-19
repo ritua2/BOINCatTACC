@@ -26,7 +26,7 @@ def ldap_check(username, pw):
     if not c.bind():
         return "INVALID, user is not registered or invalid credentials"
 
-    return "User is authentciated"
+    return "User is authenticated"
 
 
 

@@ -4,7 +4,7 @@ BASICS
 Generates a token for any user provided their name
 """
 
-import sys
+import sys, os
 import random
 import redis
 
@@ -43,5 +43,11 @@ with open("Tokens.txt", "a") as tokfile:
      else:
         r.set(rantok, float(sys.argv[4]))
         print("User allocation has been set to "+str(sys.argv[4])+" GB")
+
+     # Creates a Reef set-up
+     os.mkdir("/root/project/api/sandbox_files/DIR_")+rantok
+     os.mkdir("/root/project/api/sandbox_files/DIR_"+rantok+"/___RESULTS")
+
+
 
 print("New assigned token is: "+str(rantok))

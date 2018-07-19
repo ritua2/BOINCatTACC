@@ -112,14 +112,22 @@ function make_php_mailer() {
 //https://css-tricks.com/fun-viewport-units/
 function project_banner($title, $prefix, $is_main) {
 	echo '<div class="container">
-  <a href="index.php"><span style="position:absolute; top:0px; left:0px; font-size:4.7vw;">TACC-2-BOINC</span></a>
-  <a href="https://boinc.berkeley.edu/">
-		<img class="img-responsive" style="width: 208px; margin-bottom: 23px; position:relative; right:-800px; top:0px" src="./img1/boincLogo.jpg" alt="Boinc Logo">
+	<div class="row">
+	<div class="col-md-5">
+  <a href="index.php"><img class="img-responsive" src="./img1/TACC-2-BOINC4x.png" style="height:86px;width:470px;position:absolute; top:4px; left:-50px;"></a>
+	</div>
+	<div class="col-md-3 col-md-offset-1">
+<a href="https://boinc.berkeley.edu/">
+		<img class="img-responsive" style="width: 208px; margin-bottom: 23px; position:relative; right:-180px; top:5px" src="./img1/boincLogo_cropped.jpg" alt="Boinc Logo">
 	      </a>
+	</div>
+	<div class="col-md-3">
 	      <a href="https://www.tacc.utexas.edu/">
-		<img class="img-responsive" style="width: 208px; position: absolute; top: 9px; right: 15px;" src="./img1/taccLogo.png" alt="TACC Logo">
+		<img class="img-responsive" style="width: 230px; position: absolute; top: 4px; right: -50px;" src="./img1/taccLogo.png" alt="TACC Logo">
 	      </a>
-        </div>
+	</div>
+	</div>
+        <div></div></div>
 					';
     sample_navbar(secure_url_base(), get_logged_in_user(false), false);
     if ($title) {
@@ -487,37 +495,4 @@ function project_team_credit($team) {
 }
 
 }   // if(0)
-
-/*
-For the popups
-https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_popup
-*/
-echo "<script>
-// When the user clicks on the `link` a popup appears
-function myFunction() {
-    var popup = document.getElementById(\"Popup\");
-    var span = document.getElementsByClassName(\"close\")[0];
-    popup.classList.toggle(\"show\");
-}
-function myFunction2() {
-    var popup = document.getElementById(\"Popup2\");
-    var span = document.getElementsByClassName(\"close\")[0];
-    popup.classList.toggle(\"show\");
-}
-function myFunction3() {
-    var popup = document.getElementById(\"Popup3\");
-    var span = document.getElementsByClassName(\"close\")[0];
-    popup.classList.toggle(\"show\");
-}
-function myFunction4() {
-    var popup = document.getElementById(\"Popup4\");
-    var span = document.getElementsByClassName(\"close\")[0];
-    popup.classList.toggle(\"show\");
-}
-function myFunction5() {
-    var popup = document.getElementById(\"Popup5\");
-    var span = document.getElementsByClassName(\"close\")[0];
-    popup.classList.toggle(\"show\");
-}
-</script>";
 ?>

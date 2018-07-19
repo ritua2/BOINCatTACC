@@ -144,6 +144,31 @@ page_head(null, null, true);
 
 grid('top', 'left', 'right');
 
+echo "<script>
+// When the user clicks on the `link` a popup appears
+function myFunction() {
+    var popup = document.getElementById(\"Popup\");
+    popup.classList.toggle(\"show\");
+}
+function myFunction2() {
+    var popup = document.getElementById(\"Popup2\");
+    popup.classList.toggle(\"show\");
+}
+function myFunction3() {
+    var popup = document.getElementById(\"Popup3\");
+    popup.classList.toggle(\"show\");
+}
+function myFunction4() {
+    var popup = document.getElementById(\"Popup4\");
+    popup.classList.toggle(\"show\");
+}
+function myFunction5() {
+    var popup = document.getElementById(\"Popup5\");
+    popup.classList.toggle(\"show\");
+}
+</script>";
+
+
 page_tail(false, "", true);
 
 ?>

@@ -118,7 +118,7 @@ TOKEN=$(curl -s -F email=$userEmail -F org_key=$ORK http://$SERVER_IP:5054/boinc
 # Adds the username to the database if necessary
 # Gets the actual user name
 IFS='/' read -ra unam <<< "$PWD"
-unam="${unam[2]}"
+unam="${unam[3]}"
 
 # Adds the username to the database if necessary
 # Adds the username to the database if necessary

@@ -31,6 +31,10 @@ require_once("../inc/translation.inc");
 require_once("../inc/profile.inc");
 require_once("../inc/bootstrap.inc");
 
+//Added by Gerald Joshua
+session_start();
+//End of the edit by Joshua
+
 // parse some stuff from config (do it here for efficiency)
 //
 $config = get_config();
@@ -271,8 +275,8 @@ function page_head(
 	
 	
     echo /*Added by Gerald Joshua*/'
+	<meta charset="utf-8">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <meta charset="utf-8">
 	<link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">

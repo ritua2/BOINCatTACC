@@ -26,6 +26,7 @@ function redup(){
 	}
 	catch (Exception $exce) {
 	   echo "<p>Could not connect to Redis</p><p>Program aborted</>";
+
 	   echo $exce->getMessage();
 	   exit;
 	}
@@ -70,19 +71,18 @@ function res_login($unam){
 
 // Logs a user out
 function logout($unam){
-
-	// Checks if the user is logged in
+	// Checks if the user is already logged in
 	if (! logged_in($unam)){
 		return "User not logged in";
 	}
-
 	try{
 		$redis =redup();
 		// Adds an entry with the username and the date of login
-		$redis->del($unam);
+		$redis->del(array($unam));
 		return "Successfully logged out";
 	}
 	catch (Exception $e){
+		echo "$e";
 		return "Redis error, could not log out user";
 	}
 }

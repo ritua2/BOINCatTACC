@@ -17,17 +17,18 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 //Added by Gerald Joshua
-
 require_once("../inc/util.inc");
 
-check_get_args(array());
-
-//Any website visitors who have not signed in yet will be
-//redirected to the sign in page
-$user = get_logged_in_user();
-BoincForumPrefs::lookup($user);
-
 page_head(null, null, null, null, null, "Job Submission");
+
+if (!isset($_SESSION))
+{
+    session_start(); 
+}
+
+if(!isset($_SESSION['user'])){
+	echo "<script>window.location.replace('./login_as_a_researcher_form.php');</script>";
+}
 
 //Page Title
 echo '<center><h1>Job Submission</h1></center><br />';
@@ -35,7 +36,7 @@ echo '<center><h1>Job Submission</h1></center><br />';
 
 //Added by Gerald Joshua
 echo '
-	<form action = "http://129.114.16.64/boincserver/job_submission_result.php" method = "post" enctype="multipart/form-data">
+	<form action = "./job_submission_result.php" method = "post" enctype="multipart/form-data">
 	<span style="margin-left: 17.3%; float:left; font-weight:bold;"><a data-toggle="tooltip" style ="border-bottom: 1px dotted #000; text-decoration: none;" title="The location of docker image that will be used can be from docker hub or from the list of available tacc-2-boinc docker images">'.tra("Location of docker image").'</a></span>
 	<div style="float:left; margin-left: 3.5%;"><label style="margin-left: 3px;"><input type="radio" id="dockerOpt1" checked="checked"><span style="margin-left: 5px;">List of TACC-2-BOINC docker images</span></label></div>
 	<div style="float:left; margin-left: 4%;"><label><input type="radio" id="dockerOpt2"><span style="margin-left: 5px;">Docker hub</span></label></div>
@@ -88,7 +89,7 @@ form_input_text(sprintf('<!-- style of span was added by Gerald Joshua--><span s
 	),
 	"Commands",""
 );
-*/
+End of the edit by Gerald Joshua*/
 
 //Added by Gerald Joshua
 //Most codes below were taken from the codes above
@@ -99,6 +100,7 @@ echo '<span style="margin-left: 21.3%; font-weight:bold;"><a data-toggle="toolti
 echo '<textarea id="commandLines" name="theCommandLine" style="margin-top: -20px;margin-left: 34.5%;width: 64.5%;padding: 10px; border-radius: 5px;" rows="7" placeholder="e.g., gcc -o hello.exe hello.c (hit enter at each of the end the command line including the last command line)"></textarea><br /><br />';
 tra("Please upload your relevant tar (.tgz or .tar.gz extensions only) or zip (.zip extenstion only) for the current submission.");
 //End of commands section
+//End of Gerald Joshua's edit
 
 /*Added by Gerald Joshua
 Zip/Tar file upload section*/
@@ -113,7 +115,7 @@ echo '<span style="margin-left: 26%; float:left; font-weight:bold;"><a data-togg
 <label style="margin-left: 30px;"><input type="radio" id="zipUpload"><span style="margin-left: 5px;">Zip Upload</span></label><br />
 
   <div style="margin-left:34.3%;">
-<!-- Added by Gerald Joshua, sample code for form tag from Thomas -->
+<!-- Added by Gerald Joshua, sample code for tag form from Thomas -->
     <label class="btn btn-success" style="font-weight: bold; margin-bottom: 5px;">
     Browse <input type="file" name="file" id="uploadBtn" onchange="fileExtensionChecking(this);"> 
     </label>
@@ -123,9 +125,11 @@ echo '<span style="margin-left: 26%; float:left; font-weight:bold;"><a data-togg
     <input class="btn btn-success" type="submit" id="submitBtn" value="Submit the job" style="font-weight: bold;">
   </div>
 </form>';
+//End of Joshua's edit
 
+//Added by Gerald Joshua
 echo '<span id="testBtn"></span>';
-
+//End of Joshua's Edit
 
 //End of Thomas Johnson's edit
 
@@ -140,8 +144,8 @@ echo'
 	var lastDockerImgInputed = "";		
 
 	//Submit button will be available if all fields are filled out
-	function activateSubmitBtn(taccDocker, command, file){
-		if (taccDocker && command && file){
+	function activateSubmitBtn(theDocker, command, file){
+		if (theDocker && command && file){
 			$("#submitBtn").prop("disabled",false);
 		}
 	}
@@ -158,7 +162,7 @@ echo'
 		if(dockerImgName.indexOf(":") > -1){//Colon exists
 			$.ajax({
   				type: "POST",
-  				url: "http://129.114.16.64/checkIfExists.php",
+  				url: "./checkIfExists.php",
   				data: { 
 					tagExists: "1",
 					tag: String(dockerImgName.split(":")[1])					,dockerName: String(dockerImgName.split(":")[0])
@@ -182,7 +186,7 @@ echo'
 		} else {//No tag exists
 			$.ajax({
   				type: "POST",
-  				url: "http://129.114.16.64/checkIfExists.php",
+  				url: "./checkIfExists.php",
   				data: { 
 					tagExists: "0",
 					dockerName: dockerImgName

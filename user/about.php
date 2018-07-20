@@ -32,7 +32,10 @@ echo '<h3>'.tra("Project Overview").'</h3><p></p>';
 echo tra("Volunteer computing (VC) uses donated computing time to do scientific computing, and, BOINC is the most common software framework for VC. Essentially, donors of computing time download BOINC clients on their devices (such as laptops, desktops, and servers), and then register to donate at specific websites supporting VC projects. There are multiple such project websites in the community, and the TACC-2-BOINC website is one of them.
 <br /><br />
 Through the TACC-2-BOINC website (the website of our VC project), we are providing the capability of routing *qualified* High-Throughput Computing (HTC) jobs from the supercomputers at the Texas Advanced Computing Center (TACC) to the volunteered devices running the BOINC clients for the project. This integration of VC with supercomputing can potentially help those researchers/scholars who are running low on allocations of compute-time on our supercomputers, or are interested in reducing the turnaround time of their jobs when our supercomputers are over-subscribed. We are funded by NSF (under award # 1664022) to develop the BOINC-based VC conduit that can be used by other supercomputing facilities as well.").'
-<br /><br />';
+<br />';
+
+echo tra("<p></p> For all questions, please feel free to contact Ritu Arora at rauta@tacc.utexas.edu, with \"TACC-2-BOINC\" included in the subject-line.");
+echo "<br/>";
 
 /*Commented out by Gerald Joshua since the pictures are now available
 //Principal investigator
@@ -64,22 +67,22 @@ Restructured due to div bug by Thomas
 echo tra("<h3>Project Team</h3>") .'<br>
 <div class="container">
 <div class="row">
-  <div class="col-md-4">
+  <div class="col-md-2">
     <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
-      <img src="/img1/Anubhaw.jpg.jpeg" alt="Anubhaw" style="width:100%;height:50%;">
+      <img src="/img1/Anubhaw_cropped.jpg" alt="Anubhaw" class="img-responsive">
       <div class="info" style="padding: 10px 10px;">
-        <h2><a href="https://www.linkedin.com/in/anubhawn/">Anubhaw Nand</a></h2>
+        <h4><a href="https://www.linkedin.com/in/anubhawn/">Anubhaw Nand</a></h4>
         <p class="title">Graduate Student Intern</p>
         <p>Software Development & Testing</p>
         </div>
     </div>
   </div>
 
-  <div class="col-md-4">
+  <div class="col-md-2">
     <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
-      <img src="/img1/gerald_joshua.jpeg" alt="Joshua" style="width:100%;height:50%;">
+      <img src="/img1/gerald_joshua_cropped.jpg" alt="Joshua" class="img-responsive">
       <div class="info" style="padding: 10px 10px;">
-        <h2><a href="https://www.linkedin.com/in/geraldjoshua">Gerald Joshua</a></h2>
+        <h4><a href="https://www.linkedin.com/in/geraldjoshua">Gerald Joshua</a></h4>
         <p class="title">Undergraduate Student Intern</p>
         <p>Software Development & Testing</p>
         </div>
@@ -87,26 +90,25 @@ echo tra("<h3>Project Team</h3>") .'<br>
   </div>
 
 <!-- Added by Gerald Joshua, copied from above -->
-  <div class="col-md-4">
+  <div class="col-md-2">
     <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
-      <img src="/img1/ritu-2017.jpg" alt="Ritu" style="width:100%;height:50%;">
+      <img src="/img1/ritu-2017_cropped.jpg" alt="Ritu" class="img-responsive">
       <div class="info" style="padding: 10px 10px;">
-        <h2><a href="https://www.tacc.utexas.edu/about/directory/ritu-arora">Ritu Arora</a></h2>
-        <p class="title"><strong>Project PI</strong></p>
+        <h4><a href="https://www.tacc.utexas.edu/about/directory/ritu-arora">Ritu Arora</a></h4>
+        <p class="title"><strong>Project PI</strong></p><br/>
         <p>Software Design and Architecture</p>
       </div>
     </div>
   </div>
-  </div>
-  </div>
-  <br>
-  <div class="container">
-  <div class="row">
-  <div class="col-md-4">
+  
+  
+   
+  
+  <div class="col-md-2">
     <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
-      <img src="/img1/Thomas.jpg.jpeg.JPG" alt="Thomas" style="width:100%;height:50%;">
+      <img src="/img1/Thomas_cropped.jpg" alt="Thomas" class="img-responsive">
       <div class="info" style="padding: 10px 10px;">
-        <h2><a href ="http://nia.ecsu.edu/sp/1617/johnson/">Thomas Johnson</a></h2>
+        <h4><a href ="http://nia.ecsu.edu/sp/1617/johnson/">Thomas Johnson</a></h4>
         <p class="title">Undergraduate Student Intern</p>
         <p>Software Development & Testing</p>
       </div>
@@ -114,11 +116,11 @@ echo tra("<h3>Project Team</h3>") .'<br>
   </div>
 
 
-	<div class="col-md-4">
+	<div class="col-md-2">
     <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
-      <img src="/img1/Carlos_2018_unrotated.jpeg" alt="Carlos" style="width:100%;height:50%;">
+      <img src="/img1/Carlos_2018_cropped.jpg" alt="Carlos" class="img-responsive">
         <div class="info" style="padding: 10px 10px;">
-        <h2><a href="https://www.linkedin.com/in/carlos-redondo-albertos">Carlos Redondo</a></h2>
+        <h4><a href="https://www.linkedin.com/in/carlos-redondo-albertos">Carlos Redondo</a></h4>
         <p class="title">Undergraduate Student Intern</p>
         <p>Software Development & Testing</p>
         </div>
@@ -132,8 +134,6 @@ echo tra("<h3>Project Team</h3>") .'<br>
 //"/img/Thomas.jpg.jpeg.JPG"
 //"/img/Joshua.jpg.jpeg"
 //"/img/Anubhaw.jpg.jpeg"
-echo tra("<h3>Contact</h3><p></p> For all questions, please feel free to contact Ritu Arora at rauta@tacc.utexas.edu, with \"TACC-2-BOINC\" included in the subject-line.");
-echo "<br>";
 /*
 echo '<center><h1>'.tra("Principal Investigator of the Project").'</h1></center>';
 echo '<center><span style="font-size: 24px; font-weight: bold;"><a href="https://www.tacc.utexas.edu/about/directory/ritu-arora">Ritu Arora</a></span></center>'.tra("Project Team") .'<ul>

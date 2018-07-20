@@ -112,13 +112,13 @@ function make_php_mailer() {
 //https://css-tricks.com/fun-viewport-units/
 function project_banner($title, $prefix, $is_main) {
 	echo '<div class="container">
-	<div class="row">
-	<div class="col-md-5">
-  <a href="index.php"><img class="img-responsive" src="./img1/TACC-2-BOINC4x.png" style="height:86px;width:470px;position:absolute; top:4px; left:-50px;"></a>
+	<!--<div class="row">-->
+	<div class="col-md-3">
+  <a href="index.php"><img class="img-responsive" src="./img1/TACC-2-BOINC4x.png" style="height:70px;width:300px;position:relative; top:13px;"></a>
 	</div>
-	<div class="col-md-3 col-md-offset-1">
+	<div class="col-md-3 col-md-offset-3">
 <a href="https://boinc.berkeley.edu/">
-		<img class="img-responsive" style="width: 208px; margin-bottom: 23px; position:relative; right:-180px; top:5px" src="./img1/boincLogo_cropped.jpg" alt="Boinc Logo">
+		<img class="img-responsive" style="width: 186px; margin-bottom: 23px; position:relative; right:-180px; top:6px" src="./img1/boincLogo_cropped.jpg" alt="Boinc Logo">
 	      </a>
 	</div>
 	<div class="col-md-3">
@@ -126,8 +126,8 @@ function project_banner($title, $prefix, $is_main) {
 		<img class="img-responsive" style="width: 230px; position: absolute; top: 4px; right: -50px;" src="./img1/taccLogo.png" alt="TACC Logo">
 	      </a>
 	</div>
-	</div>
-        <div></div></div>
+	<!--</div>-->
+        </div>
 					';
     sample_navbar(secure_url_base(), get_logged_in_user(false), false);
     if ($title) {
@@ -192,20 +192,26 @@ function project_banner($title, $prefix, $is_main) {
 /* The actual popup */
 .popup .popuptext {
     visibility: hidden;
-    width: 22vw;
-    background-color: #174b63;
+    width: 32vw;
+    background-color: #068fce;
     color: #fff;
     text-align: center;
     border-radius: 6px;
     padding: 8px 0;
     position: absolute;
     z-index: 1;
-    bottom: 125%;
-    left: 50%;
+    /*Updated by Gerald Joshua so that the tooltip will show right below the text 
+    and that way there will be no more overlap between navbar and tooltip*/
+    top: 150%;
+    /*Updated by Gerald Joshua so that the tooltip will be visible enough in the screen of user without needing
+    to scroll to the right*/
+    left: -40%;
+    /*End of the edit by Joshua*/
     margin-left: -80px;
 }
 
-/* Popup arrow */
+/*Commented out by Gerald Joshua, since no arrow is needed
+// Popup arrow
 .popup .popuptext::after {
     content: "";
     position: absolute;
@@ -216,6 +222,7 @@ function project_banner($title, $prefix, $is_main) {
     border-style: solid;
     border-color: #174b63 transparent transparent transparent;
 }
+End of the Edit by Joshua*/
 
 /* Toggle this class - hide and show the popup */
 .popup .show {
@@ -259,12 +266,12 @@ function project_banner($title, $prefix, $is_main) {
 			<!-- Welcome to TACC-2-BOINC! -->
 <!-- </div> -->
 		<!-- Small Summary about Boinc -->
-    
+     
     <img class="img-responsive" style="height: 56%;width: 100%;" src="img1/stampedecropped.jpg">
 		<div class="container-fluid" style="position: absolute;
   /*Edited by Joshua: Increase the z-index so that the tooltip can be fully shown to the screen*/
   z-index: 5;/*End of the edit by Joshua*/
-  top: 36%;
+  top: 42%;
   left: 5%;
   right: 5%;
   text-align: left;

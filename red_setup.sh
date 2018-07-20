@@ -91,7 +91,7 @@ vi /etc/apache2/apache2.conf
 sed -i "s@DocumentRoot.*@DocumentRoot /root/project/html/user/\n@"  /etc/apache2/sites-enabled/000-default.conf
 
 # Changes the master URL to just the root
-sed -i "s@<master_url>.*</master_url>@<master_url>$URL_BASE/</master_url>"*"@" /root/project/config.xml
+sed -i "s@<master_url>.*</master_url>@<master_url>$URL_BASE/</master_url>@" /root/project/config.xml
 
 # Restarts apache
 service apache2 restart

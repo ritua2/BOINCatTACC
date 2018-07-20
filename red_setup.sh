@@ -42,11 +42,12 @@ mkdir /root/project/adtd-protocol/tasks
 mkdir /results/adtdp
 
 # Moves the front end files
-mv ./user/img1 /root/project/html/user/
-mv ./user/* /root/project/html/user/
+mv /root/project/html/user /root/project/html/user_old
+#mv ./user/img1 /root/project/html/user/
+mv ./user/ /root/project/html/user/
 
 # Required because images is its own directory
-mv -f ./user/img/* /root/project/html/user/img
+#mv -f ./user/img/* /root/project/html/user/img
 
 # Substitutes the project and inc files by their new equivalents
 mv /root/project/html/inc /root/project/html/inc_previous

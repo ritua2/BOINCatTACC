@@ -56,12 +56,21 @@ The BOINC server will automatically recognize your system as a volunteer and wil
 	* Follow  the guide in [BOINC HTMLOps][5] to set -up an administrative account with .htpasswd
 		* .htpasswd is located in */root/project/html/ops*
 	* Login into the administrative BOINC page at *SERVER_IP/boincserver_ops* with the username and password provided above
+```bash
+	cd /root/html/ops
+	htpasswd -c .htpasswd $NEWUSERNAME
+```
 
 4. **Clone this repository**
 	* If git is not installed, do it by executing: *apt-get update && apt-get install git-core -y*
 	* If not already there, *cd /root/project*
 	* Clone via: *git clone https://github.com/ritua2/TACC-2-BOINC*
 	* *cd TACC-2-BOINC*
+```bash
+	cd /root/project
+	git clone https://github.com/ritua2/TACC-2-BOINC
+	cd TACC-2-BOIN
+```
 
 5. **Establish user email credentials**
 	* Run the appropriate bash script to set up the email and password

@@ -16,7 +16,7 @@ $password=$_POST["password"];
 $ch = curl_init();
 
 //Edited by Gerald Joshua
-curl_setopt($ch, CURLOPT_URL, "http://boinc-dev.tacc.utexas.edu:5097/boincserver/v2/api/ldap_check/$username/$password");
+curl_setopt($ch, CURLOPT_URL, "http://0.0.0.0:6032/boincserver/v2/api/ldap_check/$username/$password");
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
 $result = curl_exec($ch);

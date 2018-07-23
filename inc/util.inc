@@ -32,7 +32,8 @@ require_once("../inc/profile.inc");
 require_once("../inc/bootstrap.inc");
 
 //Added by Gerald Joshua
-session_start();
+if(!isset($_SESSION))
+    session_start();
 //End of the edit by Joshua
 
 // parse some stuff from config (do it here for efficiency)

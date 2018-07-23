@@ -116,7 +116,11 @@ function search_action() {
         $order_clause ="total_credit desc";
     }
 
+    /*Commented out by Gerald Joshua. We will be using random-generated name on the website instead of the real username
     $fields = "id, create_time, name, country, total_credit, expavg_credit, teamid, url, has_profile, donated";
+    */
+    $fields = "id, create_time, random_name, country, total_credit, expavg_credit, teamid, url, has_profile, donated";
+    //End of the edit by Joshua
     $users = BoincUser::enum_fields($fields, $where, "order by $order_clause limit 100");
     page_head(tra("User search results"));
     $n=0;

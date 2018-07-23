@@ -111,19 +111,19 @@ function make_php_mailer() {
 //For getting the footer to stay down on the page
 //https://css-tricks.com/fun-viewport-units/
 function project_banner($title, $prefix, $is_main) {
-	echo '<div class="container">
+	echo '<div class="container-fluid">
 	<!--<div class="row">-->
-	<div class="col-md-3">
-  <a href="index.php"><img class="img-responsive" src="./img1/TACC-2-BOINC4x.png" style="height:70px;width:300px;position:relative; top:13px;"></a>
+	<div class="col-md-5" style="margin-top: 1%; margin-left: -2%;">
+
+<a href="index.php" class="svg"><img class="img-responsive" src="./img1/TACC-2-BOINC4x.png" style="max-width:100%;height:88px;"></a>
+
 	</div>
-	<div class="col-md-3 col-md-offset-3">
+	<div class="col-md-6 col-md-offset-1">
 <a href="https://boinc.berkeley.edu/">
-		<img class="img-responsive" style="width: 186px; margin-bottom: 23px; position:relative; right:-180px; top:6px" src="./img1/boincLogo_cropped.jpg" alt="Boinc Logo">
+		<img class="img-responsive" style="width: 186px; margin-bottom: 23px; position:relative; right:-180px; top:6px; margin-right: 345px; float:right;" src="./img1/boincLogo_cropped.jpg" alt="Boinc Logo">
 	      </a>
-	</div>
-	<div class="col-md-3">
 	      <a href="https://www.tacc.utexas.edu/">
-		<img class="img-responsive" style="width: 230px; position: absolute; top: 4px; right: -50px;" src="./img1/taccLogo.png" alt="TACC Logo">
+		<img class="img-responsive" style="width: 230px; position: absolute; top: 4px; right: -50px; float: right;" src="./img1/taccLogo.png" alt="TACC Logo">
 	      </a>
 	</div>
 	<!--</div>-->
@@ -200,7 +200,7 @@ function project_banner($title, $prefix, $is_main) {
     padding: 8px 0;
     position: absolute;
     z-index: 1;
-    /*Updated by Gerald Joshua so that the tooltip will show right below the text 
+    /*Updated by Gerald Joshua so that the tooltip will show right below the text
     and that way there will be no more overlap between navbar and tooltip*/
     top: 150%;
     /*Updated by Gerald Joshua so that the tooltip will be visible enough in the screen of user without needing
@@ -231,7 +231,7 @@ End of the Edit by Joshua*/
     animation: fadeIn 1s;
     /*Added by Joshua: Create more space between the tooltip edge and the text inside the tooltip */
     padding: 15px;
-    /*End of the edit by Joshua */ 	
+    /*End of the edit by Joshua */
 }
 /* Add animation (fade in the popup) */
 @-webkit-keyframes fadeIn {
@@ -266,12 +266,12 @@ End of the Edit by Joshua*/
 			<!-- Welcome to TACC-2-BOINC! -->
 <!-- </div> -->
 		<!-- Small Summary about Boinc -->
-     
-    <img class="img-responsive" style="height: 56%;width: 100%;" src="img1/stampedecropped.jpg">
+
+    <img class="img-responsive" style="height: 63vh;width: 100%;" src="img1/stampedecropped.jpg">
 		<div class="container-fluid" style="position: absolute;
   /*Edited by Joshua: Increase the z-index so that the tooltip can be fully shown to the screen*/
   z-index: 5;/*End of the edit by Joshua*/
-  top: 42%;
+  top: 29%;
   left: 5%;
   right: 5%;
   text-align: left;
@@ -284,17 +284,22 @@ End of the Edit by Joshua*/
   border-radius: 25px;">
       <div class="row">
 
-			<div  class="col-md-6" style="border-right:solid black;">			<span style="font-weight:normal;font-size:1.19vw">BOINC is an open-source software platform for volunteer computing.
+			<div  class="col-md-4" style="border-right:solid black;">			<span style="font-weight:normal;font-size:1.19vw;"><p>BOINC is an open-source software platform for volunteer computing.
 			BOINC has a client-server architecture. Once a BOINC client is downloaded on a device
 			(desktop, laptop, phone, and a tablet) owned by a
 <a class="popup" data-toggle="tooltip" onclick="myFunction()" style="border-bottom: 1px dotted #000;text-decoration: none;">volunteer<span class="popuptext" id="Popup"><span class="close">&times;</span>Those interested in supporting R&D activities of researchers and scholars using TACC resources are invited to join the TACC-2-BOINC project as volunteers and the job for volunteers are to donate their spare compute-cycles to the TACC-2-BOINC projects.</span></a>,
 			the BOINC server starts sending computational tasks to the client when it is plugged in to the power supply
 			and is available to accept tasks. Upon the completion of the tasks,
 			the results are gathered from the clients participating in the computations,
-			and are uploaded to the BOINC server, from where they are then forwarded to the <a  class="popup" data-toggle="tooltip" onclick="myFunction2()" style="border-bottom: 1px dotted #000;text-decoration: none;"> users/researchers <span class="popuptext" id="Popup2"> <span class="close">&times;</span>All active users of TACC resources are eligible to run jobs through the TACC-2-BOINC infrastructure and qualify as researchers. </span></a>.</span></div>
-			<div class="col-md-6"><span style="font-weight:normal;font-size:1.19vw">The TACC-2-BOINC project brings the power of volunteer computing to the <a class="popup" data-toggle="tooltip" onclick="myFunction3()" style="border-bottom: 1px dotted #000;text-decoration: none;">users/researchers<span class="popuptext" id="Popup3"><span class="close">&times;</span> All active users of TACC resources are eligible to run jobs through the TACC-2-BOINC infrastructure and qualify as researchers. </span></a> using TACC resources.
+			and are uploaded to the BOINC server, from where they are then forwarded to the <a  class="popup" data-toggle="tooltip" onclick="myFunction2()" style="border-bottom: 1px dotted #000;text-decoration: none;"> users/researchers <span class="popuptext" id="Popup2"> <span class="close">&times;</span>All active users of TACC resources are eligible to run jobs through the TACC-2-BOINC infrastructure and qualify as researchers. </span></a></p><p>The TACC-2-BOINC project brings the power of
+      volunteer computing to the <a class="popup" data-toggle="tooltip" onclick="myFunction3()" style="border-bottom: 1px dotted #000;text-decoration: none;">users/researchers<span class="popuptext" id="Popup3"><span class="close">&times;</span> All active users of TACC resources are eligible to run jobs through the TACC-2-BOINC infrastructure and qualify as researchers. </span></a></span>
+      </div>
+			<div class="col-md-4" style="border-right:solid black;"><span style="font-weight:normal;font-size:1.19vw">  using TACC resources.
 			By taking advantage of the computing cycles donated by the <a class="popup" data-toggle="tooltip" onclick="myFunction4()" style="border-bottom: 1px dotted #000;text-decoration: none;">volunteer<span class="popuptext" id="Popup4"><span class="close">&times;</span>Those interested in supporting R&D activities of researchers and scholars using TACC resources are invited to join the TACC-2-BOINC project as volunteers and the job for volunteers are to donate their spare compute-cycles to the TACC-2-BOINC projects.</span></a>,
-			<a class="popup" data-toggle="tooltip" onclick="myFunction5()" style="border-bottom: 1px dotted #000;text-decoration: none;">users/researchers<span class="popuptext" id="Popup5"><span class="close">&times;</span>All active users of TACC resources are eligible to run jobs through the TACC-2-BOINC infrastructure and qualify as researchers.</span></a> can supplement the compute cycles granted to them as part of the TACC/XSEDE allocation process. At present, only those users who have active allocation on TACC resources are allowed to submit jobs through the TACC-2-BOINC infrastructure.</span>
+			<a class="popup" data-toggle="tooltip" onclick="myFunction5()" style="border-bottom: 1px dotted #000;text-decoration: none;">users/researchers<span class="popuptext" id="Popup5"><span class="close">&times;</span>All active users of TACC resources are eligible to run jobs through the TACC-2-BOINC infrastructure and qualify as researchers.</span></a> can supplement the compute cycles granted to them as part of the TACC/XSEDE allocation process.</p><p> At present, only those users who have active allocation on TACC resources are allowed to submit jobs through the TACC-2-BOINC infrastructure.</p><p>To sign-up as a volunteer, click <a href="./create_account_form.php">here.</a></p><p> To submit jobs as a researcher, you could either use the job submission interface available on thi website, or you could submit the jobs after logging</span>
+      </div>
+<div class="col-md-4"> <span style="font-weight:normal;font-size:1.19vw"><p> in to the Stampede2/Lonestar5 systems at TACC. For submitting, jobs through this website, you should first run the <a href="https://github.com/ritua2/TACC-2-BOINC/blob/master/stampede2-backend/register-boinc.sh">verification script</a> from the Stampede2/Lonestar5 systems at least once. For submitting jobs directly from Stampede2/Lonestar5 systems, please run the <a href="https://github.com/ritua2/TACC-2-BOINC/blob/master/user/job_submission.php">TACC-2-BOINC job submission script</a>.
+  You will not be able to login to Stampede2/Lonestar5 if you do not already have an existing project allocation on TACC resources. Please visit the following visit to learn more about the process of requesting access to TACC resources: <a href="https://portal.tacc.utexas.edu/">https://portal.tacc.utexas.edu/</a></p></span>
       </div>
       </div>
 		</div>

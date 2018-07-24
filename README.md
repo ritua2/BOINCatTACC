@@ -77,11 +77,12 @@ The BOINC server will automatically recognize your system as a volunteer and wil
 	* The basic set-up only allows for gmail, for all others, modify both *./api/preprocessing.py* and *./email_assimilator.py*
 	* Be sure to have input the correct name and password, to change them again, change */root/.bashrc*
 	* The same applies to the Docker, MIDAS credentials - MIDAS is a software component for creating docker images from source-code
+	* Run the external Reef set-up to connect to an external container. The process is entirely automated and designed so that user files are stored in a different system.
 	* Log out of the container and then log back in again so the changes will take effect
 	Do:
 ```bash
 	 bash password_credentials.sh
-	 bash dockerhub_credentials.sh
+	 bash external_reef.sh
 	 exit
 	 docker exec -it {APACHE SERVER} bash
 ```

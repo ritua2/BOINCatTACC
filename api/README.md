@@ -46,6 +46,10 @@ Using Reef, it is now possible to:
 	- Download the results files  
 	- Get a summary of jobs submitted
 
+
+**NB**  
+As of July 24th version, Reef is no longer set up within the same VM as the BOINC server. See the *pocket-reef* directory for more information.
+
 ----
 
 ### Two-Factor Token authorization  

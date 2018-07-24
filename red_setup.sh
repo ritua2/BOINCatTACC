@@ -44,7 +44,7 @@ mkdir /results/adtdp
 # Moves the front end files
 mv /root/project/html/user /root/project/html/user_old
 #mv ./user/img1 /root/project/html/user/
-mv ./user/ /root/project/html/user/
+mv ./user /root/project/html/user
 
 # Required because images is its own directory
 #mv -f ./user/img/* /root/project/html/user/img

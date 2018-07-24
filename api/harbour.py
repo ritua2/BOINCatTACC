@@ -87,6 +87,7 @@ def complete_build(IMTAG, UTOK, MIDIR, COMMAND_TXT, DOCK_DOCK, BOCOM, FILES_PATH
         MESSAGE += "\n\nRun the following command on the image: \n"+' '.join(BOCOM.split(' ')[1::])
         MESSAGE += "\n\nThis is the Dockerfile we used to process your job: \n\n"+DOCK_DOCK
         pp.send_mail(researcher_email, 'Succesful MIDAS build', MESSAGE)
+
     except Exception as e:
         print(e)
         r.delete(UTOK+'.'+MIDIR)
@@ -158,3 +159,7 @@ for HJK in to_be_processed:
         COMFILE.write(BOINC_COMMAND+'\n'+user_tok)
 
     complete_build(DTAG, user_tok, dir_midas, namran, duck, BOINC_COMMAND)
+
+    # Goes one directory up and deletes the MIDAS folder for space concerns
+    os.chdir("..")
+    shutil.rmtree(FILE_LOCATION)

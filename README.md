@@ -13,8 +13,9 @@ This repository includes the following:
 
 ## The project leverages the boinc-server-docker software developed by [Marius Millea][1]
 
+This Github repo contains the following folders:
 * user-interface: Creates a web interface to allow researchers to submit and track jobs. 
-* API (api): Designed for large job batches.
+* api: Designed for large job batches.
 * applications: Dockerized applications for running on BOINC clients.
 * stampede2-backend: A command-line interface for submitting BOINC jobs from the Stampede2 supercomputer at TACC. This script can be run on any Linux system that has the SLURM scheduler available. 
 

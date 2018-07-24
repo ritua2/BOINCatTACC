@@ -168,8 +168,6 @@ function sample_navbar(
     //$brand = "<a class=\"navbar-brand\" href=$master_url>".PROJECT."</a>";
     navbar_start(null, $fixed, $inverse);//First argument was $brand
 
-    navbar_item("About", "./about.php");
-
     $x = array();
     if ($user) {
         $x[] = array(tra("Account"), $url_prefix.USER_HOME);
@@ -234,12 +232,19 @@ function sample_navbar(
     //Added by Gerald Joshua
     //News menu on the navbar that is accessible to the public
     navbar_item("News", "./news.php");
+
+    //Abouts menu on the navbar that is accessible to the public
+    if(!isset($_SESSION['user'])){
+    	navbar_item("About", "./about.php");
+    }
+
     //Job Submission and Job History menus on the navbar
     //will only be available to researchers
     //Job Submission and Job history will be available to the researchers
     if(isset($_SESSION['user'])){
     	navbar_item("Job Submission", "./job_submission.php");
         navbar_item("Job History", "./job_history.php");
+        navbar_item("About", "./about.php");
         echo '
       		</ul>
       		<ul class="nav navbar-nav navbar-right">
@@ -254,9 +259,10 @@ function sample_navbar(
     	
     }
     else {
-    navbar_right($user);
+    	navbar_right($user);
     }
     //The end of the edit by Joshua
+
     navbar_end();
 }
 

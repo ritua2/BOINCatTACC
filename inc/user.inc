@@ -330,7 +330,11 @@ function user_links($user, $badge_height=0) {
         $img_url = url_base()."img/head_20.png";
         $x .= ' <a href="'.url_base().'view_profile.php?userid='.$user->id.'"><img title="View the profile of '.$user->name.'" src="'.$img_url.'" alt="Profile"></a>';
     }
+    /*Commented out by Gerald Joshua. We will be using random-generated name on the website instead of the real username
     $x .= " <a href=\"".url_base()."show_user.php?userid=".$user->id."\">".$user->name."</a>";
+    */
+    $x .= " <a href=\"".url_base()."show_user.php?userid=".$user->id."\">".$user->random_name."</a>";
+    //End of the edit by Joshua
     if (function_exists("project_user_links")){
         $x .= project_user_links($user);
     }

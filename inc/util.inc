@@ -1158,6 +1158,9 @@ function get_user_random_name($real_user_name){
         }
     }
 
+    //Destroy the connection to database
+    mysqli_close($con);
+
     return $randomName;
 }
 //End of the edit by Joshua

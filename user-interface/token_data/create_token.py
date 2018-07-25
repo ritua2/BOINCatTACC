@@ -46,7 +46,7 @@ with open("Tokens.txt", "a") as tokfile:
         print("User allocation has been set to "+str(sys.argv[4])+" GB")
 
      # Creates a Reef set-up on the external Reef server
-     requests.get('http://'+os.environ['Reef_IP']+':802/reef/create_user/'+rantok+'/'+os.environ['Reef_Key'])
+     requests.get('http://'+os.environ['Reef_IP']+':2002/reef/create_user/'+rantok+'/'+os.environ['Reef_Key'])
 
 
 

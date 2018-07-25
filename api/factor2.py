@@ -13,6 +13,7 @@ import os
 from flask import Flask, request
 from werkzeug.datastructures import ImmutableMultiDict
 import preprocessing as pp
+import requests
 
 
 r_alloc = redis.Redis(host = '0.0.0.0', port = 6389, db =2)
@@ -150,8 +151,7 @@ def authenticated_request_token(temptok):
          tokfile.write(NAME+" "+LAST_NAME+", "+user_tok+", "+EMAIL+'\n')
 
     # Also creates a Reef directory
-    os.makedirs('/root/project/api/sandbox_files/DIR_'+str(user_tok))
-    os.makedirs('/root/project/api/sandbox_files/DIR_'+str(user_tok)+'/___RESULTS')
+    requests.get('http://'+os.environ['Reef_IP']+':2002/reef/create_user/'+user_tok+'/'+os.environ['Reef_Key'])
 
     # Adds the allocation details
     r_alloc.set(user_tok, ALLOCATION)
@@ -236,8 +236,7 @@ def authorize_from_org():
     r_org.hincrby(user_org, 'No. Users', 1)
 
     # Also creates a Reef directory
-    os.makedirs('/root/project/api/sandbox_files/DIR_'+str(user_tok))
-    os.makedirs('/root/project/api/sandbox_files/DIR_'+str(user_tok)+'/___RESULTS')
+    requests.get('http://'+os.environ['Reef_IP']+':2002/reef/create_user/'+usertok+'/'+os.environ['Reef_Key'])
 
     # Prints the result to the token file because of backwards compatibility
     with open("/root/project/html/user/token_data/Tokens.txt", 'a') as TFIL:

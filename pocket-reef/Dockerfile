@@ -9,11 +9,11 @@ FROM python:3.6-alpine
 
 
 # Copies the necessary files
-COPY base_functions.py:/reef/base_functions.py
-COPY new_user.py:/reef/new_user.py
-COPY reef_results.py:/reef/reef_results.py
-COPY reef_regular.py:/reef/reef_regular.py
-COPY API_Daemon.sh:/reef/API_Daemon.sh
+COPY base_functions.py /reef/base_functions.py
+COPY new_user.py /reef/new_user.py
+COPY reef_results.py /reef/reef_results.py
+COPY reef_regular.py /reef/reef_regular.py
+COPY API_Daemon.sh /reef/API_Daemon.sh
 
 
 # Installs the necessary packages

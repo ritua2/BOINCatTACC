@@ -24,6 +24,11 @@ crontab -l | { cat; echo "*/15 * * * * /root/project/api/harbour.py"; } | cronta
 crontab -l | { cat; echo "*/15 * * * * docker ps -aq --no-trunc -f status=exited | xargs docker rm"; } | crontab -
 crontab -l | { cat; echo "*/15 * * * * docker images -q --filter dangling=true | xargs docker rmi -f"; } | crontab -
 
+
+# Erases temporrary files older than 3 days every day at 1 AM
+crontab -l | { cat; echo "0 1 * * * find /tmp -ctime +3 -exec rm -rf {} +"; } | crontab -
+
+
 while true
 do
 

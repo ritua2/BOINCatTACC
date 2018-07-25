@@ -17,10 +17,8 @@ REEF_FOLDER = os.environ['Reef_Path']+"/sandbox/"
 
 # toktok (str): User token
 @app.route("/reef/create_user/<toktok>/<rkey>")
-def create_user():
+def create_user(toktok, rkey):
 
-    if request.method != 'POST':
-       return "INVALID, no data provided" 
 
     if not bf.valid_key(rkey):
         return "INVALID key, cannot create a new user"
@@ -34,4 +32,4 @@ def create_user():
 
 
 if __name__ == '__main__':
-   app.run(host == '0.0.0.0', port = 802)
+   app.run(host = '0.0.0.0', port = 2002)

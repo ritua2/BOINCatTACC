@@ -10,10 +10,10 @@ services:
     build: .
     image: "t2b/reefcon"
     ports:
-     - "800-810:800-810"
+     - "2000-2002:2000-2002"
     volumes:
      - "reef:/rdat"
     environment:
      - Reef_Key=Reef
-     - Reef_Path='/rdat'
+     - Reef_Path=/rdat
     command: "/reef/API_Daemon.sh -up; tail -F anything"

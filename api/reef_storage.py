@@ -54,14 +54,8 @@ def new_sandbox():
     if pp.token_test(TOK) == False:
        return 'Invalid token'
     
-    # Finds if the directory has already been created or not
-    for sandir in os.listdir('/root/project/api/sandbox_files'):
-        if TOK == sandir[4::]:
-           return 'Sandbox already available'
-    else:
-        os.makedirs('/root/project/api/sandbox_files/DIR_'+str(TOK))
-        os.makedirs('/root/project/api/sandbox_files/DIR_'+str(TOK)+'/___RESULTS')
-        return 'reef cloud storage now available'
+    resp = requests.get('http://'+os.environ['Reef_IP']+':2002/reef/create_user/'+TOK+'/'+os.environ['Reef_Key'])
+    return resp.text
 
 
 # Returns a string comma-separated, of all the files owned by a user
@@ -94,13 +88,6 @@ def reef_upload(toktok):
       return 'INVALID, no file submitted'
 
    file = request.files['file']
-
-   # Avoids errors with users with no sandbox assigned
-   try:
-      os.listdir('/root/project/api/sandbox_files/DIR_'+str(toktok))
-
-   except:
-   	  return 'INVALID, user sandbox is not set-up, create a sandbox first'
 
    # No user can have more than 2 Gb
    assigned_allocation = float(r.get(toktok).decode('UTF-8'))
@@ -143,9 +130,6 @@ def delete_user_file(toktok):
    if request.method != 'POST':
       return 'Invalid, provide a file to be deleted'
 
-   # Accounts for missing directories
-   if str('DIR_'+toktok) not in os.listdir('/root/project/api/sandbox_files'):
-      return 'User directory does not exist'
    try: 
       FILE = request.form['del']    
       if FILE == '':    
@@ -163,8 +147,6 @@ def obtain_file(FIL, toktok):
 
     if pp.token_test(toktok) == False:
        return 'Invalid token'
-    if str('DIR_'+toktok) not in os.listdir('/root/project/api/sandbox_files'):
-       return 'User directory does not exist'
 
     USER_DIR = '/root/project/api/sandbox_files/DIR_'+str(toktok)+'/'
     if str(FIL) not in os.listdir(USER_DIR):
@@ -178,14 +160,9 @@ def obtain_file(FIL, toktok):
 def reef_results_all(toktok):
     if pp.token_test(toktok) == False:
        return 'Invalid token'
-    if str('DIR_'+toktok) not in os.listdir('/root/project/api/sandbox_files'):
-       return 'User directory does not exist'
 
-    USER_DIR = '/root/project/api/sandbox_files/DIR_'+str(toktok)+'/___RESULTS'
-
-    # Returns the results (space-separated)
-    return ' '.join(os.listdir(USER_DIR))
-
+    resp = requests.get('http://'+os.environ['Reef_IP']+':2001/reef/results_all/'+os.environ['Reef_Key']+'/'+toktok)
+    return resp.text
 
 
 # Returns an user's results file
@@ -193,14 +170,10 @@ def reef_results_all(toktok):
 def results_file(FIL, toktok):
     if pp.token_test(toktok) == False:
        return 'Invalid token'
-    if str('DIR_'+toktok) not in os.listdir('/root/project/api/sandbox_files'):
-       return 'User directory does not exist'
 
-    USER_DIR = '/root/project/api/sandbox_files/DIR_'+str(toktok)+'/___RESULTS/'
-    if str(FIL) not in os.listdir(USER_DIR):
-       return 'File not available'
+    resp = requests.get('http://'+os.environ['Reef_IP']+':2001/reef/results/'+os.environ['Reef_Key']+'/'+toktok+'/'+FIL)
+    return resp.content
 
-    return send_file(USER_DIR+str(FIL))
 
 
 if __name__ == '__main__':

@@ -183,5 +183,5 @@ for nvnv in range(0, len(to_be_notified[0])):
     print(researcher_email)
     # Adds the result to a Reef folder
     for resfil in attachments:
-        shutil.copy2(resfil, "/root/project/api/sandbox_files/DIR_"+to_be_notified[2][nvnv]+'/___RESULTS')
+        requests.post('http://'+os.environ['Reef_IP']+':2001/reef/results/'+os.environ['Reef_Key']+'/'+to_be_notified[2][nvnv], files={"file": open(resfil, "rb")})
     send_mail('Automated BOINC Notifications', researcher_email, 'Completed Job', email_text, attachments)

@@ -58,23 +58,14 @@ def new_sandbox():
     return resp.text
 
 
-# Returns a string comma-separated, of all the files owned by a user
+# Returns a string space-separated, of all the files owned by a user
 @app.route('/boincserver/v2/all_files/token=<toktok>')
 def all_user_files(toktok):
     if pp.token_test(toktok) == False:
        return 'Invalid token'
 
-    # Accounts for users without a sandbox yet
-    try:
-       AAA = []
-       for afil in os.listdir('/root/project/api/sandbox_files/DIR_'+str(toktok)):
-
-           AAA.append(afil)
-
-       return ','.join(AAA)
-
-    except:
-       return 'Sandbox not set-up, create a sandbox first'
+    resp = requests.get('http://'+os.environ['Reef_IP']+':2000/reef/all_user_files/'+os.environ['Reef_Key']+'/'+toktok)
+    return resp.text
 
 
 # Uploads one file, same syntax as for submitting batches of known commands
@@ -89,7 +80,6 @@ def reef_upload(toktok):
 
    file = request.files['file']
 
-   # No user can have more than 2 Gb
    assigned_allocation = float(r.get(toktok).decode('UTF-8'))
 
    if pp.user_sandbox_size(str(toktok)) > (assigned_allocation*1073741824):
@@ -101,10 +91,10 @@ def reef_upload(toktok):
    if ',' in file.filename:
       return "INVALID, no ',' allowed in filenames"
 
-   # Ensures no commands within the file
-   new_name = secure_filename(file.filename)
-   file.save(os.path.join(UPLOAD_FOLDER+'/DIR_'+str(toktok), new_name))
-   return 'File succesfully uploaded to Reef'
+   resp = requests.post('http://'+os.environ['Reef_IP']+':2000/reef/upload/'+os.environ['Reef_Key']+'/'+toktok, 
+          data={"filename":secure_filename(file.filename)}, files={"file": file.read()})
+   return resp.content
+
 
 
 # Allows to check the user's allocation status
@@ -133,12 +123,12 @@ def delete_user_file(toktok):
    try: 
       FILE = request.form['del']    
       if FILE == '':    
-         return 'No file provided'     
-      os.remove('/root/project/api/sandbox_files/DIR_'+str(toktok)+'/'+str(FILE))
-      return 'File succesfully deleted from reef storage'
-
+         return 'No file provided'
    except:
-      return 'File is not present in Reef'
+         return "Cannot parse request, 'del' entry is not present"
+
+   resp = requests.get('http://'+os.environ['Reef_IP']+':2000/reef/delete_file/'+os.environ['Reef_Key']+'/'+toktok+'/'+FILE)
+   return resp.text
 
 
 # Returns a file, able to be curl/wget
@@ -148,11 +138,8 @@ def obtain_file(FIL, toktok):
     if pp.token_test(toktok) == False:
        return 'Invalid token'
 
-    USER_DIR = '/root/project/api/sandbox_files/DIR_'+str(toktok)+'/'
-    if str(FIL) not in os.listdir(USER_DIR):
-       return 'File not available'
-
-    return send_file(USER_DIR+str(FIL))
+    resp = requests.get('http://'+os.environ['Reef_IP']+':2000/reef/reef/'+os.environ['Reef_Key']+'/'+toktok+'/'+FIL)
+    return resp.content
 
 
 # Returns a list of all the files a user has in Reef results

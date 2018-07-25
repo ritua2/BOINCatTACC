@@ -229,7 +229,8 @@ for nvnv in range(0, len(to_be_notified[0])):
     email_text = automatic_text(to_be_notified[3][nvnv], to_be_notified[1][nvnv], all_toks[nvnv], attachments)
     researcher_email = to_be_notified[2][nvnv]
     print(researcher_email)
-    # Adds the result to a Reef folder
+    # Uploads the result to the external Reef container
     for resfil in attachments:
-        shutil.copy2(resfil, "/root/project/api/sandbox_files/DIR_"+all_toks[nvnv]+'/___RESULTS')
+        requests.post('http://'+os.environ['Reef_IP']+':2001/reef/results/'+os.environ['Reef_Key']+'/'+all_toks[nvnv], files={"file": open(resfil, "rb")})
+
     send_mail('Automated BOINC Notifications', researcher_email, 'Completed Job', email_text, attachments)

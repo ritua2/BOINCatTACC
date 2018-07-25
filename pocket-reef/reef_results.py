@@ -44,6 +44,31 @@ def reef_results_all(toktok, rkey):
     return ' '.join(os.listdir(USER_DIR))
 
 
+# Uploads one file to the results folder
+@app.route("/reef/result_upload/<rkey>/<toktok>", methods=['POST'])
+def result_upload(toktok, rkey):
+    if not bf.valid_key(rkey):
+        return "INVALID key"
+    if str('DIR_'+toktok) not in os.listdir(REEF_FOLDER):
+       return 'INVALID, User directory does not exist'
+
+   if request.method != 'POST':
+      return 'INVALID, no file submitted'
+
+   file = request.files['file']
+
+   # Avoids empty filenames and those with commas
+   if file.filename == '':
+      return 'INVALID, no file uploaded'
+   if ',' in file.filename:
+      return "INVALID, no ',' allowed in filenames"
+
+   # Ensures no commands within the file
+   new_name = secure_filename(file.filename)
+   file.save(os.path.join(REEF_FOLDER+'DIR_'+str(toktok)+'/___RESULTS', new_name))
+   return 'File succesfully uploaded to Reef'
+
+
 
 if __name__ == '__main__':
    app.run(host ='0.0.0.0', port = 2001)

@@ -11,6 +11,7 @@ from flask import Flask, request, jsonify, send_file
 import preprocessing as pp
 from werkzeug.utils import secure_filename
 import redis
+import requests
 
 
 

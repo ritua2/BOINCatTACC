@@ -83,7 +83,6 @@ The BOINC server will automatically recognize your system as a volunteer and wil
 	Do:
 ```bash
 	 bash password_credentials.sh
-	 bash external_reef.sh
 	 exit
 	 docker exec -it {APACHE SERVER} bash
 ```

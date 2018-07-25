@@ -14,14 +14,29 @@ Pocket Reef is designed as a complement to a BOINC server, although it can also 
 
 **Instructions**  
 * Clone this current directory
-* Chnage directory
-* (RECOMMENDED) Change the Reef key in the dockerfile
-* Build the docker image and log into it in a detached mode
+* Change directory
+* CHnage the Reef key (recommended)
+* Set up the docker compose (APIs will start automatically)
 
 ```bash
 	git clone https://github.com/ritua2/TACC-2-BOINC/tree/master/pocket-reef
 	cd pocket-reef
 	# Change the Reef key (recommended)
-	vi Dockerfile
-	Docker build -t $REEF_IMAGE_NAME .
+	vi docker-compose.yml
+	docker-compose up -d
 ```
+
+**Usage**  
+To activate or switch off the APIs, enter the docker container and do:  
+
+```bash
+	# Enter container
+	docker exec -it $CONTAINER bash
+	cd /reef
+	# Activate
+	./API_Daemon.sh -up
+	# Deactivate
+	./API_Daemon.sh -down
+```
+
+Note: deactivating the APIs will not change or delete any data, it will simply stop communication with the server

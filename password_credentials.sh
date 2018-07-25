@@ -19,10 +19,20 @@ read BOINC_EMAIL
 printf "\nEnter email password: "
 read BOINC_EMAIL_PASSWORD
 
+
+# External Reef requirements
+printf "\nEnter external Reef server IP: "
+read Reef_IP
+printf "\nEnter Reef key: "
+read Reef_Key
+
+
 printf "\nexport SERVER_IP=$SERVER_IP\nexport BOINC_EMAIL=$BOINC_EMAIL\nexport BOINC_EMAIL_PASSWORD=$BOINC_EMAIL_PASSWORD\n" >> /root/.bashrc
-printf "\nexport MYSQL_UPASS=$MYSQL_UPASS\n" >> /root/.bashrc
+printf "\nexport MYSQL_UPASS=$MYSQL_UPASS\nexport Reef_IP=$Reef_IP\nexport Reef_Key=$Reef_Key\n" >> /root/.bashrc
 export SERVER_IP=$SERVER_IP
 export MYSQL_UPASS="$MYSQL_UPASS"
 export BOINC_EMAIL=$BOINC_EMAIL
 export BOINC_EMAIL_PASSWORD=$BOINC_EMAIL_PASSWORD
+export Reef_IP=$Reef_IP
+export Reef_Key=$Reef_Key
 printf "Your variables have now been set and are accessible from command line\n"

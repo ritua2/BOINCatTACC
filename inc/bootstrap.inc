@@ -66,6 +66,7 @@ function navbar_end() {
     </div>
   </div>
 </nav>
+<div class="container-fluid" style="padding-right:10px;padding-left:10px;">
 <!-- Added by Gerald Joshua, so there is enough space
 between navbar and the content -->
 <br><br /><br />
@@ -256,7 +257,7 @@ function sample_navbar(
 	echo sprintf('<li><a href="%s">Log out</a></li>',
                 	"./researcher_log_out.php"
             	);
-    	
+
     }
     else {
     	navbar_right($user);
@@ -524,6 +525,3 @@ function form_checkbox($label, $name, $checked=false) {
         ', $name, $checked?"checked":"", $label
     );
 }
-
-
-

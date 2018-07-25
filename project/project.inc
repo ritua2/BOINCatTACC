@@ -267,41 +267,38 @@ End of the Edit by Joshua*/
 <!-- </div> -->
 		<!-- Small Summary about Boinc -->
 
-    <img class="img-responsive" style="height: 64vh;width: 100%;" src="img1/stampedecropped.jpg">
-		<div class="container-fluid" style="position: absolute;
+    <img class="img-responsive" style="height: 23vh;width: 100%;" src="img1/stampedecropped.jpg">
+		<div class="container-fluid" style="position: relative;
   /*Edited by Joshua: Increase the z-index so that the tooltip can be fully shown to the screen*/
   z-index: 5;/*End of the edit by Joshua*/
-  top: 29%;
-  left: 5%;
-  right: 5%;
+  top: 30%;
+  left: 0%;
+  right: 3%;
   text-align: left;
   <!-- font-weight:bold; --><!-- Commented out for font size responsive to viewport size (Thomas Johnson)-->
   font-size: 1.2em;
-  background-color: white;
+  background-color: #E9E9E9;
   <!--opacity: 0.75; Commented out for solid white box-->
   filter: alpha(opacity=50);
   padding: 1em;
-  border-radius: 25px;">
-      <div class="row">
+  border-radius: 0px;">
 
-			<div  class="col-md-4" style="border-right:solid black;">			<span style="font-weight:normal;font-size:1.19vw;"><p>BOINC is an open-source software platform for volunteer computing.
+
+			<div  class="col-md-6" style="border-right:solid black;">			<span style="font-weight:normal;font-size:calc(12px + (22 - 12) * ((100vw - 300px) / (3000 - 300)));"><p>BOINC is an open-source software platform for volunteer computing.
 			BOINC has a client-server architecture. Once a BOINC client is downloaded on a device
 			(desktop, laptop, phone, and a tablet) owned by a
 <a class="popup" data-toggle="tooltip" onclick="myFunction()" style="border-bottom: 1px dotted #000;text-decoration: none;">volunteer<span class="popuptext" id="Popup"><span class="close">&times;</span>Those interested in supporting R&D activities of researchers and scholars using TACC resources are invited to join the TACC-2-BOINC project as volunteers and the job for volunteers are to donate their spare compute-cycles to the TACC-2-BOINC projects.</span></a>,
 			the BOINC server starts sending computational tasks to the client when it is plugged in to the power supply
 			and is available to accept tasks. Upon the completion of the tasks,
 			the results are gathered from the clients participating in the computations,
-			and are uploaded to the BOINC server, from where they are then forwarded to the <a  class="popup" data-toggle="tooltip" onclick="myFunction2()" style="border-bottom: 1px dotted #000;text-decoration: none;"> researchers <span class="popuptext" id="Popup2"> <span class="close">&times;</span>All active users of TACC resources are eligible to run jobs through the TACC-2-BOINC infrastructure and qualify as researchers. </span></a></p><p>The TACC-2-BOINC project brings the power of
-      volunteer computing to the <a class="popup" data-toggle="tooltip" onclick="myFunction3()" style="border-bottom: 1px dotted #000;text-decoration: none;">researchers<span class="popuptext" id="Popup3"><span class="close">&times;</span> All active users of TACC resources are eligible to run jobs through the TACC-2-BOINC infrastructure and qualify as researchers. </span></a></span>
+			and are uploaded to the BOINC server, from where they are then forwarded to the <a  class="popup" data-toggle="tooltip" onclick="myFunction2()" style="border-bottom: 1px dotted #000;text-decoration: none;"> researchers <span class="popuptext" id="Popup2"> <span class="close">&times;</span>All active users of TACC resources are eligible to run jobs through the TACC-2-BOINC infrastructure and qualify as researchers.The TACC-2-BOINC project brings the power of </span></a>.</p><p>The TACC-2-BOINC project brings the power of volunteer computing to the </span>
       </div>
-			<div class="col-md-4" style="border-right:solid black;"><span style="font-weight:normal;font-size:1.19vw">  using TACC resources.
-			By taking advantage of the computing cycles donated by the <a class="popup" data-toggle="tooltip" onclick="myFunction4()" style="border-bottom: 1px dotted #000;text-decoration: none;">volunteer<span class="popuptext" id="Popup4"><span class="close">&times;</span>Those interested in supporting R&D activities of researchers and scholars using TACC resources are invited to join the TACC-2-BOINC project as volunteers and the job for volunteers are to donate their spare compute-cycles to the TACC-2-BOINC projects.</span></a>,
+			<div class="col-md-6"> <span style="font-weight:normal;font-size:1.15vw;"><span style="font-weight:normal;font-size:calc(12px + (22 - 12) * ((100vw - 300px) / (3000 - 300)));"><a class="popup" data-toggle="tooltip" onclick="myFunction3()" style="border-bottom: 1px dotted #000;text-decoration: none;">researchers<span class="popuptext" id="Popup3"><span class="close">&times;</span> All active users of TACC resources are eligible to run jobs through the TACC-2-BOINC infrastructure and qualify as researchers. </span></a> using TACC resources.
+			By taking advantage of the computing cycles donated by the <a class="popup" data-toggle="tooltip" onclick="myFunction4()" style="border-bottom: 1px dotted #000;text-decoration: none;">volunteers<span class="popuptext" id="Popup4"><span class="close">&times;</span>Those interested in supporting R&D activities of researchers and scholars using TACC resources are invited to join the TACC-2-BOINC project as volunteers and the job for volunteers are to donate their spare compute-cycles to the TACC-2-BOINC projects.</span></a>, the
 			<a class="popup" data-toggle="tooltip" onclick="myFunction5()" style="border-bottom: 1px dotted #000;text-decoration: none;">researchers<span class="popuptext" id="Popup5"><span class="close">&times;</span>All active users of TACC resources are eligible to run jobs through the TACC-2-BOINC infrastructure and qualify as researchers.</span></a> can supplement the compute cycles granted to them as part of the TACC/XSEDE allocation process.</p><p> At present, only those users who have active allocation on TACC resources are allowed to submit jobs through the TACC-2-BOINC infrastructure.</p><p>To sign-up as a volunteer, click <a href="./create_account_form.php">here.</a></p>
       <p>To learn how to use TACC-2-BOINC, please click <a href="./how_to_use_TACC-2-BOINC.php">here</a>.</p></span>
       </div>
-<div class="col-md-4"> <span style="font-weight:normal;font-size:1.19vw"></span>
-      </div>
-      </div>
+
 		</div>
     ';//water.jpg was a placeholder
     }

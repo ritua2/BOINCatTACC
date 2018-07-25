@@ -233,7 +233,12 @@ function normalize_user_url($url) {
 // show static user info (private)
 //
 function show_user_info_private($user) {
-    row2(tra("Name"), $user->name);
+	//Added by Gerald Joshua
+    //Display the real username along with its random name inside parentheses
+    $randomName = get_user_random_name($user->name);
+    row2(tra("Name"), $user->name." (".$randomName.")");
+    /*End of the edit by Joshua*/
+
     if (LDAP_HOST && is_ldap_email($user->email_addr)) {
         row2("LDAP ID", ldap_email_to_uid($user->email_addr));
     } else {
@@ -333,7 +338,8 @@ function user_links($user, $badge_height=0) {
     /*Commented out by Gerald Joshua. We will be using random-generated name on the website instead of the real username
     $x .= " <a href=\"".url_base()."show_user.php?userid=".$user->id."\">".$user->name."</a>";
     */
-    $x .= " <a href=\"".url_base()."show_user.php?userid=".$user->id."\">".$user->random_name."</a>";
+    $randomName = get_user_random_name($user->name);
+    $x .= " <a href=\"".url_base()."show_user.php?userid=".$user->id."\">".$randomName."</a>";
     //End of the edit by Joshua
     if (function_exists("project_user_links")){
         $x .= project_user_links($user);

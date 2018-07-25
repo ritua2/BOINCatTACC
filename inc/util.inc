@@ -1141,4 +1141,27 @@ function google_search_form($url) {
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
+/* Added by Joshua: Let the volunteer users know what their random-generated username is*/
+//Get the user random-generated name 
+function get_user_random_name($real_user_name){
+    //Get the VM public IP address
+    $vm_public_ip_address = $_SERVER['SERVER_NAME'];
+
+    //Get the user random name    
+    $randomName = "";
+    $con  = mysqli_connect($vm_public_ip_address.":3306", "root", "", "boincserver");
+    if($con){
+        $lookupQuery = "SELECT * FROM screen_name_anonymization WHERE name = '$real_user_name'";
+        $results = mysqli_query($con, $lookupQuery);
+        if($row = $results->fetch_assoc()){
+            $randomName = $row["random_name"];
+        }
+    }
+
+    //Destroy the connection to database
+    mysqli_close($con);
+
+    return $randomName;
+}
+//End of the edit by Joshua
 ?>

@@ -273,8 +273,8 @@ function page_head(
 	$t = $tabTitle?$tabTitle:PROJECT;
     //End of Gerald Joshua's edit
     echo "<title>$t</title>\n";
-
-
+	
+	
     echo /*Added by Gerald Joshua*/'
 	<meta charset="utf-8">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -1142,12 +1142,12 @@ function google_search_form($url) {
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 /* Added by Joshua: Let the volunteer users know what their random-generated username is*/
-//Get the user random-generated name
+//Get the user random-generated name 
 function get_user_random_name($real_user_name){
     //Get the VM public IP address
     $vm_public_ip_address = $_SERVER['SERVER_NAME'];
 
-    //Get the user random name
+    //Get the user random name    
     $randomName = "";
     $con  = mysqli_connect($vm_public_ip_address.":3306", "root", "", "boincserver");
     if($con){

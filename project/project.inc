@@ -113,12 +113,12 @@ function make_php_mailer() {
 function project_banner($title, $prefix, $is_main) {
 	echo '<div class="container-fluid">
 	<!--<div class="row">-->
-	<div class="col-md-5" style="margin-top: 1%; margin-left: -2%;">
+  <div class="col-md-6" style=" margin-left: -2%;">
 
-<a href="index.php" class="svg"><img class="img-responsive" src="./img1/TACC-2-BOINC4x.png" style="max-width:100%;height:88px;"></a>
+<a href="index.php" class="svg"><img class="img-responsive" src="./img1/TACC-2-BOINC.svg" style="max-width:100%;height:104px;"></a>
 
 	</div>
-	<div class="col-md-6 col-md-offset-1">
+	<div class="col-md-6">
 <a href="https://boinc.berkeley.edu/">
 		<img class="img-responsive" style="width: 186px; margin-bottom: 23px; position:relative; right:-180px; top:6px; margin-right: 345px; float:right;" src="./img1/boincLogo_cropped.jpg" alt="Boinc Logo">
 	      </a>

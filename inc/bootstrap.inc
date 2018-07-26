@@ -237,6 +237,9 @@ function sample_navbar(
     //Abouts menu on the navbar that is accessible to the public
     if(!isset($_SESSION['user'])){
     	navbar_item("About", "./about.php");
+      //Thomas Johnson's edit
+      navbar_item("'How-to' Guide", "./how_to_use_TACC-2-BOINC.php")
+      //End of Thomas Johnson's edit
     }
 
     //Job Submission and Job History menus on the navbar
@@ -246,6 +249,9 @@ function sample_navbar(
     	navbar_item("Job Submission", "./job_submission.php");
         navbar_item("Job History", "./job_history.php");
         navbar_item("About", "./about.php");
+        //Thomas Johnson's edit
+        navbar_item("'How-to' Guide", "./how_to_use_TACC-2-BOINC.php")
+        //End of Thomas Johnson's edit
         echo '
       		</ul>
       		<ul class="nav navbar-nav navbar-right">

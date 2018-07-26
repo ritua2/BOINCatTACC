@@ -12,6 +12,7 @@
 crontab -l | { cat; echo "SERVER_IP=$SERVER_IP"; } | crontab -
 crontab -l | { cat; echo "BOINC_EMAIL=$BOINC_EMAIL"; } | crontab -
 crontab -l | { cat; echo "BOINC_EMAIL_PASSWORD=$BOINC_EMAIL_PASSWORD"; } | crontab -
+crontab -l | { cat; echo "MYSQL_UPASS=\'$MYSQL_UPASS\'"; } | crontab -
 
 # Initiates the cron job for emails
 crontab -l | { cat; echo "0,30 * * * * /root/project/email_assimilator.py"; } | crontab -

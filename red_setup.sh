@@ -78,6 +78,7 @@ chmod +x /root/project/api/personal_area.py
 chmod +x /root/project/adtd-protocol/redfile2.py
 chmod +x /root/project/adtd-protocol/red_runner2.py
 chmod +x /root/project/api/adtdp_common.py
+chmod +x /root/project/api/signup_email.py
 chmod +x /root/project/email2.py
 
 

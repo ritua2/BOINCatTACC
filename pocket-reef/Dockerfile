@@ -18,8 +18,8 @@ COPY API_Daemon.sh /reef/API_Daemon.sh
 
 # Installs the necessary packages
 # Bash for convenience
-RUN apk update && apk add bash && mkdir -p /rdat && mdir /rdat/sandbox && pip3 install Flask requests &&\
-	chmod +x /reef/new_user.py /reef/reef_regular.py /reef/API_Daemon.sh
+RUN apk update && apk add bash && mkdir -p /rdat && mkdir /rdat/sandbox && pip3 install Flask requests &&\
+	chmod +x /reef/new_user.py /reef/reef_regular.py /reef/reef_results.py /reef/API_Daemon.sh
 
 
 WORKDIR /rdat

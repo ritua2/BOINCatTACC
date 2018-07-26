@@ -16,11 +16,11 @@ Pocket Reef is designed as a complement to a BOINC server, although it can also 
 * Clone this current directory
 * Change directory
 * CHnage the Reef key (recommended)
-* Set up the docker compose (APIs will start automatically)
+* Set up the docker compose
 
 ```bash
-	git clone https://github.com/ritua2/TACC-2-BOINC/tree/master/pocket-reef
-	cd pocket-reef
+	git clone https://github.com/ritua2/TACC-2-BOINC
+	cd TACC-2-BOINC/pocket-reef
 	# Change the Reef key (recommended)
 	vi docker-compose.yml
 	docker-compose up -d

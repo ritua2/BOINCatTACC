@@ -79,7 +79,7 @@ def user_tokens(username, org_key):
     return ','.join([r.hget(username, z.decode("UTF-8")).decode("UTF-8") for z in r.hkeys(username)])
 
 
-# Adds a username to the registered database, creates a new hash and updates the list if needed if needed
+# Adds a username to the registered database, creates a new hash and updates the list if needed
 # Hashes are needed since it is possible for a single user to have multiple emails assigned to their account
 # If the user is already registered, it does nothing
 @app.route("/boincserver/v2/api/add_username/<username>/<email>/<toktok>/<org_key>")

@@ -16,6 +16,7 @@ from email import encoders
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+import requests
 
 
 r = redis.Redis(host = '0.0.0.0', port = 6389, db = 0)
@@ -231,6 +232,6 @@ for nvnv in range(0, len(to_be_notified[0])):
     print(researcher_email)
     # Uploads the result to the external Reef container
     for resfil in attachments:
-        requests.post('http://'+os.environ['Reef_IP']+':2001/reef/results/'+os.environ['Reef_Key']+'/'+all_toks[nvnv], files={"file": open(resfil, "rb")})
+        requests.post('http://'+os.environ['Reef_IP']+':2001/reef/result_upload/'+os.environ['Reef_Key']+'/'+all_toks[nvnv], files={"file": open(resfil, "rb")})
 
     send_mail('Automated BOINC Notifications', researcher_email, 'Completed Job', email_text, attachments)

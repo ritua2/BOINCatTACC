@@ -18,6 +18,7 @@ import hashlib
 import datetime
 from midas_processing import midas_reader as mdr
 import preprocessing as pp
+import requests
 
 
 
@@ -77,9 +78,9 @@ def complete_build(IMTAG, UTOK, MIDIR, COMMAND_TXT, DOCK_DOCK, BOCOM, FILES_PATH
             ff.write(salmon)
         ff.close()
 
-        # Moves the file to the user's result folders
-        shutil.move(saved_name, "/root/project/api/sandbox_files/DIR_"+UTOK+"/___RESULTS/"+saved_name)
-
+        # Moves the file to reef and deletes the local copy
+        requests.post('http://'+os.environ['Reef_IP']+':2001/reef/result_upload/'+os.environ['Reef_Key']+'/'+UTOK, files={"file": open(saved_name, "rb")})
+        os.remove(saved_name)
         MESSAGE = Success_Message.replace("DATETIME", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
         MESSAGE += "\n\nClick on the following link to obtain a compressed version of the application docker image.\n"
         MESSAGE += "You are welcome to upload the image on dockerhub in order to reduce the future job processing time for the same application (no allocation will be discounted): \n"

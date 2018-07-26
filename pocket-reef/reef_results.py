@@ -8,8 +8,9 @@ Different port because of how common it is
 """
 
 import os
-from flask import Flask, send_file
+from flask import Flask, send_file, request
 import base_functions as bf
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 REEF_FOLDER = os.environ['Reef_Path']+"/sandbox/"
@@ -52,21 +53,21 @@ def result_upload(toktok, rkey):
     if str('DIR_'+toktok) not in os.listdir(REEF_FOLDER):
        return 'INVALID, User directory does not exist'
 
-   if request.method != 'POST':
-      return 'INVALID, no file submitted'
+    if request.method != 'POST':
+       return 'INVALID, no file submitted'
 
-   file = request.files['file']
+    file = request.files['file']
 
-   # Avoids empty filenames and those with commas
-   if file.filename == '':
-      return 'INVALID, no file uploaded'
-   if ',' in file.filename:
-      return "INVALID, no ',' allowed in filenames"
+    # Avoids empty filenames and those with commas
+    if file.filename == '':
+       return 'INVALID, no file uploaded'
+    if ',' in file.filename:
+       return "INVALID, no ',' allowed in filenames"
 
-   # Ensures no commands within the file
-   new_name = secure_filename(file.filename)
-   file.save(os.path.join(REEF_FOLDER+'DIR_'+str(toktok)+'/___RESULTS', new_name))
-   return 'File succesfully uploaded to Reef'
+    # Ensures no commands within the file
+    new_name = secure_filename(file.filename)
+    file.save(os.path.join(REEF_FOLDER+'DIR_'+str(toktok)+'/___RESULTS', new_name))
+    return 'File succesfully uploaded to Reef'
 
 
 

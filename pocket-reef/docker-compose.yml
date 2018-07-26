@@ -16,4 +16,4 @@ services:
     environment:
      - Reef_Key=Reef
      - Reef_Path=/rdat
-    command: "/reef/API_Daemon.sh -up; tail -F anything"
+    command: "tail -F anything"

@@ -58,7 +58,7 @@ form_input_text(
         title="The first name that is listed for you on government records.
 ">'.tra("First Name").'</a>'
     ),
-    "first_name"
+    "first_name","","","name='first_name' placeholder='First Name' id='first_name'"
 );
 echo "</div>";
 form_input_text(
@@ -68,7 +68,7 @@ form_input_text(
         title="The last name that is listed for you on government records.
 ">'.tra("Last Name").'</a>'
     ),
-    "last_name"
+    "last_name","","", "name='last_name' placeholder='Last Name' id='last_name'"
 );
 
 form_input_text(
@@ -79,7 +79,7 @@ form_input_text(
 be used to contact you regarding any communications or related to this system,
 website, etc.">'.tra("Email address").'</a>'
     ),
-    "new_email_addr"
+    "new_email_addr","","", "name='new_email_address' placeholder='Email Address' id='email_address'"
 );
 
 form_input_text(
@@ -88,7 +88,7 @@ form_input_text(
         '<!-- attribute href of html tag a was removed by Gerald Joshua --><a data-toggle="tooltip" style="border-bottom: 1px dotted #000;text-decoration: none;"
         title="The organization that you are working under.">'.tra("Institution").'</a>'
     ),
-    "institution"
+    "institution","","", "name='institution' placeholder='Institution' id='institution'"
 );
 
 form_select(
@@ -117,7 +117,7 @@ form_input_text(
 Note that it must be 3-8 characters in length, start with a letter
 and can contain only lowercase letters, numbers, or underscore.">'.tra("Username").'</a>'
     ),
-    "username_sys"
+    "username_sys","","","name='username_system' placeholder='System Username' id='username_sys'"
 );
 
 
@@ -128,7 +128,7 @@ form_input_text(
         title="Look at the notes below for information
 on creating a valid password.">'.tra("Password").'</a>'
     ),
-    "password_sys"
+    "password_sys","","","name='password_system' placeholder='System Password' id='password_system'",passwd_visible_checkbox("password_system")
 );
 
 form_input_text(
@@ -138,7 +138,7 @@ form_input_text(
         title="Make a secure passphrase for logging in as a
 researcher.">'.tra("Password Check").'</a>'
     ),
-    "passowrd_sys_check"
+    "passowrd_sys_check","","","name='password_system_check' placeholder='System Password Check' id='password_system_check'",passwd_visible_checkbox("password_system_check")
 );
 }
 form_start(null,"post");
@@ -188,5 +188,10 @@ echo '<script>
 </script>';
 */
 echo '</div>';
+echo "<script>
+document.getElementById(\"password_system\").type=\"password_system\";
+document.getElementById(\"password_system_check\").type=\"password_system_check\";
+</script>
+";
 page_tail();
 ?>

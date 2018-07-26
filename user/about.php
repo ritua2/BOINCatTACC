@@ -67,12 +67,24 @@ Restructured due to div bug by Thomas
 echo tra("<h3>Project Team</h3>") .'<br>
 <div class="container">
 <div class="row">
+
   <div class="col-md-2">
     <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
       <img src="/img1/Anubhaw_cropped.jpg" alt="Anubhaw" class="img-responsive">
       <div class="info" style="padding: 10px 10px;">
         <h4><a href="https://www.linkedin.com/in/anubhawn/">Anubhaw Nand</a></h4>
         <p class="title">Graduate Student Intern</p>
+        <p>Software Development & Testing</p>
+        </div>
+    </div>
+  </div>
+
+  <div class="col-md-2">
+    <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
+      <img src="/img1/Carlos_2018_cropped.jpg" alt="Carlos" class="img-responsive">
+        <div class="info" style="padding: 10px 10px;">
+        <h4><a href="https://www.linkedin.com/in/carlos-redondo-albertos">Carlos Redondo</a></h4>
+        <p class="title">Undergraduate Student Intern</p>
         <p>Software Development & Testing</p>
         </div>
     </div>
@@ -92,7 +104,7 @@ echo tra("<h3>Project Team</h3>") .'<br>
 <!-- Added by Gerald Joshua, copied from above -->
   <div class="col-md-2">
     <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
-      <img src="/img1/ritu-2017_cropped.jpg" alt="Ritu" class="img-responsive">
+      <img src="/img1/ritu_2_2018_cropped.jpg" alt="Ritu" class="img-responsive">
       <div class="info" style="padding: 10px 10px;">
         <h4><a href="https://www.tacc.utexas.edu/about/directory/ritu-arora">Ritu Arora</a></h4>
         <p class="title"><strong>Project PI</strong></p><br/>
@@ -100,10 +112,7 @@ echo tra("<h3>Project Team</h3>") .'<br>
       </div>
     </div>
   </div>
-  
-  
-   
-  
+
   <div class="col-md-2">
     <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
       <img src="/img1/Thomas_cropped.jpg" alt="Thomas" class="img-responsive">
@@ -115,17 +124,6 @@ echo tra("<h3>Project Team</h3>") .'<br>
     </div>
   </div>
 
-
-	<div class="col-md-2">
-    <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
-      <img src="/img1/Carlos_2018_cropped.jpg" alt="Carlos" class="img-responsive">
-        <div class="info" style="padding: 10px 10px;">
-        <h4><a href="https://www.linkedin.com/in/carlos-redondo-albertos">Carlos Redondo</a></h4>
-        <p class="title">Undergraduate Student Intern</p>
-        <p>Software Development & Testing</p>
-        </div>
-    </div>
-  </div>
 </div>
 </div>
 <br>

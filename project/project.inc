@@ -113,12 +113,12 @@ function make_php_mailer() {
 function project_banner($title, $prefix, $is_main) {
 	echo '<div class="container-fluid">
 	<!--<div class="row">-->
-	<div class="col-md-5" style="margin-top: 1%; margin-left: -2%;">
+  <div class="col-md-6" style=" margin-left: -2%;">
 
-<a href="index.php" class="svg"><img class="img-responsive" src="./img1/TACC-2-BOINC4x.png" style="max-width:100%;height:88px;"></a>
+<a href="index.php" class="svg"><img class="img-responsive" src="./img1/TACC-2-BOINC.svg" style="max-width:100%;height:104px;"></a>
 
 	</div>
-	<div class="col-md-6 col-md-offset-1">
+	<div class="col-md-6">
 <a href="https://boinc.berkeley.edu/">
 		<img class="img-responsive" style="width: 186px; margin-bottom: 23px; position:relative; right:-180px; top:6px; margin-right: 345px; float:right;" src="./img1/boincLogo_cropped.jpg" alt="Boinc Logo">
 	      </a>
@@ -266,7 +266,7 @@ End of the Edit by Joshua*/
 			<!-- Welcome to TACC-2-BOINC! -->
 <!-- </div> -->
 		<!-- Small Summary about Boinc -->
-    
+
     <img class="img-responsive" style="height: 23vh;width: 100%;" src="img1/stampedecropped.jpg">
 		<div class="container-fluid" style="position: relative;
   /*Edited by Joshua: Increase the z-index so that the tooltip can be fully shown to the screen*/
@@ -282,7 +282,7 @@ End of the Edit by Joshua*/
   filter: alpha(opacity=50);
   padding: 1em;
   border-radius: 0px;">
-      
+
 
 			<div  class="col-md-6" style="border-right:solid black;">			<span style="font-weight:normal;font-size:calc(12px + (22 - 12) * ((100vw - 300px) / (3000 - 300)));"><p>BOINC is an open-source software platform for volunteer computing.
 			BOINC has a client-server architecture. Once a BOINC client is downloaded on a device
@@ -298,7 +298,7 @@ End of the Edit by Joshua*/
 			<a class="popup" data-toggle="tooltip" onclick="myFunction5()" style="border-bottom: 1px dotted #000;text-decoration: none;">researchers<span class="popuptext" id="Popup5"><span class="close">&times;</span>All active users of TACC resources are eligible to run jobs through the TACC-2-BOINC infrastructure and qualify as researchers.</span></a> can supplement the compute cycles granted to them as part of the TACC/XSEDE allocation process.</p><p> At present, only those users who have active allocation on TACC resources are allowed to submit jobs through the TACC-2-BOINC infrastructure.</p><p>To sign-up as a volunteer, click <a href="./create_account_form.php">here.</a></p>
       <p>To learn how to use TACC-2-BOINC, please click <a href="./how_to_use_TACC-2-BOINC.php">here</a>.</p></span>
       </div>
-      
+
 		</div>
     ';//water.jpg was a placeholder
     }

@@ -310,7 +310,7 @@ function page_head(
         </head>
     ";
     if ($fixed_navbar) {
-        $body_attrs .= ' style="padding-top:70px"';
+        //$body_attrs .= ' style="padding-top:70px"';
     }
     echo "<body $body_attrs>";
     display_cvs_versions();

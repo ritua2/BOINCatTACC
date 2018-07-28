@@ -96,7 +96,7 @@ The BOINC server will automatically recognize your system as a volunteer and wil
 ```
 
 
-7. **Create organization acounts**  
+7. **Create organization accounts**  
 	 
 	* A new token must be assigned to each new user (researcher who wants to submit BOINC jobs)
 	* There are 2 options on assigning tokens:

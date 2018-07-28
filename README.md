@@ -13,18 +13,17 @@ This repository includes the following:
 
 ## The project leverages the boinc-server-docker software developed by [Marius Millea][1]
 
-This Github repo contains the following folders:
+Following folders are available in this repository:
 * user-interface: Creates a web interface to allow researchers to submit and track jobs. 
 * api: Designed for large job batches.
 * applications: Dockerized applications for running on BOINC clients.
 * stampede2-backend: A command-line interface for submitting BOINC jobs from the Stampede2 supercomputer at TACC. This script can be run on any Linux system that has the SLURM scheduler available. 
 
-To execute the jobs submitted through the BOINC server, that is, to become a BOINC client, download [BOINC][2] and Virtualbox if not installed already. Then, add the project using:  
+To execute the jobs submitted through the BOINC server, that is, to become a BOINC client, download [BOINC][2] and Virtualbox if not installed already. Then, add the project using the following (where SERVER_IP is the IP address of the BOINC server/project website):  
 
 *http://SERVER_IP/boincserver*  
 
-The BOINC server will automatically recognize your system as a volunteer and will submit jobs to it when they are available.  
-
+The BOINC server will automatically recognize your system as a volunteer and will submit jobs to it when they are available. For the TACC-2-BOINC server project, after July 30th 2018, the following URL can be used instead of the aforementioned one: http://boinc.tacc.utexas.edu
 -------
 
 ### Installation Guide  

@@ -66,10 +66,10 @@ function navbar_end() {
     </div>
   </div>
 </nav>
-<div class="container-fluid" style="padding-right:10px;padding-left:10px;">
+<div class="container-fluid" style="padding-top: 4%; padding-right:1.5%;padding-left:1.5%; padding-bottom: 1.3%">
 <!-- Added by Gerald Joshua, so there is enough space
 between navbar and the content -->
-<br><br /><br />
+<br><br />
 <!-- End of Gerald Joshuas edit -->
     ';
 }
@@ -237,9 +237,9 @@ function sample_navbar(
     //Abouts menu on the navbar that is accessible to the public
     if(!isset($_SESSION['user'])){
     	navbar_item("About", "./about.php");
-      //Thomas Johnson's edit
-      navbar_item("'How-to' Guide", "./how_to_use_TACC-2-BOINC.php")
-      //End of Thomas Johnson's edit
+        //Thomas Johnson's edit
+        navbar_item("'How-to' Guide", "./how_to_use_TACC-2-BOINC.php");
+        //End of Thomas Johnson's edit
     }
 
     //Job Submission and Job History menus on the navbar
@@ -250,7 +250,7 @@ function sample_navbar(
         navbar_item("Job History", "./job_history.php");
         navbar_item("About", "./about.php");
         //Thomas Johnson's edit
-        navbar_item("'How-to' Guide", "./how_to_use_TACC-2-BOINC.php")
+        navbar_item("'How-to' Guide", "./how_to_use_TACC-2-BOINC.php");
         //End of Thomas Johnson's edit
         echo '
       		</ul>

@@ -113,9 +113,9 @@ function make_php_mailer() {
 function project_banner($title, $prefix, $is_main) {
 	echo '<div class="container-fluid">
 	<!--<div class="row">-->
-  <div class="col-md-6" style=" margin-left: -2%;">
+  <div class="col-md-6" style=" margin-left: -2%;margin-top:1%;">
 
-<a href="index.php" class="svg"><img class="img-responsive" src="./img1/TACC-2-BOINC.svg" style="max-width:100%;height:104px;"></a>
+<a href="index.php" class="svg"><img class="img-responsive" src="./img1/TACC-2-BOINC4x.png" style="max-width:400px;height:58px;"></a>
 
 	</div>
 	<div class="col-md-6">
@@ -267,7 +267,7 @@ End of the Edit by Joshua*/
 <!-- </div> -->
 		<!-- Small Summary about Boinc -->
 
-    <img class="img-responsive" style="height: 23vh;width: 100%;" src="img1/stampedecropped.jpg">
+    <img class="img-responsive" style="margin-top:0%; height: 23vh;width: 100%;" src="img1/stampedecropped.jpg">
 		<div class="container-fluid" style="position: relative;
   /*Edited by Joshua: Increase the z-index so that the tooltip can be fully shown to the screen*/
   z-index: 5;/*End of the edit by Joshua*/
@@ -275,16 +275,17 @@ End of the Edit by Joshua*/
   left: 0%;
   right: 3%;
   text-align: left;
-  <!-- font-weight:bold; --><!-- Commented out for font size responsive to viewport size (Thomas Johnson)-->
+  /*font-weight:bold;Commented out for font size responsive to viewport size (Thomas Johnson)*/
   font-size: 1.2em;
   background-color: #E9E9E9;
-  <!--opacity: 0.75; Commented out for solid white box-->
+  /*opacity: 0.75*/
   filter: alpha(opacity=50);
   padding: 1em;
   border-radius: 0px;">
 
 
-			<div  class="col-md-6" style="border-right:solid black;">			<span style="font-weight:normal;font-size:calc(12px + (22 - 12) * ((100vw - 300px) / (3000 - 300)));"><p>BOINC is an open-source software platform for volunteer computing.
+			<div  class="col-md-6" style="border-right:solid black;">			
+				<span style="font-weight:normal;font-size:calc(12px + (22 - 12) * ((100vw - 300px) / (3000 - 300)));"><p>BOINC is an open-source software platform for volunteer computing.
 			BOINC has a client-server architecture. Once a BOINC client is downloaded on a device
 			(desktop, laptop, phone, and a tablet) owned by a
 <a class="popup" data-toggle="tooltip" onclick="myFunction()" style="border-bottom: 1px dotted #000;text-decoration: none;">volunteer<span class="popuptext" id="Popup"><span class="close">&times;</span>Those interested in supporting R&D activities of researchers and scholars using TACC resources are invited to join the TACC-2-BOINC project as volunteers and the job for volunteers are to donate their spare compute-cycles to the TACC-2-BOINC projects.</span></a>,

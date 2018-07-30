@@ -12,7 +12,7 @@ PATH = "/data/"
 
 Gib_outs = [PATH+x for x in os.listdir(PATH)]
 
-# For some reason, these are not accounetd for in the find command
+# For some reason, these are not accounted for in the find command
 # Add them to the end file
 
 # Ignores files starting with a dot, or without it at all

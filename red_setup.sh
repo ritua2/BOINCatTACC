@@ -75,6 +75,7 @@ chmod +x /root/project/api/ualdap.py
 chmod +x /root/project/api/t2auth.py
 chmod +x /root/project/idir.py
 chmod +x /root/project/api/personal_area.py
+chmod +x /root/project/api/envar.py
 chmod +x /root/project/adtd-protocol/redfile2.py
 chmod +x /root/project/adtd-protocol/red_runner2.py
 chmod +x /root/project/api/adtdp_common.py

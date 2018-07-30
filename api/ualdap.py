@@ -16,7 +16,7 @@ from ldap3 import Server, Connection, ALL
 app = Flask(__name__)
 
 
-# Checks if 
+# Checks if the user is validated through ldap
 @app.route("/boincserver/v2/api/ldap_check/<username>/<pw>")
 def ldap_check(username, pw):
 

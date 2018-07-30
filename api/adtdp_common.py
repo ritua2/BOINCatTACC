@@ -161,7 +161,8 @@ def succesful_job():
 @app.route("/boincserver/v2/api/adtdp/info/<work_ID>")
 def info(work_ID):
 
-    return jsonify(r.hgetall(work_ID))
+    return jsonify({k.decode('utf8'): v.decode('utf8') for k, v in  r.hgetall(work_ID).items()})
+
 
 
 if __name__ == '__main__':

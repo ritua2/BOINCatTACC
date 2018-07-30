@@ -12,7 +12,7 @@ import random
 import json
 import datetime
 import os, shutil
-from flask import Flask, request, send_file
+from flask import Flask, request, send_file, jsonify
 from werkzeug.utils import secure_filename
 import preprocessing as pp
 
@@ -155,6 +155,13 @@ def succesful_job():
 
     r.hset(work_ID, "Error", "Success")
     return "Succesfully updated succesful job DB"
+
+
+# Returns job information for a work ID in adtd-p only
+@app.route("/boincserver/v2/api/adtdp/info/<work_ID>")
+def info(work_ID):
+
+    return jsonify(r.hgetall(work_ID))
 
 
 if __name__ == '__main__':

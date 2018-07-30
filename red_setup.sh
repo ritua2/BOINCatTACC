@@ -27,7 +27,7 @@ pip3 install redis Flask Werkzeug docker ldap3 requests
 
 # Moves all the APIs and email commands
 # Requires to be cloned inside project
-mv ./api /root/project
+mv ./api /root/projec
 mv ./adtd-protocol /root/project
 mv ./email_assimilator.py /root/project
 mv ./email2.py /root/project
@@ -83,10 +83,11 @@ chmod +x /root/project/email2.py
 
 
 # Asks the user to make the main directory available
-printf "Enter the apache2.conf and comment out the main directory restrictions\nThis message will stay for 30 s\n"
+printf "Enter the apache2.conf and comment out the main directory restrictions\nThis message will stay for 20 s\n"
 sleep 30
 vi /etc/apache2/apache2.conf
 
+printf "<link rel=\"boinc_scheduler\" href=\"$URL_BASE/boincserver_cgi/cgi\">" > /root/project/html/user/schedulers.txt
 
 
 # Adds a DocumentRoot to the approproate configuration file

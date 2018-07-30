@@ -125,7 +125,7 @@ read user_option
 
 
 # Asks the user what option they prefer for job submission
-printf "Do you wish to use the adtd-protocol?[y/n/h for help]: "
+printf "Do you wish to use the adtd-protocol (Note: Required for GPU jobs)?[y/n/h for help]: "
 
 while true
 do

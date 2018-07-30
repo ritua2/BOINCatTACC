@@ -38,10 +38,16 @@ for qq in range(0, r.llen('Token')):
       acim = r.lindex('Image', qq).decode('UTF-8')
       accom = r.lindex('Command', qq).decode('UTF-8')
       identity = hashlib.sha256(str(datetime.datetime.now()).encode('UTF-8')).hexdigest()[:16:]
+      gpu_needed = False
+
+
+      if "nvcc" in accom:
+        gpu_needed = True
+
 
       # JSON Data
       data = {"Image":acim, "Command":accom, "Results":"/root/shared/results", "ID":identity, "Error":"Not Run", 
-              "Processed":prestime}
+              "Processed":prestime, "GPU":gpu_needed}
 
       # Checks if the image is on the server, if not, it downloads it from dockerhub
       all_images = [y.tags[0] for y in image.list()]

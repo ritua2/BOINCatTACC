@@ -69,7 +69,7 @@ function navbar_end() {
 <div class="container-fluid" style="padding-top: 4%; padding-right:1.5%;padding-left:1.5%; padding-bottom: 1.3%">
 <!-- Added by Gerald Joshua, so there is enough space
 between navbar and the content -->
-<br><br />
+
 <!-- End of Gerald Joshuas edit -->
     ';
 }
@@ -531,3 +531,4 @@ function form_checkbox($label, $name, $checked=false) {
         ', $name, $checked?"checked":"", $label
     );
 }
+

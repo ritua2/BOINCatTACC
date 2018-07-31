@@ -238,7 +238,7 @@ function sample_navbar(
     if(!isset($_SESSION['user'])){
     	navbar_item("About", "./about.php");
         //Thomas Johnson's edit
-        navbar_item("'How-to' Guide", "./how_to_use_TACC-2-BOINC.php");
+        navbar_item("User-Guide", "./how_to_use_TACC-2-BOINC.php");
         //End of Thomas Johnson's edit
     }
 
@@ -250,7 +250,7 @@ function sample_navbar(
         navbar_item("Job History", "./job_history.php");
         navbar_item("About", "./about.php");
         //Thomas Johnson's edit
-        navbar_item("'How-to' Guide", "./how_to_use_TACC-2-BOINC.php");
+        navbar_item("User-Guide", "./how_to_use_TACC-2-BOINC.php");
         //End of Thomas Johnson's edit
         echo '
       		</ul>
@@ -531,4 +531,3 @@ function form_checkbox($label, $name, $checked=false) {
         ', $name, $checked?"checked":"", $label
     );
 }
-

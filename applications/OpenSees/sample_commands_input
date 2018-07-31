@@ -1,0 +1,17 @@
+1) Get the sample input files from the following paths:
+curl http://opensees.berkeley.edu/wiki/images/a/a1/ElasticFrame.tcl
+curl http://opensees.berkeley.edu/wiki/images/3/3d/MomentCurvature.tcl 
+
+2) Create a directory named "data" and copy the files inside this directory, and create a *.zip or a *.tar file for this data directory
+cp ElasticFrame.tcl /data/ElFram.tcl
+cp MomentCurvature.tcl /data/MomCurv.tcl 
+
+3) Select OpenSees from the drop-down list
+
+4) Enter the commands to run OpenSees in the text-box available through the web-interface
+OpenSees < ./data/MomCurv.tcl
+OpenSees < ./data/ElFram.tcl
+
+5) Upload the data.zip or data.tar file created in step # 2
+
+Click on job-submit button.

@@ -108,12 +108,27 @@ fi
 
 
 # Gets the account for the org
-ORK=XXXX# Declare it the first time this program is run
+# Only TACC hosts are accepted
+IFS='.' read -ra LK1 <<< "$HOSTNAME"
+LL="${#LK1[@]}"
+ORK=""
+
+for (( COUNTER=2; COUNTER<LL-1; COUNTER+=1 )); do
+    ORK+="${LK1[$COUNTER]}""."
+done
+
+ORK+="${LK1[$LL-1]}"
 
 
 # Validates the researcher's email against the server's API
 TOKEN=$(curl -s -F email=$userEmail -F org_key=$ORK http://$SERVER_IP:5054/boincserver/v2/api/authorize_from_org)
 
+
+# Checks that the token is valid
+if [[ $TOKEN = *"INVALID"* ]]; then
+    printf "${REDRED}Organization does not have access to BOINC\n${NCNC}Program exited\n"
+    exit 0
+fi
 
 # Adds the username to the database if necessary
 # Gets the actual user name
@@ -126,12 +141,6 @@ registerUser=$(curl -s http://$SERVER_IP:5078/boincserver/v2/api/add_username/$u
 
 printf "\n${GREENGREEN}$registerUser${NCNC}\n"
 
-
-# Checks that the token is valid
-if [ $TOKEN = *"INVALID"* ]; then
-    printf "${REDRED}Organization does not have access to BOINC\n${NCNC}Program exited\n"
-    exit 0
-fi
 
 printf "${GREENGREEN}BOINC connection established${NCNC}\n"
 

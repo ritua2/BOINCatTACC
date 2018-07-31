@@ -13,6 +13,7 @@ Multiple operations to:
 import redis
 from flask import Flask, request
 import preprocessing as pp
+import hashlib
 
 
 r = redis.Redis(host='0.0.0.0', port=6389, db = 8)
@@ -84,6 +85,8 @@ def user_tokens(username, org_key):
 # If the user is already registered, it does nothing
 @app.route("/boincserver/v2/api/add_username/<username>/<email>/<toktok>/<org_key>")
 def add_username(username, email, toktok, org_key):
+
+    org_key = hashlib.sha256(org_key.encode('UTF-8')).hexdigest()[:24:]
 
     all_org_keys = [r_org.hmget(x.decode('UTF-8'), 'Organization Token')[0].decode('UTF-8') for x in r_org.keys()]
     if org_key not in all_org_keys:

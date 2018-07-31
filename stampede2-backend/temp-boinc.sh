@@ -40,14 +40,15 @@ done
 
 ORK+="${LK1[$LL-1]}"
 
-ORK=$( echo $ORK | sha256sum )
-# Only the first 24 characters are needed
-ORK="${ORK:0:24}"
-echo $ORK
-
 # Validates the researcher's email against the server's API
 TOKEN=$(curl -s -F email=$userEmail -F org_key=$ORK http://$SERVER_IP:5054/boincserver/v2/api/authorize_from_org)
 
+
+# Checks that the token is valid
+if [[ $TOKEN = *"INVALID"* ]]; then
+    printf "${REDRED}Organization does not have access to BOINC\n${NCNC}Program exited\n"
+    exit 0
+fi
 
 # Adds the username to the database if necessary
 # Gets the actual user name
@@ -59,13 +60,6 @@ unam="${unam[3]}"
 registerUser=$(curl -s http://$SERVER_IP:5078/boincserver/v2/api/add_username/$unam/$userEmail/$TOKEN/$ORK)
 
 printf "\n${GREENGREEN}$registerUser${NCNC}\n"
-
-
-# Checks that the token is valid
-if [ $TOKEN = *"INVALID"* ]; then
-    printf "${REDRED}Organization does not have access to BOINC\n${NCNC}Program exited\n"
-    exit 0
-fi
 
 printf "${GREENGREEN}BOINC connection established${NCNC}\n"
 

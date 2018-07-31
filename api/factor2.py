@@ -14,6 +14,7 @@ from flask import Flask, request
 from werkzeug.datastructures import ImmutableMultiDict
 import preprocessing as pp
 import requests
+import hashlib
 
 
 r_alloc = redis.Redis(host = '0.0.0.0', port = 6389, db =2)
@@ -129,11 +130,7 @@ def authenticated_request_token(temptok):
        r_temp.delete(temptok)
        return 'INVALID, User requested allocation is larger than organization allows'
 
-    # Creates a final token for the user
-    SEQ = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
-    user_tok = ''
-    for qq in range(0, 14):
-        user_tok += random.choice(SEQ)
+    user_tok = EMAIL
     
     # Replaces single quotes by double quotes
     Org_Users_Data = json.loads(r_org.hget(user_org, 'Users').decode('UTF-8').replace('\"', 'UHJKNM').replace('\'', '\"').replace('UHJKLM', '\''))
@@ -194,7 +191,7 @@ def authorize_from_org():
         return "INVALID, no data provided"
 
     EMAIL = request.form["email"]
-    ORG_KEY = request.form["org_key"]
+    ORG_KEY = hashlib.sha256(request.form["org_key"].encode('UTF-8')).hexdigest()[:24:]
 
     if EMAIL=='':
         return "INVALID, email was not provided"
@@ -217,12 +214,7 @@ def authorize_from_org():
     except:
         pass
 
-    # The user has never used BOINC before, a new account must be created
-    # Creates a final token for the user
-    SEQ = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
-    user_tok = ''
-    for qq in range(0, 14):
-        user_tok += random.choice(SEQ)
+    user_tok = EMAIL
 
     # Since the only information is their email, we will assume the following:
     # EMAIL: NAME*.LAST_NAME@*

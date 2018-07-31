@@ -13,6 +13,7 @@ SERVER_IP=boinc.tacc.utexas.edu # Declare it the first time this program is run
 
 # Colors, helpful for printing
 NCNC='\033[0m' # No color
+REDRED='\033[0;31m'
 GREENGREEN='\033[0;32m'
 
 printf "Enter email to which send results: "
@@ -37,15 +38,15 @@ done
 
 ORK+="${LK1[$LL-1]}"
 
-ORK=$( echo $ORK | sha256sum )
-# Only the first 24 characters are needed
-ORK="${ORK:0:24}"
-
-
 
 # Validates the researcher's email against the server's API
 TOKEN=$(curl -s -F email=$userEmail -F org_key=$ORK http://$SERVER_IP:5054/boincserver/v2/api/authorize_from_org)
 
+# Checks that the token is valid
+if [[ $TOKEN = *"INVALID"* ]]; then
+    printf "${REDRED}Organization does not have access to BOINC\n${NCNC}Program exited\n"
+    exit 0
+fi
 
 # Gets the actual user name
 IFS='/' read -ra unam <<< "$PWD"

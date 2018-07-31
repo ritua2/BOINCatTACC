@@ -47,11 +47,15 @@ function user_table_start($sort_by) {
     $x[] = tra("Rank");
     $x[] = tra("Name");
     if ($sort_by == "total_credit") {
-        $x[] = "<a href=top_users.php?sort_by=expavg_credit>".tra("Recent average credit")."</a>";
+    	/*Added by Joshua: Make the text visibile*/
+        $x[] = '<a style="color:white;" href=top_users.php?sort_by=expavg_credit>'.tra("Recent average credit")."</a>";
+        /*End of the edit by Joshua */
         $x[] = tra("Total credit");
     } else {
         $x[] = tra("Recent average credit");
-        $x[] = "<a href=top_users.php?sort_by=total_credit>".tra("Total credit")."</a>";
+        /*Added by Joshua: Make the text visibile*/
+        $x[] = '<a style="color:white;" href=top_users.php?sort_by=total_credit>'.tra("Total credit")."</a>";
+        /*End of the edit by Joshua */
     }
     $x[] = tra("Country");
     $x[] = tra("Participant since");

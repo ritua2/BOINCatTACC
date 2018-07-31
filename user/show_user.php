@@ -86,7 +86,10 @@ if ($format=="xml"){
 
     $logged_in_user = get_logged_in_user(false);
 
-    page_head($user->name);
+    /*Edited by Joshua: Try to show the random-generated name to the public
+    instead of user's real name*/
+    page_head(get_user_random_name($user->name));
+    /*End of the edit by Joshua*/
     start_table();
     echo "<tr><td valign=top>";
     start_table("table-striped");

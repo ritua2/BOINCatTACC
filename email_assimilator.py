@@ -63,19 +63,30 @@ def obtain_email(toktok):
 # namnam (str): Name of the job
 # YYYYMMDD (str): Date when the job was received, myst be in format YYYY-MM-DD
 def job_result_files(namnam, YYYYMMDD):
-    
+
     PPP = []
     MAIN_DIR = "/results/boinc2docker/"
-    FULLPATH = MAIN_DIR+YYYYMMDD.split(" ")[0] + "/"
+    d1 = datetime.datetime.strptime(YYYYMMDD.split(' ')[0], "%Y-%m-%d")
 
     try:
+        
+        n = 0
+        # Accounts for jobs received on different days
+        while True:
+            d2 = d1 + datetime.timedelta(days=n)
+            d3 = d2.strftime("%Y-%m-%d")
+            FULLPATH = MAIN_DIR+d3 + "/"
     
-        for filfil in os.listdir(FULLPATH):
-            if namnam in filfil:
-                PPP.append(FULLPATH+"/"+str(filfil))
+            for filfil in os.listdir(FULLPATH):
+                if namnam in filfil:
+                    PPP.append(FULLPATH+"/"+str(filfil))
+                    return PPP
+
+            n += 1
+
     except:
         return PPP
-    return PPP    
+ 
 
 
 # Counts how many results are there for one WU ID

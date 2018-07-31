@@ -1,6 +1,5 @@
 #!/bin/bash
 
-#!/bin/bash
 
 # Designed for convenience in development
 # This file is expected to be merged with advance-submit.sh
@@ -10,7 +9,7 @@
 printf "Welcome to Boinc registration\n\n"
 printf "This script will automatically set up credentials for submitting BOINC jobs\n\n\n"
 # Server IP or domain must be declared before
-SERVER_IP=149.165.169.133 # Declare it the first time this program is run
+SERVER_IP=boinc.tacc.utexas.edu # Declare it the first time this program is run
 
 # Colors, helpful for printing
 NCNC='\033[0m' # No color

@@ -8,7 +8,7 @@
 printf "Welcome to Boinc job submission\n\n"
 printf "NOTE: NO MPI jobs distributed accross more than one volunteer, No jobs with external downloads while the job is running (no curl, wget, rsync, ..).\n"
 # Server IP or domain must be declared before
-SERVER_IP='boinc-dev.tacc.utexas.edu' # Declare it the first time this program is run
+SERVER_IP='boinc.tacc.utexas.edu' # Declare it the first time this program is run
 
 # Colors, helpful for printing
 REDRED='\033[0;31m'
@@ -90,24 +90,30 @@ declare -A dockapps
 dockapps=( ["autodock-vina"]="carlosred/autodock-vina:latest" ["bedtools"]="carlosred/bedtools:latest" ["blast"]="carlosred/blast:latest"
            ["bowtie"]="carlosred/bowtie:built" ["gromacs"]="carlosred/gromacs:latest"
            ["htseq"]="carlosred/htseq:latest" ["mpi-lammps"]="carlosred/mpi-lammps:latest" ["namd"]="carlosred/namd-cpu:latest"
-           ["opensees"]="carlosred/opensees:latest")
+           ["opensees"]="carlosred/opensees:latest" ["CUDA"]="carlosred/gpu:cuda")
 
-numdocks=(1 2 3 4 5 6 7 8 9)
+numdocks=(1 2 3 4 5 6 7 8 9 10)
 docknum=( ["1"]="autodock-vina" ["2"]="bedtools" ["3"]="blast"
            ["4"]="bowtie" ["5"]="gromacs"
            ["6"]="htseq" ["7"]="mpi-lammps" ["8"]="namd"
-           ["9"]="opensees")
+           ["9"]="opensees" ["10"]="CUDA")
 
 # Extra commands before each app
 dockcomm=( ["1"]="" ["2"]="" ["3"]=""
            ["4"]="" ["5"]="source /usr/local/gromacs/bin/GMXRC.bash; "
            ["6"]="" ["7"]="" ["8"]=""
-           ["9"]="")
+           ["9"]="" ["10"]="nvcc --version; ")
 
 # Some images don't accept curl, so they will use wget
 curl_or_wget=( ["1"]="curl -O" ["2"]="wget " ["3"]="wget " 
             ["4"]="curl -O " ["5"]="curl -O " ["6"]="curl -O " 
-            ["7"]="curl -O " ["8"]="curl -O " ["9"]="curl -O ")
+            ["7"]="curl -O " ["8"]="curl -O " ["9"]="curl -O " ["10"]="curl -O ")
+
+# Some images require the adtd-p protocol, whereas others do not
+exwith=( ["1"]="boinc2docker" ["2"]="boinc2docker" ["3"]="boinc2docker"
+           ["4"]="boinc2docker" ["5"]="boinc2docker"
+           ["6"]="boinc2docker" ["7"]="boinc2docker" ["8"]="boinc2docker"
+           ["9"]="boinc2docker" ["10"]="adtdp")
 
 
 ########################################
@@ -127,33 +133,6 @@ read user_option
 # Asks the user what option they prefer for job submission
 printf "Do you wish to use the adtd-protocol (Note: Required for GPU jobs)?[y/n/h for help]: "
 
-while true
-do
-    read user_ADTDP
-    user_ADTDP="${user_ADTDP,,}"
-
-    if [ "$user_ADTDP" = "h" ]; then
-        printf "The Automated Docker Task Distribution Protocol (adtd-p) is a substitute form of executing BOINC jobs through Docker containers.\n"
-        printf "Advantages:\n+ Supports CUDA usage\n+ Guaranteed volunteers to run results\n+ Less data transfer for volunteers\n"
-        printf "+ Does not require VirtualBox as an intermediary\n+ Error feedback if a job fails\n"
-        printf "Disadvantages:\n- Experimental\n- No BOINC community support\n- Jobs are most likely run by servers, not volunteers\n"
-    fi
-
-
-    if [[ "$user_ADTDP" != "y" && "$user_ADTDP" != "n" ]]; then
-        printf "Please enter [y/n/h for help]: "
-        continue
-    fi
-
-    if [ "$user_ADTDP" = "y" ]; then
-        boapp="adtdp"
-        break
-    fi
-
-    boapp="boinc2docker"
-    break
-done
-
 
 case "$user_option" in 
 
@@ -161,7 +140,7 @@ case "$user_option" in
         printf "\nSubmitting a BOINC job to a known image, select the image below:\n"
 
         # All the options
-        printf "  1 Autodock-vina\n  2 Bedtools\n  3 Blast\n  4 Bowtie\n  5 Gromacs\n  6 HTSeq\n  7 MPI-LAMMPS\n  8 NAMD\n  9 OpenSEES\n"
+        printf "  1 Autodock-vina\n  2 Bedtools\n  3 Blast\n  4 Bowtie\n  5 Gromacs\n  6 HTSeq\n  7 MPI-LAMMPS\n  8 NAMD\n  9 OpenSEES\n  10 CUDA\n"
         printf "Enter option number: "
         read option2
 
@@ -172,6 +151,8 @@ case "$user_option" in
         fi
 
         user_app=${dockapps[${docknum[$option2]}]}
+        boapp=${exwith[$option2]}
+
 
         # Obtains the image and the base commands
         # Add the possible source (such as in gromacs at the start
@@ -301,10 +282,19 @@ case "$user_option" in
         printf "\nEnter the path of the file which contains list of serial commands: "
         read filetosubmit
 
+
         if [ ! -f $filetosubmit ]; then
             printf "${REDRED}File $filetosubmit does not exist, program exited${NCNC}\n"
             exit 0
         fi
+
+        # Read the file's first line and choose where the application
+        # Same rule as before, if nvcc is present, then it is a GPU job
+        boapp="boinc2docker"
+        if cat $filetosubmit | grep "nvcc"; then
+            boapp="adtdp"
+        fi
+
 
         curl -F file=@$filetosubmit -F app=$boapp http://$SERVER_IP:5075/boincserver/v2/submit_known/token=$TOKEN
         printf "\n"
@@ -323,6 +313,10 @@ case "$user_option" in
         printf "   %s" "${allowed_languages[@]}"
         printf "${NCNC}\n* python refers to python 3, since python2 is not accepted for MIDAS use\n"
         printf "%0.s-" {1..20}
+
+
+        # Always executed through adtd-p
+        boapp="adtdp"
 
 
         # In case the suer provides their own README

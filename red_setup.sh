@@ -46,6 +46,9 @@ mv /root/project/html/user /root/project/html/user_old
 #mv ./user/img1 /root/project/html/user/
 mv ./user /root/project/html/user
 
+# Also moves the schedules
+mv /root/project/html/user_old/schedulers.txt /root/project/html/user/schedulers.txt
+
 # Required because images is its own directory
 #mv -f ./user/img/* /root/project/html/user/img
 
@@ -85,7 +88,7 @@ chmod +x /root/project/email2.py
 
 # Asks the user to make the main directory available
 printf "Enter the apache2.conf and comment out the main directory restrictions\nThis message will stay for 20 s\n"
-sleep 30
+sleep 20
 vi /etc/apache2/apache2.conf
 
 printf "<link rel=\"boinc_scheduler\" href=\"$URL_BASE/boincserver_cgi/cgi\">" > /root/project/html/user/schedulers.txt

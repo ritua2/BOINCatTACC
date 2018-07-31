@@ -38,7 +38,7 @@ echo '<center><h1>Job Submission</h1></center><br />';
 echo '
 	<form action = "./job_submission_result.php" method = "post" enctype="multipart/form-data">
 	<span style="margin-left: 17.3%; float:left; font-weight:bold;"><a data-toggle="tooltip" style ="border-bottom: 1px dotted #000; text-decoration: none;" title="The location of docker image that will be used can be from docker hub or from the list of available tacc-2-boinc docker images">'.tra("Location of docker image").'</a></span>
-	<div style="float:left; margin-left: 3.5%;"><label style="margin-left: 3px;"><input type="radio" id="dockerOpt1" checked="checked"><span style="margin-left: 5px;">List of TACC-2-BOINC docker images</span></label></div>
+	<div style="float:left; margin-left: 3.5%;"><label style="margin-left: 3px;"><input type="radio" id="dockerOpt1" checked="checked"><span style="margin-left: 5px;">List of docker images maintained by TACC-2-BOINC</span></label></div>
 	<div style="float:left; margin-left: 4%;"><label><input type="radio" id="dockerOpt2"><span style="margin-left: 5px;">Docker hub</span></label></div>
 	<div id="taccDockerSection">
 	<br /><br />
@@ -293,7 +293,7 @@ echo'
 			$("#dockerOpt2").prop("checked", false);
 			$("#dockerHubSection").hide();
 			$("#taccDockerSection").show();
-			$("#buttonText").text("List of TACC-2-BOINC docker images");
+			$("#buttonText").text("List of docker images maintained by TACC-2-BOINC");
       			$("#dockerListBtn").val("none");
 			$("#dockerListParam").val("none");
 			isDockerChosen = false;

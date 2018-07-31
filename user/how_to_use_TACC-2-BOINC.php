@@ -33,23 +33,23 @@ echo '<iframe width="560" height="315" src="https://www.youtube.com/embed/UH9mJj
 echo "<h3>".tra("Step-by-Step Instructions for Running OpenSees in the Job Submission Page")."</h3>";
 
 echo "<ol>
-<li> Get the sample input files from the following paths:<p></p>
+<li>".tra("Get the sample input files from the following paths:")."<p></p>
 curl http://opensees.berkeley.edu/wiki/images/a/a1/ElasticFrame.tcl<p></p>
 curl http://opensees.berkeley.edu/wiki/images/3/3d/MomentCurvature.tcl</li>
 <br>
-<li> Create a directory named \"data\" and copy the files inside this directory, and create a *.zip or a *.tar file for this data directory<p></p>
+<li> ".tra("Create a directory named")." \"data\" ".tra("and copy the files inside this directory, and create a *.zip or a *.tar file for this data directory")."<p></p>
 cp ElasticFrame.tcl /data/ElFram.tcl<p></p>
 cp MomentCurvature.tcl /data/MomCurv.tcl </li>
 <br>
-<li> Select OpenSees from the drop-down list</li>
+<li>".tra("Select OpenSees from the drop-down list")."</li>
 <br>
-<li> Enter the commands to run OpenSees in the text-box available through the web-interface<p></p>
+<li> ".tra("Enter the commands to run OpenSees in the text-box available through the web-interface")."<p></p>
 OpenSees < ./data/MomCurv.tcl<p></p>
 OpenSees < ./data/ElFram.tcl</li>
 <br>
-<li> Upload the data.zip or data.tar file created in step # 2</li>
+<li> ".tra("Upload the data.zip or data.tar file created in step # 2")."</li>
 <br>
-<li>Click on job-submit button.</li></ol>";
+<li>".tra("Click on job-submit button.")."</li></ol>";
 //End of Joshua's edit
 page_tail();
 //End of the edit by Thomas

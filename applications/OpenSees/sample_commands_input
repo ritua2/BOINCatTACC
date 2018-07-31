@@ -9,8 +9,8 @@ cp MomentCurvature.tcl /data/MomCurv.tcl
 3) Select OpenSees from the drop-down list
 
 4) Enter the commands to run OpenSees in the text-box available through the web-interface
-OpenSees < /data/MomCurv.tcl
-OpenSees < /data/ElFram.tcl
+OpenSees < ./data/MomCurv.tcl
+OpenSees < ./data/ElFram.tcl
 
 5) Upload the data.zip or data.tar file created in step # 2
 

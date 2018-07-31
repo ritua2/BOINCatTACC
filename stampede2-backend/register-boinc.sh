@@ -26,7 +26,21 @@ fi
 
 
 # Gets the account for the org
-ORK=$(cat Org_Key1.txt)
+# Only TACC hosts are accepted
+IFS='.' read -ra LK1 <<< "$HOSTNAME"
+LL="${#LK1[@]}"
+ORK=""
+
+for (( COUNTER=2; COUNTER<LL-1; COUNTER+=1 )); do
+    ORK+="${LK1[$COUNTER]}""."
+done
+
+ORK+="${LK1[$LL-1]}"
+
+ORK=$( echo $ORK | sha256sum )
+# Only the first 24 characters are needed
+ORK="${ORK:0:24}"
+
 
 
 # Validates the researcher's email against the server's API

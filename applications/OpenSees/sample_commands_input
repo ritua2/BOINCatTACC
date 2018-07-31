@@ -1,0 +1,11 @@
+1) Get the sample input files from the following paths:
+curl http://opensees.berkeley.edu/wiki/images/a/a1/ElasticFrame.tcl
+curl http://opensees.berkeley.edu/wiki/images/3/3d/MomentCurvature.tcl 
+
+2) Create a directory named "data" and copy the files inside this directory
+cp ElasticFrame.tcl /data/ElFram.tcl
+cp MomentCurvature.tcl /data/MomCurv.tcl 
+
+3) Commands to run OpenSees
+OpenSees < /data/MomCurv.tcl
+OpenSees < /data/ElFram.tcl

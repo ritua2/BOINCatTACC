@@ -43,7 +43,7 @@ echo '
 	<div id="taccDockerSection">
 	<br /><br />
 	<div class="dropdown" style="margin-left: 34.5%;" >
-  		<button class="btn btn-primary dropdown-toggle" id="dockerListBtn" value="none"  style="background-color: #174b63; font-weight: bold;" type="button" data-toggle="dropdown"><span id="buttonText">List of TACC-2-BOINC docker images</span>
+  		<button class="btn btn-primary dropdown-toggle" id="dockerListBtn" value="none"  style="background-color: #174b63; font-weight: bold;" type="button" data-toggle="dropdown"><span id="buttonText">List of docker images maintained by TACC-2-BOINC</span>
   		<span class="caret"></span></button>
 		<input type="hidden" id="dockerListParam" name="dockerList" value="none">
   		<ul class="dropdown-menu">

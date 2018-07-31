@@ -27,7 +27,7 @@ pip3 install redis Flask Werkzeug docker ldap3 requests
 
 # Moves all the APIs and email commands
 # Requires to be cloned inside project
-mv ./api /root/projec
+mv ./api /root/project
 mv ./adtd-protocol /root/project
 mv ./email_assimilator.py /root/project
 mv ./email2.py /root/project

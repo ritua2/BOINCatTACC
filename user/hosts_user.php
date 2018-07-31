@@ -50,7 +50,7 @@ if ($userid) {
     }
 
     if ($user->show_hosts) {
-        page_head(tra("Computers belonging to %1", $user->name));
+        page_head(tra("Computers belonging to %1", get_user_random_name($user->name)));
     } else {
         page_head(tra("Computers hidden"));
         echo tra(tra("This user has chosen not to show information about his or her computers."));

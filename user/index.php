@@ -142,7 +142,7 @@ function right() {/*
 
 page_head(null, null, true);
 
-grid('top', 'left', 'right');
+//grid('top', 'left', 'right');
 
 echo "<script>
 // When the user clicks on the `link` a popup appears

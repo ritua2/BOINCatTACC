@@ -112,7 +112,7 @@ echo tra("<h3>Project Team</h3>") .'<br>
       </div>
     </div>
   </div>
-
+  
   <div class="col-md-2">
     <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
       <img src="/img1/Thomas_cropped.jpg" alt="Thomas" class="img-responsive">

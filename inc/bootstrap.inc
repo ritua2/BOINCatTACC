@@ -531,3 +531,4 @@ function form_checkbox($label, $name, $checked=false) {
         ', $name, $checked?"checked":"", $label
     );
 }
+

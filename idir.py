@@ -36,7 +36,7 @@ all_images = [y.tags[0] for y in image.list()]
 def MIDAS_image(IMTAG):
 
     for usnam in all_users:
-        if usnam.lower() in IMTAG:
+        if usnam.lower().replace('@', '') in IMTAG:
             return True
 
     return False

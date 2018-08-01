@@ -56,14 +56,14 @@ def complete_build(IMTAG, UTOK, MIDIR, COMMAND_TXT, DOCK_DOCK, BOCOM, FILES_PATH
         # Reduces the corresponding user's allocation
         # Docker represents image size in GB
         # Moves the file
-        boapp = r.get(UTOK+'.'+MIDIR).decode("UTF-8")
+        boapp = r.get(UTOK+';'+MIDIR).decode("UTF-8")
         if boapp == "boinc2docker":
             shutil.move(COMMAND_TXT+".txt", "/root/project/html/user/token_data/process_files/"+COMMAND_TXT+".txt")
         if boapp == "adtdp":
             shutil.move(COMMAND_TXT+".txt", "/root/project/adtd-protocol/process_files/"+COMMAND_TXT+".txt")
 
         # Deletes the key
-        r.delete(UTOK+'.'+MIDIR)
+        r.delete(UTOK+';'+MIDIR)
 
         # Saves the docker image and sends the user the dockerfile and a link to the tar ball
         # docker-py documentation was erronous
@@ -104,8 +104,8 @@ to_be_processed = [] # [[TOKEN, MIDAS directory], ...]
 # Finds all the submitted jobs
 for possible in r.keys():
     kim = possible.decode('UTF-8')
-    if '.' in kim:
-        to_be_processed.append([kim.split('.')[0], kim.split('.')[1]])
+    if ';' in kim:
+        to_be_processed.append([kim.split(';')[0], kim.split(';')[1]])
 else:
     if len(to_be_processed) == 0:
         # No new user files to be processed
@@ -138,7 +138,7 @@ for HJK in to_be_processed:
 
     # All dockerfiles are named the same way {TOKEN}:{10 char hash}
     namran = hashlib.sha256(str(datetime.datetime.now()).encode('UTF-8')).hexdigest()[:10:]
-    DTAG = (user_tok+':'+namran).lower()
+    DTAG = (user_tok+':'+namran).lower().replace('@', '')
 
     # Composes the dockerfile
     duck = hti_OS+"\n\n\n"+"\n".join(mdr.copy_files_to_image('.'))

@@ -230,6 +230,10 @@ def authorize_from_org():
     # Also creates a Reef directory
     requests.get('http://'+os.environ['Reef_IP']+':2002/reef/create_user/'+usertok+'/'+os.environ['Reef_Key'])
 
+    # Creates also the local directories for MIDAS usage
+    os.mkdir("/root/project/api/sandbox_files/DIR_"+user_tok)
+    os.mkdir("/root/project/api/sandbox_files/DIR_"+user_tok+'/___RESULTS')
+
     # Prints the result to the token file because of backwards compatibility
     with open("/root/project/html/user/token_data/Tokens.txt", 'a') as TFIL:
         TFIL.write(NAME+" "+LAST_NAME+", "+user_tok+", "+EMAIL+"\n")

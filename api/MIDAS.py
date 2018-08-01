@@ -246,7 +246,7 @@ def midas(toktok):
 
 
     # Creates a redis database with syntax {TOKEN}.{MID_DIRECTORY}
-    r.set(toktok+'.'+new_MID, boapp)
+    r.set(toktok+';'+new_MID, boapp)
 
     return 'File submitted for processing'
 

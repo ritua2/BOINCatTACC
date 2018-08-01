@@ -37,6 +37,7 @@ mv ./bproc.sh  /root/project
 mv ./password_credentials.sh /root/project
 mv ./dockerhub_credentials.sh /root/project
 mv ./idir.py /root/project
+mv ./automail.sh /root/project
 mkdir /root/project/adtd-protocol/process_files
 mkdir /root/project/adtd-protocol/tasks
 mkdir /results/adtdp
@@ -84,6 +85,7 @@ chmod +x /root/project/adtd-protocol/red_runner2.py
 chmod +x /root/project/api/adtdp_common.py
 chmod +x /root/project/api/signup_email.py
 chmod +x /root/project/email2.py
+chmod +x /root/project/automail.sh
 
 
 # Asks the user to make the main directory available
@@ -106,6 +108,9 @@ service apache2 restart
 
 /root/project/API_Daemon.sh -up
 nohup /root/project/bproc.sh &
+
+# Runs the emails on a loop due to cron problems
+nohup /root/project/automail.sh &
 
 # Needed to avoid confusion
 sleep 2

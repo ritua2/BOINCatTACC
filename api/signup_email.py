@@ -33,7 +33,7 @@ def signup_volunteer(email, anonym):
     outer['From'] = sender
 
     text = "Welcome to TACC-2-BOINC,\n\nThank you for registering as a volunteer. "
-    text += "If you have not done so, please install the BOINC client (http://boinc.berkeley.edu/download.php).\n"
+    text += "If you have not done so, please install the BOINC client (http://boinc.berkeley.edu/download.php) and Virtualbox (https://www.virtualbox.org/wiki/Downloads).\n"
     text += "When prompted, select  "+os.environ['URL_BASE'].replace("http://", '')+"  as the BOINC project.\n"
     text += "\nFor GDPR compliance reasons, we have created an anonymized name for you and that is: "+anonym+" . This name is "
     text += "associated with your account and you can see it in your profile settings. This anonymized named will be displayed "

@@ -228,7 +228,7 @@ def authorize_from_org():
     r_org.hincrby(user_org, 'No. Users', 1)
 
     # Also creates a Reef directory
-    requests.get('http://'+os.environ['Reef_IP']+':2002/reef/create_user/'+usertok+'/'+os.environ['Reef_Key'])
+    requests.get('http://'+os.environ['Reef_IP']+':2002/reef/create_user/'+user_tok+'/'+os.environ['Reef_Key'])
 
     # Creates also the local directories for MIDAS usage
     os.mkdir("/root/project/api/sandbox_files/DIR_"+user_tok)

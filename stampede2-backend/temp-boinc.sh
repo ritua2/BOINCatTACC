@@ -136,10 +136,6 @@ printf "Enter your selected option: "
 read user_option
 
 
-# Asks the user what option they prefer for job submission
-printf "Do you wish to use the adtd-protocol (Note: Required for GPU jobs)?[y/n/h for help]: "
-
-
 case "$user_option" in 
 
     "1")

@@ -34,12 +34,10 @@ page_head(
 );
 
 echo '<align="left"><h3>'.tra("Terms of Use").'</h3>';
-
-echo '<br></br>';
-
+/*Edited by Joshua*/
 echo '<p>Thanks a lot for donating the computing cycles to the TACC-2-BOINC project!';
 
-echo '<br></br>';
+echo '<br><br>';
 
 echo '1) We will be saving the following data related to the computing cycles donated by you: Email Address, Screen Name, Password, ';
 
@@ -47,28 +45,33 @@ echo 'Country. We will be anonymizing your screen name for displaying your contr
 
 echo 'about the anonymized name assigned to your volunteer profile.';
 
-echo '<br></br>';
+echo '<br><br>';
 
 echo '2) We guarantee the erasure of the aforementioned information from our server/s should you desire to do so after opting out as a '; 
 
 echo 'volunteer. Please send an email at the following address to request the erasure of your data: rauta@tacc.utexas.edu';
 
-echo '<br></br>';
+echo '<br><br>';
 
 echo '3) Joining the TACC-2-BOINC project requires downloading the BOINC client and completing the sign-up process on the TACC-2-BOINC '; 
 
 echo 'website. You are welcome to adjust the default settings of the BOINC client to start and stop running it as per your desire.';
 
-echo '<br></br>';
+echo '<br><br>';
 
 echo '4) By joining the TACC-2-BOINC project as a volunteer, you would be donating the computing cycles of your devices and would be ';
 
 echo 'footing the electricity bill associated with this donation.';
 
-echo '<br></br>';
+echo '<br><br>';
 
 echo '5) The TACC-2-BOINC project team and/or the University of Texas at Austin would not be liable for any charges incurred with the '; 
 
-echo 'aforementioned donation of computing cycles.</p></align>'; 
+echo 'aforementioned donation of computing cycles.';
+
+echo '<br><br>';
+
+echo '6) If you would like to have your screen-name displayed on the leaderboard (instead of your anonymized name), please send us an email at rauta@tacc.utexas.edu . </p></align>';  
+/*End of the edit by Joshua*/
 page_tail();
 ?>

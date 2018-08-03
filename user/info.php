@@ -50,8 +50,11 @@ echo "
     "</p><p>".
 	tra("By joining the TACC-2-BOINC project as a volunteer, you would be donating the computing cycles of your devices and would be footing the electricity bill associated with this donation.").
 	"</p><p>".
-	tra("The TACC-2-BOINC project team and/or the University of Texas at Austin would not be liable for any charges incurred with the aforementioned donation of computing cycles.")."</p>
-    <p>".tra("If you participate in %1, information about your computer (such as its processor type, amount of memory, etc.) will be recorded by %1 and used to decide what type of work to assign to your computer. This information will also be shown on %1's web site. Nothing that reveals your computer's location (e.g. its domain name or network address) will be shown.", PROJECT)."
+	tra("The TACC-2-BOINC project team and/or the University of Texas at Austin would not be liable for any charges incurred with the aforementioned donation of computing cycles.").
+    "</p><p>".
+    tra("If you would like to have your screen-name displayed on the leaderboard (instead of your anonymized name), please send us an email at rauta@tacc.utexas.edu .").
+    "</p><p>".
+    tra("If you participate in %1, information about your computer (such as its processor type, amount of memory, etc.) will be recorded by %1 and used to decide what type of work to assign to your computer. This information will also be shown on %1's web site. Nothing that reveals your computer's location (e.g. its domain name or network address) will be shown.", PROJECT)."
     <p>".tra("To participate in %1, you must give an address where you receive email. This address will not be shown on the %1 web site or shared with organizations. %1 may send you periodic messages related to your jobs; however, you can opt out at any time.", PROJECT)."
     <p>".tra("Private messages sent on the %1 web site are visible only to the sender and recipient.  %1 does not examine or police the content of private messages.  If you receive unwanted private messages from another %1 user, you may add them to your %2 message filter %3.  This will prevent you from seeing any public or private messages from that user.", PROJECT, "<a href=\"edit_forum_preferences_form.php\">", "</a>")." 
     <p>".tra("If you use our web site forums you must follow the %2 posting guidelines %3.  Messages posted to the %1 forums are visible to everyone, including non-members.  By posting to the forums, you are granting irrevocable license for anyone to view and copy your posts.", PROJECT, "<a href=moderation.php>", "</a>")." 

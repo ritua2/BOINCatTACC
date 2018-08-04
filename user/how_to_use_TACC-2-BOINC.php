@@ -4,7 +4,7 @@ require_once("../inc/util.inc");
 
 //Edited by Joshua
 page_head(null, null, null, null,  null, "The User-Guide of TACC-2-BOINC");
-echo "<br /><font size=+3>".tra("How to Use TACC-2-BOINC?")."</font>";
+echo "<br /><font size=+3>".tra("How Can TACC/XSEDE Researchers Use TACC-2-BOINC?")."</font>";
 echo '<p>'.tra("To submit jobs as a researcher, you could either use the job submission interface available on this website, or you could submit the jobs after logging in to the Stampede2/Lonestar5 systems at TACC.").'</p>';
 
 echo "<h3>".tra("Directions to Submit Jobs Through the Website")."</h3>";
@@ -30,7 +30,7 @@ echo '<p><h3>'.tra('Video demonstration of the TACC-2-BOINC infrastructure:').'<
 //iframe code from https://www.w3schools.com/html/tryit.asp?filename=tryhtml_youtubeiframe
 echo '<iframe width="560" height="315" src="https://www.youtube.com/embed/UH9mJjZstO4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
 
-echo "<h3>".tra("Step-by-Step Instructions for Running a Sample Application (OpenSees) from the Job Submission Page on this Website.")."</h3>";
+echo "<h3>".tra("Step-by-Step Instructions for Running the OpenSees Application from the Job Submission Page.")."</h3>";
 
 echo "<ol>
 <li>".tra("Get the sample input files from the following paths:")."<p></p>

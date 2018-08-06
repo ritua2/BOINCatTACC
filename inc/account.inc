@@ -145,7 +145,7 @@ function login_form($next_url) {
         passwd_visible_checkbox("passwd")
     );
     form_checkboxes(tra("Stay logged in"),
-        array(array("stay_logged_in", "", true))
+        array(array("stay_logged_in", "", false))
     );
     form_submit("Log in");
     form_end();

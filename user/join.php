@@ -40,10 +40,15 @@ function show_new() {
     global $master_url;
     panel(null,
         function() use ($master_url) {
+            /*Edited by Joshua: We need ask the user to download virtual box before the 
+            BOINC client software*/
             echo '
                 <ol>
-                <li> '
+                <li> <p>'
                 .tra('Read our %1 Rules and Policies %2.', '<a href="info.php">', '</a>')
+                .'</p><li> <p>'
+                .tra('Download %1 VirtualBox %2.', '<a href="https://www.virtualbox.org/wiki/Downloads">','</a>')
+                .'</p>'
                 .'<li> <p>'
                 .tra('Download the BOINC desktop software.')
                     .'</p><p>
@@ -51,11 +56,12 @@ function show_new() {
                     </p><p>'
                     .tra('For Android devices, download BOINC from the Google Play Store or Amazon App Store.')
                     .'</p>
-                <li> '
+                <li> <p>'
                 .tra('Run the installer.').'
-                <li> '.tra("Choose %1 from the list, or enter %2", "<strong>".PROJECT."</strong>", "<strong>$master_url</strong>").'
+                </p><li> '.tra("Choose %1 from the list, or enter %2", "<strong>".PROJECT."</strong>", "<strong>$master_url</strong>").'
                 </ol>
             ';
+            /*End of the edit by Joshua*/
         }
     );
 }

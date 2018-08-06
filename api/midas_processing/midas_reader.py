@@ -13,7 +13,7 @@ OS_chart = {'Ubuntu_16.04':'carlosred/ubuntu-midas:16.04'}
 # Python refers to python3 by default, python2 is not supported
 # No need for installation
 # Avoids language names inside other language names
-Allowed_languages = sorted(['python', 'r', 'c', 'c++', 'c++ cget', 'haskell', 'fortran', 'bash'], key=len, reverse=True)
+Allowed_languages = sorted(['python', 'r', 'c', 'c++', 'c++ cget', 'fortran', 'bash'], key=len, reverse=True)
 language_instructions = {
         'python':{'Ubuntu_16.04':'echo python is installed by default'},
         'fortran':{'Ubuntu_16.04':'apt-get update && apt-get install gfortran -y'},

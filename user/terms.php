@@ -43,7 +43,7 @@ echo '1) We will be saving the following data related to the computing cycles do
 
 echo 'Country. We will be anonymizing your screen name for displaying your contributions on the leaderboard. We will notify you '; 
 
-echo 'about the anonymized name assigned to your volunteer profile.';
+echo 'about the anonymized name assigned to your volunteer profile. If you would like to have your screen-name displayed on the leaderboard (instead of your anonymized name), please send us an email at rauta@tacc.utexas.edu .';
 
 echo '<br><br>';
 
@@ -67,11 +67,7 @@ echo '<br><br>';
 
 echo '5) The TACC-2-BOINC project team and/or the University of Texas at Austin would not be liable for any charges incurred with the '; 
 
-echo 'aforementioned donation of computing cycles.';
-
-echo '<br><br>';
-
-echo '6) If you would like to have your screen-name displayed on the leaderboard (instead of your anonymized name), please send us an email at rauta@tacc.utexas.edu . </p></align>';  
+echo 'aforementioned donation of computing cycles.</p></align>';  
 /*End of the edit by Joshua*/
 page_tail();
 ?>

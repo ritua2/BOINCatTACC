@@ -23,19 +23,73 @@ require_once("../inc/util.inc");
 page_head(null, null, null, null, null, tra('About'));
 //End of Thomas Johnson's edit
 
+//Added by Joshua, copied from Thomas' code from project.inc
+echo '<style>
+/* Popup container - can be anything you want */
+.popup {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* The actual popup */
+.popup .popuptext {
+    visibility: hidden;
+    width: 32vw;
+    background-color: #068fce;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 0;
+    position: absolute;
+    z-index: 1;
+    /*Updated by Gerald Joshua so that the tooltip will show right below the text
+    and that way there will be no more overlap between navbar and tooltip*/
+    top: 150%;
+    margin-left: -80px;
+}
+
+/* Toggle this class - hide and show the popup */
+.popup .show {
+    visibility: visible;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s;
+    /*Added by Joshua: Create more space between the tooltip edge and the text inside the tooltip */
+    padding: 15px;
+    /*End of the edit by Joshua */
+}
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity:1 ;}
+}
+//End of the edit by Joshua
+</style>';
+
 //Page Title
 //Thomas Johnson's edit to Gerald Joshua's edit: Rmoved the centering alignment tag
 echo '<h3>'.tra("Project Overview").'</h3><p></p>';
 
 //Project Overview
 //Thomas Johnson's edit to Gerald Joshua's edit: Removed style that set fixed size fo the font for project overview
-echo tra("Volunteer computing (VC) uses donated computing time to do scientific computing, and, BOINC is the most common software framework for VC. Essentially, donors of computing time download BOINC clients on their devices (such as laptops, desktops, and servers), and then register to donate at specific websites supporting VC projects. There are multiple such project websites in the community, and the TACC-2-BOINC website is one of them.
-<br /><br />
-Through the TACC-2-BOINC website (the website of our VC project), we are providing the capability of routing *qualified* High-Throughput Computing (HTC) jobs from the supercomputers at the Texas Advanced Computing Center (TACC) to the volunteered devices running the BOINC clients for the project. This integration of VC with supercomputing can potentially help those researchers/scholars who are running low on allocations of compute-time on our supercomputers, or are interested in reducing the turnaround time of their jobs when our supercomputers are over-subscribed. We are funded by NSF (under award # 1664022) to develop the BOINC-based VC conduit that can be used by other supercomputing facilities as well.").'
-<br />';
-
-echo tra("<p></p> For all questions, please feel free to contact Ritu Arora at rauta@tacc.utexas.edu, with \"TACC-2-BOINC\" included in the subject-line.");
+//Edited by Joshua: Updated the text for T2B
+echo tra("Volunteer Computing (VC) is a form of computing that is done using the donated compute-cycles. The T2B project integrates supercomputing with VC. It provides the capability of routing *qualified* High-Throughput Computing (HTC) jobs from the supercomputers at the Texas Advanced Computing Center (TACC) to the volunteered devices running either the ").'<a  class="popup" data-toggle="tooltip" onclick="myFunction()" style="border-bottom: 1px dotted #000;text-decoration: none;">BOINC <span class="popuptext" style="left: -500%;" id="Popup"> <span class="close">&times;</span>BOINC is an open-source software platform for volunteer computing and it has a client-server architecture. Once a BOINC client is downloaded on a device (desktop, laptop, phone, tablet, or a VM running in the cloud) owned by a volunteer or an institution, the BOINC server starts sending computational tasks to the client when it is plugged in to the power supply and is available to accept tasks. Upon the completion of the tasks, the results are gathered from the clients participating in the computations, and are uploaded to the BOINC server, from where they are then forwarded to the researchers.</span></a>'.tra(" clients or another component that is a part of the T2B software infrastructure. This integration of VC with supercomputing can potentially help those researchers/scholars who are running low on compute-time allocations on the TACC supercomputers, or are interested in reducing the turnaround time of their jobs when the supercomputers are over-subscribed.").'
+<br /><br />'.tra("
+To participate in the T2B project, the volunteers can either download the ").'<a href="./join.php">BOINC</a>'.tra(" clients on their devices (such as laptops, desktops, and servers), or they can download another software provided by the T2B project on their VMs in the cloud. Additional information on the software for volunteering the VMs in the cloud can be sought by sending an email to rauta@tacc.utexas.edu. After downloading the required software (for the devices or the VMs), the volunteers would need to register on the T2B website by going ").'<a href="./create_account_form.php">here</a>.
+<br /><br />'.tra("The researchers interested in using the T2B infrastructure, can learn more about how to use it by following the steps in the ").'<a href="./how_to_use_TACC-2-BOINC.php">user-guide</a>
+<br /><br />'.tra("The T2B infrastructure relies on the availability of the researchers' applications as Docker images. The researchers have the option of running the pre-built Docker images of the following applications that are maintained by the T2B project team: Autodock-Vina, Bedtools, BLAST, Bowtie, GROMACS, HTSeq, LAMMPS, NAMD, and OpenSees. The researchers can also choose any other publicly available image in Docker Hub and run it through the T2B infrastructure. If the researchers are not familiar with containerization, they can use the software framework provided by the T2B project to automatically create the Docker images. Currently, the T2B project supports the automatic dockerization of applications written in C, C++, Fortran, Python, or Bash.").'
+<br /><br />'.tra('For all questions regarding the T2B project, please feel free to contact Dr. Ritu Arora at rauta@tacc.utexas.edu, with "TACC-2-BOINC" included in the subject-line.');
 echo "<br/>";
+//End of Joshua Edit
 
 /*Commented out by Gerald Joshua since the pictures are now available
 //Principal investigator
@@ -157,6 +211,17 @@ echo '<div style="font-size: 18px;"><center>
 /*
 Thomas Johnson linked Thomas Johnson's and Carlos Redondo's personal pages
 */
+
+//Added by Joshua, copied from Thomas's code on index.php
+echo '<script>
+// When the user clicks on the `link` a popup appears
+function myFunction() {
+    var popup = document.getElementById("Popup");
+    popup.classList.toggle("show");
+}
+</script>';
+
+//End of the edit by Joshua
 page_tail();
 //End of Gerald Joshua's Edit
 

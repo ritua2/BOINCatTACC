@@ -42,7 +42,7 @@ echo "
 
 <h3>".tra("Privacy policy")."</h3>
     <p>".
-    tra("We will be saving the following data related to the computing cycles donated by you: Email Address, Screen Name, Password, Country. We will be anonymizing your screen name for displaying your contributions on the leaderboard. We will notify you about the anonymized name assigned to your volunteer profile.").
+    tra("We will be saving the following data related to the computing cycles donated by you: Email Address, Screen Name, Password, Country. We will be anonymizing your screen name for displaying your contributions on the leaderboard. We will notify you about the anonymized name assigned to your volunteer profile. If you would like to have your screen-name displayed on the leaderboard (instead of your anonymized name), please send us an email at rauta@tacc.utexas.edu").
     "</p><p>".
     tra("We guarantee the erasure of the aforementioned information from our server/s should you desire to do so after opting out as a volunteer. Please send an email at the following address to request the erasure of your data: rauta@tacc.utexas.edu").
     "</p><p>".
@@ -51,8 +51,6 @@ echo "
 	tra("By joining the TACC-2-BOINC project as a volunteer, you would be donating the computing cycles of your devices and would be footing the electricity bill associated with this donation.").
 	"</p><p>".
 	tra("The TACC-2-BOINC project team and/or the University of Texas at Austin would not be liable for any charges incurred with the aforementioned donation of computing cycles.").
-    "</p><p>".
-    tra("If you would like to have your screen-name displayed on the leaderboard (instead of your anonymized name), please send us an email at rauta@tacc.utexas.edu .").
     "</p><p>".
     tra("If you participate in %1, information about your computer (such as its processor type, amount of memory, etc.) will be recorded by %1 and used to decide what type of work to assign to your computer. This information will also be shown on %1's web site. Nothing that reveals your computer's location (e.g. its domain name or network address) will be shown.", PROJECT)."
     <p>".tra("To participate in %1, you must give an address where you receive email. This address will not be shown on the %1 web site or shared with organizations. %1 may send you periodic messages related to your jobs; however, you can opt out at any time.", PROJECT)."

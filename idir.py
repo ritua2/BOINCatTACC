@@ -27,7 +27,7 @@ container = client.containers
 
 
 # Searches all the users only, no MIDAS directories
-all_users = [x.decode('UTF-8') for x in r.keys() if '.' not in x.decode('UTF-8')]
+all_users = [x.decode('UTF-8') for x in r.keys() if ';' not in x.decode('UTF-8')]
 all_images = [y.tags[0] for y in image.list()]
 
 

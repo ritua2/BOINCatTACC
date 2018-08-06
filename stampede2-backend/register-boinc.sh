@@ -39,6 +39,7 @@ done
 ORK+="${LK1[$LL-1]}"
 
 
+
 # Validates the researcher's email against the server's API
 TOKEN=$(curl -s -F email=$userEmail -F org_key=$ORK http://$SERVER_IP:5054/boincserver/v2/api/authorize_from_org)
 
@@ -51,6 +52,7 @@ fi
 # Gets the actual user name
 IFS='/' read -ra unam <<< "$PWD"
 unam="${unam[3]}"
+
 
 # Adds the username to the database if necessary
 registerUser=$(curl -s http://$SERVER_IP:5078/boincserver/v2/api/add_username/$unam/$userEmail/$TOKEN/$ORK)

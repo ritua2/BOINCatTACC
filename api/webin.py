@@ -2,6 +2,7 @@
 
 """
 BASICS
+
 Processes all commands submitted through the web interface and creates a file ready for BOINC processing
 """
 

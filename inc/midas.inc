@@ -48,7 +48,9 @@ function manTags(){
 // Returns the correct name of an OS
 function accepted_OS($some_OS){
 
-    if (array_key_exists(strtolower($some_OS), allowed_OS())){
+    $allOS = allowed_OS();
+
+    if (in_array(strtolower($some_OS), $allOS)){
         $allOS = allowed_OS();
         return $allOS[strtolower($some_OS)];
     }
@@ -60,30 +62,54 @@ function accepted_OS($some_OS){
 // Finds if a language is accepted
 function accepted_lang($some_lang){
 
-    return array_key_exists(strtolower($some_lang), langs());
+    $lans = langs();
+
+    return in_array(strtolower($some_lang), $lans);
 }
 
 
 // Finds if a language accepts libraries
 function lang_accepts_libs($some_lang){
 
-    return array_key_exists($some_lang, langLibs());
+    $lalibs = langLibs();
+
+    return in_array($some_lang, $lalibs);
 }
 
 
-// Returns the list of tags, and if they are optional or not
+// Returns if a tag is optional or not
 function accepted_tags($some_tag){
 
-    if (array_key_exists(strtoupper($some_tag), Tags())){
+    $TT = Tags();
+
+    if (in_array(strtoupper($some_tag), $TT)){
         $aTags = manTags();
         return $aTags[strtoupper($some_tag)];
 
     }
 
-    return false;
+    throw new Exception("Tag is not accepted");
 }
 
 
-// 
+// Adds a tag and data
+function properly_tagged($ttag, $ddata){
+
+    $TT = Tags();
+
+    if (! in_array($ttag, $TT)){
+        return false;
+    }
+
+    return "[$ttag] $ddata";
+}
+
+
+// Returns command instructions for all languages, except C and C++
+function command_instructions($lang, $everything_else){
+    
+    return properly_tagged("COMMAND", "$lang: $everything_else")
+}
+
 
 ?>

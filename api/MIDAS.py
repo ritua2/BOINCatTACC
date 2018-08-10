@@ -16,14 +16,12 @@ import preprocessing as pp
 from midas_processing import midas_reader as mdr
 from werkzeug.utils import secure_filename
 import redis
-import docker
 
 
 r = redis.Redis(host = '0.0.0.0', port = 6389, db=2)
 app = Flask(__name__)
 UPLOAD_FOLDER = "/root/project/api/sandbox_files"
-client = docker.from_env()
-image = client.images
+
 
 # Basic operational check
 @app.route("/boincserver/v2/midas_status")

@@ -9,7 +9,7 @@
 printf "Welcome to Boinc registration\n\n"
 printf "This script will automatically set up credentials for submitting BOINC jobs\n\n\n"
 # Server IP or domain must be declared before
-SERVER_IP=boinc.tacc.utexas.edu # Declare it the first time this program is run
+SERVER_IP=t2b.tacc.utexas.edu # Declare it the first time this program is run
 
 # Colors, helpful for printing
 NCNC='\033[0m' # No color

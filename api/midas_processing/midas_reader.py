@@ -23,6 +23,7 @@ language_instructions = {
         'c++':{'Ubuntu_16.04':'echo g++ is installed by default'},
         'c++ cget':{'Ubuntu_16.04':'pip3 install cget && export LC_ALL=C.UTF-8 && export LANG=C.UTF-8 && cget install pfultz2/cget-recipes'}
 }
+
 libraries_instructions = {'python':'pip3 install LIBRARY',
                           'c++ cget':'cget install LIBRARY'}
 # Does necessarily follow the convention, mostly as a 

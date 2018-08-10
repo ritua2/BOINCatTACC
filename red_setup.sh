@@ -50,9 +50,6 @@ mv ./user /root/project/html/user
 # Also moves the schedules
 mv /root/project/html/user_old/schedulers.txt /root/project/html/user/schedulers.txt
 
-# Required because images is its own directory
-#mv -f ./user/img/* /root/project/html/user/img
-
 # Substitutes the project and inc files by their new equivalents
 mv /root/project/html/inc /root/project/html/inc_previous
 mv ./inc /root/project/html/inc
@@ -84,6 +81,8 @@ chmod +x /root/project/adtd-protocol/redfile2.py
 chmod +x /root/project/adtd-protocol/red_runner2.py
 chmod +x /root/project/api/adtdp_common.py
 chmod +x /root/project/api/signup_email.py
+chmod +x /root/project/api/newfold.py
+chmod +x /root/project/api/midasweb.py
 chmod +x /root/project/email2.py
 chmod +x /root/project/automail.sh
 

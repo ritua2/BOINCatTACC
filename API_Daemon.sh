@@ -50,6 +50,10 @@ if [ $1 == "-up" ]; then
         > /dev/null 2>&1 & echo $! > /root/project/suem_api.txt 
    nohup /root/project/api/envar.py & \
         > /dev/null 2>&1 & echo $! > /root/project/envv_api.txt 
+   nohup /root/project/api/newfold.py & \
+        > /dev/null 2>&1 & echo $! > /root/project/nnff_api.txt 
+   nohup /root/project/api/midasweb.py & \
+        > /dev/null 2>&1 & echo $! > /root/project/mmww_api.txt 
 
    printf "Server communication APIs are now active\n"
 fi
@@ -71,5 +75,7 @@ if [ $1 == "-down" ]; then
    kill -9 $(($(cat /root/project/t2au_api.txt) - 1))
    kill -9 $(($(cat /root/project/suem_api.txt) - 1))
    kill -9 $(($(cat /root/project/envv_api.txt) - 1))
+   kill -9 $(($(cat /root/project/nnff_api.txt) - 1))
+   kill -9 $(($(cat /root/project/mmww_api.txt) - 1))
    printf "Server communication APIs have been disconnected\n"
 fi

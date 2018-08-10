@@ -19,7 +19,6 @@ import redis
 r = redis.Redis(host = '0.0.0.0', port = 6389, db=2)
 app = Flask(__name__)
 UPLOAD_FOLDER = "/root/project/api/sandbox_files"
-boapp = "boinc2docker" # boinc2docker by default
 
 
 
@@ -33,15 +32,15 @@ def midsyn(UNO, DOS):
 # If there are C++ libraries, then all C++ codes will include the libraries as a side-effect
 # COMS (arr)(str)
 # tmpdir (str): temporary directory
-def comproc(COM, tempdir):
+def comproc(COMS, tempdir, boapp):
 
     filnam = "exec.sh"
     if filnam in os.listdir(tempdir):
         raise SyntaxError("exec.sh is a reserved filename")
 
-    with open(tempdir+filnam) as comfil:
+    with open(tempdir+filnam, 'w') as comfil:
         for com in COMS:
-            if (boapp == "adtdp") and "g++" in com:
+            if (boapp == "adtdp") and ("g++" in com):
                 comfil.write("g++ -I ./cget/include/ "+ com.replace("g++", '') + "\n")
                 continue
             comfil.write(com+'\n')
@@ -49,7 +48,7 @@ def comproc(COM, tempdir):
 
 # Writes a valid README using the contents in the JSON object
 # Returns a string with the contents
-def verne(jdat, tempdir):
+def verne(jdat, tempdir, boapp):
     rcon = ""
     rcon += midsyn("OS", jdat["operating_system"])
     progs = jdat["programming_language"]
@@ -70,7 +69,7 @@ def verne(jdat, tempdir):
 
     # Commands, separated by ;
     # Enforces that C, c++, fortran are captured by their gnu compilers
-    commands = dictdata["command_lines"]
+    commands = jdat["command_lines"]
     if ("fortran" in progs) and ("gfortran" not in commands):
         raise SyntaxError("Fortran must be compiled using gfortran")
     if ("c" in progs) and ("gcc" not in commands):
@@ -79,16 +78,14 @@ def verne(jdat, tempdir):
         raise SyntaxError("Fortran must be compiled using g++")
 
     commands = commands.split(';')
-    comproc(commands, tempdir)
-    rcon += misdyn("COMMAND", "bash: exec.sh")
+    comproc(commands, tempdir, boapp)
+    rcon += midsyn("COMMAND", "bash: exec.sh")
 
     # Output files
     for ofil in jdat["output_file"]:
-        rcon += misdyn("OUTPUT", ofil)
+        rcon += midsyn("OUTPUT", ofil)
 
     return rcon
-
-
 
 
 # Processes MIDAS jobs through the web interface
@@ -107,18 +104,19 @@ def process_midas_jobs():
         OS = dictdata["operating_system"]
         prolangs = dictdata["programming_language"]
         libs = dictdata["library_list"]
-        setfiles = jdat["setup_filename"]
+        setfiles = dictdata["setup_filename"]
         outfiles = dictdata["output_file"]
         coms = dictdata["command_lines"]
 
     except:
-        return "INVALID, json lacks at least one field (keys: Token, Boapp, Files, Image, Custom, Command)"
+        return "INVALID, json lacks at least one field"
 
     if  pp.token_test(TOK) == False:
         shutil.rmtree(TMP)
         return 'INVALID, invalid token'
 
     # MIDAS files are stored in a temporary folder
+    boapp = "boinc2docker"
     TMP = "/tmp/"+tmp_dir+'/'
 
     if 'README.txt' in os.listdir(TMP):
@@ -129,7 +127,7 @@ def process_midas_jobs():
         if (file.split(".")[-1] == "tgz") or (".".join(file.split(".")[::-1][:2:][::-1]) == "tar.gz"):
             # Takes the contents out and deletes the tar
             try:
-                tar = tarfile.open(file)
+                tar = tarfile.open(TMP+file)
                 tar.extractall(TMP)
                 tar.close()
                 os.remove(TMP+file)
@@ -153,9 +151,9 @@ def process_midas_jobs():
         boapp = "adtdp"
 
     # Creates an acceptable README
-    with open(TMP+"README.txt") as readme:
+    with open(TMP+"README.txt", 'w') as readme:
         try:
-            readme.write(verne(dictdata, TMP))
+            readme.write(verne(dictdata, TMP, boapp))
         except Exception as e:
             shutil.rmtree(TMP)
             return "INVALID, "+e
@@ -178,12 +176,12 @@ def process_midas_jobs():
         return 'INVALID, Language is not accepted'
 
     # Avoids cases where no libraries are needed at all
-    if (not mdr.install_libraries(TMP+'/README.txt')) and (mdr.install_libraries(TAR_PATH+'/README.txt') != []):
+    if (not mdr.install_libraries(TMP+'/README.txt')) and (mdr.install_libraries(TMP+'/README.txt') != []):
         shutil.rmtree(TMP)
         return 'INVALID, Language does not support libraries'
 
     # Moves the directory to MIDAS and processes it
-    ALL_USER_DATA = os.listdir('/root/project/api/sandbox_files/DIR_'+str(toktok))
+    ALL_USER_DATA = os.listdir('/root/project/api/sandbox_files/DIR_'+str(TOK))
     while True:
         new_MID = 'MID_'+pp.random_dir_name()
         if new_MID not in ALL_USER_DATA:
@@ -191,6 +189,7 @@ def process_midas_jobs():
 
     MIDAS_PATH = UPLOAD_FOLDER+'/DIR_'+str(TOK)+'/'+new_MID
     shutil.copytree(TMP, MIDAS_PATH)
+    shutil.rmtree(TMP)
 
     # Creates a redis database with syntax {TOKEN}.{MID_DIRECTORY}
     r.set(TOK+';'+new_MID, boapp)

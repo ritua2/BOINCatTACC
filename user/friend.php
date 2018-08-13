@@ -23,7 +23,11 @@ require_once("../inc/profile.inc");
 
 check_get_args(array("target_userid", "userid", "action"));
 
+/*Commented out by Joshua: It's is a custom to put javascript almost the end of the file.
+/*Besides that, no warning message like this "Warning: Cannot modify header information - headers already sent by"
+/*will be printed to the screen
 text_counter_script();
+*/
 
 // see if there's already a request,
 // and whether the notification record is there
@@ -38,9 +42,10 @@ function check_pending($user, $destuser) {
         if ($notify) {
             page_head(tra("Request pending"));
             $t = date_str($friend->create_time);
-            echo tra("You requested friendship with %1 on %2.", $destuser->name,$t) . "
+            echo tra("You requested friendship with %1 on %2.", get_user_random_name($destuser->name),$t) . "
                 <p>" .
                 tra("This request is still pending confirmation.");
+            text_counter_script();
             page_tail();
             exit();
         }
@@ -51,7 +56,7 @@ function check_pending($user, $destuser) {
 function check_ignoring($srcuser, $destuser) {
     BoincForumPrefs::lookup($destuser);
     if (is_ignoring($destuser, $srcuser)) {
-        error_page(tra("%1 is not accepting friendship requests from you",$destuser->name));
+        error_page(tra("%1 is not accepting friendship requests from you",get_user_random_name($destuser->name)));
     }
 }
 
@@ -74,7 +79,7 @@ function handle_add($user) {
         <input type=hidden name=userid value=$destid>
         <input type=hidden name=action value=add_confirm>" .
         tra("You have asked to add %1 as a friend. We will notify %1 and will ask him/her to confirm that you are friends.",
-        "<b>".$destuser->name."</b>") ."
+        "<b>".get_user_random_name($destuser->name)."</b>") ."
         <p>" .
         tra("Add an optional message here:") ."
         <br>
@@ -83,6 +88,7 @@ function handle_add($user) {
         <input class=\"btn btn-primary\" type=submit value=\"".tra("OK")."\">
         </form>
     ";
+    text_counter_script();
     page_tail();
 }
 
@@ -115,7 +121,8 @@ function handle_add_confirm($user) {
         send_friend_request_email($user, $destuser, $msg);
     }
     page_head(tra("Friend request sent"));
-    echo tra("We have notified %1 of your request.","<b>".$destuser->name."</b>");
+    echo tra("We have notified %1 of your request.","<b>".get_user_random_name($destuser->name)."</b>");
+    text_counter_script();
     page_tail();
 }
 
@@ -129,6 +136,7 @@ function handle_query($user) {
         echo tra("You must log in as %1 to view this friend request",
             $target_user->name
         );
+        text_counter_script();
         page_tail();
         exit;
     }
@@ -142,23 +150,24 @@ function handle_query($user) {
     $x = user_links($srcuser, BADGE_HEIGHT_MEDIUM);
     echo tra("%1 has requested friendship with you.", $x);
     if (strlen($friend->message)) {
-        echo "<p>".tra("%1 says: %2", $srcuser->name, $friend->message)."</p>";
+        echo "<p>".tra("%1 says: %2", get_user_random_name($srcuser->name), $friend->message)."</p>";
     }
     echo "<p>";
     show_button(
         "friend.php?action=accept&userid=".$srcid, tra("Accept friendship"),
         tra("Click accept if %1 is in fact a friend",
-        $srcuser->name)
+        get_user_random_name($srcuser->name))
     );
     echo " ";
     show_button(
         "friend.php?action=ignore&userid=".$srcid, tra("Decline"),
         tra("Click decline if %1 is not a friend",
-        $srcuser->name),
+        get_user_random_name($srcuser->name)),
         "btn-sm btn-warning"
     );
     echo "    <p>
     ";
+    text_counter_script();
     page_tail();
 }
 
@@ -196,7 +205,8 @@ function handle_accept($user) {
     }
 
     page_head(tra("Friendship confirmed"));
-    echo tra("Your friendship with %1 has been confirmed.","<b>" . $srcuser->name ."</b>");
+    echo tra("Your friendship with %1 has been confirmed.","<b>" . get_user_random_name($srcuser->name) ."</b>");
+    text_counter_script();
     page_tail();
 }
 
@@ -215,7 +225,8 @@ function handle_ignore($user) {
         $notify->delete();
     }
     page_head(tra("Friendship declined"));
-    echo tra("You have declined friendship with %1","<b>".$srcuser->name."</b>");
+    echo tra("You have declined friendship with %1","<b>".get_user_random_name($srcuser->name)."</b>");
+    text_counter_script();
     page_tail();
 }
 
@@ -233,7 +244,8 @@ function handle_accepted($user) {
         echo tra("Notification not found");
     }
     page_head(tra("Friend confirmed"));
-    echo tra("You are now friends with %1.",$destuser->name);
+    echo tra("You are now friends with %1.",get_user_random_name($destuser->name));
+    text_counter_script();
     page_tail();
 }
 
@@ -244,12 +256,13 @@ function handle_cancel_confirm($user) {
     page_head(tra("Cancel friendship?"));
     echo
         tra("Are you sure you want to cancel your friendship with %1?",
-            $destuser->name
+            ($destuser->name)
         ) ."<p>\n"
     ;
     show_button("friend.php?action=cancel&userid=$destid", tra("Yes"), tra("Cancel friendship"));
     show_button(USER_HOME, tra("No"), tra("Stay friends"));
     echo "</ul>";
+    text_counter_script();
     page_tail();
 }
 
@@ -259,7 +272,8 @@ function handle_cancel($user) {
     if (!$destuser) error_page("No such user");
     BoincFriend::delete($user->id, $destid);
     page_head(tra("Friendship cancelled"));
-    echo tra("Your friendship with %1 has been cancelled.",$destuser->name);
+    echo tra("Your friendship with %1 has been cancelled.",get_user_random_name($destuser->name));
+    text_counter_script();
     page_tail();
 }
 

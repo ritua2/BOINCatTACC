@@ -126,7 +126,7 @@ function pm_form($replyto, $userid, $error = null) {
         if (!$user) {
             error_page("Sender no longer exists");
         }
-        $writeto = $userid." (".$user->name.")";
+        $writeto = $userid." (".get_user_random_name($user->name).")";
         $subject = $message->subject;
         if (substr($subject, 0, 3) != "re:") {
             $subject = "re: ".$subject;
@@ -136,7 +136,7 @@ function pm_form($replyto, $userid, $error = null) {
         if (!$user) {
             error_page("Sender no longer exists");
         }
-        $writeto = $userid." (".$user->name.")";
+        $writeto = $userid." (".get_user_random_name($user->name).")";
     } else {
         $writeto = sanitize_tags(post_str("to", true));
         $subject = post_str("subject", true);
@@ -187,7 +187,7 @@ function send_pm_notification_email(
     $message  = "
 You have received a new private message at ".PROJECT.".
 
-From: $logged_in_user->name (ID $logged_in_user->id)
+From: ".get_user_random_name($logged_in_user->name)." (ID $logged_in_user->id)
 Subject: $subject
 
 $content
@@ -207,14 +207,14 @@ function pm_email_line($notify) {
     $pm = BoincPrivateMessage::lookup_id($notify->opaque);
     $from_user = BoincUser::lookup_id($pm->senderid);
     if (!$pm || !$from_user) return null;
-    return "$from_user->name ".tra("sent you a private message; subject:")." '$pm->subject'";
+    return get_user_random_name($from_user->name)." ".tra("sent you a private message; subject:")." '$pm->subject'";
 }
 
 function pm_web_line($notify) {
     $pm = BoincPrivateMessage::lookup_id($notify->opaque);
     $from_user = BoincUser::lookup_id($pm->senderid);
     if (!$pm || !$from_user) return null;
-    return "<a href=pm.php>".tra("Private message%1 from %2, subject:" , "</a>", $from_user->name )." $pm->subject";
+    return "<a href=pm.php>".tra("Private message%1 from %2, subject:" , "</a>", get_user_random_name($from_user->name))." $pm->subject";
 }
 
 function pm_send_msg($from_user, $to_user, $subject, $content, $send_email) {

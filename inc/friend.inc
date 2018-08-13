@@ -18,16 +18,18 @@
 
 // The following two are what gets put into notification email digests
 //
+require_once("../inc/util.inc");
+
 function friend_notify_req_email_line($notify) {
     $src_user = BoincUser::lookup_id($notify->opaque);
     if (!$src_user) return null;
-    return "$src_user->name has requested friendship with you. Please accept or decline.";
+    return get_user_random_name($src_user->name)." has requested friendship with you. Please accept or decline.";
 }
 
 function friend_notify_accept_email_line($notify) {
     $src_user = BoincUser::lookup_id($notify->opaque);
     if (!$src_user) return null;
-    return "$src_user->name has confirmed you as a friend";
+    return get_user_random_name($src_user->name)." has confirmed you as a friend";
 }
 
 // The following two are what gets put in the Notification
@@ -37,7 +39,7 @@ function friend_notify_req_web_line($notify) {
     $user = BoincUser::lookup_id($notify->opaque);
     if (!$user) return null;
     return "
-        <a href=friend.php?action=query&userid=$notify->opaque>Friendship request</a> from <a href=show_user.php?userid=$user->id>$user->name</a>
+        <a href=friend.php?action=query&userid=$notify->opaque>Friendship request</a> from <a href=show_user.php?userid=$user->id>get_user_random_name($user->name)</a>
     ";
 }
 
@@ -45,17 +47,17 @@ function friend_notify_accept_web_line($notify) {
     $user = BoincUser::lookup_id($notify->opaque);
     if (!$user) return null;
     return "
-        <a href=friend.php?action=accepted&userid=$notify->opaque>Friendship confirmation</a> from $user->name
+        <a href=friend.php?action=accepted&userid=$notify->opaque>Friendship confirmation</a> from get_user_random_name($user->name)
     ";
 }
 
 function send_friend_request_email($src_user, $dest_user, $msg) {
-    $message  = "
-$src_user->name has added you as a friend at ".PROJECT.".
+    $message  = 
+get_user_random_name($src_user->name)." has added you as a friend at ".PROJECT.".
 ";
     if (strlen($msg)) {
-        $message .= "
-$src_user->name says: $msg
+        $message .= 
+get_user_random_name($src_user->name)." says: $msg
 ";
     }
 
@@ -72,12 +74,12 @@ Do not reply to this message.
 }
 
 function send_friend_accept_email($dest_user, $src_user, $msg) {
-    $message  = "
-$dest_user->name has confirmed you as a friend at ".PROJECT.".
+    $message  = 
+get_user_random_name($dest_user->name)." has confirmed you as a friend at ".PROJECT.".
 ";
     if (strlen($msg)) {
-        $message .= "
-$dest_user->name says: $msg
+        $message .= 
+get_user_random_name($dest_user->name)." says: $msg
 ";
     }
 
@@ -100,7 +102,7 @@ function friend_req_rss($notify, &$title, &$msg, &$url) {
         return;
     }
     $title = "Friend request";
-    $msg = "$src_user->name has requested friendship with you. Please accept or decline.";
+    $msg = get_user_random_name($src_user->name)." has requested friendship with you. Please accept or decline.";
     $url = secure_url_base()."friend.php?action=query&target_userid=$notify->userid&userid=$notify->opaque";
 }
 
@@ -111,7 +113,7 @@ function friend_accept_rss($notify, &$title, &$msg, &$url) {
         return;
     }
     $title = "Friendship confirmation";
-    $msg = "$src_user->name has confirmed you as a friend";
+    $msg = get_user_random_name($src_user->name)." has confirmed you as a friend";
     $url = secure_url_base().USER_HOME;
 }
 

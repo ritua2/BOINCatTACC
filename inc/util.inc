@@ -278,16 +278,16 @@ function page_head(
     echo /*Added by Gerald Joshua*/'
 	<meta charset="utf-8">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="icon" type="image/png" href="favicon/favicon-32x32.png" sizes="32x32" />
-    <link rel="icon" type="image/png" href="favicon/favicon-16x16.png" sizes="16x16" />
+    <link rel="icon" type="image/png" href="./favicon/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="./favicon/favicon-16x16.png" sizes="16x16" />
     <!-- Updated the favicon by Joshua
 	<link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
-	<link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">-->
 	<link rel="manifest" href="favicon/site.webmanifest">
 	<link rel="mask-icon" href="favicon/safari-pinned-tab.svg" color="#5bbad5">
 	<meta name="msapplication-TileColor" content="#da532c">
-	<meta name="theme-color" content="#ffffff">-->
+	<meta name="theme-color" content="#ffffff">
 	<link type="text/css" rel="stylesheet" href="'.secure_url_base().'/bootstrap.min.css" media="all">
 	'/*End of Gerald Joshua's edit*/;
     if (defined('STYLESHEET')) {
@@ -1144,7 +1144,14 @@ function google_search_form($url) {
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
-/* Added by Joshua: Let the volunteer users know what their random-generated username is*/
+/* Added by Gerald Joshua*/
+/**
+ * Get the user random name from the database based on their real username 
+ *
+ * @param String $real_user_name the real username
+ * 
+ * @return the user random name
+ */ 
 //Get the user random-generated name 
 function get_user_random_name($real_user_name){
     //Get the VM public IP address
@@ -1162,6 +1169,35 @@ function get_user_random_name($real_user_name){
     }
 
     return $randomName;
+}
+
+/**
+ * Source: https://stackoverflow.com/questions/4356289/php-random-string-generator
+ * Create a random-generated string of length 10 (by default) that can only contain 
+ * digits, uppercase and lowercase letters and the first character can't be a digit 
+ *
+ * @param integer $length the length of the random-generated string
+ * 
+ * @return a random generated string 
+ */ 
+function generateRandomString($length = 10) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        /*Commented out by Joshua: first character cannot be a digit
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+        */
+
+        //Added by Joshua
+        if($i == 0)
+            $randomString .= $characters[rand(10, $charactersLength - 1)];
+        else
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        //End of the edit by Joshua
+    }
+
+    return $randomString;
 }
 //End of the edit by Joshua
 ?>

@@ -9,7 +9,11 @@
 // https://boinc.berkeley.edu/trac/wiki/TranslateProject for details
 
 require_once("../inc/util.inc");
-
+//Added by Gerald Joshua: Autoloader needes to be loaded so SMTP class could be found
+require_once("../inc/phpmailer/PHPMailerAutoload.php");
+//For forgot password environment variables
+require_once("../inc/forgot_pass_env_var.inc");
+//End of Joshua's Edit
 
 //-------------- Project name and owner
 
@@ -80,8 +84,17 @@ define('MAX_CPUS_PREF', false);
 // and complete the function definition based on your SMTP server
 // (not all fields may be needed)
 //
-if (0) {
+//Commented out by Gerald Joshua since T2B will be using SMTP server
+//to send forgot password emails 
+//if (0) {
 function make_php_mailer() {
+
+    //Added by Joshua: Get the environment variables
+    global $forgot_password_email;
+    global $forgot_password_pass;
+    global $forgot_password_reply;
+
+    //Updated the code below so it will t2b email
     $mail = new PHPMailer();
     $mail->IsSMTP();
     //$mail->Mailer = 'smtp';
@@ -89,19 +102,20 @@ function make_php_mailer() {
     $mail->SMTPSecure = "tls";
     $mail->Host = "smtp.gmail.com";
     $mail->Port = 587;
-    $mail->Username = "john.doe@gmail.com";
-    $mail->Password = "xxx";
+    $mail->Username = $forgot_password_email;
+    $mail->Password = $forgot_password_pass;
         // Google's application-specific password,
         // if you are using the 2-Step Verification: 16 characters, no spaces.
         // OR: Put here the regular Gmail password if you are not using the
         // 2-Step Verification with your Gmail account.
         // See https://support.google.com/accounts/answer/185833?hl=en";
-    $mail->SetFrom('admin@boincproject.com', 'John Doe');
-    $mail->AddReplyTo("admin@boincproject.com", "John Doe");
-    $mail->From = "admin@boincproject.com";
+    $mail->SetFrom($forgot_password_reply, 'T2B');
+    $mail->AddReplyTo($forgot_password_reply, "T2B");
+    $mail->From = $forgot_password_reply;
     return $mail;
 }
-}
+//}
+//End of the edit by Joshua
 
 //-------------- Header and footer
 
@@ -111,24 +125,24 @@ function make_php_mailer() {
 //For getting the footer to stay down on the page
 //https://css-tricks.com/fun-viewport-units/
 function project_banner($title, $prefix, $is_main) {
-	echo '<div class="container-fluid">
-	<!--<div class="row">-->
+    echo '<div class="container-fluid">
+    <!--<div class="row">-->
   <div class="col-md-6" style=" margin-left: -2%;margin-top:1%;">
 
 <a href="index.php" class="svg"><img class="img-responsive" src="./img1/TACC-2-BOINC4x.png" style="max-width:400px;height:58px;"></a>
 
-	</div>
-	<div class="col-md-6">
+    </div>
+    <div class="col-md-6">
 <a href="https://boinc.berkeley.edu/">
-		<img class="img-responsive" style="width: 186px; margin-bottom: 23px; position:relative; right:-180px; top:6px; margin-right: 345px; float:right;" src="./img1/boincLogo_cropped.jpg" alt="Boinc Logo">
-	      </a>
-	      <a href="https://www.tacc.utexas.edu/">
-		<img class="img-responsive" style="width: 230px; position: absolute; top: 4px; right: -50px; float: right;" src="./img1/taccLogo.png" alt="TACC Logo">
-	      </a>
-	</div>
-	<!--</div>-->
+        <img class="img-responsive" style="width: 186px; margin-bottom: 23px; position:relative; right:-180px; top:6px; margin-right: 345px; float:right;" src="./img1/boincLogo_cropped.jpg" alt="Boinc Logo">
+          </a>
+          <a href="https://www.tacc.utexas.edu/">
+        <img class="img-responsive" style="width: 230px; position: absolute; top: 4px; right: -50px; float: right;" src="./img1/taccLogo.png" alt="TACC Logo">
+          </a>
+    </div>
+    <!--</div>-->
         </div>
-					';
+                    ';
     sample_navbar(secure_url_base(), get_logged_in_user(false), false);
     if ($title) {
         echo "<h2>$title</h2>\n";
@@ -265,12 +279,12 @@ End of the Edit by Joshua*/
 //Get rid of the `bold` effect on`text box https://jalbum.net/forum/thread.jspa?threadID=37879
 
         echo '<!-- <div style="position: absolute; z-index: 1; top: 29%;left: 12%;right: 12%;text-align: center;font-weight:bold;font-size: 60px;color: white;"> -->
-			<!-- Welcome to TACC-2-BOINC! -->
+            <!-- Welcome to TACC-2-BOINC! -->
 <!-- </div> -->
-		<!-- Small Summary about Boinc -->
+        <!-- Small Summary about Boinc -->
 
     <img class="img-responsive" style="margin-top:2.9%; height: 23vh;width: 100%;" src="img1/stampedecropped_1.jpg">
-		<div class="container-fluid" style="position: relative;
+        <div class="container-fluid" style="position: relative;
   /*Edited by Joshua: Increase the z-index so that the tooltip can be fully shown to the screen*/
   z-index: 5;/*End of the edit by Joshua*/
   top: 30%;
@@ -286,17 +300,17 @@ End of the Edit by Joshua*/
   border-radius: 0px;">
 
       <div class="col-md-12">
-			<div  class="col-md-6" style="border-right:solid black;">
-				<!-- Edited by Joshua: Updated the text to T2B -->
-				<span style="font-weight:normal;font-size:calc(12px + (22 - 12) * ((100vw - 300px) / (3000 - 300)));"><p>The TACC-2-BOINC (T2B) project integrates
+            <div  class="col-md-6" style="border-right:solid black;">
+                <!-- Edited by Joshua: Updated the text to T2B -->
+                <span style="font-weight:normal;font-size:calc(12px + (22 - 12) * ((100vw - 300px) / (3000 - 300)));"><p>The TACC-2-BOINC (T2B) project integrates
 <a class="popup" data-toggle="tooltip" onclick="myFunction()" style="border-bottom: 1px dotted #000;text-decoration: none;">Volunteer Computing (VC)<span class="popuptext" style="left: 70%;" id="Popup"><span class="close">&times;</span>Volunteer Computing (VC) is a computing paradigm that helps individuals and projects to use donated remote resources for doing computations.</span></a> with supercomputing. It provides a conduit for routing High-Throughput Computing jobs from the TACC systems to the computing resources volunteered by individuals or institutions. The volunteered computing resources include laptops, desktops, tablets, or VMs in the cloud. For donating the computing time, the <a  class="popup" data-toggle="tooltip" onclick="myFunction2()" style="border-bottom: 1px dotted #000;text-decoration: none;"> volunteers <span class="popuptext" id="Popup2"> <span class="close">&times;</span>Those interested in supporting R&D activities of researchers and scholars using TACC resources are invited to join the TACC-2-BOINC project as volunteers and the job for volunteers are to donate their spare compute-cycles to the TACC-2-BOINC projects.</span></a> can download the required software on their devices from the T2B website, and can then sign up as volunteer. <i>To learn more about the required software for volunteering devices and signing up as a volunteer for the T2B project, please click <a href="./join.php">here</i></a>.</span></p></div>
-			<div class="col-md-6"><span style="font-weight:normal;font-size:calc(12px + (22 - 12) * ((100vw - 300px) / (3000 - 300)));"><p>The <a class="popup" data-toggle="tooltip" onclick="myFunction3()" style="border-bottom: 1px dotted #000;text-decoration: none;">researchers <span class="popuptext" style="left: 70%;" id="Popup3"><span class="close">&times;</span>All active users of TACC resources are eligible to run jobs through the T2B infrastructure and qualify as researchers.</span></a> can use the T2B infrastructure to supplement the compute-cycles available to them through their <a href="https://portal.tacc.utexas.edu/allocations-overview">TACC</a>/<a href="https://portal.xsede.org">XSEDE</a> allocations. With T2B, they can run small jobs involving small amounts of data transfer and processing without spending their active allocations. <i>For details on using the T2B infrastructure, please click <a href="./how_to_use_TACC-2-BOINC.php">here</i></a>.</p>
-			<p>The T2B software infrastructure leverages the <a  class="popup" data-toggle="tooltip" onclick="myFunction4()" style="border-bottom: 1px dotted #000;text-decoration: none;">BOINC <span class="popuptext" style="left: -150%; top:=0%;" id="Popup4"> <span class="close">&times;</span>BOINC is an open-source software platform for volunteer computing and it has a client-server architecture. Once a BOINC client is downloaded on a device (desktop, laptop, phone, tablet, or a VM running in the cloud) owned by a volunteer or an institution, the BOINC server running at TACC will start sending computational tasks to the client when it is plugged in to the power supply and is available to accept tasks. Upon the completion of the tasks, the results are gathered from the clients participating in the computations, and are uploaded to the BOINC server, from where they are then forwarded to the researchers.</span></a> middleware and extends its capabilities to 1) support the job submissions from supercomputers, 2) use the VMs in the cloud, and 3) automatically create Docker images of the source-code written in selected languages. The T2B software is available through a Github <a href="https://github.com/ritua2/TACC-2-BOINC">repository</a>.</p></span>
-			<!--End of the edit by Joshua -->
+            <div class="col-md-6"><span style="font-weight:normal;font-size:calc(12px + (22 - 12) * ((100vw - 300px) / (3000 - 300)));"><p>The <a class="popup" data-toggle="tooltip" onclick="myFunction3()" style="border-bottom: 1px dotted #000;text-decoration: none;">researchers <span class="popuptext" style="left: 70%;" id="Popup3"><span class="close">&times;</span>All active users of TACC resources are eligible to run jobs through the T2B infrastructure and qualify as researchers.</span></a> can use the T2B infrastructure to supplement the compute-cycles available to them through their <a href="https://portal.tacc.utexas.edu/allocations-overview">TACC</a>/<a href="https://portal.xsede.org">XSEDE</a> allocations. With T2B, they can run small jobs involving small amounts of data transfer and processing without spending their active allocations. <i>For details on using the T2B infrastructure, please click <a href="./how_to_use_TACC-2-BOINC.php">here</i></a>.</p>
+            <p>The T2B software infrastructure leverages the <a  class="popup" data-toggle="tooltip" onclick="myFunction4()" style="border-bottom: 1px dotted #000;text-decoration: none;">BOINC <span class="popuptext" style="left: -150%; top:=0%;" id="Popup4"> <span class="close">&times;</span>BOINC is an open-source software platform for volunteer computing and it has a client-server architecture. Once a BOINC client is downloaded on a device (desktop, laptop, phone, tablet, or a VM running in the cloud) owned by a volunteer or an institution, the BOINC server running at TACC will start sending computational tasks to the client when it is plugged in to the power supply and is available to accept tasks. Upon the completion of the tasks, the results are gathered from the clients participating in the computations, and are uploaded to the BOINC server, from where they are then forwarded to the researchers.</span></a> middleware and extends its capabilities to 1) support the job submissions from supercomputers, 2) use the VMs in the cloud, and 3) automatically create Docker images of the source-code written in selected languages. The T2B software is available through a Github <a href="https://github.com/ritua2/TACC-2-BOINC">repository</a>.</p></span>
+            <!--End of the edit by Joshua -->
       </div>
       </div>
 
-		</div>
+        </div>
     ';//water.jpg was a placeholder
     }
     /*

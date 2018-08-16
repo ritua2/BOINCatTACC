@@ -1154,19 +1154,13 @@ $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
  */ 
 //Get the user random-generated name 
 function get_user_random_name($real_user_name){
-    //Get the VM public IP address
-    $vm_public_ip_address = $_SERVER['SERVER_NAME'];
-
-    //Get the user random name    
     $randomName = "";
-    $con  = mysqli_connect($vm_public_ip_address.":3306", "root", "", "boincserver");
-    if($con){
-        $lookupQuery = "SELECT * FROM screen_name_anonymization WHERE name = '$real_user_name'";
-        $results = mysqli_query($con, $lookupQuery);
-        if($row = $results->fetch_assoc()){
-            $randomName = $row["random_name"];
-        }
-    }
+    $fields = "random_name";
+    $real_user_name = BoincDb::escape_string($real_user_name);
+    $where_clause = "name = '$real_user_name'";
+    $user = BoincUser::screen_name_lookup($where_clause);
+    if($user != null)
+        $randomName = $user->random_name;
 
     return $randomName;
 }

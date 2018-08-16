@@ -82,6 +82,7 @@ function user_search_form() {
 
 function search_action() {
     $where = "true";
+    $userFound = TRUE;
     $search_string = get_str('search_string');
     if (strlen($search_string)) {
         if (strlen($search_string)<3) {
@@ -89,60 +90,90 @@ function search_action() {
         }
         $s = BoincDb::escape_string($search_string);
         $s = escape_pattern($s);
-        $where .= " and name like '$s%'";
-    }
-    $country = get_str('country');
-    if ($country != 'any') {
-        $s = BoincDb::escape_string($country);
-        $where .= " and country='$s'";
-    }
-    $t = get_str('team');
-    if ($t == 'yes') {
-        $where .= " and teamid<>0";
-    } else if ($t == 'no') {
-        $where .= " and teamid=0";
-    }
-    $t = get_str('profile');
-    if ($t == 'yes') {
-        $where .= " and has_profile<>0";
-    } else if ($t == 'no') {
-        $where .= " and has_profile=0";
-    }
-
-    $search_type = get_str('search_type', true);
-    $order_clause = "id desc";
-    if ($search_type == 'rac') {
-        $order_clause ="expavg_credit desc";
-    } else if ($search_type == 'total') {
-        $order_clause ="total_credit desc";
-    }
-
-    $fields = "id, create_time, name, country, total_credit, expavg_credit, teamid, url, has_profile, donated";
-
-    $users = BoincUser::enum_fields($fields, $where, "order by $order_clause limit 100");
-    page_head(tra("User search results"));
-    $n=0;
-    foreach ($users as $user) {
-        if ($n==0) {
-            start_table('table-striped');
-            row_heading_array(
-                array(
-                    tra("Name"),
-                    tra("Team"),
-                    tra("Average credit"),
-                    tra("Total credit"),
-                    tra("Country"),
-                    tra("Joined")
-                ),
-                array(null, null, ALIGN_RIGHT, ALIGN_RIGHT, null, null)
-            );
+        $matches = BoincUser::screen_name_enum("random_name like '$s%'");
+        if(!$matches){//Added by Joshua: So it will be easier for the users to go back to the user search page
+            page_head(null, null, null, null, null, tra("User search results"));
+            echo "<center><h1>User Search Results</h1></center>";
+            echo "<h3><center>".tra("No users match your search criteria.")."</center></h3>";
+            echo '<center><a href="./user_search.php" style="font-weight:bold" class="btn btn-success" role="button">Go Back to User Search Page</a></center>';
+            $userFound = FALSE;
         }
-        show_user($user);
-        $n++;
+        else {//Edited by Joshua so users will search based on random-generated name, not screen name
+            $where .= " and ";
+            $index = 0;
+            foreach($matches as $match){
+                $s = BoincDb::escape_string($match->name);
+                $s = escape_pattern($s);
+                if($index == 0)
+                    $where .= " name = '$s'";
+                else
+                    $where .= " or name = '$s'";
+                $index++;
+            }
+        }
     }
-    end_table();
-    if (!$n) {
-        echo tra("No users match your search criteria.");
+    if($userFound) {
+        //Added by Joshua
+        page_head(null, null, null, null, null, tra("User search results"));
+        echo "<center><h1>User Search Results</h1></center>";
+        $country = get_str('country');
+        if ($country != 'any') {
+            $s = BoincDb::escape_string($country);
+            $where .= " and country='$s'";
+        }
+        $t = get_str('team');
+        if ($t == 'yes') {
+            $where .= " and teamid<>0";
+        } else if ($t == 'no') {
+            $where .= " and teamid=0";
+        }
+        $t = get_str('profile');
+        if ($t == 'yes') {
+            $where .= " and has_profile<>0";
+        } else if ($t == 'no') {
+            $where .= " and has_profile=0";
+        }
+
+        $search_type = get_str('search_type', true);
+        $order_clause = "id desc";
+        if ($search_type == 'rac') {
+            $order_clause ="expavg_credit desc";
+        } else if ($search_type == 'total') {
+            $order_clause ="total_credit desc";
+        }
+
+        $fields = "id, create_time, name, country, total_credit, expavg_credit, teamid, url, has_profile, donated";
+
+        $users = BoincUser::enum_fields($fields, $where, "order by $order_clause limit 100");
+        
+        //Commented out by Gerald Joshua
+        //page_head(tra("User search results"));
+        
+        $n=0;
+        foreach ($users as $user) {
+            if ($n==0) {
+                start_table('table-striped');
+                row_heading_array(
+                    array(
+                        tra("Name"),
+                        tra("Team"),
+                        tra("Average credit"),
+                        tra("Total credit"),
+                        tra("Country"),
+                        tra("Joined")
+                    ),
+                    array(null, null, ALIGN_RIGHT, ALIGN_RIGHT, null, null)
+                );
+            }
+            show_user($user);
+            $n++;
+        }
+        end_table();
+        if (!$n) {
+            //Edited by Joshua: So it will be easier for the users to go back to the user search page
+            echo "<h3><center>".tra("No users match your search criteria.")."</center></h3>";
+            echo '<center><a href="./user_search.php" style="font-weight:bold" class="btn btn-success" role="button">Go Back to User Search Page</a></center>';
+        }
     }
     page_tail();
 }

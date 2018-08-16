@@ -9,7 +9,7 @@
 // https://boinc.berkeley.edu/trac/wiki/TranslateProject for details
 
 require_once("../inc/util.inc");
-//Added by Gerald Joshua: Autoloader needes to be loaded so SMTP class could be found
+//Added by Gerald Joshua: Autoloader needs to be loaded so SMTP class could be found
 require_once("../inc/phpmailer/PHPMailerAutoload.php");
 //For forgot password environment variables
 require_once("../inc/forgot_pass_env_var.inc");

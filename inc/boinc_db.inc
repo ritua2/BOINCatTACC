@@ -233,6 +233,26 @@ class BoincUser {
         $db = BoincDb::get();
         return $db->percentile('user', $field, $clause, $pct);
     }
+    //Added by Gerald Joshua: For screen name anonymization lookup
+    static function screen_name_lookup($where_clause) {
+        $db = BoincDb::get();
+        return $db->lookup('screen_name_anonymization', 'stdClass', $where_clause);
+    }
+    static function screen_name_count($clause) { //Finding number of matches on screen name anonymization table
+        $db = BoincDb::get();
+        return $db->count('screen_name_anonymization', $clause);
+    }
+    static function screen_name_insert($clause) {
+        $db = BoincDb::get();
+        $ret = $db->insert('screen_name_anonymization', $clause);
+        if (!$ret) return false;
+        return true;
+    }
+    static function screen_name_enum($where_clause, $order_clause=null) {
+        $db = BoincDb::get();
+        return $db->enum('screen_name_anonymization', 'stdClass', $where_clause, $order_clause);
+    }
+    //End of the edit by Joshua
 }
 
 class BoincTeam {

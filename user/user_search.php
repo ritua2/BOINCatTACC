@@ -90,7 +90,7 @@ function search_action() {
         }
         $s = BoincDb::escape_string($search_string);
         $s = escape_pattern($s);
-        $matches = BoincUser::screen_name_enum("random_name like '$s%'");
+        $matches = BoincUser::enum("random_name like '$s%'", null, "screen_name_anonymization", "stdClass");
         if(!$matches){//Added by Joshua: So it will be easier for the users to go back to the user search page
             page_head(null, null, null, null, null, tra("User search results"));
             echo "<center><h1>User Search Results</h1></center>";

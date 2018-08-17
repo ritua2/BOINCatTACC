@@ -175,6 +175,12 @@ class DbConn {
         $query = "update DBNAME.$table set $clause where id=$obj->id";
         return $this->do_query($query);
     }
+    //Added by Joshua: For updating screen name inside screen_name_anonymization table
+    function screen_name_update($table, $set_clause, $where_clause) {
+        $query = "update DBNAME.$table set $set_clause where $where_clause";
+        return $this->do_query($query);
+    }
+    //End of Joshua's edit
     function update_aux($table, $clause) {
         $query = "update DBNAME.$table set $clause";
         return $this->do_query($query);

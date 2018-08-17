@@ -145,7 +145,7 @@ New thread: $new_thread->title
     $result = $bad_user->prefs->update("banished_until=$t");
     page_head(tra("Banishment"));
     if ($result) {
-        echo tra("User %1 has been banished.", $bad_user->name);
+        echo tra("User %1 has been banished.", get_user_random_name($bad_user->name));
         send_banish_email($forum, $bad_user, $t, $reason);
     } else {
         error_page(tra("Action failed: possible database problem"));

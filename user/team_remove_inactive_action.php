@@ -38,10 +38,10 @@ for ($i=0; $i<$_POST["ninactive_users"]; $i++) {
     $user = BoincUser::lookup_id($userid);
     if (!$user) continue;
     if ($user->teamid != $team->id) {
-        echo "<br />".tra("%1 is not a member of %2", $user->name, $team->name);
+        echo "<br />".tra("%1 is not a member of %2", get_user_random_name($user->name), $team->name);
     } else {
         user_quit_team($user);
-        echo "<br />".tra("%1 has been removed", $user->name);
+        echo "<br />".tra("%1 has been removed", get_user_random_name($user->name));
         $ndel++;
     }
 }

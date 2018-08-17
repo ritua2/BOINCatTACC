@@ -107,7 +107,7 @@ function permissions_form($app) {
         $user = BoincUser::lookup_id($busa->user_id);
         echo "
             <tr>
-            <td>$user->name (ID: $user->id)</td>
+            <td>.".get_user_random_name($user->name)." (ID: $user->id)</td>
             <td><input type=checkbox name=user_$user->id checked></td>
             </tr>
         ";
@@ -159,7 +159,7 @@ function batches_form($app) {
         $user = BoincUser::lookup_id($batch->user_id);
         echo "<tr>
             <td>$batch->id</td>
-            <td>$user->name</td>
+            <td>.".get_user_random_name($user->name)."</td>
             <td>".time_str($batch->create_time)."</td>
             <td>".batch_state_string($batch->state)."
             <td>$batch->njobs</td>

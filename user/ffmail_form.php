@@ -32,6 +32,10 @@ $user = get_logged_in_user();
 
 page_head(tra("Tell your friends about %1", PROJECT));
 
+//Added by Joshua: Since this feature is deprecated, we will just redirect user to index.php
+echo "<script>window.location.replace('./index.php');</script>";
+//End of Joshua edit
+
 $text = @file_get_contents('../ops/ffmail/text');
 if (!$text) {
     $text = "I'm using my computer to crunch numbers for a science project called ".PROJECT.".  The more computers participate, the more science gets done.  Would you like to join me?

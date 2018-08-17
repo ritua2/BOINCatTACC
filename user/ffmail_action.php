@@ -18,6 +18,10 @@
 
 require_once("../inc/email.inc");
 
+//Added by Joshua: Since this feature is deprecated, we will just redirect user to index.php
+echo "<script>window.location.replace('./index.php');</script>";
+//End of Joshua edit
+
 error_page("This feature is deprecated");
 
 $text = get_str('text');

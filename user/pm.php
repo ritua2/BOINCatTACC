@@ -251,7 +251,7 @@ function do_send($logged_in_user) {
         }
         BoincForumPrefs::lookup($user);
         if (is_ignoring($user, $logged_in_user)) {
-            pm_form($replyto, $userid, tra("User %1 (ID: %2) is not accepting private messages from you.", $user->name, $user->id));
+            pm_form($replyto, $userid, tra("User %1 (ID: %2) is not accepting private messages from you.", get_user_random_name($user->name), $user->id));
         }
         if (!isset($userids[$user->id])) {
             $userlist[] = $user;
@@ -275,8 +275,8 @@ function do_block($logged_in_user) {
     if (!$user) {
         error_page(tra("No such user"));
     }
-    page_head(tra("Really block %1?", $user->name));
-    echo "<div>".tra("Are you really sure you want to block user %1 from sending you private messages?", $user->name)."<br>\n";
+    page_head(tra("Really block %1?", get_user_random_name($user->name)));
+    echo "<div>".tra("Are you really sure you want to block user %1 from sending you private messages?", get_user_random_name($user->name))."<br>\n";
     echo tra("Please note that you can only block a limited amount of users.")."</div>\n";
     echo "<div>".tra("Once the user has been blocked you can unblock it using forum preferences page.")."</div>\n";
 
@@ -297,9 +297,9 @@ function do_confirmedblock($logged_in_user) {
     if (!$blocked_user) error_page(tra("no such user"));
     add_ignored_user($logged_in_user, $blocked_user);
 
-    page_head(tra("User %1 blocked", $blocked_user->name));
+    page_head(tra("User %1 blocked", get_user_random_name($blocked_user->name)));
 
-    echo "<div>".tra("User %1 has been blocked from sending you private messages.", $blocked_user->name)."\n";
+    echo "<div>".tra("User %1 has been blocked from sending you private messages.", get_user_random_name($blocked_user->name))."\n";
     echo tra("To unblock, visit %1 message board preferences %2", "<a href=\"edit_forum_preferences_form.php\">", "</a>")."</div>\n";
     page_tail();
 }

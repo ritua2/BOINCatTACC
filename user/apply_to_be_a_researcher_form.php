@@ -38,6 +38,11 @@ page_head(
 //If statement below offers path to the link provided by join button of man page
 //Does not affect text responsible for gaining information for sign up
 
+//Added by Joshua: For now, we are not supporting researchers to create researcher accounts
+//in our website.
+echo "<script>window.location.replace('./login_as_a_researcher_form.php');</script>";
+//End of the edit by Joshua
+
 if (!NO_COMPUTING) {
     echo "<p class=\"lead\">"
         .tra(
@@ -164,4 +169,3 @@ page_tail();
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>
-

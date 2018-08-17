@@ -58,7 +58,7 @@ if ($team->ping_user != 0) {
             </form>
             <p>
             ".tra("If you don't decline the request by %1, %2 will have the option of assuming team foundership.<br /><br />
-                  To accept the request, assign foundership to %3 using the form below.", $x, $ping_user->name, $ping_user->name)."
+                  To accept the request, assign foundership to %3 using the form below.", $x, get_user_random_name($ping_user->name), get_user_random_name($ping_user->name))."
             </p>
             <hr>
             <p>
@@ -99,7 +99,7 @@ foreach ($users as $user) {
         echo '
             <tr>
             <td><input type="radio" name="userid" value="'.$user->id.'">
-            <td>'.$user->name.'</td>
+            <td>'.get_user_random_name($user->name).'</td>
             <td align=right>'.$user_total_credit.'</td>
             <td align=right>'.$user_expavg_credit.'</td>
             </tr>

@@ -83,7 +83,7 @@ if ($plain) {
 $users = BoincUser::enum_fields("id, email_addr, send_email, name, total_credit, expavg_credit, has_profile, donated, country, cross_project_id, create_time, url", "teamid=$team->id");
 foreach($users as $user) {
     if ($plain) {
-        echo "$user->name $user->id\n";
+        echo get_user_random_name($user->name)." $user->id\n";
     } else {
         table_row(user_links($user, BADGE_HEIGHT_MEDIUM), $user->id, format_credit($user->total_credit), format_credit($user->expavg_credit), $user->country);
     }

@@ -278,14 +278,7 @@ function page_head(
     echo /*Added by Gerald Joshua*/'
 	<meta charset="utf-8">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="icon" type="image/png" href="./favicon/favicon-32x32.png" sizes="32x32" />
-    <link rel="icon" type="image/png" href="./favicon/favicon-16x16.png" sizes="16x16" />
-    <!-- Updated the favicon by Joshua
-	<link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
-	<link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
-	<link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">-->
-	<link rel="manifest" href="favicon/site.webmanifest">
-	<link rel="mask-icon" href="favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="./favicon/favicon.ico" type="image/x-icon">
 	<meta name="msapplication-TileColor" content="#da532c">
 	<meta name="theme-color" content="#ffffff">
 	<link type="text/css" rel="stylesheet" href="'.secure_url_base().'/bootstrap.min.css" media="all">
@@ -1158,7 +1151,7 @@ function get_user_random_name($real_user_name){
     $fields = "random_name";
     $real_user_name = BoincDb::escape_string($real_user_name);
     $where_clause = "name = '$real_user_name'";
-    $user = BoincUser::screen_name_lookup($where_clause);
+    $user = BoincUser::lookup($where_clause, 'screen_name_anonymization', 'stdClass');
     if($user != null)
         $randomName = $user->random_name;
 

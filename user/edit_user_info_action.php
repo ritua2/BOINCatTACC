@@ -52,22 +52,10 @@ if (POSTAL_CODE) {
 $name = BoincDb::escape_string($name);
 $url = BoincDb::escape_string($url);
 
-//Added by Joshua
-//Make sure that the screen name anonymization table is also updated
-//Get the VM public IP address
-$vm_public_ip_address = $_SERVER['SERVER_NAME'];
-
-//Build the connection to the database
-$con  = mysqli_connect($vm_public_ip_address.":3306", "root", "", "boincserver");
-if($con){
-    //Update the screen name anonymization table
-    $updateQuery = "UPDATE screen_name_anonymization SET name = '$name' WHERE name = '$user->name'";
-    $result = $con->query($updateQuery);
-}
-
-//Destroy the connection to database
-mysqli_close($con);
-//End of the edit by Joshua
+//Added by Gerald Joshua: Update the screen_name_anonymization table as well
+$set_clause = "name = '$name'";
+$where_clause = "name = '$user->name'";
+BoincUser::screen_name_update($set_clause, $where_clause);
 
 $result = $user->update(
     "name='$name', url='$url', country='$country', postal_code='$postal_code'"

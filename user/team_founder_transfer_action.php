@@ -43,24 +43,24 @@ function send_founder_transfer_email($team, $user, $founder) {
     // send founder a private message for good measure
 
     $subject = "Team founder transfer request";
-    $body = "Team member ".$user->name." has asked that you
+    $body = "Team member ".get_user_random_name($user->name)." has asked that you
 transfer foundership of $team->name.
 Please go [url=".secure_url_base()."team_change_founder_form.php?teamid=$team->id]here[/url] to grant or decline the request.
     
-If you do not respond within 60 days, ".$user->name." will
+If you do not respond within 60 days, ".get_user_random_name($user->name)." will
 be allowed to become the team founder.
 ";
 
     pm_send_msg($user, $founder, $subject, $body, false);
 
     $subject = PROJECT." team founder transfer";
-    $body = "Team member ".$user->name." has asked that you
+    $body = "Team member ".get_user_random_name($user->name)." has asked that you
 transfer foundership of $team->name in ".PROJECT.".
 Please visit
 ".secure_url_base()."team_change_founder_form.php?teamid=".$team->id."
 to grant or decline the request.
     
-If you do not respond within 60 days, ".$user->name." will
+If you do not respond within 60 days, ".get_user_random_name($user->name)." will
 be allowed to become the team founder.
     
 Please do not respond to this email.

@@ -83,7 +83,9 @@ class BoltDb extends DbConn {
                 $host = "localhost";
             }
             $instance = new DbConn();
-            $retval = $instance->init_conn($user, $passwd, $host, $name);
+            //Added by Joshua: Missed the fifth argument. Added false value for the last one 
+            $retval = $instance->init_conn($user, $passwd, $host, $name, false);
+            //End of the edit by Joshua 
             if (!$retval) return null;
         }
         return $instance;

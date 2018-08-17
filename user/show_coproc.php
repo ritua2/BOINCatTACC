@@ -23,6 +23,10 @@
 require_once("../inc/util.inc");
 require_once("../inc/boinc_db.inc");
 
+//Added by Joshua: Since this feature is deprecated, we will just redirect user to index.php
+echo "<script>window.location.replace('./index.php');</script>";
+//End of Joshua edit
+
 check_get_args(array("mode"));
 
 function filename($mode) {

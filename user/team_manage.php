@@ -51,7 +51,7 @@ function show_admin_page($user, $team) {
             $user2 = BoincUser::lookup_id($team->ping_user);
             $deadline = date_str(transfer_ok_time($team));
             echo "<li>
-                <a href=team_change_founder_form.php?teamid=$team->id><font color=red><strong>".tra("Respond to foundership request.")."</strong></font></a>  ".tra("If you don't respond by %1, %2 may assume foundership of this team.", $deadline, $user2->name)
+                <a href=team_change_founder_form.php?teamid=$team->id><font color=red><strong>".tra("Respond to foundership request.")."</strong></font></a>  ".tra("If you don't respond by %1, %2 may assume foundership of this team.", $deadline, get_user_random_name($user2->name))
                 ;
         }
         echo "

@@ -160,9 +160,10 @@ class BoincDb extends DbConn {
 
 class BoincUser {
     static $cache;
-    static function lookup($clause) {
+    //Edited by Joshua: the function lookup now supports tables besides user
+    static function lookup($clause, $table = 'user', $theClass = 'BoincUser') {
         $db = BoincDb::get();
-        return $db->lookup('user', 'BoincUser', $clause);
+        return $db->lookup($table, $theClass, $clause);
     }
 
     static function lookup_id_nocache($id) {
@@ -192,9 +193,10 @@ class BoincUser {
         $users = BoincUser::enum("name='$name'");
         return $users;
     }
-    static function count($clause) {
+    //Edited by Joshua: the function count now supports tables besides user
+    static function count($clause, $table='user') {
         $db = BoincDb::get();
-        return $db->count('user', $clause);
+        return $db->count($table, $clause);
     }
     static function max($field) {
         $db = BoincDb::get();
@@ -204,9 +206,10 @@ class BoincUser {
         $db = BoincDb::get();
         return $db->update($this, 'user', $clause);
     }
-    static function enum($where_clause, $order_clause=null) {
+    //Edited by Joshua: the function enum now supports tables besides user
+    static function enum($where_clause, $order_clause=null, $table='user', $theClass='BoincUser') {
         $db = BoincDb::get();
-        return $db->enum('user', 'BoincUser', $where_clause, $order_clause);
+        return $db->enum($table, $theClass, $where_clause, $order_clause);
     }
     static function enum_fields($fields, $where_clause, $order_clause=null) {
         $db = BoincDb::get();
@@ -214,12 +217,16 @@ class BoincUser {
             'user', 'BoincUser', $fields, $where_clause, $order_clause
         );
     }
-    static function insert($clause) {
+    static function insert($clause, $table='user') {
         $db = BoincDb::get();
-        $ret = $db->insert('user', $clause);
+        $ret = $db->insert($table, $clause);
         if (!$ret) return 0;
-        return $db->insert_id();
+        if ($table == 'user')
+            return $db->insert_id();
+        else
+            return true;
     }
+
     function delete() {
         $db = BoincDb::get();
         $db->delete_aux('profile', "userid=$this->id");
@@ -233,24 +240,10 @@ class BoincUser {
         $db = BoincDb::get();
         return $db->percentile('user', $field, $clause, $pct);
     }
-    //Added by Gerald Joshua: For screen name anonymization lookup
-    static function screen_name_lookup($where_clause) {
+    //Added by Joshua: update the screen name inside screen_name_anonymization table
+    static function screen_name_update($set_clause, $where_clause) {
         $db = BoincDb::get();
-        return $db->lookup('screen_name_anonymization', 'stdClass', $where_clause);
-    }
-    static function screen_name_count($clause) { //Finding number of matches on screen name anonymization table
-        $db = BoincDb::get();
-        return $db->count('screen_name_anonymization', $clause);
-    }
-    static function screen_name_insert($clause) {
-        $db = BoincDb::get();
-        $ret = $db->insert('screen_name_anonymization', $clause);
-        if (!$ret) return false;
-        return true;
-    }
-    static function screen_name_enum($where_clause, $order_clause=null) {
-        $db = BoincDb::get();
-        return $db->enum('screen_name_anonymization', 'stdClass', $where_clause, $order_clause);
+        return $db->screen_name_update('screen_name_anonymization', $set_clause, $where_clause);
     }
     //End of the edit by Joshua
 }

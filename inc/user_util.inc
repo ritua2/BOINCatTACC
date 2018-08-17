@@ -76,53 +76,23 @@ function make_user(
     //Get the random name
     $randomName = (string)generateRandomString();
 
-    //Get the VM public IP address
-    /*$vm_public_ip_address = $_SERVER['SERVER_NAME'];
-
-    //Make sure that the generated random name is unique for each user
-    $con  = mysqli_connect($vm_public_ip_address.":3306", "root", "", "boincserver");
-    if($con){
-        $countQuery = "SELECT COUNT(*) FROM screen_name_anonymization WHERE random_name = '$randomName'";
-        $results = mysqli_query($con, $countQuery);
-        $row = $results->fetch_assoc();
-        while((int)$row['COUNT(*)'] > 0){
-            $randomName = (string)generateRandomString();
-            $countQuery = "SELECT COUNT(*) FROM screen_name_anonymization WHERE random_name = '$randomName'";
-            $results = mysqli_query($con, $countQuery);
-            $row = $results->fetch_assoc();
-        }
-
-        //Clean up the escape characters of random name
-        $randomName = sanitize_tags($randomName);
-        $randomName = BoincDb::escape_string($randomName);
-
-        //Store the random name on database
-        $query = "INSERT INTO screen_name_anonymization VALUES ('$name', '$randomName')";
-        $result = $con->query($query);
-    } else {
-        return null;
-    }*/
-
-    $count = BoincUser::screen_name_count("random_name = '$randomName'");
+    //Make sure the random-generated name is unique in the database
+    $count = BoincUser::count("random_name = '$randomName'", "screen_name_anonymization");
     while((int)$count > 0){
         $randomName = (string)generateRandomString();
-        $count = BoincUser::screen_name_count("random_name = '$randomName'");
+        $count = BoincUser::count("random_name = '$randomName'", "screen_name_anonymization");
     }
 
     //Clean up the escape characters of random name
     $randomName = sanitize_tags($randomName);
     $randomName = BoincDb::escape_string($randomName);
 
-    $uid = BoincUser::screen_name_insert("(name, random_name) values('$name', '$randomName')");
-
-    /*//Destroy the connection to database
-    mysqli_close($con);
-    //End of the edit by Joshua*/
-
-    //Edited by Joshua: Adding random_name as a parameter after name for the SQL insertion query
-    $uid = BoincUser::insert("(create_time, email_addr, name, authenticator, country, postal_code, total_credit, expavg_credit, expavg_time, project_prefs, teamid,  venue, send_email, show_hosts, posts, seti_id, seti_nresults, seti_last_result_time, seti_total_cpu, has_profile, cross_project_id, passwd_hash, email_validated, donated) values($now, '$email_addr', '$name', '$authenticator', '$country', '$postal_code', 0, 0, unix_timestamp(), '$project_prefs', $teamid, '', 1, 1, 0, 0, 0, 0, 0, 0, '$cross_project_id', '$passwd_hash', 0, 0)");
+    //Insert the new user into screen_name_anonymization table
+    $uid = BoincUser::insert("(name, random_name) values('$name', '$randomName')", "screen_name_anonymization");
     //End of the edit by Joshua
 
+    $uid = BoincUser::insert("(create_time, email_addr, name, authenticator, country, postal_code, total_credit, expavg_credit, expavg_time, project_prefs, teamid,  venue, send_email, show_hosts, posts, seti_id, seti_nresults, seti_last_result_time, seti_total_cpu, has_profile, cross_project_id, passwd_hash, email_validated, donated) values($now, '$email_addr', '$name', '$authenticator', '$country', '$postal_code', 0, 0, unix_timestamp(), '$project_prefs', $teamid, '', 1, 1, 0, 0, 0, 0, 0, 0, '$cross_project_id', '$passwd_hash', 0, 0)");
+    
     if (!$uid) {
         return null;
     }

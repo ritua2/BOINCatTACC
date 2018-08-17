@@ -63,7 +63,7 @@ if ($hostid) {
         error_page(tra("No access"));
     }
     $clause = "userid=$userid";
-    page_head(tra("$s tasks for $user->name"));
+    page_head(tra("$s tasks for ".get_user_random_name($user->name)));
     $show_host_link = true;
 } else {
     error_page(tra("Missing user ID or host ID"));

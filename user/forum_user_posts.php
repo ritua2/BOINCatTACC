@@ -72,7 +72,7 @@ if ($logged_in_user) {
         }
     }
 }
-page_head(tra("Posts by %1", $user->name));
+page_head(tra("Posts by %1", get_user_random_name($user->name)));
 
 $posts = BoincPost::enum("user=$userid order by id desc limit 10000");
 $n = 0;

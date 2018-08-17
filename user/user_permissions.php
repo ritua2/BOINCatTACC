@@ -40,7 +40,7 @@ function user_permissions_form() {
     );
     while ($foo = _mysql_fetch_object($result)) {
         echo "<tr>
-            <td>$foo->name ($foo->id)</td>
+            <td>".get_user_random_name($foo->name ($foo->id))</td>
             <form action=\"user_permissions.php\" method=\"POST\">
             <input type=\"hidden\" name=\"userid\" value=\"$foo->userid\">
         ";

@@ -20,6 +20,10 @@ require_once("../inc/util.inc");
 require_once("../inc/bossa_db.inc");
 require_once("../inc/bolt_db.inc");
 
+//Added by Joshua: Since this feature is not supported by T2B, we will just redirect user to index.php
+echo "<script>window.location.replace('./index.php');</script>";
+//End of Joshua edit
+
 function show_app($app) {
     global $user;
     if ($app->bolt_course_id) {

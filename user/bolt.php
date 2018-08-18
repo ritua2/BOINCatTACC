@@ -22,6 +22,10 @@ require_once("../inc/bolt_util.inc");
 
 page_head("Courses");
 
+//Added by Joshua: Since this feature is not supported by T2B, we will just redirect user to index.php
+echo "<script>window.location.replace('./index.php');</script>";
+//End of Joshua edit
+
 $user = get_logged_in_user(false);
 if ($user) {
     BoltUser::lookup($user);

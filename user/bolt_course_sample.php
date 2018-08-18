@@ -18,6 +18,10 @@
 
 require_once("../inc/bolt.inc");
 
+//Added by Joshua: Since this feature is not supported by T2B, we will just redirect user to index.php
+echo "<script>window.location.replace('./index.php');</script>";
+//End of Joshua edit
+
 function part2() {
     return sequence(
         name('inner seq'),

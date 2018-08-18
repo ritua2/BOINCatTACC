@@ -20,6 +20,10 @@ require_once("../inc/util.inc");
 require_once("../inc/bossa.inc");
 require_once("../inc/bossa_example4.inc");
 
+//Added by Joshua: Since this feature is not supported by T2B, we will just redirect user to index.php
+echo "<script>window.location.replace('./index.php');</script>";
+//End of Joshua edit
+
 function handle_add($job, $inst) {
     $f = null;
     $f->x = get_int('pic_x');

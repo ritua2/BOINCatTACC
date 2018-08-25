@@ -241,13 +241,16 @@ function do_send($logged_in_user) {
                 pm_form($replyto, $userid, tra("Could not find user with id %1", $userid));
             }
         } else {
-            $users = BoincUser::lookup_name($username);
+            $users = BoincUser::lookup_name($username, 'screen_name_anonymization');
             if (count($users) == 0) {
                 pm_form($replyto, $userid, tra("Could not find user with username %1", $username));
             } elseif (count($users) > 1) { // Non-unique username
                 pm_form($replyto, $userid, tra("%1 is not a unique username; you will have to use user ID", $username));
             }
             $user = $users[0];
+            //Added by Joshua: Users are not allowed to send message to himself
+            if($user->name == $logged_in_user->name)
+                pm_form($replyto, $userid, tra("Users are not allowed to send messages to himself"));
         }
         BoincForumPrefs::lookup($user);
         if (is_ignoring($user, $logged_in_user)) {

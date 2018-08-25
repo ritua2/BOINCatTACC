@@ -187,9 +187,17 @@ class BoincUser {
         return self::lookup("email_addr='$email_addr'");
     }
     // name is not necessarily unique
-    //
-    static function lookup_name($name) {
+    // Added by Joshua: Name lookup is also implemented for screen_name_anonymization
+    static function lookup_name($name, $table=null) {
         $name = BoincDb::escape_string($name);
+        if($table != null){
+            $db = BoincDb::get();
+            $user = BoincUser::lookup("random_name = '$name'", $table, "stdClass");
+            if($user != null)
+                $name = $user->name; 
+            else
+                return null;
+        }
         $users = BoincUser::enum("name='$name'");
         return $users;
     }

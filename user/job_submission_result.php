@@ -162,6 +162,7 @@ if(strpos($_SERVER['HTTP_REFERER'], 'job_submission') !== false){
 					echo '<center><a href="./job_submission.php" style="font-weight:bold;" class="btn btn-success" role="button">Go Back to Job Submission Page</a></center>';					
 				} else {
 					echo '<center><h1>'.tra('Congratulations, your file was uploaded.').'</center></h1>';
+					echo '<h2><center>'.tra($result).'</center></h2>';
 					echo '<center><a href="./job_submission.php" style="font-weight:bold" class="btn btn-success" role="button">Go Back to Job Submission Page</a></center>';
 				}
 			

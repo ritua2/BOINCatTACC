@@ -35,8 +35,34 @@ echo '<center><h1>Job Submission</h1></center><br />';
 //End of Gerald Joshua's edit
 
 //Added by Gerald Joshua
+//CSS
 echo '
-		<span style="margin-left: 17.3%; float:left; font-weight:bold;"><a data-toggle="tooltip" style ="border-bottom: 1px dotted #000; text-decoration: none;" title="The location of docker image that will be used can be from docker hub or from the list of available tacc-2-boinc docker images">'.tra("Location of docker image ").'</a><span style="color: red">*</span></span>
+	<style>
+	.tooltip-inner {
+	  background-color: #00acd6 !important;
+	  color: #fff;
+	}
+
+	.tooltip.top .tooltip-arrow {
+	  border-top-color: #00acd6;
+	}
+
+	.tooltip.right .tooltip-arrow {
+	  border-right-color: #00acd6;
+	}
+
+	.tooltip.bottom .tooltip-arrow {
+	  border-bottom-color: #00acd6;
+	}
+
+	.tooltip.left .tooltip-arrow {
+	  border-left-color: #00acd6;
+	}
+	</style>'
+;
+
+echo '
+		<span style="margin-left: 17.3%; float:left; font-weight:bold;"><a href="javascript:;" data-toggle="tooltip" data-placement="bottom" title="The location of docker image that will be used can be from docker hub or from the list of available tacc-2-boinc docker images. Besides that, our system could also create a docker image for your job submission.">'.tra("Location of docker image ").'</a><span style="color: red">*</span></span>
 		<div style="float:left; margin-left: 3.5%;"><label style="margin-left: 3px;"><input type="radio" id="dockerOpt1" checked="checked"><span style="margin-left: 5px;">List of docker images maintained by TACC-2-BOINC</span></label></div>
 		<div style="float:left; margin-left: 4%;"><label><input type="radio" id="dockerOpt2"><span style="margin-left: 5px;">Docker hub</span></label></div>
 		<div style="float:left; margin-left: 4.5%;"><label><input type="radio" id="dockerOpt3"><span style="margin-left: 5px;">Automated docker build</span></label></div>
@@ -49,7 +75,7 @@ echo '
 			<span style="font-weight:bold;">
 				<br /><br />
 				<!-- OS text -->
-				<a data-toggle="tooltip" style ="margin:0 0 0 21.3%; border-bottom: 1px dotted #000; text-decoration: none;" title="The operating system that will be used. We are only supporting ubuntu 16.04 at this time">'.
+				<a href="javascript:;" data-toggle="tooltip" style ="margin:0 0 0 21.3%; data-placement="bottom" title="The operating system that will be used for running the job. We are only supporting ubuntu 16.04 as for now">'.
 					tra("Operating System").'
 				</a><span style="color: red">*</span>
 			</span>
@@ -71,7 +97,7 @@ echo '
 			<!-- Section for programming languages list -->
 			<span style="font-weight:bold;">
 				<!-- Programming Language text -->
-				<a data-toggle="tooltip" style ="margin:0 0 0 10.5%; border-bottom: 1px dotted #000; text-decoration: none;" title="List all programming languages that will be used to run your job.">'.
+				<a href="javascript:;" data-toggle="tooltip" style ="margin:0 0 0 10.5%; data-placement="bottom" title="List all programming languages and libraries needed for running your job.">'.
 					tra("Programming languages and libraries ").'</a><span style="color: red">*</span>
 			</span>
 
@@ -136,7 +162,7 @@ echo '
 			<!-- Section for user setup -->
 			<span style="font-weight:bold;">
 				<!-- User setup text -->
-				<a data-toggle="tooltip" style ="margin:0 0 0 26%; border-bottom: 1px dotted #000; text-decoration: none;" title="User setup.">'.
+				<a href="javascript:;" data-toggle="tooltip" style ="margin:0 0 0 26%; data-placement="top" title="User setup is used to cover package installation, compiling and linking so that the command lines will be mainly running the executable program. This part is very useful for C and C++. The set up file has to be a bash script file (.sh).">'.
 					tra("Setup File ").'
 				</a><span style="color: red">*</span>
 			</span>
@@ -150,12 +176,16 @@ echo '
 					<label class="radio-inline" style="margin-left:3.5%; font-weight:bold;">
 						<input type="radio" id="setupFile2" name="setup_file_option">No setup file needed
 					</label>
+					</span>
 				</div>
 				<div id="setup_options">
 					<label class="btn btn-success btn-file" style="font-weight:bold; font-weight:bold;">
-		    			Browse <input type="file" name="setup_file" id="setup_file_btn" style="display: none;">
+		    			Browse <input type="file" name="setup_file" id="setup_file_btn" style="display: none;" onchange="checkFileExtension(this);">
 					</label>
 					<span class="label label-info" id="setupFileLocation" style="font-size: 14px;">No file chosen</span>
+					<br />
+					<span id="setupFileMsg" style="color: red; font-weight: bold;">
+					<br />
 				</div> 
 			</div>
 
@@ -164,7 +194,7 @@ echo '
 			<!-- Section for commands -->
 			<span style="font-weight:bold;">
 				<!-- Commands text -->
-				<a data-toggle="tooltip" style ="margin:0 0 0 24.5%; border-bottom: 1px dotted #000; text-decoration: none;" title="Commands.">'.
+				<a href="javascript:;" data-toggle="tooltip" style ="margin:0 0 0 25.5%;  data-placement="bottom" title="List all command lines needed to run the job.">'.
 					tra("Commands").'
 				</a><span style="color: red">*</span>
 			</span>
@@ -181,7 +211,7 @@ echo '
 			<!-- Section for output Files -->
 			<span style="font-weight:bold;">
 				<!-- Output text -->
-				<a data-toggle="tooltip" style ="margin:0 0 0 24%; border-bottom: 1px dotted #000; text-decoration: none;" title="Output Files.">'.
+				<a href="javascript:;" data-toggle="tooltip" style ="margin:0 0 0 25.5%;  data-placement="bottom" title="The result of the job has to be sent to the output files. List all of those output file names here.">'.
 					tra("Output Files ").'</a><span style="color: red">*</span>
 			</span>
 
@@ -203,7 +233,7 @@ echo '
 			<!-- Section for input files -->
 			<span style="font-weight:bold;">
 				<!-- Input Files text -->
-				<a data-toggle="tooltip" style ="margin:0 0 0 26%; border-bottom: 1px dotted #000; text-decoration: none;" title="Input files">'.
+				<a href="javascript:;" data-toggle="tooltip" style ="margin:0 0 0 27%;  data-placement="bottom" title="The list of input files or data that will be processed. Please zip the input files into one zip or one tar file where the acceptable file extensions as for now are .zip, .tgz, or .tar.gz and the file size must be less than or equal to 100 MB">'.
 					tra("Input files").'</a><span style="color: red">*</span>
 			</span>
 
@@ -226,7 +256,7 @@ echo '
 
 				<div id="midasSubmitPart">
 					<label class="btn btn-success btn-file" style="font-weight:bold;">
-		    			Browse <input type="file" name="midas_input_file" onchange="midasFileExtensionChecking(this)" style="display: none;">
+		    			Browse <input type="file" id="midas_input_file_id" name="midas_input_file" onchange="midasFileExtensionChecking(this)" style="display: none;">
 					</label>
 					<span class="label label-info" id="midasUploadBtn" style="font-size: 14px;">No file chosen</span>
 					<br />
@@ -269,12 +299,7 @@ echo '
 		//End of Gerald Joshua's edit
 		//Beginning of Thomas Johnson's edit
 
-		form_input_text(/*Commented out by Gerald Joshua
-		        sprintf('<!-- style of span was added by Gerald Joshua --><span style="%s" title="%s">%s</span>', "margin-left: 65%;",
-		            tra("Name of the Dockerhub Image that will be utilized."),
-		            '<!-- attribute href of html tag a was removed by Gerald Joshua --><a data-toggle="tooltip" style="border-bottom: 1px dotted #000;text-decoration: none;" 
-		            title="The name of the Dockerhub Image that will be utilized for this job submission. Provide the name, not the URL.">'.tra("Docker Hub Image").'</a>'
-		        ) End of Gerald Joshua's edit*/ "" ,
+		form_input_text("" ,
 		        "Image", "", "",/*Added by Gerald Joshua */"style='margin-bottom: 15px;' name='dockerFileName' id='dockerHubFile' placeholder='e.g., tacc/docker2singularity or nginx:1.14.0 (provide the name, not the URL)' value='none'"
 		/*End of Gerald Joshua's edit*/);
 
@@ -285,23 +310,8 @@ echo '
 			<br /><br /></div>";
 		//End of Gerald Joshua's edit
 
-		/*Commented out by Gerald Joshua
-		//It's better to use textarea tag than input tag for commands since there is a 
-		//big possibility that the number of lines of the commands is more than one 
-		form_input_text(sprintf('<!-- style of span was added by Gerald Joshua--><span style="%s" title="%s">%s</span>', "margin-left: 65%;", 
-			tra("The list of commands to be processed."),
-			'<!-- attribute href of html tag a was removed by Gerald Joshua --><a data-toggle="tooltip" style ="border-bottom: 1px dotted #000; text-decoration: none;"
-			title="The list of commands that will be used in processing the data. Must provide all necessary commands.">'.tra("List of Commands").'</a>'
-			),
-			"Commands",""
-		);
-		End of the edit by Gerald Joshua*/
-
-		//Added by Gerald Joshua
-		//Most codes below were taken from the codes above
-
 		//Section for commands
-		echo '<span style="margin-left: 21.3%; font-weight:bold;"><a data-toggle="tooltip" style ="border-bottom: 1px dotted #000; text-decoration: none;" title="The list of commands that will be used in processing the data. Must provide all necessary commands.">'.tra("List of commands ").'</a><span style="color: red">*</span></span>';
+		echo '<span style="margin-left: 21.3%; font-weight:bold;"><a href="javascript:;" data-toggle="tooltip" data-placement="bottom" title="The list of commands that will be used in processing the data. Must provide all the necessary commands. Hit enter for each command line to make sure that a semicolon is inserted.">'.tra("List of commands ").'</a><span style="color: red">*</span></span>';
 
 		echo '<textarea id="commandLines" name="theCommandLine" style="margin-top: -20px;margin-left: 34.5%;width: 64.5%;padding: 10px; border-radius: 5px;" rows="7" placeholder="e.g., gcc -o hello.exe hello.c (hit enter at each of the end the command line including the last command line)"></textarea><br /><br />';
 		tra("Please upload your relevant tar (.tgz or .tar.gz extensions only) or zip (.zip extenstion only) for the current submission.");
@@ -310,7 +320,7 @@ echo '
 
 		/*Added by Gerald Joshua
 		Zip/Tar file upload section*/
-		echo '<span style="margin-left: 26%; float:left; font-weight:bold;"><a data-toggle="tooltip" style ="border-bottom: 1px dotted #000; text-decoration: none;" title="The list of input files or data that will be processed. Please zip the input files into one zip or one tar folder where the acceptable file extensions for the moment are .zip, .tgz, or .tar.gz and the file size must be less than or equal to 100 MB">'.tra("Input files ").'</a><span style="color: red">*</span></span>';
+		echo '<span style="margin-left: 26%; float:left; font-weight:bold;"><a href="javascript:;" data-toggle="tooltip" data-placement="top" title="The list of input files or data that will be processed. Please zip the input files into one zip or one tar file where the acceptable file extensions as for now are .zip, .tgz, or .tar.gz and the file size must be less than or equal to 100 MB">'.tra("Input files ").'</a><span style="color: red">*</span></span>';
 		//End of Gerald Joshua's edit
 
 		//File Upload Code to be placed below
@@ -356,15 +366,20 @@ echo '
 	var lastDockerImgInputed = "";
 
 	//Checking variables for midas job
-	var checkingVarForNonMidas = {
+	var checkingForMidas = {
 	  	operating_system: false, 
 	  	programming_language: false,
 	  	setup_file: false, 
-	  	library_list: false,
+	  	library_list: true,
 	  	output_files: true,
 	  	input_file: false,
 	  	command_lines: false
-	}; 
+	};
+	var isNoPython3LibChecked = false;
+	var isNoCPlusPlusLibChecked = false;
+	var isNoSetupFileChecked = false;
+	var isAllOutputFilesChecked = true;
+	var isNoInputFilesChecked = false;
 
 	//Non-midas job submit button will be available if all fields are filled out
 	function activateSubmitBtn(theDocker, command, file){
@@ -447,8 +462,27 @@ echo '
 		}			
 	}
 
+	//Function that handles the process of file extension for setup file
+	function checkFileExtension(fileName){
+		$("#setupFileMsg").html("");
+		fileName = String(fileName.value);
+		warningMessage = "";
+    	fileExtension = fileName.substring((fileName.indexOf(".")+1));
+		if(fileExtension != "sh"){
+			warningMessage += "Warning: The file extension must be .sh";
+			$("#setupFileMsg").html(warningMessage);
+			$("#setupFileMsg").show();
+			checkingForMidas.setup_file = false;
+			activateMidasSubmitBtn(checkingForMidas);	
+		}
+		else {
+			checkingForMidas.setup_file = true;
+			activateMidasSubmitBtn(checkingForMidas);
+		}
+	}
+
 	//Function that handles the process of file extension and file size checking
-	function midasFileExtensionChecking(fileName) {
+	function fileExtensionChecking(fileName) {
 		$("#warningMsg").html("");
 		fileSize = fileName.files[0].size;
 		fileName = String(fileName.value);
@@ -522,18 +556,18 @@ echo '
 				warningMessage += "Warning: The file extension must be either .tgz or .tar.gz";
 				$("#midasWarningMsg").html(warningMessage);
 				$("#midasWarningMsg").show();
-				checkingVarForNonMidas.input_file = false;
-				activateMidasSubmitBtn(checkingVarForNonMidas);	
+				checkingForMidas.input_file = false;
+				activateMidasSubmitBtn(checkingForMidas);	
 			}
 			else {
 				isFileUploaded = true;
-				checkingVarForNonMidas.input_file = true;
+				checkingForMidas.input_file = true;
 				if(!isFileSizeAllowed){
 					$("#midasWarningMsg").html(warningMessage);
 					$("#midasWarningMsg").show();
-					checkingVarForNonMidas.input_file = false;
+					checkingForMidas.input_file = false;
 				}				
-				activateMidasSubmitBtn(checkingVarForNonMidas);
+				activateMidasSubmitBtn(checkingForMidas);
 			}
 		}	
 		if($("#midasZipUpload").is(":checked")){
@@ -543,18 +577,18 @@ echo '
 				warningMessage += "Warning: The file extension must be .zip";
 				$("#midasWarningMsg").html(warningMessage);
 				$("#midasWarningMsg").show();
-				checkingVarForNonMidas.input_file = false;
-				activateMidasSubmitBtn(checkingVarForNonMidas);
+				checkingForMidas.input_file = false;
+				activateMidasSubmitBtn(checkingForMidas);
 			}
 			else {
 				isFileUploaded = true;
-				checkingVarForNonMidas.input_file = true;
+				checkingForMidas.input_file = true;
 				if(!isFileSizeAllowed){
 					$("#midasWarningMsg").html(warningMessage);
 					$("#midasWarningMsg").show();
-					checkingVarForNonMidas.input_file = false;
+					checkingForMidas.input_file = false;
 				}				
-				activateMidasSubmitBtn(checkingVarForNonMidas);
+				activateMidasSubmitBtn(checkingForMidas);
 			}
 		}				
 	}
@@ -581,16 +615,16 @@ echo '
 			if($(this).is(':checked')){
 				$(this).val("r");
 				pLCount++;
-				checkingVarForNonMidas.programming_language = true;
-				activateMidasSubmitBtn(checkingVarForNonMidas);	
+				checkingForMidas.programming_language = true;
+				activateMidasSubmitBtn(checkingForMidas);	
 			}
 			else{
 				$(this).val("");
 				if(pLCount > 0)
 					pLCount--;
 				if(pLCount == 0){
-					checkingVarForNonMidas.programming_language = false;
-					activateMidasSubmitBtn(checkingVarForNonMidas);
+					checkingForMidas.programming_language = false;
+					activateMidasSubmitBtn(checkingForMidas);
 				}
 			}
 		});
@@ -600,16 +634,16 @@ echo '
 			if($(this).is(':checked')){
 				$(this).val("c");
 				pLCount++;
-				checkingVarForNonMidas.programming_language = true;
-				activateMidasSubmitBtn(checkingVarForNonMidas);		
+				checkingForMidas.programming_language = true;
+				activateMidasSubmitBtn(checkingForMidas);		
 			}
 			else{
 				$(this).val("");
 				if(pLCount > 0)
 					pLCount--;
 				if(pLCount == 0){
-					checkingVarForNonMidas.programming_language = false;
-					activateMidasSubmitBtn(checkingVarForNonMidas);
+					checkingForMidas.programming_language = false;
+					activateMidasSubmitBtn(checkingForMidas);
 				}	
 			}
 		});
@@ -620,16 +654,16 @@ echo '
 			if($(this).is(':checked')){
 				$(this).val("bash");	
 				pLCount++;
-				checkingVarForNonMidas.programming_language = true;
-				activateMidasSubmitBtn(checkingVarForNonMidas);			
+				checkingForMidas.programming_language = true;
+				activateMidasSubmitBtn(checkingForMidas);			
 			}
 			else{
 				$(this).val("");
 				if(pLCount > 0)
 					pLCount--;
 				if(pLCount == 0){
-					checkingVarForNonMidas.programming_language = false;
-					activateMidasSubmitBtn(checkingVarForNonMidas);
+					checkingForMidas.programming_language = false;
+					activateMidasSubmitBtn(checkingForMidas);
 				}	
 			}
 		});
@@ -639,7 +673,11 @@ echo '
 			if($(this).is(':checked')){
 				$(this).val("cPlusPlus");
 				$("#radioC").show();
-				$("#cLib").show();	
+				$("#cLib").show();
+				if(checkingForMidas.library_list){
+					checkingForMidas.library_list = false;
+					activateMidasSubmitBtn(checkingForMidas);
+				}	
 			}
 			else{
 				$(this).val("");
@@ -648,24 +686,36 @@ echo '
 				if(pLCount > 0)
 					pLCount--;
 				if(pLCount == 0){
-					checkingVarForNonMidas.programming_language = false;
-					activateMidasSubmitBtn(checkingVarForNonMidas);
-				}	
+					checkingForMidas.programming_language = false;
+				}
+				$("#cLib").val("");
+				checkingForMidas.library_list = true;
+				if($("#p31").is(':checked') && $("#p3").is(':checked') && $("#p3Lib").value == ""){
+					checkingForMidas.library_list = false;
+				}
+				activateMidasSubmitBtn(checkingForMidas);	
 			}
 		});
 		$("#c1").click(function(){
 			$("#cLib").show();
-			checkingVarForNonMidas.programming_language = false;
+			checkingForMidas.programming_language = false;
 			if(pLCount > 0)
 				pLCount--;
-			activateMidasSubmitBtn(checkingVarForNonMidas);
+			checkingForMidas.library_list = false;
+			activateMidasSubmitBtn(checkingForMidas);
+			isNoCPlusPlusLibChecked = false;
 		});
 		$("#c2").click(function(){
 			$("#cLib").hide();
 			pLCount++;
-			checkingVarForNonMidas.library_list = true;
-			checkingVarForNonMidas.programming_language = true;
-			activateMidasSubmitBtn(checkingVarForNonMidas);
+			$("#cLib").val("");
+			checkingForMidas.library_list = true;
+			if($("#p31").is(':checked') && $("#p3").is(':checked') && $("#p3Lib").value == ""){
+				checkingForMidas.library_list = false;
+			}
+			checkingForMidas.programming_language = true;
+			activateMidasSubmitBtn(checkingForMidas);
+			isNoCPlusPlusLibChecked = true;
 		});
 
 		//Python
@@ -673,7 +723,11 @@ echo '
 			if($(this).is(':checked')){
 				$(this).val("python");
 				$("#radioP3").show();
-				$("#p3Lib").show();		
+				$("#p3Lib").show();
+				if(checkingForMidas.library_list){
+					checkingForMidas.library_list = false;
+					activateMidasSubmitBtn(checkingForMidas);
+				}		
 			}
 			else{
 				$(this).val("");
@@ -682,24 +736,36 @@ echo '
 				if(pLCount > 0)
 					pLCount--;
 				if(pLCount == 0){
-					checkingVarForNonMidas.programming_language = false;
-					activateMidasSubmitBtn(checkingVarForNonMidas);
-				}			
+					checkingForMidas.programming_language = false;
+				}
+				$("#p3Lib").val("");
+				checkingForMidas.library_list = true;
+				if($("#c1").is(':checked') && $("#cPlusPlus").is(':checked') && $("#cLib").value == ""){
+					checkingForMidas.library_list = false;
+				}
+				activateMidasSubmitBtn(checkingForMidas);			
 			}
 		});
 		$("#p31").click(function(){
 			$("#p3Lib").show();
-			checkingVarForNonMidas.programming_language = false;
+			checkingForMidas.programming_language = false;
 			if(pLCount > 0)
 				pLCount--;
-			activateMidasSubmitBtn(checkingVarForNonMidas);
+			checkingForMidas.library_list = false;
+			activateMidasSubmitBtn(checkingForMidas);
+			isNoPython3LibChecked = true;
 		});
 		$("#p32").click(function(){
 			$("#p3Lib").hide();
-			checkingVarForNonMidas.programming_language = true;
+			checkingForMidas.programming_language = true;
 			pLCount++;
-			activateMidasSubmitBtn(checkingVarForNonMidas);
-			checkingVarForNonMidas.library_list = true;
+			$("#p3Lib").val("");
+			checkingForMidas.library_list = true;
+			if($("#c1").is(':checked') && $("#cPlusPlus").is(':checked') && $("#cLib").value == ""){
+				checkingForMidas.library_list = false;
+			}
+			activateMidasSubmitBtn(checkingForMidas);
+			isNoPython3LibChecked = true;
 		});
 		
 		//Fortran
@@ -707,16 +773,16 @@ echo '
 			if($(this).is(':checked')){
 				$(this).val("fortran");
 				pLCount++;
-				checkingVarForNonMidas.programming_language = true;
-				activateMidasSubmitBtn(checkingVarForNonMidas);		
+				checkingForMidas.programming_language = true;
+				activateMidasSubmitBtn(checkingForMidas);		
 			}
 			else{
 				$(this).val("");
 				if(pLCount > 0)
 					pLCount--;
 				if(pLCount == 0){
-					checkingVarForNonMidas.programming_language = false;
-					activateMidasSubmitBtn(checkingVarForNonMidas);
+					checkingForMidas.programming_language = false;
+					activateMidasSubmitBtn(checkingForMidas);
 				}	
 			}
 		});
@@ -726,37 +792,39 @@ echo '
 			if($(this).is(':checked')){
 				$("#setup_options").show();
 				$("#setupFileLocation").text("No file chosen");
-				checkingVarForNonMidas.setup_file = false;
-				activateMidasSubmitBtn(checkingVarForNonMidas);
+				checkingForMidas.setup_file = false;
+				activateMidasSubmitBtn(checkingForMidas);
+				isNoSetupFileChecked = false;
 			}
 		});
 		$("#setupFile2").click(function(){
 			if($(this).is(':checked')){
 				$("#setup_options").hide();
 				$("#setup_file_btn").val("");
-				checkingVarForNonMidas.setup_file = true;
-				activateMidasSubmitBtn(checkingVarForNonMidas);
+				checkingForMidas.setup_file = true;
+				activateMidasSubmitBtn(checkingForMidas);
+				isNoSetupFileChecked = true;
 			}
 		});
 		$("#setup_file_btn").on("change", function() {
 			theFileLocation = $(this).val();
   			$("#setupFileLocation").text(theFileLocation);
-			checkingVarForNonMidas.setup_file = true;
-			activateMidasSubmitBtn(checkingVarForNonMidas);
 		});
 
 		//Output Files
 		$("#all_output_files").click(function(){
 			$("#output_file_list").hide();
 			$("#output_file_list").val("");
-			checkingVarForNonMidas.output_files = true;
-			activateMidasSubmitBtn(checkingVarForNonMidas);
+			checkingForMidas.output_files = true;
+			activateMidasSubmitBtn(checkingForMidas);
+			isAllOutputFilesChecked = true;
 		});
 		$("#some_output_files").click(function(){
 			$("#output_file_list").val("");
 			$("#output_file_list").show();
-			checkingVarForNonMidas.output_files = false;
-			activateMidasSubmitBtn(checkingVarForNonMidas);
+			checkingForMidas.output_files = false;
+			activateMidasSubmitBtn(checkingForMidas);
+			isAllOutputFilesChecked = false;
 		});
 
 		//Check whether the command lines have been inputed or not for non midas
@@ -784,38 +852,44 @@ echo '
 				}
 			}
   			if(commandLinesCorrect) {
-				checkingVarForNonMidas.command_lines = true;
-				activateMidasSubmitBtn(checkingVarForNonMidas);					
+				checkingForMidas.command_lines = true;
+				activateMidasSubmitBtn(checkingForMidas);					
 			}
 			else{
-				checkingVarForNonMidas.command_lines = false;
-				activateMidasSubmitBtn(checkingVarForNonMidas);	
+				checkingForMidas.command_lines = false;
+				activateMidasSubmitBtn(checkingForMidas);	
 			}
 		});
 
 		//Check whether the library have been inputed or not for midas job
 		$("#p3Lib, #cLib").bind("input propertychange", function() {
   			if(this.value.length > 0) {
-				checkingVarForNonMidas.library_list = true;
+  				checkingForMidas.library_list = true;
+				if($("#p31").is(':checked') && $("#p3").is(':checked') && $("#p3Lib").value == ""){
+					checkingForMidas.library_list = false;
+				}
+				if($("#c1").is(':checked') && $("#cPlusPlus").is(':checked') && $("#cLib").value == ""){
+					checkingForMidas.library_list = false;
+				}
 				pLCount++;
-				checkingVarForNonMidas.programming_language = true;					
+				checkingForMidas.programming_language = true;					
 			}
 			else{
-				checkingVarForNonMidas.library_list = false;
-				checkingVarForNonMidas.programming_language = false;
+				checkingForMidas.library_list = false;
+				checkingForMidas.programming_language = false;
 			}
-			activateMidasSubmitBtn(checkingVarForNonMidas);
+			activateMidasSubmitBtn(checkingForMidas);
 		});
 
 		//Check whether the outputList have been inputed or not for midas job
 		$("#output_file_list").bind("input propertychange", function() {
   			if(this.value.length > 0) {
-				checkingVarForNonMidas.output_files = true;					
+				checkingForMidas.output_files = true;					
 			}
 			else{
-				checkingVarForNonMidas.output_files = false;
+				checkingForMidas.output_files = false;
 			}
-			activateMidasSubmitBtn(checkingVarForNonMidas);
+			activateMidasSubmitBtn(checkingForMidas);
 		});
 
 		//Put a semicolon at end of each command line if it does not have one
@@ -850,8 +924,8 @@ echo '
 			$("#btnText").text($(this).text());
       		$("#dockerListBtn").val($(this).attr("value"));
    			$("#dockerListParam").val($(this).attr("value"));
-			checkingVarForNonMidas.operating_system = true;
-			activateMidasSubmitBtn(checkingVarForNonMidas);
+			checkingForMidas.operating_system = true;
+			activateMidasSubmitBtn(checkingForMidas);
 		});
 
 		$("#dockerOpt1").click(function(){
@@ -938,30 +1012,50 @@ echo '
 				$("#uploadBtn").remove();
 		});
 
+		//Events when midas submit button is clicked
+		$("#midasSubmitBtn").click(function(){
+			if(isNoPython3LibChecked)
+				$("#p3Lib").remove();
+			if(isNoCPlusPlusLibChecked)
+				$("#cLib").remove();
+			if(isNoSetupFileChecked)
+				$("#setup_file_btn").remove();
+			if(isAllOutputFilesChecked)
+				$("#output_file_list").remove();
+			if(isNoInputFilesChecked)
+				$("#midas_input_file_id").remove();
+		});
+
 		//For Midas files upload
 		$("#midasZipUpload").click(function(){
 			$("#midasSubmitPart").show();
 			$("#midasWarningMsg").hide();
 			$("#midasFileLocation").text("No file chosen");
-			checkingVarForNonMidas.input_file = false;
-			activateMidasSubmitBtn(checkingVarForNonMidas);
+			checkingForMidas.input_file = false;
+			activateMidasSubmitBtn(checkingForMidas);
+			isNoInputFilesChecked = false;
 		});
 		$("#midasTarUpload").click(function(){
 			$("#midasSubmitPart").show();
 			$("#midasWarningMsg").hide();
 			$("#midasFileLocation").text("No file chosen");
-			checkingVarForNonMidas.input_file = false;
-			activateMidasSubmitBtn(checkingVarForNonMidas);
+			checkingForMidas.input_file = false;
+			activateMidasSubmitBtn(checkingForMidas);
+			isNoInputFilesChecked = false;
 		});
 		$("#midasNoUpload").click(function(){
 			$("#midasSubmitPart").hide();
-			checkingVarForNonMidas.input_file = true;
-			activateMidasSubmitBtn(checkingVarForNonMidas);
+			checkingForMidas.input_file = true;
+			activateMidasSubmitBtn(checkingForMidas);
+			isNoInputFilesChecked = true;
 		});
 		$("#midasUploadBtn").on("change", function() {
 			theFileLocation = $(this).val();
   			$("#midasFileLocation").text(theFileLocation);
 		});
+
+		//For tooltip
+		$('[data-toggle="tooltip"]').tooltip();
 	});
 </script>
 <?php

@@ -182,8 +182,8 @@ function get_profile_summary($profile) {
         $description = "(\"" . sub_sentence($temp, ' ', MAX_DESC_LENGTH, true) . "\")";
 
     }
-
-    $summary = "<a href=\"".url_base()."view_profile.php?userid=".$profile->userid."\">".$user->name."</a> ".$description;
+    //Edited by Joshua: Implement user's anonymization feature
+    $summary = "<a href=\"".url_base()."view_profile.php?userid=".$profile->userid."\">".get_user_random_name($user->name)."</a> ".$description;
     return $summary;
 }
 

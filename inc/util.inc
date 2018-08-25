@@ -234,9 +234,9 @@ function page_head(
         // bbcode javascript (forums)
     $tabTitle=""
         // Added by Gerald Joshua.
-	// This parameter will be used to put the title of the web page
+	    // This parameter will be used to put the title of the web page
         // on the browser tab.
-	// End of Gerald Joshua's edit.
+	    // End of Gerald Joshua's edit.
 ) {
     global $caching, $cache_control_extra, $did_page_head;
     global $is_login_page, $fixed_navbar;
@@ -274,15 +274,16 @@ function page_head(
     //End of Gerald Joshua's edit
     echo "<title>$t</title>\n";
 	
-	
-    echo /*Added by Gerald Joshua*/'
+	/*Added by Gerald Joshua*/
+    echo '
 	<meta charset="utf-8">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="shortcut icon" href="./favicon/favicon.ico" type="image/x-icon">
 	<meta name="msapplication-TileColor" content="#da532c">
 	<meta name="theme-color" content="#ffffff">
 	<link type="text/css" rel="stylesheet" href="'.secure_url_base().'/bootstrap.min.css" media="all">
-	'/*End of Gerald Joshua's edit*/;
+    ';
+    /*End of Gerald Joshua's edit*/
     if (defined('STYLESHEET')) {
         $stylesheet = $url_base.STYLESHEET;
         echo "

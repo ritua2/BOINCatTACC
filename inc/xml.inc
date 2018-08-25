@@ -91,6 +91,7 @@ function show_host_xml($host) {
 ";
 }
 
+//Edited by Joshua: Implement user's anonymization feature
 // $show_hosts is true only if $user is the logged-in user
 //
 function show_user_xml($user, $show_hosts) {
@@ -100,7 +101,7 @@ function show_user_xml($user, $show_hosts) {
     <id>$user->id</id>
     <cpid>$cpid</cpid>
     <create_time>$user->create_time</create_time>
-    <name>".htmlspecialchars($user->name)."</name>
+    <name>".htmlspecialchars(get_user_random_name($user->name))."</name>
     <country>$user->country</country>
     <total_credit>$user->total_credit</total_credit>
     <expavg_credit>$user->expavg_credit</expavg_credit>
@@ -130,7 +131,7 @@ function show_team_member($user, $creditonly = false) {
     <total_credit>$user->total_credit</total_credit>";
     if (!$creditonly) {
         echo "    <create_time>$user->create_time</create_time>
-    <name>".htmlspecialchars($user->name)."</name>
+    <name>".htmlspecialchars(get_user_random_name($user->name))."</name>
     <country>$user->country</country>
     <expavg_credit>$user->expavg_credit</expavg_credit>
     <expavg_time>$user->expavg_time</expavg_time>

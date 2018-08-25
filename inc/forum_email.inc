@@ -70,9 +70,10 @@ function send_moderation_email($forum, $post, $thread, $explanation, $action) {
 
     $subject = PROJECT." moderation notice";
 
+    //Edited by Joshua: Implement user's anonymization feature
     $body = "Your post [ID $post->id] in thread '$thread->title'
 ".secure_url_base()."forum_thread.php?id=$thread->id#$post->id
-has been $action by moderator $moderator->name (ID $moderator->id).
+has been $action by moderator ".get_user_random_name($moderator->name)." (ID $moderator->id).
 $explanation
 
 The content of your post:
@@ -82,9 +83,9 @@ For assistance with ".PROJECT." go to ".$master_url;
 
     $success = send_email($user, $subject, $body);
     pm_send_msg($user, $user, $subject, $body, false);
-
-    $body = "Because of moderation by $moderator->name (ID $moderator->id),
-The following email was sent to $user->name (ID $user->id)
+    //Edited by Joshua: Implement user's anonymization feature
+    $body = "Because of moderation by ".get_user_random_name($moderator->name)." (ID $moderator->id),
+The following email was sent to ".get_user_random_name($user->name)." (ID $user->id)
 ".secure_url_base()."forum_user_posts.php?userid=$user->id
 ------------------------------
 Subject: $subject
@@ -110,7 +111,7 @@ function send_thread_moderation_email(
     $subject = PROJECT." forum moderation notice";
     $body = "Your thread '$thread->title'
 ".secure_url_base()."forum_thread.php?id=$thread->id
-has been $action_name by moderator $moderator->name (ID $moderator->id).
+has been $action_name by moderator ."get_user_random_name($moderator->name)." (ID $moderator->id).
 $explanation
 
 For assistance with ".PROJECT." go to ".$master_url;
@@ -140,6 +141,7 @@ Do not reply to this message.
     return send_email($user, $title, $body);
 }
 
+//Edited by Joshua: Implement user's anonymization feature
 //////////////////// a user clicks the red "x" to report a post ///////////
 //
 function send_report_post_email($user, $forum, $thread,  $post, $message) {
@@ -153,8 +155,8 @@ function send_report_post_email($user, $forum, $thread,  $post, $message) {
 
 A post in the ".PROJECT." forums was reported as offensive.
     Thread:         $thread->title
-    Post:           $post->id by $owner->id ($owner->name)
-    Reporting User: $user->id ($user->name)
+    Post:           $post->id by $owner->id (".get_user_random_name($owner->name).")
+    Reporting User: $user->id (".get_user_random_name($user->name).")
     Link:           ".secure_url_base()."forum_thread.php?id=$thread->id#$post->id
     
 Comments from reporting user:
@@ -190,7 +192,7 @@ because your postings have not followed our guidelines.
         $body .= "\n\nThe moderator gave the following explanation about your suspension:\n";
         $body .= $reason;
     }
-    $success = mail_report_list($forum, "$user->name (ID $user->id) has been banished.", $body);
+    $success = mail_report_list($forum, get_user_random_name($user->name)." (ID $user->id) has been banished.", $body);
     $success &= send_email($user, $subject, $body);
     pm_send_msg($user, $user, $subject, $body, false);
     return $success;
@@ -229,7 +231,7 @@ able to resume posting at that time.
 
     $forum = new BoincForum;
     $forum->parent_type = 0;
-    $success &= mail_report_list($forum, "A banishment vote for ".$user->name." has been started.", $body);
+    $success &= mail_report_list($forum, "A banishment vote for ".get_user_random_name($user->name)." has been started.", $body);
     return $success;
 }
 ?>

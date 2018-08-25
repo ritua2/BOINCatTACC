@@ -120,8 +120,8 @@ function show_other_projects($user, $personal) {
     usort($user->projects, "cmp");
     if ($personal) {
         echo "<h3>".tra("Projects in which you are participating")."</h3>";
-    } else {
-        echo "<h3>".tra("Projects in which %1 is participating", $user->name)."</h3>";
+    } else {//Edited by Joshua: Implement user's anonymization feature
+        echo "<h3>".tra("Projects in which %1 is participating", get_user_random_name($user->name))."</h3>";
     }
     start_table('table-striped');
     row_heading_array(

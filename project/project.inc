@@ -60,6 +60,8 @@ define("USE_STOPFORUMSPAM", true);
     // use http://www.stopforumspam.com to suppress spammer accounts
 define("RPC_DEBUG", false);
     // Enables PHP error messages in public Web RPCs
+define("TEAM_CREATE_NEED_CREDIT", true);
+    // Added by Joshua: Users won't be able to create teams unless they have credit
 
 //-------------- Project-specific preferences
 

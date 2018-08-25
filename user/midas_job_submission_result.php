@@ -82,7 +82,7 @@ function create_folder($the_folder_name){
 
 //Get the user's setup file name
 function get_setup_file_name(){
-	$setupFileName = "none";
+	$setupFileName = "";
 	if(isset($_FILES["setup_file"])){
 		$setupFileName = $_FILES["setup_file"]["name"];
 	}
@@ -132,14 +132,14 @@ function get_user_token(){
 
 //Move the midas input file to its unique directory
 function move_midas_input_file($folderName, $midasInputFile){
-	$target_dir = "/etc/".$folderName."/";
+	$target_dir = "/tmp/".$folderName."/";
 	$target_file = $target_dir.basename($midasInputFile["name"]);
 	return move_uploaded_file($midasInputFile["tmp_name"], $target_file);
 }
 
 //Move the midas setup file to its unique directory
 function move_midas_setup_file($folderName, $setupFile){
-	$target_dir = "/etc/".$folderName."/";
+	$target_dir = "/tmp/".$folderName."/";
 	$target_file = $target_dir.basename($setupFile["name"]);
 	return move_uploaded_file($setupFile["tmp_name"], $target_file);
 }
@@ -168,6 +168,7 @@ function get_json(){
 					  'input_file'=>get_input_file_name(),
 					  'command_lines'=>get_command_lines(),
 					  'token'=>get_user_token(),
+					  'setup_filename'=>get_setup_file_name()
 				);
 	$JSONdata = json_encode($tempData, JSON_UNESCAPED_SLASHES);
 

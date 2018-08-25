@@ -19,6 +19,8 @@
 require_once("../inc/forum.inc");
 require_once("../inc/boinc_db.inc");
 require_once("../inc/text_transform.inc");
+//Added by Joshua: To utilize screen-name anonymization feature
+require_once("../inc/util.inc");
 
 // return true if the given HTML may contain images or video
 //
@@ -100,7 +102,7 @@ function forum_rss($forumid, $userid, $threads_only, $ndays) {
     //
     $description = PROJECT.": $forum->title";
     if ($userid) {
-        $description .= " (posts by $user->name)";
+        $description .= " (posts by ".get_user_random_name($user->name).")";
     }
     $channel_image = secure_url_base() . "rss_image.gif";
     $language = "en-us";

@@ -22,6 +22,8 @@ require_once("../inc/team.inc");
 require_once("../inc/user.inc");
 require_once("../inc/news.inc");
 require_once("../inc/text_transform.inc");
+//Added by Joshua: To utilize screen-name anonymization feature
+require_once("../inc/util.inc");
 
 define('THREADS_PER_PAGE', 50);
 
@@ -598,7 +600,8 @@ function show_post(
     echo "<p> </p>";
     
     $url = "pm.php?action=new&amp;userid=".$user->id;
-    $name = $user->name;
+    //Edited by Joshua: Implement user's anonymization feature
+    $name = get_user_random_name($user->name);
     show_button_small($url, tra("Send message"), tra("Send %1 a private message",$name));
     echo '<br>'.tra("Joined: %1", gmdate('j M y', $user->create_time)), "<br>";
 

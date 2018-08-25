@@ -32,19 +32,35 @@ def midsyn(UNO, DOS):
 # If there are C++ libraries, then all C++ codes will include the libraries as a side-effect
 # COMS (arr)(str)
 # tmpdir (str): temporary directory
-def comproc(COMS, tempdir, boapp):
+def comproc(COMS, tempdir, boapp, setup_file_name):
 
     filnam = "exec.sh"
+
+    #Added by Joshua
+    buildingCom = ""
+
     if filnam in os.listdir(tempdir):
         raise SyntaxError("exec.sh is a reserved filename")
 
     with open(tempdir+filnam, 'w') as comfil:
         for com in COMS:
             if (boapp == "adtdp") and ("g++" in com):
-                comfil.write("g++ -I ./cget/include/ "+ com.replace("g++", '') + "\n")
+            	#Commented out by Joshua: Building codes will be placed inside setup file
+                #comfil.write("g++ -I ./cget/include/ "+ com.replace("g++", '') + "\n")
+                buildingCom += ("g++ -I ./cget/include/ "+ com.replace("g++", '') + "\n")
                 continue
             comfil.write(com+'\n')
 
+    #Added by Joshua: Move the building codes to setup file, if needed
+    if(not buildingCom):
+    	if(not setup_file_name):
+    		setup_file_name = "setupFile.sh"
+    	else:
+    		buildingCom = "\n" + buildingCom
+    	with open(tempdir+setup_file_name, 'a+') as setupFile:
+    		setupFile.write(buildingCom)
+
+   	return setup_file_name
 
 # Writes a valid README using the contents in the JSON object
 # Returns a string with the contents
@@ -63,9 +79,16 @@ def verne(jdat, tempdir, boapp):
     for lib in jdat["library_list"]["cPlusPlus"]:
         rcon += midsyn("LIBRARY", "C++ cget: "+lib)
 
+    # Commented out by Joshua
     # User setup
-    if jdat["setup_filename"] != "":
-        rcon += midsyn("USER_SETUP", jdat["setup_filename"])
+    #if jdat["setup_filename"] != "":
+    #    rcon += midsyn("USER_SETUP", jdat["setup_filename"])
+
+    #Added by Joshua
+    #User setup
+    user_setup_name = comproc(commands, tempdir, boapp, jdat["setup_filename"])
+    if(user_setup_name):
+    	rcon += midsyn("USER_SETUP", user_setup_name)
 
     # Commands, separated by ;
     # Enforces that C, c++, fortran are captured by their gnu compilers
@@ -78,7 +101,8 @@ def verne(jdat, tempdir, boapp):
         raise SyntaxError("Fortran must be compiled using g++")
 
     commands = commands.split(';')
-    comproc(commands, tempdir, boapp)
+    #Commented out by Joshua
+    #comproc(commands, tempdir, boapp)
     rcon += midsyn("COMMAND", "bash: exec.sh")
 
     # Output files

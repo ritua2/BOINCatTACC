@@ -111,7 +111,7 @@ function send_thread_moderation_email(
     $subject = PROJECT." forum moderation notice";
     $body = "Your thread '$thread->title'
 ".secure_url_base()."forum_thread.php?id=$thread->id
-has been $action_name by moderator ."get_user_random_name($moderator->name)." (ID $moderator->id).
+has been $action_name by moderator ".get_user_random_name($moderator->name)." (ID $moderator->id).
 $explanation
 
 For assistance with ".PROJECT." go to ".$master_url;

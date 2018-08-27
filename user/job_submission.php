@@ -256,9 +256,9 @@ echo '
 
 				<div id="midasSubmitPart">
 					<label class="btn btn-success btn-file" style="font-weight:bold;">
-		    			Browse <input type="file" id="midas_input_file_id" name="midas_input_file" onchange="midasFileExtensionChecking(this)" style="display: none;">
+		    			Browse <input type="file" id="midas_upload_btn" name="midas_input_file" onchange="midasFileExtensionChecking(this)" style="display: none;">
 					</label>
-					<span class="label label-info" id="midasUploadBtn" style="font-size: 14px;">No file chosen</span>
+					<span class="label label-info" id="midasFileLocation" style="font-size: 14px;">No file chosen</span>
 					<br />
 					<span id="midasWarningMsg" style="color: red; font-weight: bold;">
 					<br />
@@ -481,11 +481,13 @@ echo '
 		}
 	}
 
-	//Function that handles the process of file extension and file size checking
+	//Function that handles the process of file extension and file size checking for non midas
 	function fileExtensionChecking(fileName) {
 		$("#warningMsg").html("");
 		fileSize = fileName.files[0].size;
 		fileName = String(fileName.value);
+		inputFileRemoved = false;	
+  		$("#fileLocation").text(fileName);
 		isFileSizeAllowed = true;
 		warningMessage = "";
 		if(fileSize > 104857600){
@@ -542,6 +544,7 @@ echo '
 		$("#midasWarningMsg").html("");
 		fileSize = fileName.files[0].size;
 		fileName = String(fileName.value);
+		$("#midasFileLocation").text(fileName);
 		isFileSizeAllowed = true;
 		warningMessage = "";
 		if(fileSize > 104857600){
@@ -1002,11 +1005,6 @@ echo '
 			isFileUploaded = true;
 			activateSubmitBtn(isDockerChosen, isCommandInputed, isFileUploaded);
 		});
-		$("#uploadBtn").on("change", function() {
-			inputFileRemoved = false;
-			theFileLocation = $(this).val();
-  			$("#fileLocation").text(theFileLocation);
-		});
 		$("#submitBtn").click(function(){
 			if(inputFileRemoved)
 				$("#uploadBtn").remove();
@@ -1023,7 +1021,7 @@ echo '
 			if(isAllOutputFilesChecked)
 				$("#output_file_list").remove();
 			if(isNoInputFilesChecked)
-				$("#midas_input_file_id").remove();
+				$("#midas_upload_btn").remove();
 		});
 
 		//For Midas files upload
@@ -1048,10 +1046,6 @@ echo '
 			checkingForMidas.input_file = true;
 			activateMidasSubmitBtn(checkingForMidas);
 			isNoInputFilesChecked = true;
-		});
-		$("#midasUploadBtn").on("change", function() {
-			theFileLocation = $(this).val();
-  			$("#midasFileLocation").text(theFileLocation);
 		});
 
 		//For tooltip

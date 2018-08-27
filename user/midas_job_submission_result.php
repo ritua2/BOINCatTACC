@@ -72,12 +72,13 @@ function create_folder($the_folder_name){
 	curl_setopt($ch, CURLOPT_URL, $url);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 	$result = curl_exec($ch);
-	if (curl_errno($ch)) {
+	if (curl_errno($ch) || strpos($result, 'exists') !== false) {
     	$success = false;
-	}
+    }
+
 	curl_close ($ch);
 
-	return success;
+	return $success;
 }
 
 //Get the user's setup file name
@@ -150,11 +151,16 @@ function get_json(){
 	
 	//Create folder if necessary
 	if(isset($_FILES["setup_file"]) || isset($_FILES["midas_input_file"])){
-		create_folder();
-		if(isset($_FILES["setup_file"]))
-			move_midas_setup_file($theFolderName, $_FILES["setup_file"]["tmp_name"]);
-		if(isset($_FILES["midas_input_file"]))
-			move_midas_input_file($theFolderName, $_FILES["midas_input_file"]["tmp_name"]);
+		while(!create_folder($theFolderName)){
+			$theFolderName = get_folder_name();
+			create_folder($theFolderName);
+		}
+		if(isset($_FILES["setup_file"])){
+			move_midas_setup_file($theFolderName, $_FILES["setup_file"]);
+		}
+		if(isset($_FILES["midas_input_file"])){
+			move_midas_input_file($theFolderName, $_FILES["midas_input_file"]);
+		}
 	}
 	
 
@@ -181,6 +187,9 @@ function submit_midas_job(){
 	$url = "http://0.0.0.0:6075/boincserver/v2/api/process_midas_jobs";    
 	$content = get_json();
 
+	//echo $content;
+
+	
 	$curl = curl_init($url);
 	curl_setopt($curl, CURLOPT_HEADER, false);
 	curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -189,15 +198,16 @@ function submit_midas_job(){
 	curl_setopt($curl, CURLOPT_POST, true);
 	curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
 
-	$result = curl_exec($ch);
-	if (curl_errno($ch)) {
+	$result = curl_exec($curl);
+	if (curl_errno($curl)) {
 	    $success = false;
 	}
 	curl_close($curl);
 
-	return $success;
+	echo '<center><h1>'.$result.'</center></h1>';
 }
 
+/*
 if(submit_midas_job()){
 	echo '<center><h1>'.tra('Congratulations, your file was uploaded.').'</center></h1>';
 	echo '<center><a href="./job_submission.php" style="font-weight:bold" class="btn btn-success" role="button">Go Back to Job Submission Page</a></center>';
@@ -206,7 +216,8 @@ if(submit_midas_job()){
 	echo '<center><h3>'.tra('Make sure to follow the requirements mentioned on Job Submission page for the input file').'</h3></center>';
 	echo '<center><a href="./job_submission.php" style="font-weight:bold;" class="btn btn-success" role="button">Go Back to Job Submission Page</a></center>';
 }
-
+*/
+submit_midas_job();
 page_tail();
 //End of the edit by Gerald Joshua
 ?>

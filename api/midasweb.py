@@ -19,7 +19,17 @@ import redis
 r = redis.Redis(host = '0.0.0.0', port = 6389, db=2)
 app = Flask(__name__)
 UPLOAD_FOLDER = "/root/project/api/sandbox_files"
+valid_compilers = ['gcc', 'g++', 'gfortran']
 
+
+# Finds if a string exists in a list of strings
+def sinlis(goal_str, lstr):
+
+    for member in lstr:
+        if goal_str in member:
+            return True
+
+    return False
 
 
 # Writes information using MIDAS syntax
@@ -28,39 +38,47 @@ def midsyn(UNO, DOS):
     return "["+str(UNO)+"] "+str(DOS)+"\n"
 
 
+# Creates an extra user-setup files if gcc, gfortran or g++ are included
+# Returns the list of commands at the end
+# COMS (arr)(str)
+# tempdir (str): temporary directory
+def extra_uset(COMS, tempdir, boapp):
+
+    filnam = "compile_instructions.sh"
+    # List of commands after removing compilers
+    C2 = []
+
+    if filnam in os.listdir(tempdir):
+        raise SyntaxError("compile_instructions.sh is a reserved filename")
+
+    with open(tempdir+filnam, 'w') as exfil:
+        for com in COMS:
+            if any(valcom in com for valcom in valid_compilers):
+                # C++ is different since it may require cget libraries
+                if (boapp == "adtdp") and ("g++" in com):
+                    exfil.write("g++ -I ./cget/include/ "+ com.replace("g++", '') + "\n")
+                    continue
+
+                exfil.write(com+'\n')
+                continue
+            C2.append(com)
+
+    return C2
+
+
 # Processes a user entered command into a bash file to be executed as is
 # If there are C++ libraries, then all C++ codes will include the libraries as a side-effect
-# COMS (arr)(str)
-# tmpdir (str): temporary directory
-def comproc(COMS, tempdir, boapp, setup_file_name):
+def comproc(COMS, tempdir, boapp):
 
     filnam = "exec.sh"
-
-    #Added by Joshua
-    buildingCom = ""
 
     if filnam in os.listdir(tempdir):
         raise SyntaxError("exec.sh is a reserved filename")
 
     with open(tempdir+filnam, 'w') as comfil:
         for com in COMS:
-            if (boapp == "adtdp") and ("g++" in com):
-            	#Commented out by Joshua: Building codes will be placed inside setup file
-                #comfil.write("g++ -I ./cget/include/ "+ com.replace("g++", '') + "\n")
-                buildingCom += ("g++ -I ./cget/include/ "+ com.replace("g++", '') + "\n")
-                continue
             comfil.write(com+'\n')
 
-    #Added by Joshua: Move the building codes to setup file, if needed
-    if(not buildingCom):
-    	if(not setup_file_name):
-    		setup_file_name = "setupFile.sh"
-    	else:
-    		buildingCom = "\n" + buildingCom
-    	with open(tempdir+setup_file_name, 'a+') as setupFile:
-    		setupFile.write(buildingCom)
-
-   	return setup_file_name
 
 # Writes a valid README using the contents in the JSON object
 # Returns a string with the contents
@@ -79,30 +97,36 @@ def verne(jdat, tempdir, boapp):
     for lib in jdat["library_list"]["cPlusPlus"]:
         rcon += midsyn("LIBRARY", "C++ cget: "+lib)
 
-    # Commented out by Joshua
     # User setup
-    #if jdat["setup_filename"] != "":
-    #    rcon += midsyn("USER_SETUP", jdat["setup_filename"])
-
-    #Added by Joshua
-    #User setup
-    user_setup_name = comproc(commands, tempdir, boapp, jdat["setup_filename"])
-    if(user_setup_name):
-    	rcon += midsyn("USER_SETUP", user_setup_name)
+    if jdat["setup_filename"] != "":
+        rcon += midsyn("USER_SETUP", jdat["setup_filename"])
 
     # Commands, separated by ;
     # Enforces that C, c++, fortran are captured by their gnu compilers
-    commands = jdat["command_lines"]
-    if ("fortran" in progs) and ("gfortran" not in commands):
-        raise SyntaxError("Fortran must be compiled using gfortran")
-    if ("c" in progs) and ("gcc" not in commands):
-        raise SyntaxError("C must be compiled using gcc")
-    if ("cPlusPlus" in progs) and ("g++" not in commands):
-        raise SyntaxError("Fortran must be compiled using g++")
+    commands = jdat["command_lines"].split(';')
 
-    commands = commands.split(';')
-    #Commented out by Joshua
-    #comproc(commands, tempdir, boapp)
+    # Checks that no invalid compilers are being used
+    if ("fortran" in progs) and (not sinlis('gfortran', commands)):
+        raise SyntaxError("Fortran must be compiled using gfortran")
+    if ("c" in progs) and (not sinlis('gcc', commands)):
+        raise SyntaxError("C must be compiled using gcc")
+    if ("cPlusPlus" in progs) and (not sinlis('g++', commands)):
+        raise SyntaxError("Fortran must be compiled using g++")
+    
+    cc1 = commands
+    commands = extra_uset(commands, tempdir, boapp)
+
+    # If there are changes, then the compile instructions is added
+    if cc1 != commands:
+        rcon += midsyn("USER_SETUP", "compile_instructions.sh")
+
+    # Error if there are no commands, i.e. : the user has only compiled
+    if commands == []:
+        raise SyntaxError("No commands have been submitted, only compile instructions")
+
+    #User setup
+    comproc(commands, tempdir, boapp)
+
     rcon += midsyn("COMMAND", "bash: exec.sh")
 
     # Output files

@@ -92,7 +92,9 @@ printf "Enter the apache2.conf and comment out the main directory restrictions\n
 sleep 20
 vi /etc/apache2/apache2.conf
 
-printf "<link rel=\"boinc_scheduler\" href=\"$URL_BASE/boincserver_cgi/cgi\">" > /root/project/html/user/schedulers.txt
+# Updates the scheduler
+printf "<!-- <scheduler>http://$URL_BASE/boincserver_cgi/cgi</scheduler> -->\n" > /root/project/html/user/schedulers.txt
+printf "<link rel=\"boinc_scheduler\" href=\"$URL_BASE/boincserver_cgi/cgi\">" >> /root/project/html/user/schedulers.txt
 
 
 # Adds a DocumentRoot to the approproate configuration file

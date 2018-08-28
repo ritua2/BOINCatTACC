@@ -98,7 +98,6 @@ def process_web_jobs():
     except:
         return "INVALID, json lacks at least one field (keys: Token, Boapp, Files, Image, Custom, Command)"
 
-
     if pp.token_test(TOK) == False:
         return "INVALID token"
 
@@ -113,7 +112,8 @@ def process_web_jobs():
     if (Custom != "Yes") and (Custom != "No"):
         return "INVALID, Custom value can only be [Yes/No]"
 
-
+    if (Image not in TACCIM.keys()) and ("Custom" != "No"):
+        return "INVALID, Image \'"+Image+"\' is not provided by TACC"
 
     # Writes the commands to a random file
     new_filename = pp.random_file_name()
@@ -141,7 +141,6 @@ def process_web_jobs():
 
             comfil.write(Command+" python /Mov_Res.py\"")
             comfil.write("\n"+str(TOK))
-
 
     # Submits the file for processing
     if boapp == "boinc2docker":

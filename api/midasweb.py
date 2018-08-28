@@ -103,7 +103,7 @@ def verne(jdat, tempdir, boapp):
 
     # Commands, separated by ;
     # Enforces that C, c++, fortran are captured by their gnu compilers
-    commands = jdat["command_lines"].split(';')
+    commands = jdat["command_lines"].replace("&&", ';').split(';')
 
     # Checks that no invalid compilers are being used
     if ("fortran" in progs) and (not sinlis('gfortran', commands)):

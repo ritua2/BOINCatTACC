@@ -88,7 +88,7 @@ echo '
 			  	</button>
 				<input type="hidden" id="osListParam" name="operating_system">
 		  		<ul id="osDropDown" class="dropdown-menu">
-		    			<li value="ubuntu_16.04"><a href="javascript:;">Ubuntu-16.04</a></li> 		
+		    			<li value="Ubuntu_16.04"><a href="javascript:;">Ubuntu-16.04</a></li> 		
 				</ul>
 			</div>
 
@@ -281,16 +281,16 @@ echo '
 		  		<button class="btn btn-primary dropdown-toggle" id="dockerListBtn" value="none"  style="background-color: #174b63; font-weight: bold;" type="button" data-toggle="dropdown"><span id="buttonText">List of docker images maintained by TACC-2-BOINC</span>
 		  		<span class="caret"></span></button>
 				<input type="hidden" id="dockerListParam" name="dockerList" value="none">
-		  		<ul class="dropdown-menu">
-		    			<li value="carlosred/autodock-vina"><a href="javascript:;">AutoDock Vina</a></li>
-		    			<li value="carlosred/opensees"><a href="javascript:;">OpenSees</a></li>
-		    			<li value="carlosred/blast"><a href="javascript:;">BLAST</a></li>
-						<li value="carlosred/bedtools"><a href="javascript:;">Bedtools</a></li>
-			 			<li value="carlosred/htseq"><a href="javascript:;">HTSeq</a></li>
-						<li value="carlosred/gromacs"><a href="javascript:;">Gromacs</a></li>
-						<li value="carlosred/mpi-lammps"><a href="javascript:;">LAMMPS</a></li>
-						<li value="carlosred/namd-cpu"><a href="javascript:;">NAMD</a></li>
-						<li value="carlosred/bowtie"><a href="javascript:;">Bowtie</a></li>
+		  		<ul id="imgDropDown" class="dropdown-menu">
+		    			<li value="carlosred/autodock-vina:latest"><a href="javascript:;">AutoDock Vina</a></li>
+		    			<li value="carlosred/opensees:latest"><a href="javascript:;">OpenSees</a></li>
+		    			<li value="carlosred/blast:latest"><a href="javascript:;">BLAST</a></li>
+						<li value="carlosred/bedtools:latest"><a href="javascript:;">Bedtools</a></li>
+			 			<li value="carlosred/htseq:latest"><a href="javascript:;">HTSeq</a></li>
+						<li value="carlosred/gromacs:latest"><a href="javascript:;">Gromacs</a></li>
+						<li value="carlosred/mpi-lammps:latest"><a href="javascript:;">LAMMPS</a></li>
+						<li value="carlosred/namd-cpu:latest"><a href="javascript:;">NAMD</a></li>
+						<li value="carlosred/bowtie:built"><a href="javascript:;">Bowtie</a></li>
 						<li value="carlosred/gpu:cuda"><a href="javascript:;">Cuda</a></li> 		
 				</ul>
 			</div><br />
@@ -915,20 +915,20 @@ echo '
 		});
 
 		//For os dropdown list 
-		$(".dropdown-menu li").click(function(){
-			$("#buttonText").text($(this).text());
+		$("#osDropDown li").click(function(){
+			$("#btnText").text($(this).text());
    			$("#osListParam").val($(this).attr("value"));
-			isDockerChosen = true;
-			activateSubmitBtn(isDockerChosen, isCommandInputed, isFileUploaded);
+			checkingForMidas.operating_system = true;
+			activateMidasSubmitBtn(checkingForMidas);
 		});
 
 		//For docker images dropdown list
-		$("#osDropDown li").click(function(){
-			$("#btnText").text($(this).text());
+		$("#imgDropDown li").click(function(){
+			$("#buttonText").text($(this).text());
       		$("#dockerListBtn").val($(this).attr("value"));
    			$("#dockerListParam").val($(this).attr("value"));
-			checkingForMidas.operating_system = true;
-			activateMidasSubmitBtn(checkingForMidas);
+   			isDockerChosen = true;
+			activateSubmitBtn(isDockerChosen, isCommandInputed, isFileUploaded);
 		});
 
 		$("#dockerOpt1").click(function(){

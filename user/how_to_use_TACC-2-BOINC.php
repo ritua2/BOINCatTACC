@@ -34,8 +34,8 @@ echo "<h3>".tra("Step-by-Step Instructions for Running the OpenSees Application 
 
 echo "<ol>
 <li>".tra("Get the sample input files from the following paths:")."<p></p>
-curl http://opensees.berkeley.edu/wiki/images/a/a1/ElasticFrame.tcl<p></p>
-curl http://opensees.berkeley.edu/wiki/images/3/3d/MomentCurvature.tcl</li>
+curl -O http://opensees.berkeley.edu/wiki/images/a/a1/ElasticFrame.tcl<p></p>
+curl -O http://opensees.berkeley.edu/wiki/images/3/3d/MomentCurvature.tcl</li>
 <br>
 <li> ".tra("Create a directory named")." \"data\" ".tra("and copy the files inside this directory, and create a *.zip or a *.tar file for this data directory")."<p></p>
 cp ElasticFrame.tcl /data/ElFram.tcl<p></p>

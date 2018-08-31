@@ -113,6 +113,12 @@ nohup /root/project/bproc.sh &
 # Runs the emails on a loop due to cron problems
 nohup /root/project/automail.sh &
 
+
+# Creates the Redis Tag database
+python3 create_tag_db.py
+sed -i "12iprint('This action will restart the tag database, if you wish to continue, comment this line'); sys.exit()" create_tag_db.py
+
+
 # Needed to avoid confusion
 sleep 2
 printf "\nSet-up completed, server is ready now\n"

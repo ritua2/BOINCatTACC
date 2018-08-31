@@ -112,7 +112,7 @@ def process_web_jobs():
     if (Custom != "Yes") and (Custom != "No"):
         return "INVALID, Custom value can only be [Yes/No]"
 
-    if (Image not in TACCIM.keys()) and ("Custom" != "No"):
+    if ("Custom" == "No") and (Image not in TACCIM.keys()):
         return "INVALID, Image \'"+Image+"\' is not provided by TACC"
 
     # Writes the commands to a random file
@@ -124,7 +124,8 @@ def process_web_jobs():
 
         # Custom images require more work because it must be ensured the results will be back
         if Custom == "Yes":
-            comfil.write("\"")
+            # Creates a new working directory
+            comfil.write("\"mkdir -p /data; cd /data; ")
             # Adds the files
             for FF in Reefil:
                 comfil.write(get_reef_file(Image, TOK, FF)+" ")
@@ -133,7 +134,7 @@ def process_web_jobs():
             comfil.write("\n"+str(TOK))
 
         elif Custom == "No":
-            comfil.write("\"cd /data; ")
+            comfil.write("\"")
             comfil.write(extra_image_commands(Image))
             # Adds the files
             for FF in Reefil:

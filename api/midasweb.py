@@ -52,8 +52,12 @@ def extra_uset(COMS, tempdir, boapp):
         raise SyntaxError("compile_instructions.sh is a reserved filename")
 
     with open(tempdir+filnam, 'w') as exfil:
+
+        nocom = True
+
         for com in COMS:
             if any(valcom in com for valcom in valid_compilers):
+                nocom = False
                 # C++ is different since it may require cget libraries
                 if (boapp == "adtdp") and ("g++" in com):
                     exfil.write("g++ -I ./cget/include/ "+ com.replace("g++", '') + "\n")
@@ -62,6 +66,10 @@ def extra_uset(COMS, tempdir, boapp):
                 exfil.write(com+'\n')
                 continue
             C2.append(com)
+
+    # If there were no compile instructions
+    if nocom:
+        os.remove(tempdir+filnam)
 
     return C2
 
@@ -118,7 +126,7 @@ def verne(jdat, tempdir, boapp):
 
     # If there are changes, then the compile instructions is added
     if cc1 != commands:
-        rcon += midsyn("USER_SETUP", "compile_instructions.sh")
+        rcon += midsyn("USER_SETUP", "/work/compile_instructions.sh")
 
     # Error if there are no commands, i.e. : the user has only compiled
     if commands == []:
@@ -204,7 +212,7 @@ def process_midas_jobs():
             readme.write(verne(dictdata, TMP, boapp))
         except Exception as e:
             shutil.rmtree(TMP)
-            return "INVALID, "+e
+            return "INVALID, "+str(e)
 
     # Validates if the file can be processed
     if not mdr.valid_README(TMP+'/README.txt'):

@@ -91,7 +91,7 @@ def complete_build(IMTAG, UTOK, MIDIR, COMMAND_TXT, DOCK_DOCK, BOCOM, FILES_PATH
 
     except Exception as e:
         print(e)
-        r.delete(UTOK+'.'+MIDIR)
+        r.delete(UTOK+';'+MIDIR)
         # Deletes the unused container
         client.containers.prune()
         MESSAGE = Failure_Message.replace("DATETIME", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
@@ -142,8 +142,8 @@ for HJK in to_be_processed:
 
     # Composes the dockerfile
     duck = hti_OS+"\n\n\n"+"\n".join(mdr.copy_files_to_image('.'))
-    duck += "\nRUN "+" && ".join(hti_langs)
-    for inst_set in [hti_setup, hti_libs]:
+    duck += "\nRUN cd /work && "+" && ".join(hti_langs)
+    for inst_set in [hti_libs, hti_setup]:
         if inst_set == []:
             continue
         duck += " &&\\\n    "+" && ".join(inst_set)

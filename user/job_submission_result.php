@@ -39,10 +39,16 @@ if(strpos($_SERVER['HTTP_REFERER'], 'job_submission') !== false){
 	$commandLine = str_replace("\n", "", $commandLine);
 	$commandLine = str_replace("\r", "", $commandLine);
 	$dockerImg = "";
-	if($_POST["dockerList"] != "none")
+	$theCustom = "";
+
+	if($_POST["dockerList"] != "none"){
 		$dockerImg = $_POST["dockerList"];
-	if($_POST["dockerFileName"] != "none")
+		$theCustom = 'No';
+	}
+	if($_POST["dockerFileName"] != "none"){
 		$dockerImg = $_POST["dockerFileName"];
+		$theCustom = 'Yes';
+	}
 	$dockerImg = str_replace("\n", "", $dockerImg);
 	$dockerImg = str_replace("\r", "", $dockerImg);
 	$boincApp = "boinc2docker";
@@ -89,7 +95,7 @@ if(strpos($_SERVER['HTTP_REFERER'], 'job_submission') !== false){
 			curl_close($ch);
 			
 			//Set up a json
-			$tempData = array('Token'=> $token, 'Boapp'=>$boincApp, 'Files'=> array($fileName),'Image'=> $dockerImg,'Custom'=> 'No','Command'=> $commandLine);
+			$tempData = array('Token'=> $token, 'Boapp'=>$boincApp, 'Files'=> array($fileName),'Image'=> $dockerImg,'Custom'=> $theCustom,'Command'=> $commandLine);
 			$theJson = json_encode($tempData, JSON_UNESCAPED_SLASHES); 		
 
 			//Input File Uploading

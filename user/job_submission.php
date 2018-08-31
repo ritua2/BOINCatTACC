@@ -411,13 +411,14 @@ echo '
 		lastDockerImgInputed = dockerImgName;		
 
 		//Find if docker image has a tag or not
-		if(dockerImgName.indexOf(":") > -1){//Colon exists
+		if(dockerImgName.indexOf(':') > -1){//Colon exists
 			$.ajax({
   				type: "POST",
   				url: "./checkIfExists.php",
   				data: { 
 					tagExists: "1",
-					tag: String(dockerImgName.split(":")[1]),dockerName: String(dockerImgName.split(":")[0])
+					tag: String(dockerImgName.split(":")[1]),
+					dockerName: String(dockerImgName.split(":")[0])
 				},
   				success: function(result){
 					console.log(result);

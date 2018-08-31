@@ -5,16 +5,16 @@ $ch = curl_init();
 $result = "";
 $url ="";
 if($_POST["tagExists"]){
-$url = "https://index.docker.io/v1/repositories/".$_POST["dockerName"]."/tags/".$_POST["tag"];
+	$url = "https://index.docker.io/v1/repositories/".$_POST["dockerName"]."/tags/".$_POST["tag"];
 } else {
-$url = "https://index.docker.io/v1/repositories/".$_POST["dockerName"]."/images";
+	$url = "https://index.docker.io/v1/repositories/".$_POST["dockerName"]."/images";
 }
 curl_setopt($ch, CURLOPT_URL, $url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 $result = curl_exec($ch);
-if ($result == '"Resource not found"')
-echo false;
+if (strpos($result, "not found") !== false)
+	echo false;
 else
-echo true;
+	echo true;
 curl_close($ch);
 ?>

@@ -57,8 +57,11 @@ function get_library_list($pLArr=array()){
 		else
 			array_push($library_list, array($pLAllowed => array()));
 	}
+	
 	$JSONLib = json_encode($library_list, JSON_UNESCAPED_SLASHES);
 	$JSONLib = trim($JSONLib, '[]');
+	$JSONLib = str_replace("},{", ",", $JSONLib);
+	$JSONLib = json_decode($JSONLib);
 	return $JSONLib;
 }
 
@@ -184,11 +187,12 @@ function get_json(){
 function submit_midas_job(){
 	$success = true;
 
-	$url = "http://0.0.0.0:6075/boincserver/v2/api/process_midas_jobs";    
 	$content = get_json();
 
 	//echo $content;
 
+	$url = "http://0.0.0.0:6075/boincserver/v2/api/process_midas_jobs";    
+	
 	
 	$curl = curl_init($url);
 	curl_setopt($curl, CURLOPT_HEADER, false);
@@ -199,25 +203,22 @@ function submit_midas_job(){
 	curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
 
 	$result = curl_exec($curl);
-	if (curl_errno($curl)) {
+	if (curl_errno($curl) || strpos($result, 'submitted') === false) {
 	    $success = false;
+	    echo '<center><h1>'.tra('Sorry, your job was not uploaded.').'</center></h1>';
+	    echo '<center><h1>'.$result.'</center></h1>';
 	}
 	curl_close($curl);
-
-	echo '<center><h1>'.$result.'</center></h1>';
+	return $success;
 }
 
-/*
 if(submit_midas_job()){
 	echo '<center><h1>'.tra('Congratulations, your file was uploaded.').'</center></h1>';
 	echo '<center><a href="./job_submission.php" style="font-weight:bold" class="btn btn-success" role="button">Go Back to Job Submission Page</a></center>';
 } else {
-	echo '<center><h1>'.tra('Sorry, your job was not uploaded.').'</center></h1>';
 	echo '<center><h3>'.tra('Make sure to follow the requirements mentioned on Job Submission page for the input file').'</h3></center>';
 	echo '<center><a href="./job_submission.php" style="font-weight:bold;" class="btn btn-success" role="button">Go Back to Job Submission Page</a></center>';
 }
-*/
-submit_midas_job();
 page_tail();
 //End of the edit by Gerald Joshua
 ?>

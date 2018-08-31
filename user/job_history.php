@@ -158,8 +158,8 @@ echo '<table>
       <tr>
       <th>Image</th>
       <th>Command</th>
-      <th>Date (Sub)</th>
-      <th>Date (Run)</th>
+      <th>UTC Date (Sub)</th>
+      <th>UTC Date (Run)</th>
       <th>Notified</th>
       ';
 foreach($tokenlist as $TOKEN)

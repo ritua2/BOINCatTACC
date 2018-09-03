@@ -10,6 +10,7 @@ import os, sys, shutil
 import json
 from flask import Flask, request, jsonify, send_file
 import preprocessing as pp
+import custodian as cus
 
 
 
@@ -112,7 +113,7 @@ def process_web_jobs():
     if (Custom != "Yes") and (Custom != "No"):
         return "INVALID, Custom value can only be [Yes/No]"
 
-    if ("Custom" == "No") and (Image not in TACCIM.keys()):
+    if ("Custom" == "No") and (not cus.image_is_TACC(Image)):
         return "INVALID, Image \'"+Image+"\' is not provided by TACC"
 
     # Writes the commands to a random file

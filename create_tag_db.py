@@ -6,6 +6,7 @@ This program must only be run once; if more keys are needed, the system will aut
 """
 
 import sys
+import json
 import redis
 from api.topics import all_tags as at
 
@@ -19,6 +20,7 @@ r = redis.Redis(host='0.0.0.0', port=6389, db=12)
 # Adds the TACC-supported images to the database
 try:
     r.delete('Known Images')
+    r.delete('Image Data')
 except:
     pass
 
@@ -48,6 +50,12 @@ for IM in at.TACCIM.keys():
                 IMTAGS[major][1][minor] = [[IM], {}]
             else:
                 IMTAGS[major][1][minor][0].append(IM)
+
+    # Also records the images associated to each topic
+    # TACC Images are marked as special
+    HJK = at.TACCIM[IM] 
+    HJK["TACC"] = "Y"
+    r.rpush('Image Data', json.dumps(at.TACCIM[IM]))
 
 
 # Each topic (tag) can have subtags of its own, as well as a count of jobs left and a count of completed jobs

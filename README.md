@@ -1,4 +1,4 @@
-### TACC-2-BOINC project ###
+### BOINC@TACC project ###
 
 This project provides a conduit for routing High-Throughput Computing (HTC) jobs from TACC rsources to a BOINC server, and from there, to the BOINC clients (which run on volunteered hardware resources). The project is funded through NSF Award #1664022.
 

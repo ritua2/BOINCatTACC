@@ -21,6 +21,8 @@ r = redis.Redis(host='0.0.0.0', port=6389, db=12)
 try:
     r.delete('Known Images')
     r.delete('Image Data')
+    r.delete('Topics')
+    r.delete('Subtopics') # May be empty
 except:
     pass
 
@@ -62,10 +64,14 @@ for IM in at.TACCIM.keys():
 for major in at.tags.keys():
     A = at.tags[major]
     B = {}
+    r.rpush('Topics', major)
+    ST = []
+
     for minor in A:
         B[minor] = {}
         B[minor]["Jobs Completed"] = []
         B[minor]["Jobs Available"] = []
+        ST.append(minor)
         try:
             B[minor]["Images"] = IMTAGS[major][1][minor][0]
         except:    
@@ -77,5 +83,8 @@ for major in at.tags.keys():
         B["Images"] = IMTAGS[major][0]
     except:
         B["Images"] = []
+
+    r.rpush('Subtopics', json.dumps({'Subtopics':ST}))
+
 
     r.hmset(major, B)

@@ -6,6 +6,7 @@ Send emails to users using linux command line called 'mail'
 
 from flask import Flask, request, jsonify, abort
 import os
+import socket
 
 app = Flask(__name__)
 
@@ -23,7 +24,8 @@ def send_emails():
     else:
         visitorIP = request.environ['HTTP_X_FORWARDED_FOR']
     
-    if (visitorIP == "149.165.170.20"):
+    #Check the visistor's IP
+    if (visitorIP == socket.gethostbyname(socket.gethostname())):
         try:
             email_content = request.form['email_content']
         except:
@@ -45,7 +47,6 @@ def send_emails():
             return "Email Sent"
         except Exception as e:
             return e
-
     else:
         abort(404)
 

@@ -104,8 +104,7 @@ def image_is_TACC(Image):
 
 
 # Gets the tags associated with an image
-def taccim_tags(Image):
-
+def image_tags(Image):
     all_ims = images_used()
     # There will be an error if the Image is not TACC, must be accounted by the API
     A = all_ims.index(Image)
@@ -113,10 +112,9 @@ def taccim_tags(Image):
 
 
 # Checks the depth of a dict
-def depth(d):
-    level = 0
-    if not isinstance(d, dict) or not d:
-        raise SyntaxError('INVALID, data structure is not dict')
+def depth(d, level =0):
+    if (not isinstance(d, dict)) or (not d):
+        return level
     return max(depth(d[k], level + 1) for k in d)
 
 
@@ -128,22 +126,31 @@ def depth(d):
 # | {Linguistics:[syntaxis, NLP]}
 def add_new_image(Image, Topics, TACC="N"):
 
+    if not isinstance(Topics, dict):
+        return 'INVALID, Only 1 subtopic is allowed per level'
+
     if depth(Topics) > 1:
-        raise SyntaxError('Only 1 subtopic is allowed per level')
+        return 'INVALID, Only 1 subtopic is allowed per level'
 
-    # Checks that the image 
-
+    # Checks that the image either does not exist or contains a new topic
     if Image in images_used():
-        return "Image is already present"
+        IMDAT = image_tags(Image)
+        IMDAT.pop('TACC')
+        if IMDAT == Topics:
+            return "Image is already present"
+        new_image = False # Only updates some values
+        pos_image = image_position(Image)
+    else:
+        new_image = True
+        IMDAT = Topics
+    
+    IMDAT["TACC"] = TACC
 
     # Gets the topics
     if depth(d) > 1:
         raise SyntaxError('INVALID, subtopics cannot have subtopics')
 
     all_topics = topics_used()
-
-    # New dictionary with the image data
-    IMDAT = {}
 
     for jk in Topics.keys():
         JK = jk.upper()
@@ -153,7 +160,7 @@ def add_new_image(Image, Topics, TACC="N"):
 
         # Keeps reserved words from appearing as subtopics
         if any(resword in subs for resword in reserved_words):
-            raise SyntaxError('INVALID, \''+'\' \''.join(reserved_words)+'\' are reserved words, cannot be subtopics')
+            return 'INVALID, \''+'\' \''.join(reserved_words)+'\' are reserved words, cannot be subtopics'
 
         # Checks if the image is already accounted for
         # Image is automatically added to a subtopic when created
@@ -195,31 +202,50 @@ def add_new_image(Image, Topics, TACC="N"):
 
         # Creates a new topic
         NewTOP = {"Images":[Image], "Jobs Completed":[], "Jobs Available":[]}
+        asub = [] #Subtopics
         for stt in subs:
             STT = stt.upper()
+            NewTOP[STT] = {"Images":[Image], "Jobs Completed":[], "Jobs Available":[]}
+            asub.add(STT)
+        r.hmset(JK, NewTOP)
+        r.rpush('Topics', JK)
+        r.rpush('Subtopics', json.dumps({'Subtopics':asub}))
 
 
     # Finally, adds the image to the list with its corresponding data
     # If the image already exists, it simply updates the information
+    if new_image:
+        r.rpush('Known Images', Image)
+        r.rpush('Image Data', json.dumps(IMDAT))
+        return "Added new image"
+
+    # Adds new topics to existing images
+    # Checks every topic one by one
+    curtops = IMDAT.keys()
+    for Top in Topics.keys():
+        if Top in curtops:
+            for Sub in Topics[Top]:
+                if Sub not in IMDAT[Top]:
+                    IMDAT[Top].append(Sub)
+                # Do nothing if subtopic already present
+
+        # Create new topic maintaining the subtopics
+        IMDAT[Top] = Topics[Top]
+
+    r.lset('Image Data', pos_image, json.dumps(IMDAT)) 
+    return "Updated Image with new topics"
 
 
+# Adds a new topic and subtopics
+# subtops (arr) (str): List of subtopics
+def add_new_topic(topic, subtops):
+    if topic in topics_used():
+        # Checks the subtopics
+        cursubs = subtopics_used(topic)
+        if all(sub in cursubs for sub in subtops):
+            return "Topic already exists"
+        # Adds a new subtopic
 
-
-
-
-
-
-
-
-
-    r.rpush("Known Images", Image)
-
-
-# Adds a new topic to an existing image
-
-
-
-
-# Adds 1 to the jobs executed for a certain tag/subtag
+    # Adds a new topic
 
 

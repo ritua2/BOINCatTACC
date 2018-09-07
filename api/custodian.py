@@ -16,6 +16,11 @@ reserved_words = ["Jobs Completed", "Jobs Available", "Images"]
 
 
 
+# Transcribes Redis json into a dictionary
+def red2dict(redin):
+    return json.loads(redin.decode("UTF-8").replace('\"', 'UHJKNM').replace('\'', '\"').replace('UHJKLM', '\''))
+
+
 # Returns the number of images used
 def nim_used():
     return r.llen("Known Images")
@@ -38,9 +43,8 @@ def topics_used():
 
 # Returns the list of subtopics for a topic
 def subtopics_used(topic):
-
     try:
-        return hkeys(topic)
+        return json.loads(r.lindex("Subtopics", topic_position(topic)).decode("UTF-8"))["Subtopics"]
     except:
         raise SyntaxError('INVALID, '+str(topic)+" has never been used")
 
@@ -50,8 +54,37 @@ def subtopic_data(topic, subtopic):
     if topic not in topics_used():
         raise SyntaxError('INVALID, '+str(topic)+" has never been used")
     try:
-        return json.loads(hgetkey(topic, subtopic).decode("UTF-8"))
+        return red2dict(r.hget(topic, subtopic))
+    except:
+        raise SyntaxError('INVALID, '+str(subtopic)+" has never been used")
 
+
+# Gets the topic position in a Redis list
+def topic_position(topic):
+    try:
+        return topics_used().index(topic)
+    except:
+        raise SyntaxError('INVALID, '+str(topic)+" has never been used")
+
+
+# Gets the image position in a Redis list
+def image_position(imag):
+    try:
+        return images_used().index(imag)
+    except:
+        raise SyntaxError('Image, '+str(topic)+" has never been used")
+
+# Adds an image to the Redis list only, not to the subtopics
+
+
+
+# Gets the list of images for one topic
+def topic_images(topic):
+    try:
+        A = red2dict(r.hget(topic, "Images"))
+        return list(filter(None, [w.replace('\'', '') for w in A]))
+    except:
+        raise SyntaxError('INVALID, '+str(topic)+" has never been used")
 
 
 # Returns the list of all TACC images
@@ -79,13 +112,6 @@ def taccim_tags(Image):
     return json.loads(r.lindex('Image Data', A).decode("UTF-8"))
 
 
-# Adds an image TODO
-
-
-
-# Adds a topic TODO 
-
-
 # Checks the depth of a dict
 def depth(d):
     level = 0
@@ -100,10 +126,12 @@ def depth(d):
 # Topics (dict/json) with topics:[subtopics], maximum of one subtopic level
 # | ie:
 # | {Linguistics:[syntaxis, NLP]}
-def add_new_image(Image, Topics, TACC=False):
+def add_new_image(Image, Topics, TACC="N"):
 
     if depth(Topics) > 1:
         raise SyntaxError('Only 1 subtopic is allowed per level')
+
+    # Checks that the image 
 
     if Image in images_used():
         return "Image is already present"
@@ -114,28 +142,69 @@ def add_new_image(Image, Topics, TACC=False):
 
     all_topics = topics_used()
 
+    # New dictionary with the image data
+    IMDAT = {}
+
     for jk in Topics.keys():
         JK = jk.upper()
         # Avoids errors if the same subtopic is written twice
         subs = list(set(Topics[jk]))
+        # Gets images
+
         # Keeps reserved words from appearing as subtopics
         if any(resword in subs for resword in reserved_words):
             raise SyntaxError('INVALID, \''+'\' \''.join(reserved_words)+'\' are reserved words, cannot be subtopics')
 
+        # Checks if the image is already accounted for
+        # Image is automatically added to a subtopic when created
+        TIM = topic_images(JK)
+        if Image in TIM:
+            continue
+
         if JK in all_topics:
             # Checks the subtopics, updates if needed
-            all_subs = subtopics_used(JK)
+            pos_topic = topic_position(JK)
+            basic_sub = json.loads(r.lindex("Subtopics", pos_topic).decode("UTF-8"))
+            all_subs = basic_sub["Subtopics"]
 
             for stt in subs:
                 STT = stt.upper()
                 if STT in all_subs:
                     # Checks if the image exists
-                    if Image in subtopic_data(JK, STT)["Images"]:
+                    subdata = subtopic_data(JK, STT)
+                    if Image in subdata:
                         continue
                     # Adds image and updates
-                    
+                    # Gets the data and appends the image to it
+                    subdata["Images"].append(Image)
+                    # Also adds the image to the main system
+                    TIM.append(Image)
+                    r.hset(JK, STT, subdata)
+                    basic_sub["Subtopics"].append(STT)
+                    continue
 
-                # Creates a new subtopic, and adds the image
+                # Creates a new subtopic
+                Minor = {"Jobs Completed":[], "Jobs Available":[], "Images":[Image]}
+                TIM.append(Image)
+                r.hset(JK, STT, Minor)
+                basic_sub["Subtopics"].append(STT)
+
+            # Corrects the list of images and subtopics total
+            r.lset("Subtopics", pos_topic, json.dumps(basic_sub))
+            r.hset(JK, "Images", TIM)
+
+        # Creates a new topic
+        NewTOP = {"Images":[Image], "Jobs Completed":[], "Jobs Available":[]}
+        for stt in subs:
+            STT = stt.upper()
+
+
+    # Finally, adds the image to the list with its corresponding data
+    # If the image already exists, it simply updates the information
+
+
+
+
 
 
 
@@ -147,3 +216,10 @@ def add_new_image(Image, Topics, TACC=False):
 
 
 # Adds a new topic to an existing image
+
+
+
+
+# Adds 1 to the jobs executed for a certain tag/subtag
+
+

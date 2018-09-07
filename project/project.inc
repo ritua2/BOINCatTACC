@@ -11,13 +11,21 @@
 require_once("../inc/util.inc");
 //Added by Gerald Joshua: Autoloader needs to be loaded so SMTP class could be found
 require_once("../inc/phpmailer/PHPMailerAutoload.php");
-//For forgot password environment variables
-require_once("../inc/forgot_pass_env_var.inc");
 //End of Joshua's Edit
+
+
+// NEW
+header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+header("Cache-Control: no-store, no-cache, must-revalidate");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+
+// END NEW
 
 //-------------- Project name and owner
 
-define("PROJECT", "TACC-2-BOINC");//"REPLACE WITH PROJECT NAME"
+define("PROJECT", "BOINC@TACC");//"REPLACE WITH PROJECT NAME"
 define("COPYRIGHT_HOLDER", "University of Texas at Austin, All Rights Reserved.");//Second Argument: "REPLACE WITH COPYRIGHT HOLDER"
 
 //-------------- URLs and directories
@@ -38,6 +46,13 @@ define("UOTD_ADMIN_EMAIL", "admin@$master_url");
 define("POST_REPORT_EMAILS", "moderator1@$master_url|moderator2@$master_url");
     // Email addresses separated by pipe ( | ) that will receive user reports
     // of offensive forum posts.
+/*Addedby Joshua*/
+define("EMAIL_FROM", "t2b@tacc.utexas.edu");
+    //Alias email address
+define("EMAIL_FROM_NAME", "BOINC@TACC");
+    //Alias email name
+define("NO_REPLY_EMAIL", "no-reply@tacc.utexas.edu");
+    //Alias email name
 
 //-------------- Caching
 
@@ -104,16 +119,16 @@ function make_php_mailer() {
     $mail->SMTPSecure = "tls";
     $mail->Host = "smtp.gmail.com";
     $mail->Port = 587;
-    $mail->Username = $forgot_password_email;
-    $mail->Password = $forgot_password_pass;
+    $mail->Username = getenv('FORGOT_PASSWORD_EMAIL');
+    $mail->Password = getenv('FORGOT_PASSWORD_PASS');
         // Google's application-specific password,
         // if you are using the 2-Step Verification: 16 characters, no spaces.
         // OR: Put here the regular Gmail password if you are not using the
         // 2-Step Verification with your Gmail account.
         // See https://support.google.com/accounts/answer/185833?hl=en";
-    $mail->SetFrom($forgot_password_reply, 'BOINC@TACC');
-    $mail->AddReplyTo($forgot_password_reply, "BOINC@TACC");
-    $mail->From = $forgot_password_reply;
+    $mail->SetFrom(EMAIL_FROM, EMAIL_FROM_NAME);
+    $mail->AddReplyTo(NO_REPLY_EMAIL, EMAIL_FROM_NAME);
+    $mail->From = EMAIL_FROM;
     return $mail;
 }
 //}
@@ -131,7 +146,7 @@ function project_banner($title, $prefix, $is_main) {
     <!--<div class="row">-->
   <div class="col-md-6" style=" margin-left: -2%;margin-top:1%;">
 
-<a href="index.php" class="svg"><img class="img-responsive" src="./img1/TACC-2-BOINC4x.png" style="max-width:400px;height:58px;"></a>
+<a href="index.php" class="svg"><img class="img-responsive" src="./img1/boincattacc3x.png" style="margin-top: .5em;max-width:400px;height:58px;"></a>
 
     </div>
     <div class="col-md-6">

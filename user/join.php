@@ -52,7 +52,7 @@ function show_new() {
                 .'<li> <p>'
                 .tra('Download the BOINC desktop software.')
                     .'</p><p>
-                    <a href="http://boinc.berkeley.edu/download.php" class="btn btn-success">'.tra('Download').'</a>
+                    <a href="https://boinc.berkeley.edu/download_all.php" class="btn btn-success">'.tra('Download').'</a>
                     </p><p>'
                     .tra('For Android devices, download BOINC from the Google Play Store or Amazon App Store.')
                     .'</p>

@@ -30,7 +30,7 @@ if (function_exists("project_rules_policies")) {
 }
 
 if ($show_default) {
-/*Edited by Joshua: so that the user terms and agreements align with current TACC-2-BOINC project*/
+/*Edited by Joshua: so that the user terms and agreements align with current BOINC@TACC project*/
 echo "
 
 <h3>".tra("Run %1 only on authorized computers", PROJECT)."</h3>
@@ -46,11 +46,11 @@ echo "
     "</p><p>".
     tra("We guarantee the erasure of the aforementioned information from our server/s should you desire to do so after opting out as a volunteer. Please send an email at the following address to request the erasure of your data: rauta@tacc.utexas.edu").
     "</p><p>".
-    tra("Joining the TACC-2-BOINC project requires downloading the BOINC client and completing the sign-up process on the TACC-2-BOINC website. You are welcome to adjust the default settings of the BOINC client to start and stop running it as per your desire.").
+    tra("Joining the BOINC@TACC project requires downloading the BOINC client and completing the sign-up process on the BOINC@TACC website. You are welcome to adjust the default settings of the BOINC client to start and stop running it as per your desire.").
     "</p><p>".
-	tra("By joining the TACC-2-BOINC project as a volunteer, you would be donating the computing cycles of your devices and would be footing the electricity bill associated with this donation.").
+	tra("By joining the BOINC@TACC project as a volunteer, you would be donating the computing cycles of your devices and would be footing the electricity bill associated with this donation.").
 	"</p><p>".
-	tra("The TACC-2-BOINC project team and/or the University of Texas at Austin would not be liable for any charges incurred with the aforementioned donation of computing cycles.").
+	tra("The BOINC@TACC project team and/or the University of Texas at Austin would not be liable for any charges incurred with the aforementioned donation of computing cycles.").
     "</p><p>".
     tra("If you participate in %1, information about your computer (such as its processor type, amount of memory, etc.) will be recorded by %1 and used to decide what type of work to assign to your computer. This information will also be shown on %1's web site. Nothing that reveals your computer's location (e.g. its domain name or network address) will be shown.", PROJECT)."
     <p>".tra("To participate in %1, you must give an address where you receive email. This address will not be shown on the %1 web site or shared with organizations. %1 may send you periodic messages related to your jobs; however, you can opt out at any time.", PROJECT)."

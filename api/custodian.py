@@ -191,7 +191,7 @@ def add_new_image(Image, Topics, TACC="N"):
                     continue
 
                 # Creates a new subtopic
-                Minor = {"Jobs Completed":[], "Jobs Available":[], "Images":[Image]}
+                Minor = {"Jobs Completed":'0', "Jobs Available":[], "Images":[Image]}
                 TIM.append(Image)
                 r.hset(JK, STT, Minor)
                 basic_sub["Subtopics"].append(STT)
@@ -201,11 +201,11 @@ def add_new_image(Image, Topics, TACC="N"):
             r.hset(JK, "Images", TIM)
 
         # Creates a new topic
-        NewTOP = {"Images":[Image], "Jobs Completed":[], "Jobs Available":[]}
+        NewTOP = {"Images":[Image], "Jobs Completed":'0', "Jobs Available":[]}
         asub = [] #Subtopics
         for stt in subs:
             STT = stt.upper()
-            NewTOP[STT] = {"Images":[Image], "Jobs Completed":[], "Jobs Available":[]}
+            NewTOP[STT] = {"Images":[Image], "Jobs Completed":'0', "Jobs Available":[]}
             asub.add(STT)
         r.hmset(JK, NewTOP)
         r.rpush('Topics', JK)
@@ -245,7 +245,28 @@ def add_new_topic(topic, subtops):
         if all(sub in cursubs for sub in subtops):
             return "Topic already exists"
         # Adds a new subtopic
+        for sub in subtops:
+            if sub not in cursubs:
+                cursubs['Subtopics'].append()
+        r.lset('Subtopics', topic_position(topic), json.dumps({'Subtopics':cursubs}))
+        return "Added new subtopics to \'"+topic+"\'"
 
     # Adds a new topic
+    r.rpush('Topics', topic)
+    r.rpush('Subtopics', json.dumps({'Subtopics':cursubs}))
+    return "Created new topic: \'"+topic+"\'"
 
 
+# Adds a job to a list of topics, subtopics
+# {Topic1:{Sub1, Sub2, ...}, ...}
+# Sets the job as completed
+# For adtd-p only, it adds the job identifier
+# The topic names are supposed to be done already
+def add_job(TopDATA):
+
+
+
+
+
+
+# Executes all the needed actions in a simple function that can be imported

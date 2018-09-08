@@ -26,7 +26,7 @@ language_instructions = {
 
 libraries_instructions = {'python':'pip3 install LIBRARY',
                           'c++ cget':'cget install LIBRARY'}
-# Does necessarily follow the convention, mostly as a 
+# Does not necessarily follow the convention, mostly as an indicator for later
 language_compiled = {'python':False, 'c':True, 'c++':True, 'c++ cget':True, 'fortran':True, 'bash':False, 'r':True}
 # C++ is going to require a lot of special instructions
 command_instructions = {
@@ -157,7 +157,7 @@ def user_guided_setup(README_path):
     return SETUP_INSTRUCTIONS
 
 
-# Recognizes a programming language is a sentence in a sentence
+# Recognizes a programming language in a sentence
 # SENTEN (str): Sentence to analyze
 def recognize_language(SENTEN):
 

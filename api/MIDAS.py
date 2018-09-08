@@ -174,7 +174,6 @@ def midas(toktok):
 
     try:
        ALL_USER_DATA = os.listdir('/root/project/api/sandbox_files/DIR_'+str(toktok))
-
     except:
        return 'User sandbox is not set-up, create a sandbox first'
 
@@ -243,7 +242,7 @@ def midas(toktok):
         return 'ERROR: Language does not support libraries'
 
 
-    # Creates a redis database with syntax {TOKEN}.{MID_DIRECTORY}
+    # Creates a redis database with syntax {TOKEN;MID_DIRECTORY:boapp}
     r.set(toktok+';'+new_MID, boapp)
 
     return 'File submitted for processing'

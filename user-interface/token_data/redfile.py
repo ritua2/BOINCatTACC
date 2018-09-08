@@ -53,7 +53,7 @@ for file in glob.glob("/root/project/html/user/token_data/process_files/*.txt"):
              # Redis has the following columns:
              # Token, Image (Dockerhub), Command, Date submitted
              # Date run (set to 0 now, job not run run yet)
-             # All time stamps are YYYY-MM-DD HH:MM:SS in US Central Time (Austin)
+             # All time stamps are YYYY-MM-DD HH:MM:SS in local time
              prestime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
              r.rpush('Token', get_token(file))
              r.rpush('Image', summar[0])

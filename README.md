@@ -29,7 +29,12 @@ The BOINC server will automatically recognize your system as a volunteer and wil
 
 ### Installation Guide  
 
-0. **Install [Docker][3] and [Docker-compose][4] in their most recent versions** 
+0. **Install [Docker][3] and [Docker-compose][4] in their most recent versions**  
+Note: Both docker and docker-compose require sudo access, to avoid this problem:
+```bash
+
+```
+
 
 1. **Follow the installation instructions provided by [boinc-server-docker][1]**
 	* Modify the *docker-compose.yml* to make it similar to the one provided in this repository. This updated compose file opens the ports 
@@ -43,7 +48,7 @@ The BOINC server will automatically recognize your system as a volunteer and wil
 	cd boinc-server-docker
 	docker-compose pull
 	# Enter the changes on the docker-compose
-	vi docker-compose.yml
+	curl https://raw.githubusercontent.com/ritua2/TACC-2-BOINC/master/docker-compose.yml > docker-compose.yml
 	URL_BASE=http://IP_ADDRESS docker-compose up -d
 ```
 	
@@ -70,7 +75,7 @@ The BOINC server will automatically recognize your system as a volunteer and wil
 ```bash
 	cd /root/project
 	git clone https://github.com/ritua2/TACC-2-BOINC
-	cd TACC-2-BOIN
+	cd TACC-2-BOINC
 ```
 
 5. **Establish user email credentials**

@@ -200,16 +200,17 @@ def add_new_image(Image, Topics, TACC="N"):
             r.lset("Subtopics", pos_topic, json.dumps(basic_sub))
             r.hset(JK, "Images", TIM)
 
-        # Creates a new topic
-        NewTOP = {"Images":[Image], "Jobs Completed":'0', "Jobs Available":[]}
-        asub = [] #Subtopics
-        for stt in subs:
-            STT = stt.upper()
-            NewTOP[STT] = {"Images":[Image], "Jobs Completed":'0', "Jobs Available":[]}
-            asub.append(STT)
-        r.hmset(JK, NewTOP)
-        r.rpush('Topics', JK)
-        r.rpush('Subtopics', json.dumps({'Subtopics':asub}))
+        else:
+            # Creates a new topic
+            NewTOP = {"Images":[Image], "Jobs Completed":'0', "Jobs Available":[]}
+            asub = [] #Subtopics
+            for stt in subs:
+                STT = stt.upper()
+                NewTOP[STT] = {"Images":[Image], "Jobs Completed":'0', "Jobs Available":[]}
+                asub.append(STT)
+            r.hmset(JK, NewTOP)
+            r.rpush('Topics', JK)
+            r.rpush('Subtopics', json.dumps({'Subtopics':asub}))
 
 
     # Finally, adds the image to the list with its corresponding data

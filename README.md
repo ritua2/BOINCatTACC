@@ -32,7 +32,9 @@ The BOINC server will automatically recognize your system as a volunteer and wil
 0. **Install [Docker][3] and [Docker-compose][4] in their most recent versions**  
 Note: Both docker and docker-compose require sudo access, to avoid this problem:
 ```bash
-
+   sudo groupadd docker
+   sudo gpasswd -a $USER docker
+   # Log out/in to activate these changes
 ```
 
 

@@ -54,7 +54,10 @@ def subtopic_data(topic, subtopic):
     if topic not in topics_used():
         raise SyntaxError('INVALID, '+str(topic)+" has never been used")
     try:
-        return red2dict(r.hget(topic, subtopic))
+        D = red2dict(r.hget(topic, subtopic))
+        # Needed because integers are stored as str
+        D["Jobs Completed"] = int(D["Jobs Completed"])
+        return D
     except:
         raise SyntaxError('INVALID, '+str(subtopic)+" has never been used")
 
@@ -74,15 +77,12 @@ def image_position(imag):
     except:
         raise SyntaxError('Image, '+str(topic)+" has never been used")
 
-# Adds an image to the Redis list only, not to the subtopics
-
-
 
 # Gets the list of images for one topic
 def topic_images(topic):
     try:
-        A = red2dict(r.hget(topic, "Images"))
-        return list(filter(None, [w.replace('\'', '') for w in A]))
+        A = r.hget(topic, "Images").decode("UTF-8").replace("[", "").replace("]", '').replace("\"", '').replace("\'", '').replace(' ', '').split(',')
+        return list(filter(None, [w for w in A]))
     except:
         raise SyntaxError('INVALID, '+str(topic)+" has never been used")
 
@@ -142,13 +142,13 @@ def add_new_image(Image, Topics, TACC="N"):
         pos_image = image_position(Image)
     else:
         new_image = True
-        IMDAT = Topics
+        IMDAT = Topics.copy()
     
     IMDAT["TACC"] = TACC
 
     # Gets the topics
-    if depth(d) > 1:
-        raise SyntaxError('INVALID, subtopics cannot have subtopics')
+    if depth(Topics) > 1:
+        return 'INVALID, subtopics cannot have subtopics'
 
     all_topics = topics_used()
 
@@ -179,7 +179,7 @@ def add_new_image(Image, Topics, TACC="N"):
                 if STT in all_subs:
                     # Checks if the image exists
                     subdata = subtopic_data(JK, STT)
-                    if Image in subdata:
+                    if Image in subdata["Images"]:
                         continue
                     # Adds image and updates
                     # Gets the data and appends the image to it
@@ -206,7 +206,7 @@ def add_new_image(Image, Topics, TACC="N"):
         for stt in subs:
             STT = stt.upper()
             NewTOP[STT] = {"Images":[Image], "Jobs Completed":'0', "Jobs Available":[]}
-            asub.add(STT)
+            asub.append(STT)
         r.hmset(JK, NewTOP)
         r.rpush('Topics', JK)
         r.rpush('Subtopics', json.dumps({'Subtopics':asub}))
@@ -262,11 +262,43 @@ def add_new_topic(topic, subtops):
 # Sets the job as completed
 # For adtd-p only, it adds the job identifier
 # The topic names are supposed to be done already
-def add_job(TopDATA):
+# Topics (dict) (str):(arr)(str)
+# boapp (str): boinc2docker/adtdp
+# job_ID (str): For adtdp only
+def add_job(TopDATA, boapp="boinc2docker", job_ID=None):
 
+    if not ((boapp == "boinc2docker") or (boapp == "adtdp")):
+        return "INVALID, application not found"
 
+    # Adds the info to each job
+    for TOP in TopDATA.keys():
+        r.hincrby(TOP, "Jobs Completed", 1)
+        # Saves the job ID
+        if boapp == "adtdp":
+            A = r.hget(TOP, "Jobs Available").decode("UTF-8").replace("[", "").replace("]", '').replace("\"", '').replace("\'", '').replace(' ', '').split(',')
+            JIDs = list(filter(None, [w for w in A]))
+            JIDs.append(job_ID)
+            r.hset(TOP, "Jobs Available", JIDs)
 
+        for SUB in TopDATA[TOP]:
+            SDAT = subtopic_data(TOP, SUB)
+            SDAT["Jobs Completed"] += 1
+            if boapp == "adtdp":
+                SDAT["Jobs Available"].append(job_ID)
 
+            # Changes the data
+            r.hset(TOP, SUB, SDAT)
+
+    return "Added job to topics"
 
 
 # Executes all the needed actions in a simple function that can be imported
+def complete_tag_work(Image, TopDATA, TACC="N", boapp="boinc2docker", job_ID=None):
+
+    # Adds image
+    IMADD = add_new_image(Image, TopDATA, TACC)
+    if IMADD[:7] == 'INVALID':
+        return IMADD
+    JOBADD = add_job(TopDATA, boapp, job_ID)
+
+    return IMADD+'\n'+JOBADD

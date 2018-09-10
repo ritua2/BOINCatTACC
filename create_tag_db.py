@@ -70,7 +70,7 @@ for major in at.tags.keys():
     for minor in A:
         B[minor] = {}
         B[minor]["Jobs Completed"] = '0'
-        B[minor]["Jobs Available"] = '0'
+        B[minor]["Jobs Available"] = []
         ST.append(minor)
         try:
             B[minor]["Images"] = IMTAGS[major][1][minor][0]
@@ -78,7 +78,7 @@ for major in at.tags.keys():
             B[minor]["Images"] = []
 
     B["Jobs Completed"] = '0'
-    B["Jobs Available"] = '0'
+    B["Jobs Available"] = []
     try:
         B["Images"] = IMTAGS[major][0]
     except:

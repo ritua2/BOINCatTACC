@@ -17,6 +17,7 @@ def send_emails():
     email_content = ""
     email_subject = ""
     user_email = ""
+    sender_email = "t2b@tacc.utexas.edu"
 
     #Get the visitor's IP
     if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
@@ -46,9 +47,12 @@ def send_emails():
         except:
             return "Missing parameter of the json: user_email"
 
-        send_email_command_line = 'echo "'+email_content+'" | mail -a FROM:t2b@tacc.utexas.edu -r no-reply@tacc.utexas.edu -s "'+email_subject+'" '+ user_email 
+        send_email_to_user = 'echo "'+email_content+'" | mail -a FROM:'+sender_email+' -r no-reply@tacc.utexas.edu -s "'+email_subject+'" '+ user_email 
+        send_email_to_t2b = 'echo "'+email_content+'" | mail -a FROM:'+sender_email+' -r no-reply@tacc.utexas.edu -s "'+email_subject+'" '+sender_email 
+
         try:
-            os.system(send_email_command_line)
+            os.system(send_email_to_user)
+            os.system(send_email_to_t2b)
             return "Email Sent"
         except Exception as e:
             return e

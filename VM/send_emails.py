@@ -27,19 +27,24 @@ def send_emails():
     #Check the visistor's IP
     if (visitorIP == socket.gethostbyname(socket.gethostname())):
         try:
-            email_content = request.form['email_content']
+            jsonDict = request.get_json()
         except:
-            raise SyntaxError("Missing parameter of the json: email_content")
+            return "Cannot parse the json"
 
         try:
-            email_subject = request.form['email_subject']
+            email_content = jsonDict['email_content']
         except:
-            raise SyntaxError("Missing parameter of the json: email_subject")
+            return "Missing parameter of the json: email_content"
+
+        try:
+            email_subject = jsonDict['email_subject']
+        except:
+            return "Missing parameter of the json: email_subject"
         
         try:
-            user_email = request.form['user_email']
+            user_email = jsonDict['user_email']
         except:
-            raise SyntaxError("Missing parameter of the json: user_email")
+            return "Missing parameter of the json: user_email"
 
         send_email_command_line = 'echo "'+email_content+'" | mail -a FROM:t2b@tacc.utexas.edu -r no-reply@tacc.utexas.edu -s "'+email_subject+'" '+ user_email 
         try:

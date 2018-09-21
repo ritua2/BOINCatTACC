@@ -8,7 +8,7 @@
 printf "Welcome to Boinc job submission\n\n"
 printf "NOTE: NO MPI jobs distributed accross more than one volunteer, No jobs with external downloads while the job is running (no curl, wget, rsync, ..).\n"
 # Server IP or domain must be declared before
-SERVER_IP='t2b.tacc.utexas.edu' # Declare it the first time this program is run
+SERVER_IP='boinc.tacc.utexas.edu' # Declare it the first time this program is run
 
 # Colors, helpful for printing
 REDRED='\033[0;31m'
@@ -273,11 +273,33 @@ case "$user_option" in
         # Adds the commands to a text file to be submitted
         printf "$user_command" > BOINC_Proc_File.txt
 
-        curl -F file=@BOINC_Proc_File.txt -F app=$boapp http://$SERVER_IP:5075/boincserver/v2/submit_known/token=$TOKEN
+                # Asks the user for topics
+        topsubtopics=""
+        while true
+        do
+            curtopic=""
+            printf "\nEnter a topic, leave empty to exit: "
+            read main_topic
+            if [ -z $main_topic ]; then
+                break
+            fi
+            curtopic="$curtopic$main_topic""="
+            # The curl operation will fail with spaces
+            printf "\nEnter list of subtopics, comma separated, without any spaces in between:\n"
+            read subtopics
+
+            curtopic="$curtopic$subtopics"
+            topsubtopics="$topsubtopics -F $curtopic"     
+
+        done
+
+        curl -F file=@BOINC_Proc_File.txt -F app=$boapp $topsubtopics http://$SERVER_IP:5075/boincserver/v2/submit_known/token=$TOKEN
         rm BOINC_Proc_File.txt
         printf "\n"        
         ;;
 		
+
+        
     "2")
         printf "\nSubmitting a file for a known dockerhub image with commands present\n"
         printf "\n${YELLOWYELLOW}WARNING${NCNC}\nAll commands must be entered, including results retrieval"
@@ -297,8 +319,27 @@ case "$user_option" in
             boapp="adtdp"
         fi
 
+        # Asks the user for topics
+        topsubtopics=""
+        while true
+        do
+            curtopic=""
+            printf "\nEnter a topic, leave empty to exit: "
+            read main_topic
+            if [ -z $main_topic ]; then
+                break
+            fi
+            curtopic="$curtopic$main_topic""="
+            # The curl operation will fail with spaces
+            printf "\nEnter list of subtopics, comma separated, without any spaces in between:\n"
+            read subtopics
 
-        curl -F file=@$filetosubmit -F app=$boapp http://$SERVER_IP:5075/boincserver/v2/submit_known/token=$TOKEN
+            curtopic="$curtopic$subtopics"
+            topsubtopics="$topsubtopics -F $curtopic"     
+
+        done
+
+        curl -F file=@$filetosubmit -F app=$boapp $topsubtopics http://$SERVER_IP:5075/boincserver/v2/submit_known/token=$TOKEN
         printf "\n"
         ;;
 		

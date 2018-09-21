@@ -84,7 +84,7 @@ def topic_images(topic):
         A = r.hget(topic, "Images").decode("UTF-8").replace("[", "").replace("]", '').replace("\"", '').replace("\'", '').replace(' ', '').split(',')
         return list(filter(None, [w for w in A]))
     except:
-        raise SyntaxError('INVALID, '+str(topic)+" has never been used")
+        return []
 
 
 # Returns the list of all TACC images
@@ -136,7 +136,7 @@ def add_new_image(Image, Topics, TACC="N"):
     if Image in images_used():
         IMDAT = image_tags(Image)
         IMDAT.pop('TACC')
-        if IMDAT == Topics:
+        if all(item in IMDAT.items() for item in Topics.items()):
             return "Image is already present"
         new_image = False # Only updates some values
         pos_image = image_position(Image)
@@ -198,7 +198,8 @@ def add_new_image(Image, Topics, TACC="N"):
 
             # Corrects the list of images and subtopics total
             r.lset("Subtopics", pos_topic, json.dumps(basic_sub))
-            r.hset(JK, "Images", TIM)
+            # Avoids repeating image in values
+            r.hset(JK, "Images", set(list(TIM)))
 
         else:
             # Creates a new topic
@@ -266,7 +267,8 @@ def add_new_topic(topic, subtops):
 # Topics (dict) (str):(arr)(str)
 # boapp (str): boinc2docker/adtdp
 # job_ID (str): For adtdp only
-def add_job(TopDATA, boapp="boinc2docker", job_ID=None):
+# jobsub (int): Number of jobs submitted
+def add_job(TopDATA, boapp="boinc2docker", job_ID=None, jobsub=1):
 
     if not ((boapp == "boinc2docker") or (boapp == "adtdp")):
         return "INVALID, application not found"
@@ -276,14 +278,15 @@ def add_job(TopDATA, boapp="boinc2docker", job_ID=None):
         r.hincrby(TOP, "Jobs Completed", 1)
         # Saves the job ID
         if boapp == "adtdp":
-            A = r.hget(TOP, "Jobs Available").decode("UTF-8").replace("[", "").replace("]", '').replace("\"", '').replace("\'", '').replace(' ', '').split(',')
-            JIDs = list(filter(None, [w for w in A]))
-            JIDs.append(job_ID)
-            r.hset(TOP, "Jobs Available", JIDs)
+            if job_ID != None:
+                A = r.hget(TOP, "Jobs Available").decode("UTF-8").replace("[", "").replace("]", '').replace("\"", '').replace("\'", '').replace(' ', '').split(',')
+                JIDs = list(filter(None, [w for w in A]))
+                JIDs.append(job_ID)
+                r.hset(TOP, "Jobs Available", JIDs)
 
         for SUB in TopDATA[TOP]:
             SDAT = subtopic_data(TOP, SUB)
-            SDAT["Jobs Completed"] += 1
+            SDAT["Jobs Completed"] += int(jobsub)
             if boapp == "adtdp":
                 SDAT["Jobs Available"].append(job_ID)
 
@@ -294,12 +297,12 @@ def add_job(TopDATA, boapp="boinc2docker", job_ID=None):
 
 
 # Executes all the needed actions in a simple function that can be imported
-def complete_tag_work(Image, TopDATA, TACC="N", boapp="boinc2docker", job_ID=None):
+def complete_tag_work(Image, TopDATA, TACC="N", boapp="boinc2docker", job_ID=None, jobsub=1):
 
     # Adds image
     IMADD = add_new_image(Image, TopDATA, TACC)
     if IMADD[:7] == 'INVALID':
         return IMADD
-    JOBADD = add_job(TopDATA, boapp, job_ID)
+    JOBADD = add_job(TopDATA, boapp, job_ID, jobsub)
 
-    return IMADD+'\n'+JOBADD
+    return IMADD+'\n'+JOBADD+'\n'

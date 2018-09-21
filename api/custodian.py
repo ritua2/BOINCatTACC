@@ -52,14 +52,14 @@ def subtopics_used(topic):
 # Gets all the data for one subtopic
 def subtopic_data(topic, subtopic):
     if topic not in topics_used():
-        raise SyntaxError('INVALID, '+str(topic)+" has never been used")
+        raise SyntaxError('INVALID, Topic '+str(topic)+" has never been used")
     try:
         D = red2dict(r.hget(topic, subtopic))
         # Needed because integers are stored as str
         D["Jobs Completed"] = int(D["Jobs Completed"])
         return D
     except:
-        raise SyntaxError('INVALID, '+str(subtopic)+" has never been used")
+        raise SyntaxError('INVALID, Subtopic '+str(subtopic)+" has never been used")
 
 
 # Gets the topic position in a Redis list

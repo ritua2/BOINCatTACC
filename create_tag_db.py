@@ -18,13 +18,9 @@ r = redis.Redis(host='0.0.0.0', port=6389, db=12)
 
 
 # Adds the TACC-supported images to the database
-try:
-    r.delete('Known Images')
-    r.delete('Image Data')
-    r.delete('Topics')
-    r.delete('Subtopics') # May be empty
-except:
-    pass
+for curdb in r.keys():
+    r.delete(curdb.decode("UTF-8"))
+
 
 
 # Records the Image tags

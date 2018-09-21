@@ -273,25 +273,11 @@ case "$user_option" in
         # Adds the commands to a text file to be submitted
         printf "$user_command" > BOINC_Proc_File.txt
 
-                # Asks the user for topics
-        topsubtopics=""
-        while true
-        do
-            curtopic=""
-            printf "\nEnter a topic, leave empty to exit: "
-            read main_topic
-            if [ -z $main_topic ]; then
-                break
-            fi
-            curtopic="$curtopic$main_topic""="
-            # The curl operation will fail with spaces
-            printf "\nEnter list of subtopics, comma separated, without any spaces in between:\n"
-            read subtopics
 
-            curtopic="$curtopic$subtopics"
-            topsubtopics="$topsubtopics -F $curtopic"     
+        # Enters the topics corresponding to the image TODO TODO TODO
 
-        done
+
+
 
         curl -F file=@BOINC_Proc_File.txt -F app=$boapp $topsubtopics http://$SERVER_IP:5075/boincserver/v2/submit_known/token=$TOKEN
         rm BOINC_Proc_File.txt
@@ -299,7 +285,7 @@ case "$user_option" in
         ;;
 		
 
-        
+
     "2")
         printf "\nSubmitting a file for a known dockerhub image with commands present\n"
         printf "\n${YELLOWYELLOW}WARNING${NCNC}\nAll commands must be entered, including results retrieval"

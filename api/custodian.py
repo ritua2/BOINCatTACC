@@ -135,16 +135,28 @@ def add_new_image(Image, Topics, TACC="N"):
     # Checks that the image either does not exist or contains a new topic
     if Image in images_used():
         IMDAT = image_tags(Image)
-        IMDAT.pop('TACC')
-        if all(item in IMDAT.items() for item in Topics.items()):
+        imtopics_used = IMDAT.keys()
+        E = False
+        # Checks if the image has had all its topics used
+        for major_topic in Topics.keys():
+            if major_topic not in imtopics_used:
+                break
+            for minor_topic in Topics[major_topic]:
+                if minor_topic not in IMDAT[major_topic]:
+                    E = True
+                    break
+            if E:
+                break
+
+        else:
             return "Image is already present"
+
         new_image = False # Only updates some values
         pos_image = image_position(Image)
     else:
         new_image = True
         IMDAT = Topics.copy()
-    
-    IMDAT["TACC"] = TACC
+        IMDAT["TACC"] = TACC
 
     # Gets the topics
     if depth(Topics) > 1:
@@ -165,8 +177,6 @@ def add_new_image(Image, Topics, TACC="N"):
         # Checks if the image is already accounted for
         # Image is automatically added to a subtopic when created
         TIM = topic_images(JK)
-        if Image in TIM:
-            continue
 
         if JK in all_topics:
             # Checks the subtopics, updates if needed
@@ -223,16 +233,15 @@ def add_new_image(Image, Topics, TACC="N"):
 
     # Adds new topics to existing images
     # Checks every topic one by one
-    curtops = IMDAT.keys()
     for Top in Topics.keys():
-        if Top in curtops:
+        if Top in imtopics_used:
             for Sub in Topics[Top]:
                 if Sub not in IMDAT[Top]:
                     IMDAT[Top].append(Sub)
                 # Do nothing if subtopic already present
-
-        # Create new topic maintaining the subtopics
-        IMDAT[Top] = Topics[Top]
+        else:
+            # Create new topic maintaining the subtopics
+            IMDAT[Top] = Topics[Top]
 
     r.lset('Image Data', pos_image, json.dumps(IMDAT)) 
     return "Updated Image with new topics"

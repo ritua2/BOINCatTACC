@@ -22,37 +22,72 @@
 require_once("../inc/util.inc");
 require_once("../project/project.inc");
 
+/*Edited by Joshua: Added Linux mail feature using mailutils*/ 
 // send an email, using PHPMailer or not.
 //
-function send_email($user, $subject, $body, $body_html=null) {
-    if (function_exists("make_php_mailer")) {
-        require_once("../inc/phpmailer/class.phpmailer.php");
-        $mail = make_php_mailer();
-        $mail->AddAddress($user->email_addr, $user->name);
-        $mail->Subject = $subject;
-        if ($body_html) {
-            $mail->AltBody = $body;
-            $mail->Body = $body_html;
-        } else {
-            $mail->Body = $body;
+function send_email($user, $subject, $body, $body_html=null, $mechanism="php_mailer") {
+    //Check the mechanism to send the email
+    if($mechanism == "linux_mail"){
+        $success = true;
+        try {
+            //Set up the parameters
+            $url = 'http://'.$_SERVER['SERVER_NAME'].':6500/send_emails';
+
+            $content = array("email_content"=>$body, "email_subject"=>$subject, "user_email"=>($user->email_addr));
+            $JSONdata = json_encode($content, JSON_UNESCAPED_SLASHES);
+            $success = true;
+
+            //Call the API that will send the email using mailutils on the VM    
+            $curl = curl_init($url);
+            curl_setopt($curl, CURLOPT_HEADER, false);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+            curl_setopt($curl, CURLOPT_POST, true);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $JSONdata);
+
+            //Check if the API call is successful or not
+            $result = curl_exec($curl);
+            if (curl_errno($curl) || strpos($result, 'missing') !== false) {
+                $success = false;
+            }
+            curl_close($curl);
+            
+        } catch (Exception $e) {
+            $success = false;
         }
-        if (!$mail->Send()) {
-            echo $mail->ErrorInfo;
-            return false;
-        } else {
-            return true;
-        }
+
+        return $success;
     } else {
-        $headers ="";
-        if (defined('EMAIL_FROM') && defined('EMAIL_FROM_NAME')) {
-            $headers = "From: ".EMAIL_FROM_NAME." <".EMAIL_FROM.">";
-        } else if (defined('EMAIL_FROM')) {
-            $headers = "From: ". EMAIL_FROM;
+        if (function_exists("make_php_mailer")) {
+            require_once("../inc/phpmailer/class.phpmailer.php");
+            $mail = make_php_mailer();
+            $mail->AddAddress($user->email_addr, $user->name);
+            $mail->Subject = $subject;
+            if ($body_html) {
+                $mail->AltBody = $body;
+                $mail->Body = $body_html;
+            } else {
+                $mail->Body = $body;
+            }
+            if (!$mail->Send()) {
+                echo $mail->ErrorInfo;
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            $headers ="";
+            if (defined('EMAIL_FROM') && defined('EMAIL_FROM_NAME')) {
+                $headers = "From: ".EMAIL_FROM_NAME." <".EMAIL_FROM.">";
+            } else if (defined('EMAIL_FROM')) {
+                $headers = "From: ". EMAIL_FROM;
+            }
+            return mail($user->email_addr, $subject, $body, $headers);
         }
-        return mail($user->email_addr, $subject, $body, $headers);
     }
 }
 
+// Edited by Gerald Joshua: Create a new option to send emails through mailutils 
 // Send an email describing an account to the user.
 // There are a few scenarios:
 //
@@ -63,7 +98,7 @@ function send_email($user, $subject, $body, $body_html=null) {
 // 2) the account was created administratively
 // 3) the user requested account key for existing account
 //
-function send_auth_email($user) {
+function send_auth_email($user, $theMechanism="php_mailer") {
     $body = "";
 
     $now = time();
@@ -83,7 +118,7 @@ For further information and assistance with ".PROJECT.", visit
 ".secure_url_base()."
 ";
 
-    return send_email($user, $subject, $body);
+    return send_email($user, $subject, $body, null, $theMechanism);
 }
 
 // a valid email address is of the form A@B.C

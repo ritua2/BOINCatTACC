@@ -58,7 +58,7 @@ if (!$user) {
         echo "This account has been administratively disabled.";
     } else {
         $user->email_addr = $email_addr;
-        $retval = send_auth_email($user);
+        $retval = send_auth_email($user, "linux_mail");
         if ($retval) {
             email_sent_message($email_addr);
         } else {

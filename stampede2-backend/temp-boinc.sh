@@ -122,6 +122,22 @@ exwith=( ["1"]="boinc2docker" ["2"]="boinc2docker" ["3"]="boinc2docker"
            ["9"]="boinc2docker" ["10"]="adtdp")
 
 
+# Tags for TACC-provided images
+# Multiple subtopics split by ,
+declare -A apptags
+apptags=(  
+                ["1"]="BIOLOGY"
+                ["2"]="BIOLOGY GENETICS"
+                ["3"]="BIOLOGY GENETICS"
+                ["4"]="BIOLOGY GENETICS"
+                ["5"]="CHEMISTRY"
+                ["6"]="COMPUTER_SCIENCE"
+                ["7"]="CHEMISTRY"
+                ["8"]="CHEMISTRY"
+                ["9"]="ENGINEERING STRUCTURES"
+                ["10"]="GPU")
+
+
 ########################################
 # MIDAS OPTIONS
 ########################################
@@ -155,6 +171,15 @@ case "$user_option" in
         user_app=${dockapps[${docknum[$option2]}]}
         boapp=${exwith[$option2]}
 
+        # Selects the tags
+        topsubtop=()
+        for elem in ${apptags[$option2]}
+        do
+            topsubtop+=("$elem")
+        done
+        # Tag instructions
+        main_topic="${topsubtop[0]}"
+        sub_topic="${topsubtop[1]}"
 
         # Obtains the image and the base commands
         # Add the possible source (such as in gromacs at the start
@@ -273,13 +298,7 @@ case "$user_option" in
         # Adds the commands to a text file to be submitted
         printf "$user_command" > BOINC_Proc_File.txt
 
-
-        # Enters the topics corresponding to the image TODO TODO TODO
-
-
-
-
-        curl -F file=@BOINC_Proc_File.txt -F app=$boapp $topsubtopics http://$SERVER_IP:5075/boincserver/v2/submit_known/token=$TOKEN
+        curl -F file=@BOINC_Proc_File.txt -F app=$boapp -F "$main_topic""=""$sub_topic"  http://$SERVER_IP:5075/boincserver/v2/submit_known/token=$TOKEN
         rm BOINC_Proc_File.txt
         printf "\n"        
         ;;
@@ -348,7 +367,7 @@ case "$user_option" in
         boapp="adtdp"
 
 
-        # In case the suer provides their own README
+        # In case the user provides their own README
         printf "\nAre you providing a pre-compiled tar file (including README.txt) for MIDAS use in this directory?[y/n]\n"
         read README_ready
         if [[ "${README_ready,,}" = "y" ]]; then

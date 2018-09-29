@@ -82,6 +82,14 @@ alloc_color () {
 }
 
 
+# Joins an array (str) into a joint string witha custom separator
+function join_by {
+    local IFS="$1"
+    shift
+    printf "$*"
+}
+
+
 # Asks the user what they want to do
 printf      "The allowed options are below:\n"
 alloc_color "   1  Submitting a BOINC job from TACC supported docker images using local files in this machine"
@@ -711,6 +719,44 @@ case "$user_option" in
         fi
 
         cp README.txt Temp-BOINC/
+
+        # Asks the user for topics
+
+        TOPICS=()
+        while true
+        do
+            curtopic=""
+            printf "\nEnter a ${BLUEBLUE}topic${NCNC}, leave empty to exit: "
+            read main_topic
+            if [ -z $main_topic ]; then
+                break
+            fi
+
+            # The curl operation will fail with spaces
+            printf "\nEnter list of subtopics, space-separated, without any spaces in between:\n"
+            read subtopics
+
+            # Selects the tags
+            topsubtop=()
+            for elem in $subtopics
+            do
+                topsubtop+=("\"$elem\"")
+            done
+            
+            # Joins the subtopics as an array
+            subs=$(join_by "," "${topsubtop[@]}")
+
+            curtopic="\"$main_topic\""":[$subs]"
+            # Adds it to array
+            TOPICS+=("$curtopic")
+        done
+
+        # Joins the complete topics array
+        COMPLETE_TOPICS="{\n $(join_by "," "${TOPICS[@]}") \n}"
+
+        # Adds it to a testing file
+        printf "$COMPLETE_TOPICS \n" > Temp-BOINC/tag_info.json
+
 
         # Tars the files and uploads the result to BOINC
         cd Temp-BOINC/

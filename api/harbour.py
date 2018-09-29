@@ -12,7 +12,9 @@ If the build succeeds, then the memory it occupies is reduced from the user's ac
 
 
 import os, sys, shutil
+import custodian as cus
 import docker
+import json
 import redis
 import hashlib
 import datetime
@@ -58,7 +60,17 @@ def complete_build(IMTAG, UTOK, MIDIR, COMMAND_TXT, DOCK_DOCK, BOCOM, FILES_PATH
         # Moves the file
         boapp = r.get(UTOK+';'+MIDIR).decode("UTF-8")
         if boapp == "boinc2docker":
+
+            # Reads tag information from json file
+            # Image is the user ID because:
+            #    | - Traceable
+            #    | - MID is a random token
+            with open("tag_info.json", 'r') as J:
+                TAGS = json.load(J)
+
+            cus.complete_tag_work(UTOK, TAGS)
             shutil.move(COMMAND_TXT+".txt", "/root/project/html/user/token_data/process_files/"+COMMAND_TXT+".txt")
+
         if boapp == "adtdp":
             shutil.move(COMMAND_TXT+".txt", "/root/project/adtd-protocol/process_files/"+COMMAND_TXT+".txt")
 

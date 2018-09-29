@@ -8,7 +8,7 @@
 printf "Welcome to Boinc job submission\n\n"
 printf "NOTE: NO MPI jobs distributed accross more than one volunteer, No jobs with external downloads while the job is running (no curl, wget, rsync, ..).\n"
 # Server IP or domain must be declared before
-SERVER_IP='boinc.tacc.utexas.edu' # Declare it the first time this program is run
+SERVER_IP='boinc.tacc.utexas.edu'
 
 # Colors, helpful for printing
 REDRED='\033[0;31m'
@@ -370,9 +370,7 @@ case "$user_option" in
         printf "${NCNC}\n* python refers to python 3, since python2 is not accepted for MIDAS use\n"
         printf "%0.s-" {1..20}
 
-
-        # Always executed through adtd-p
-        boapp="adtdp"
+        boapp="boinc2docker"
 
 
         # In case the user provides their own README
@@ -587,6 +585,7 @@ case "$user_option" in
                     ;;
 
                 "c++")
+
                     printf "Answer the following questions, leave empty for None:\n"
                     ccom="$comlang: $comfil "
 
@@ -594,6 +593,10 @@ case "$user_option" in
                     read using_cget
 
                     if [ "${using_cget,,}" =  "y" ]; then
+
+                        # Always uses adtd-p
+                        boapp="adtdp"
+
                         ccom="$ccom: using CGET"
 
                         if ! cat README.txt |  grep -q 'LANGUAGE] C++ cget' ; then

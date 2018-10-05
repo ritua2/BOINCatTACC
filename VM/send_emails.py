@@ -21,7 +21,7 @@ def send_emails():
 
     #Get the visitor's IP
     if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
-	visitorIP = request.environ['REMOTE_ADDR']
+    visitorIP = request.environ['REMOTE_ADDR']
     else:
         visitorIP = request.environ['HTTP_X_FORWARDED_FOR']
     

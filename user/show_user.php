@@ -60,7 +60,11 @@ if ($format=="xml"){
     //
     $cache_args="userid=".$id;
     $cached_data = get_cached_data(USER_PAGE_TTL, $cache_args);
-    if ($cached_data){
+    //Edited by Joshua: Force the website to lookup MySQL database.
+    //  since there is a possibility that users update their 
+    //  screen name
+    //if ($cached_data){
+    if (0){
         // We found some old but non-stale data, let's use it
         $data = unserialize($cached_data);
         $user = $data->user;
@@ -107,7 +111,7 @@ if ($format=="xml"){
     end_table();
     echo "</td></tr>";
     end_table();
-    page_tail(true);
+    page_tail();
 }
 
 ?>

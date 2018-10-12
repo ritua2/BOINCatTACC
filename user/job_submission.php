@@ -185,10 +185,23 @@ echo '
 					<span class="label label-info" id="setupFileLocation" style="font-size: 14px;">No file chosen</span>
 					<br />
 					<span id="setupFileMsg" style="color: red; font-weight: bold;">
-					<br />
 				</div> 
 			</div>
 
+			<!--Section for midas job topics or subtopics-->
+			<div id="midasTopics">
+				<span style="margin-left: 13%; float:left; font-weight:bold;">
+					<a href="javascript:;" data-toggle="tooltip" data-placement="bottom" title="Each job will be associated with one or more tags which are essentially the topics of the job submitted. Each topic can have a list of sub topic. Please follow the format specified in the input field.">'.tra("The Job Topic and/or Sub Topics").'
+					</a>
+				</span>';
+
+			//The input field
+			form_input_text("" , "Midas Topic", "", "","style='margin-left: 3%; margin-bottom: 18px;' name='midasTopic' id='midasTopicInput' placeholder='Format: TOPIC(SUBTOPICS), e.g., BIOLOGY(GENETICS, ANATOMY);COMPUTER SCIENCE()' value=''");
+			
+			echo'
+			</div>
+			<!--End of midas job topics section or subtopics-->
+			
 			<br/>
 
 			<!-- Section for commands -->
@@ -307,8 +320,16 @@ echo '
 		echo "
 			<button type='button' class='btn btn-success' id='checkBtn' style='font-weight: bold; margin-left: 34.5%;' onclick='checkIfExists();'>Check if it exists on docker hub</button>
 			<div id='transparentGreyArea' style='background-color: grey; opacity: 0.5; filter: alpha(opacity=50); height: 100vh; width: 100%; z-index:9998;position: fixed; top: 0; left: 0;;'><i class='fa fa-spinner fa-spin' style='position: fixed; left: 50%; top: 50%; z-index:9999; font-size:60px'></i></div><span id='dockerNotification' style='margin-left: 10px; font-weight: bold;'></span>
-			<br /><br /></div>";
+			</div>";
 		//End of Gerald Joshua's edit
+
+		/*Section for non-midas job topics or subtopics*/
+		echo '<div id="nonMidasTopics">';
+		echo '<span style="margin-left: 15%; float:left; font-weight:bold;"><a href="javascript:;" data-toggle="tooltip" data-placement="bottom" title="Each job will be associated with one or more tags which are essentially the topics of the job submitted. Each topic can have a list of sub topic. Please follow the format specified in the input field.">'.tra("The Job Topic and/or Sub Topics").'</a></span>';
+		form_input_text("" , "Non Midas Topic", "", "","style='margin-bottom: 18px;' name='nonMidasTopic' id='nonMidasTopicInput' placeholder='Format: TOPIC(SUBTOPICS), e.g., BIOLOGY(GENETICS, ANATOMY);COMPUTER SCIENCE()' value=''");
+		echo '<br/><br/>';
+		echo'</div>';
+		/*End of non-midas job topics section or subtopics*/
 
 		//Section for commands
 		echo '<span style="margin-left: 21.3%; font-weight:bold;"><a href="javascript:;" data-toggle="tooltip" data-placement="bottom" title="The list of commands that will be used in processing the data. Must provide all the necessary commands. Hit enter for each command line to make sure that a semicolon is inserted.">'.tra("List of commands ").'</a><span style="color: red">*</span></span>';
@@ -600,6 +621,8 @@ echo '
 	$(function(){
 		//Initial condition
 		$("#dockerHubSection").hide();
+		$("#nonMidasTopics").hide();
+		$("#midasTopics").hide();
 		$("#uploadBtn").hide();
 		$("#warningMsg").hide();		
 		$("#submitBtn").prop("disabled",true);
@@ -945,6 +968,10 @@ echo '
 			$("#dockerListParam").val("none");
 			isDockerChosen = false;
 			$("#submitBtn").prop("disabled",true);
+			$("#nonMidasTopics").hide();
+			$("#midasTopics").hide();
+			$("#nonMidasTopicInput").val("");
+			$("#midasTopicInput").val("");
 		});
 		$("#dockerOpt2").click(function(){
 			$(this).prop("checked", true);
@@ -958,6 +985,10 @@ echo '
 			$("#submitBtn").prop("disabled",true);
 			$("#dockerNotification").text("");
 			$("#dockerHubFile").val("");
+			$("#nonMidasTopics").show();
+			$("#midasTopics").hide();
+			$("#nonMidasTopicInput").val("");
+			$("#midasTopicInput").val("");
 		});
 		$("#dockerOpt3").click(function(){
 			$(this).prop("checked", true);
@@ -969,6 +1000,10 @@ echo '
 			$("#automatedDockerSection").show();
 			$("#btnText").text("List of operating system supported by TACC-2-BOINC");
 			$("#osListParam").val("none");
+			$("#nonMidasTopics").hide();
+			$("#midasTopics").show();
+			$("#nonMidasTopicInput").val("");
+			$("#midasTopicInput").val("");
 			isThirdOption = true;
 		});
 

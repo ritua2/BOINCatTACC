@@ -151,6 +151,43 @@ function move_midas_setup_file($folderName, $setupFile){
 function get_json(){
 	$theFolderName = get_folder_name();
 	$progLangArr = get_prog_lang_list();
+
+	//For topic tags
+	$theTopics = json_encode (json_decode ("{}"));
+
+	//Check if a job topic is included 
+	if(isset($_POST['midasTopic'])){
+		if(strlen(trim($_POST['midasTopic'])) !== 0){
+			$theTopics = trim($_POST['midasTopic']);
+			//echo "trim: ".$theTopics.'<br/>';
+			$theTopics = '{"'.$theTopics;
+			//echo '{" '.$theTopics.'<br/>';
+			if(strpos($theTopics, ',') !== false){
+				$theTopics = str_replace(',', '","', $theTopics);	
+			}
+			//echo ', '.$theTopics.'<br/>';
+			if(strpos($theTopics, '(') !== false){
+				$theTopics = str_replace('(', '":["', $theTopics);	
+			}
+			//echo '( '.$theTopics.'<br/>';
+			if(strpos($theTopics, ')') !== false){
+				$theTopics = str_replace(')', '"]', $theTopics);	
+			}
+			//echo ') '.$theTopics.'<br/>';
+			if(strpos($theTopics, ';') !== false){
+				$theTopics = str_replace(';', ',"', $theTopics);	
+			}
+			//echo '; '.$theTopics.'<br/>';
+			$theTopics .= '}';
+			//echo ' '.$theTopics.'<br/>';
+
+			/*//Convert string to json
+			$theTopics = json_decode($theTopics, true);
+			if($theTopics != NULL)
+				$theJson = json_encode($theTopics, JSON_UNESCAPED_SLASHES);
+				echo $theJson;*/
+		}
+	}
 	
 	//Create folder if necessary
 	if(isset($_FILES["setup_file"]) || isset($_FILES["midas_input_file"])){
@@ -177,7 +214,8 @@ function get_json(){
 					  'input_file'=>get_input_file_name(),
 					  'command_lines'=>get_command_lines(),
 					  'token'=>get_user_token(),
-					  'setup_filename'=>get_setup_file_name()
+					  'setup_filename'=>get_setup_file_name(),
+					  'topics'=>$theTopics
 				);
 	$JSONdata = json_encode($tempData, JSON_UNESCAPED_SLASHES);
 

@@ -21,7 +21,7 @@ import tarfile
 r = redis.Redis(host = '0.0.0.0', port = 6389, db =0)
 r_adtd = redis.Redis(host = '0.0.0.0', port = 6389, db =14)
 TASKS_FOLDER = "/root/project/adtd-protocol/tasks/"
-client = docker.from_env()
+client = docker.from_env(timeout=5*60)
 image = client.images
 
 # Loops through the database and sees the jobs that have not been run yet
@@ -62,7 +62,12 @@ for qq in range(0, r.llen('Token')):
       # Saves the image into a tar file and tars the data with it
       r.lset('Date (Run)', qq, 'ADTD (Ready)')
       img = image.get(acim)
-      resp = img.save()
+      try:
+        resp = img.save()
+      except:
+        r.lset('Error', qq, identity+' | ERROR, Image cannot be used due to large size')
+        r.lset('Date (Run)', qq, ' | ERROR, Image cannot be used due to large size')
+        continue        
       os.mkdir(TASKS_FOLDER+identity)
       os.chdir(TASKS_FOLDER+identity)
       ff = open(TASKS_FOLDER+identity+"/image.tar.gz", 'wb')

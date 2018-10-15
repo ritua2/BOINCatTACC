@@ -95,7 +95,12 @@ if ($offset < ITEM_LIMIT) {
 
     // Do we have the data in cache?
     //
-    if ($cacheddata){
+    //if ($cacheddata){
+    //Added by Joshua: This operation will be expensive, but it will guarantee that
+    //  all user screen name anonymization will be showing up to the screen. If we use
+    //  cache, then for users who change their user name anonymization won't see their 
+    //  random generated name on the screen 
+    if (0){
         $data = unserialize($cacheddata); // use the cached data
     } else {
         //if not do queries etc to generate new data

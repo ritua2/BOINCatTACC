@@ -77,6 +77,27 @@ def get_reef_file(IMIM, TOK, filnam):
     return Com
 
 
+# Processes the topic commands
+# TS: Topics submitted
+def toproc(image_used, TS):
+
+    # Accounts for no topics
+    AA = TS
+    FJN = {}
+    for jkl in TS.keys():
+        JKL = jkl.upper()
+        AAc = AA[jkl]
+        if AAc == [""]:
+            FJN[JKL] = []
+
+        cursubs = []
+        for elem in AAc:
+            cursubs.append(elem.upper())
+        FJN[JKL] = cursubs
+
+    cus.complete_tag_work(image_used, FJN)
+
+
 @app.route("/boincserver/v2/api/process_web_jobs", methods=['GET', 'POST'])
 def process_web_jobs():
 
@@ -96,6 +117,12 @@ def process_web_jobs():
         Image = dictdata["Image"]
         Custom = dictdata["Custom"]
         Command = dictdata["Command"]
+        tprov = json.loads(dictdata["topics"])
+
+        # TACC images have already assigned topics
+        if Image in cus.at.TACCIM.keys():
+            tprov = cus.at.TACCIM[Image]
+
     except:
         return "INVALID, json lacks at least one field (keys: Token, Boapp, Files, Image, Custom, Command)"
 
@@ -146,6 +173,7 @@ def process_web_jobs():
 
     # Submits the file for processing
     if boapp == "boinc2docker":
+        toproc(Image, tprov)
         shutil.move(UPLOAD_FOLDER+new_filename, BOINC_FOLDER+new_filename)
     if boapp == "adtdp":
         shutil.move(UPLOAD_FOLDER+new_filename, ADTDP_FOLDER+new_filename)

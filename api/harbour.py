@@ -59,6 +59,7 @@ def complete_build(IMTAG, UTOK, MIDIR, COMMAND_TXT, DOCK_DOCK, BOCOM, FILES_PATH
         # Docker represents image size in GB
         # Moves the file
         boapp = r.get(UTOK+';'+MIDIR).decode("UTF-8")
+        
         if boapp == "boinc2docker":
 
             # Reads tag information from json file

@@ -56,7 +56,6 @@ IFS='/' read -ra unam <<< "$PWD"
 unam="${unam[3]}"
 
 # Adds the username to the database if necessary
-# Adds the username to the database if necessary
 registerUser=$(curl -s http://$SERVER_IP:5078/boincserver/v2/api/add_username/$unam/$userEmail/$TOKEN/$ORK)
 
 printf "\n${GREENGREEN}$registerUser${NCNC}\n"
@@ -114,7 +113,7 @@ docknum=( ["1"]="autodock-vina" ["2"]="bedtools" ["3"]="blast"
 
 # Extra commands before each app
 dockcomm=( ["1"]="" ["2"]="" ["3"]=""
-           ["4"]="" ["5"]="source /usr/local/gromacs/bin/GMXRC.bash; "
+           ["4"]="" ["5"]="source /usr/local/gromacs/bin/GMXRC.bash "
            ["6"]="" ["7"]="" ["8"]=""
            ["9"]="" ["10"]="nvcc --version; ")
 
@@ -191,8 +190,11 @@ case "$user_option" in
 
         # Obtains the image and the base commands
         # Add the possible source (such as in gromacs at the start
-        user_command="$user_app /bin/bash -c \"cd /data; POSCOM"
-        user_command=${user_command/POSCOM/${dockcomm[$option2]}}
+        user_command="$user_app /bin/bash -c \"cd /data; "
+
+        if [ ! -z "${dockcomm[$option2]}" ]; then
+            user_command="$user_command ${dockcomm[$option2]} ; "
+        fi
 
 
         printf "Enter the list of input files (space-separated):\n"
@@ -297,6 +299,12 @@ case "$user_option" in
                 break
             fi
 
+            if [ -z "${dockcomm[$option2]}" ]; then
+                user_command="$user_command $COM;"
+                continue
+            fi
+
+            user_command="$user_command ${dockcomm[$option2]} && "
             user_command="$user_command $COM;"
         done
 

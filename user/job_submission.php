@@ -63,7 +63,7 @@ echo '
 
 echo '
 		<span style="margin-left: 17.3%; float:left; font-weight:bold;"><a href="javascript:;" data-toggle="tooltip" data-placement="bottom" title="The location of docker image that will be used can be from docker hub or from the list of available tacc-2-boinc docker images. Besides that, our system could also create a docker image for your job submission.">'.tra("Location of docker image ").'</a><span style="color: red">*</span></span>
-		<div style="float:left; margin-left: 3.5%;"><label style="margin-left: 3px;"><input type="radio" id="dockerOpt1" checked="checked"><span style="margin-left: 5px;">List of docker images maintained by TACC-2-BOINC</span></label></div>
+		<div style="float:left; margin-left: 3.5%;"><label style="margin-left: 3px;"><input type="radio" id="dockerOpt1" checked="checked"><span style="margin-left: 5px;">List of docker images maintained by BOINC@TACC</span></label></div>
 		<div style="float:left; margin-left: 4%;"><label><input type="radio" id="dockerOpt2"><span style="margin-left: 5px;">Docker hub</span></label></div>
 		<div style="float:left; margin-left: 4.5%;"><label><input type="radio" id="dockerOpt3"><span style="margin-left: 5px;">Automated docker build</span></label></div>
 
@@ -291,7 +291,7 @@ echo '
 			<div id="taccDockerSection">
 			<br /><br />
 			<div class="dropdown" style="margin-left: 34.5%;" >
-		  		<button class="btn btn-primary dropdown-toggle" id="dockerListBtn" value="none"  style="background-color: #174b63; font-weight: bold;" type="button" data-toggle="dropdown"><span id="buttonText">List of docker images maintained by TACC-2-BOINC</span>
+		  		<button class="btn btn-primary dropdown-toggle" id="dockerListBtn" value="none"  style="background-color: #174b63; font-weight: bold;" type="button" data-toggle="dropdown"><span id="buttonText">List of docker images maintained by BOINC@TACC</span>
 		  		<span class="caret"></span></button>
 				<input type="hidden" id="dockerListParam" name="dockerList" value="none">
 		  		<ul id="imgDropDown" class="dropdown-menu">
@@ -963,7 +963,7 @@ echo '
 			$("#taccDockerSection").show();
 			$("#nonAutomatedDockerSection").show();
 			$("#automatedDockerSection").hide();
-			$("#buttonText").text("List of docker images maintained by TACC-2-BOINC");
+			$("#buttonText").text("List of docker images maintained by BOINC@TACC");
       		$("#dockerListBtn").val("none");
 			$("#dockerListParam").val("none");
 			isDockerChosen = false;

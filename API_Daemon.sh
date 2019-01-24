@@ -23,37 +23,37 @@ fi
 
 if [ $1 == "-up" ]; then 
 
-   nohup /root/project/api/server_checks.py & \
-         > /dev/null 2>&1 & echo $! > /root/project/sscc_api.txt
+   nohup /home/boincadm/project/api/server_checks.py & \
+         > /dev/null 2>&1 & echo $! > /home/boincadm/project/sscc_api.txt
 
-   nohup /root/project/api/submit_known.py & \
-        > /dev/null 2>&1 & echo $! > /root/project/sskk_api.txt
-   nohup /root/project/api/reef_storage.py & \
-        > /dev/null 2>&1 & echo $! > /root/project/rrff_api.txt
-   nohup /root/project/api/factor2.py & \
-        > /dev/null 2>&1 & echo $! > /root/project/fac2_api.txt 
-   nohup /root/project/api/MIDAS.py & \
-        > /dev/null 2>&1 & echo $! > /root/project/midd_api.txt
-   nohup /root/project/api/allocation.py & \
-        > /dev/null 2>&1 & echo $! > /root/project/allo_api.txt
-   nohup /root/project/api/personal_area.py & \
-        > /dev/null 2>&1 & echo $! > /root/project/prar_api.txt
-   nohup /root/project/api/adtdp_common.py & \
-        > /dev/null 2>&1 & echo $! > /root/project/adtd_api.txt
-   nohup /root/project/api/webin.py & \
-        > /dev/null 2>&1 & echo $! > /root/project/webi_api.txt
-   nohup /root/project/api/ualdap.py & \
-        > /dev/null 2>&1 & echo $! > /root/project/ldap_api.txt 
-   nohup /root/project/api/t2auth.py & \
-        > /dev/null 2>&1 & echo $! > /root/project/t2au_api.txt 
-   nohup /root/project/api/signup_email.py & \
-        > /dev/null 2>&1 & echo $! > /root/project/suem_api.txt 
-   nohup /root/project/api/envar.py & \
-        > /dev/null 2>&1 & echo $! > /root/project/envv_api.txt 
-   nohup /root/project/api/newfold.py & \
-        > /dev/null 2>&1 & echo $! > /root/project/nnff_api.txt 
-   nohup /root/project/api/midasweb.py & \
-        > /dev/null 2>&1 & echo $! > /root/project/mmww_api.txt 
+   nohup /home/boincadm/project/api/submit_known.py & \
+        > /dev/null 2>&1 & echo $! > /home/boincadm/project/sskk_api.txt
+   nohup /home/boincadm/project/api/reef_storage.py & \
+        > /dev/null 2>&1 & echo $! > /home/boincadm/project/rrff_api.txt
+   nohup /home/boincadm/project/api/factor2.py & \
+        > /dev/null 2>&1 & echo $! > /home/boincadm/project/fac2_api.txt 
+   nohup /home/boincadm/project/api/MIDAS.py & \
+        > /dev/null 2>&1 & echo $! > /home/boincadm/project/midd_api.txt
+   nohup /home/boincadm/project/api/allocation.py & \
+        > /dev/null 2>&1 & echo $! > /home/boincadm/project/allo_api.txt
+   nohup /home/boincadm/project/api/personal_area.py & \
+        > /dev/null 2>&1 & echo $! > /home/boincadm/project/prar_api.txt
+   nohup /home/boincadm/project/api/adtdp_common.py & \
+        > /dev/null 2>&1 & echo $! > /home/boincadm/project/adtd_api.txt
+   nohup /home/boincadm/project/api/webin.py & \
+        > /dev/null 2>&1 & echo $! > /home/boincadm/project/webi_api.txt
+   nohup /home/boincadm/project/api/ualdap.py & \
+        > /dev/null 2>&1 & echo $! > /home/boincadm/project/ldap_api.txt 
+   nohup /home/boincadm/project/api/t2auth.py & \
+        > /dev/null 2>&1 & echo $! > /home/boincadm/project/t2au_api.txt 
+   nohup /home/boincadm/project/api/signup_email.py & \
+        > /dev/null 2>&1 & echo $! > /home/boincadm/project/suem_api.txt 
+   nohup /home/boincadm/project/api/envar.py & \
+        > /dev/null 2>&1 & echo $! > /home/boincadm/project/envv_api.txt 
+   nohup /home/boincadm/project/api/newfold.py & \
+        > /dev/null 2>&1 & echo $! > /home/boincadm/project/nnff_api.txt 
+   nohup /home/boincadm/project/api/midasweb.py & \
+        > /dev/null 2>&1 & echo $! > /home/boincadm/project/mmww_api.txt 
 
    printf "Server communication APIs are now active\n"
 fi
@@ -62,20 +62,20 @@ fi
 if [ $1 == "-down" ]; then 
    
    # Must compensate for the fork
-   kill -9 $(($(cat /root/project/sscc_api.txt) - 1))
-   kill -9 $(($(cat /root/project/sskk_api.txt) - 1))
-   kill -9 $(($(cat /root/project/rrff_api.txt) - 1))
-   kill -9 $(($(cat /root/project/fac2_api.txt) - 1))
-   kill -9 $(($(cat /root/project/midd_api.txt) - 1))
-   kill -9 $(($(cat /root/project/allo_api.txt) - 1))
-   kill -9 $(($(cat /root/project/prar_api.txt) - 1))
-   kill -9 $(($(cat /root/project/adtd_api.txt) - 1))
-   kill -9 $(($(cat /root/project/webi_api.txt) - 1))
-   kill -9 $(($(cat /root/project/ldap_api.txt) - 1))
-   kill -9 $(($(cat /root/project/t2au_api.txt) - 1))
-   kill -9 $(($(cat /root/project/suem_api.txt) - 1))
-   kill -9 $(($(cat /root/project/envv_api.txt) - 1))
-   kill -9 $(($(cat /root/project/nnff_api.txt) - 1))
-   kill -9 $(($(cat /root/project/mmww_api.txt) - 1))
+   kill -9 $(($(cat /home/boincadm/project/sscc_api.txt) - 1))
+   kill -9 $(($(cat /home/boincadm/project/sskk_api.txt) - 1))
+   kill -9 $(($(cat /home/boincadm/project/rrff_api.txt) - 1))
+   kill -9 $(($(cat /home/boincadm/project/fac2_api.txt) - 1))
+   kill -9 $(($(cat /home/boincadm/project/midd_api.txt) - 1))
+   kill -9 $(($(cat /home/boincadm/project/allo_api.txt) - 1))
+   kill -9 $(($(cat /home/boincadm/project/prar_api.txt) - 1))
+   kill -9 $(($(cat /home/boincadm/project/adtd_api.txt) - 1))
+   kill -9 $(($(cat /home/boincadm/project/webi_api.txt) - 1))
+   kill -9 $(($(cat /home/boincadm/project/ldap_api.txt) - 1))
+   kill -9 $(($(cat /home/boincadm/project/t2au_api.txt) - 1))
+   kill -9 $(($(cat /home/boincadm/project/suem_api.txt) - 1))
+   kill -9 $(($(cat /home/boincadm/project/envv_api.txt) - 1))
+   kill -9 $(($(cat /home/boincadm/project/nnff_api.txt) - 1))
+   kill -9 $(($(cat /home/boincadm/project/mmww_api.txt) - 1))
    printf "Server communication APIs have been disconnected\n"
 fi

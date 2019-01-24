@@ -50,7 +50,7 @@ Note: Both docker and docker-compose require sudo access, to avoid this problem:
 	cd boinc-server-docker
 	docker-compose pull
 	# Enter the changes on the docker-compose
-	curl https://raw.githubusercontent.com/ritua2/TACC-2-BOINC/master/docker-compose.yml > docker-compose.yml
+	curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/docker-compose.yml > docker-compose.yml
 	URL_BASE=http://IP_ADDRESS docker-compose up -d
 ```
 	

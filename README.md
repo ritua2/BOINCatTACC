@@ -23,7 +23,7 @@ To execute the jobs submitted through the BOINC server, that is, to become a BOI
 
 *http://SERVER_IP/boincserver*  
 
-The BOINC server will automatically recognize your system as a volunteer and will submit jobs to it when they are available. For the TACC-2-BOINC server project, after July 30th 2018, the following URL can be used to add the project to the BOINC client: http://boinc.tacc.utexas.edu
+The BOINC server will automatically recognize your system as a volunteer and will submit jobs to it when they are available. This project was previously named as TACC-2-BOINC and hence, had a different project URL. Since July 30th 2018, the project is called BOINC@TACC, and the following URL can be used for adding the project to the BOINC client: http://boinc.tacc.utexas.edu
 
 -------
 

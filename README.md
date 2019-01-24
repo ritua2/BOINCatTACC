@@ -42,7 +42,7 @@ Note: Both docker and docker-compose require sudo access, to avoid this problem:
 	* Modify the *docker-compose.yml* to make it similar to the one provided in this repository. This updated compose file opens the ports 
 	necessary for API usage. The only changes needed are in the ports for mysql and apache containers.
 	* Most likely, this server will be installed on a cloud server. If that is the case, do not compose up directly. It is necessary to specify
-	the IP of the system using the following syntax:
+	the IP of the system using the syntax below.
 	* If not using root, it is possible that an error appears about Docker not being able to connect to the daemon. If this is the case, use 
 	*sudo* to obtain root access, and use *sudo* for all docker and/or docker-compose commands.
 ```bash

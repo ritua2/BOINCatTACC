@@ -62,22 +62,25 @@ Note: Both docker and docker-compose require sudo access, to avoid this problem:
 	* Execute *docker ps* do obtain all the data about the BOINC containers. If the setup is done correctly, there is an apache container.
 	* Log into the apache container by using *docker exec -it {apache container ID} bash*
 	* Follow  the guide in [BOINC HTMLOps][5] to set -up an administrative account with .htpasswd
-		* .htpasswd is located in */root/project/html/ops*
+		* .htpasswd is located in */home/boincadm/project/html/ops/*
 	* Login into the administrative BOINC page at *SERVER_IP/boincserver_ops* with the username and password provided above
 ```bash
-	cd /root/html/ops
+	# Find the docker container
+	docker ps
+	docker exec -it $APACHE bash
+	cd /home/boincadm/project/html/ops/
 	htpasswd -c .htpasswd $NEWUSERNAME
 ```
 
 4. **Clone this repository**
 	* If git is not installed, do it by executing: *apt-get update && apt-get install git-core -y*
-	* If not already there, *cd /root/project*
+	* If not already there, *cd /home/boincadm/project*
 	* Clone via: *git clone https://github.com/ritua2/TACC-2-BOINC*
 	* *cd TACC-2-BOINC*
 ```bash
-	cd /root/project
-	git clone https://github.com/ritua2/TACC-2-BOINC
-	cd TACC-2-BOINC
+	cd /home/boincadm/project
+	git clone https://github.com/ritua2/BOINCatTACC
+	cd BOINCatTACC
 ```
 
 5. **Establish user email credentials**
@@ -91,14 +94,14 @@ Note: Both docker and docker-compose require sudo access, to avoid this problem:
 ```bash
 	 bash password_credentials.sh
 	 exit
-	 docker exec -it {APACHE SERVER} bash
+	 docker exec -it $APACHE bash
 ```
 
 6. **Run the setup file**  
 	* It will install all the necessary packages, python libraries, set-up the internal Redis database, properly locate the files, set-up the APIs, Reef cloud storage, and automatic job processing
 	* The set-up file will also automatically prompt to enter the credentials for the email. Use caution, since an error would require to manually fix the /root/.bashrc file
 ```bash
-	 cd /root/project/TACC-2-BOINC
+	 cd /home/boincadm/project/BOINCatTACC
 	 bash red_setup.sh
 ```
 

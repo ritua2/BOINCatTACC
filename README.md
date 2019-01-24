@@ -1,6 +1,6 @@
 ### BOINC@TACC project ###
 
-This project provides a conduit for routing High-Throughput Computing (HTC) jobs from TACC rsources to a BOINC server, and from there, to the BOINC clients (which run on volunteered hardware resources). The project is funded through NSF Award #1664022.
+This project provides a conduit for routing High-Throughput Computing (HTC) jobs from TACC rsources to a BOINC server, and from there, to the BOINC clients (which run on volunteered hardware resources and VMs in the cloud). The project is funded through NSF Award #1664022.
 
 This repository includes the following:
 
@@ -23,7 +23,7 @@ To execute the jobs submitted through the BOINC server, that is, to become a BOI
 
 *http://SERVER_IP/boincserver*  
 
-The BOINC server will automatically recognize your system as a volunteer and will submit jobs to it when they are available. For the TACC-2-BOINC server project, after July 30th 2018, the following URL can be used to add the project to the BOINC client: http://boinc.tacc.utexas.edu
+The BOINC server will automatically recognize your system as a volunteer and will submit jobs to it when they are available. This project was previously named as TACC-2-BOINC and hence, had a different project URL. Since July 30th 2018, the project is called BOINC@TACC, and the following URL can be used for adding the project to the BOINC client: http://boinc.tacc.utexas.edu
 
 -------
 
@@ -42,7 +42,7 @@ Note: Both docker and docker-compose require sudo access, to avoid this problem:
 	* Modify the *docker-compose.yml* to make it similar to the one provided in this repository. This updated compose file opens the ports 
 	necessary for API usage. The only changes needed are in the ports for mysql and apache containers.
 	* Most likely, this server will be installed on a cloud server. If that is the case, do not compose up directly. It is necessary to specify
-	the IP of the system using the following syntax:
+	the IP of the system using the syntax below.
 	* If not using root, it is possible that an error appears about Docker not being able to connect to the daemon. If this is the case, use 
 	*sudo* to obtain root access, and use *sudo* for all docker and/or docker-compose commands.
 ```bash

@@ -75,8 +75,8 @@ Note: Both docker and docker-compose require sudo access, to avoid this problem:
 4. **Clone this repository**
 	* If git is not installed, do it by executing: *apt-get update && apt-get install git-core -y*
 	* If not already there, *cd /home/boincadm/project*
-	* Clone via: *git clone https://github.com/ritua2/TACC-2-BOINC*
-	* *cd TACC-2-BOINC*
+	* Clone via: *git clone https://github.com/ritua2/BOINCatTACC*
+	* *cd BOINCatTACC*
 ```bash
 	cd /home/boincadm/project
 	git clone https://github.com/ritua2/BOINCatTACC

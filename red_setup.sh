@@ -27,11 +27,11 @@ pip3 install redis Flask Werkzeug docker ldap3 requests
 
 # Moves all the APIs and email commands
 # Requires to be cloned inside project
-cp ./api /home/boincadm/project
-cp ./adtd-protocol /home/boincadm/project
+cp -r ./api /home/boincadm/project
+cp -r ./adtd-protocol /home/boincadm/project
 cp ./email_assimilator.py /home/boincadm/project
 cp ./email2.py /home/boincadm/project
-cp ./user-interface/* /home/boincadm/project/html/user
+cp -r ./user-interface/* /home/boincadm/project/html/user
 cp ./API_Daemon.sh  /home/boincadm/project
 cp ./bproc.sh  /home/boincadm/project
 cp ./password_credentials.sh /home/boincadm/project

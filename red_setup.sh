@@ -43,20 +43,21 @@ mkdir /home/boincadm/project/adtd-protocol/tasks
 mkdir /results/adtdp
 
 # Moves the front end files
-cp /home/boincadm/project/html/user /home/boincadm/project/html/user_old
-#cp ./user/img1 /home/boincadm/project/html/user/
-cp ./user /home/boincadm/project/html/user
+mv /home/boincadm/project/html/user /home/boincadm/project/html/user_old
+cp -r ./user /home/boincadm/project/html/user
+cp -r ./user/img1 /home/boincadm/project/html/user/
+
 
 # Also moves the schedules
-cp /home/boincadm/project/html/user_old/schedulers.txt /home/boincadm/project/html/user/schedulers.txt
+mv /home/boincadm/project/html/user_old/schedulers.txt /home/boincadm/project/html/user/schedulers.txt
 
 # Substitutes the project and inc files by their new equivalents
-cp /home/boincadm/project/html/inc /home/boincadm/project/html/inc_previous
-cp ./inc /home/boincadm/project/html/inc
-cp /home/boincadm/project/html/project /home/boincadm/project/html/project_old
-cp ./project /home/boincadm/project/html/project
-cp /home/boincadm/project/html/user_profile /home/boincadm/project/html/user_profile_old
-cp ./user_profile /home/boincadm/project/html/user_profile
+mv /home/boincadm/project/html/inc /home/boincadm/project/html/inc_previous
+cp -r ./inc /home/boincadm/project/html/inc
+mv /home/boincadm/project/html/project /home/boincadm/project/html/project_old
+cp -r ./project /home/boincadm/project/html/project
+mv /home/boincadm/project/html/user_profile /home/boincadm/project/html/user_profile_old
+cp -r ./user_profile /home/boincadm/project/html/user_profile
 
 
 chmod +x /home/boincadm/project/email_assimilator.py
@@ -87,10 +88,12 @@ chmod +x /home/boincadm/project/email2.py
 chmod +x /home/boincadm/project/automail.sh
 
 
-# Asks the user to make the main directory available
-printf "Enter the apache2.conf and comment out the main directory restrictions\nThis message will stay for 20 s\n"
-sleep 20
-vi /etc/apache2/apache2.conf
+# Removes main directory restrictions
+sed -i "159i# This line has been commented" /etc/apache2/apache2.conf
+sed -i "160i# Commented" /etc/apache2/apache2.conf
+sed -i "161i# Commented" /etc/apache2/apache2.conf
+sed -i "162i# Commented" /etc/apache2/apache2.conf
+sed -i "163i# Commented" /etc/apache2/apache2.conf
 
 # Updates the scheduler
 printf "<!-- <scheduler>http://$URL_BASE/boincserver_cgi/cgi</scheduler> -->\n" > /home/boincadm/project/html/user/schedulers.txt

@@ -57,6 +57,7 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock"
     ports: 
       - "80:80"
+      - "443:443"
       - "5000:5000"
       - "5050-5100:5050-5100"
     tty: true

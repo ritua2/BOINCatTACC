@@ -1,7 +1,7 @@
 <?php
 
 // Finds the organization key for any organization within the Redis database
-require '/root/project/html/user/token_data/autoload.php';
+require '/home/boincadm/project/html/user/token_data/autoload.php';
 Predis\Autoloader::register();
 
 

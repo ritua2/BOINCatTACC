@@ -7,7 +7,7 @@
 /  Logs a researcher out
 */
 
-require '/root/project/html/user/token_data/autoload.php';
+require '/home/boincadm/project/html/user/token_data/autoload.php';
 Predis\Autoloader::register();
 
 

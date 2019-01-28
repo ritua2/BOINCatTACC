@@ -308,6 +308,8 @@ def add_job(TopDATA, boapp="boinc2docker", job_ID=None, jobsub=1):
 # Executes all the needed actions in a simple function that can be imported
 def complete_tag_work(Image, TopDATA, TACC="N", boapp="boinc2docker", job_ID=None, jobsub=1):
 
+    return "Statistics are not currently available"
+
     # Adds image
     IMADD = add_new_image(Image, TopDATA, TACC)
     if IMADD[:7] == 'INVALID':

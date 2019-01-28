@@ -25,6 +25,10 @@ apt-get install python3 python3-pip python3-mysql.connector -y
 # Python modules
 pip3 install redis Flask Werkzeug docker ldap3 requests
 
+
+# Changes all instances of http:// into https://
+
+
 # Moves all the APIs and email commands
 # Requires to be cloned inside project
 cp -r ./api /home/boincadm/project

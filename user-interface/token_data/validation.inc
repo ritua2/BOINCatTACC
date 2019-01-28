@@ -3,7 +3,7 @@
 function valid_token($toktok){
 
 
-        $fh = fopen('/root/project/html/user/token_data/Tokens.txt', 'r');
+        $fh = fopen('/home/boincadm/project/html/user/token_data/Tokens.txt', 'r');
         while ($line= fgets($fh)){
 
                // Each line is separated into 3 parts by ;

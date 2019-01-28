@@ -27,11 +27,11 @@ for qq in range(0, r.llen('Token')):
        acim = r.lindex('Image', qq).decode('UTF-8')
        accom = r.lindex('Command', qq).decode('UTF-8') 
        
-       with open("/root/project/html/user/token_data/temtemp.txt", "w") as TFIL:
-          TFIL.write("/root/project/bin/boinc2docker_create_work.py "+
+       with open("/home/boincadm/project/html/user/token_data/temtemp.txt", "w") as TFIL:
+          TFIL.write("/home/boincadm/project/bin/boinc2docker_create_work.py "+
                      acim+" "+accom)
        
-       with open("/root/project/html/user/token_data/temtemp.txt", "r") as RFIL:
+       with open("/home/boincadm/project/html/user/token_data/temtemp.txt", "r") as RFIL:
           for line in RFIL:
               # Guaranteed to there only be one line
               COMMAND=line

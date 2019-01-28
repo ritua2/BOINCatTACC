@@ -20,7 +20,7 @@ import tarfile
 
 r = redis.Redis(host = '0.0.0.0', port = 6389, db =0)
 r_adtd = redis.Redis(host = '0.0.0.0', port = 6389, db =14)
-TASKS_FOLDER = "/root/project/adtd-protocol/tasks/"
+TASKS_FOLDER = "/home/boincadm/project/adtd-protocol/tasks/"
 client = docker.from_env(timeout=5*60)
 image = client.images
 

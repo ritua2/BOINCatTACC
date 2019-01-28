@@ -121,7 +121,7 @@ Note: Both docker and docker-compose require sudo access, to avoid this problem:
 	* For more instructions on supplying tokens through organizations, check the API documentation
 	* To do this:
 ```bash
-	cd /root/project/html/user/token_data
+	cd /home/boincadm/project/html/user/token_data
 	python3 create_organization.py
 ```
 
@@ -137,13 +137,13 @@ Note: Both docker and docker-compose require sudo access, to avoid this problem:
 1. Disconnecting the APIs, including Reef:
 	* Disconnecting the APIs will not delete any files currently saved in Reef
 ```bash
-	cd /root/project
+	cd /home/boincadm/project
 	./API_Daemon.sh -down
 ```
 
 2. Pulling the APIs up again:
 ```bash
-	cd /root/project
+	cd /home/boincadm/project
 	./API_Daemon.sh -up
 ```
 

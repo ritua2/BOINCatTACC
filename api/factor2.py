@@ -144,7 +144,7 @@ def authenticated_request_token(temptok):
     pp.send_mail(EMAIL, 'Approved researcher account', Text)
 
     # Adds the token to the token file
-    with open("/root/project/html/user/token_data/Tokens.txt", "a") as tokfile:
+    with open("/home/boincadm/project/html/user/token_data/Tokens.txt", "a") as tokfile:
          tokfile.write(NAME+" "+LAST_NAME+", "+user_tok+", "+EMAIL+'\n')
 
     # Also creates a Reef directory
@@ -231,11 +231,11 @@ def authorize_from_org():
     requests.get('http://'+os.environ['Reef_IP']+':2002/reef/create_user/'+user_tok+'/'+os.environ['Reef_Key'])
 
     # Creates also the local directories for MIDAS usage
-    os.mkdir("/root/project/api/sandbox_files/DIR_"+user_tok)
-    os.mkdir("/root/project/api/sandbox_files/DIR_"+user_tok+'/___RESULTS')
+    os.mkdir("/home/boincadm/project/api/sandbox_files/DIR_"+user_tok)
+    os.mkdir("/home/boincadm/project/api/sandbox_files/DIR_"+user_tok+'/___RESULTS')
 
     # Prints the result to the token file because of backwards compatibility
-    with open("/root/project/html/user/token_data/Tokens.txt", 'a') as TFIL:
+    with open("/home/boincadm/project/html/user/token_data/Tokens.txt", 'a') as TFIL:
         TFIL.write(NAME+" "+LAST_NAME+", "+user_tok+", "+EMAIL+"\n")
 
     # Adds the allocation details

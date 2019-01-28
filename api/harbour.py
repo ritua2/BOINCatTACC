@@ -70,10 +70,10 @@ def complete_build(IMTAG, UTOK, MIDIR, COMMAND_TXT, DOCK_DOCK, BOCOM, FILES_PATH
                 TAGS = json.load(J)
 
             cus.complete_tag_work(UTOK, TAGS)
-            shutil.move(COMMAND_TXT+".txt", "/root/project/html/user/token_data/process_files/"+COMMAND_TXT+".txt")
+            shutil.move(COMMAND_TXT+".txt", "/home/boincadm/project/html/user/token_data/process_files/"+COMMAND_TXT+".txt")
 
         if boapp == "adtdp":
-            shutil.move(COMMAND_TXT+".txt", "/root/project/adtd-protocol/process_files/"+COMMAND_TXT+".txt")
+            shutil.move(COMMAND_TXT+".txt", "/home/boincadm/project/adtd-protocol/process_files/"+COMMAND_TXT+".txt")
 
         # Deletes the key
         r.delete(UTOK+';'+MIDIR)
@@ -130,7 +130,7 @@ else:
 for HJK in to_be_processed:
 
     user_tok, dir_midas = HJK
-    FILE_LOCATION = "/root/project/api/sandbox_files/DIR_"+user_tok+'/'+dir_midas
+    FILE_LOCATION = "/home/boincadm/project/api/sandbox_files/DIR_"+user_tok+'/'+dir_midas
 
     # Goes to the file location
     os.chdir(FILE_LOCATION)

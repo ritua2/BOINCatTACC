@@ -20,7 +20,7 @@ import redis
 
 r = redis.Redis(host = '0.0.0.0', port = 6389, db=2)
 app = Flask(__name__)
-UPLOAD_FOLDER = "/root/project/api/sandbox_files"
+UPLOAD_FOLDER = "/home/boincadm/project/api/sandbox_files"
 
 
 # Basic operational check
@@ -134,7 +134,7 @@ def dirs_midas(toktok):
     if  pp.token_test(toktok) == False:
         return 'Invalid token'
     
-    midas_dirs = [x for x in os.listdir('/root/project/api/sandbox_files/DIR_'+str(toktok)) if 'MID_'==x[:4:]]
+    midas_dirs = [x for x in os.listdir('/home/boincadm/project/api/sandbox_files/DIR_'+str(toktok)) if 'MID_'==x[:4:]]
     return ', '.join(midas_dirs)
 
 
@@ -147,13 +147,13 @@ def delete_midas_dir(toktok):
       return 'Invalid, provide a file to be deleted'
 
     # Accounts for missing directories
-    if str('DIR_'+toktok) not in os.listdir('/root/project/api/sandbox_files'):
+    if str('DIR_'+toktok) not in os.listdir('/home/boincadm/project/api/sandbox_files'):
        return 'User directory does not exist'
     try: 
        MIDIR = request.form['del']    
        if MIDIR == '':    
           return 'No file provided'     
-       shutil.rmtree('/root/project/api/sandbox_files/DIR_'+str(toktok)+'/'+str(MIDIR))
+       shutil.rmtree('/home/boincadm/project/api/sandbox_files/DIR_'+str(toktok)+'/'+str(MIDIR))
        return 'Midas directory deleted'
 
     except:
@@ -173,7 +173,7 @@ def midas(toktok):
     file = request.files['file']
 
     try:
-       ALL_USER_DATA = os.listdir('/root/project/api/sandbox_files/DIR_'+str(toktok))
+       ALL_USER_DATA = os.listdir('/home/boincadm/project/api/sandbox_files/DIR_'+str(toktok))
     except:
        return 'User sandbox is not set-up, create a sandbox first'
 
@@ -221,24 +221,24 @@ def midas(toktok):
     TAR.extractall(TAR_PATH)
 
     if not mdr.valid_README(TAR_PATH+'/README.txt'):
-        shutil.rmtree('/root/project/api/sandbox_files/DIR_'+str(toktok)+'/'+new_MID)
+        shutil.rmtree('/home/boincadm/project/api/sandbox_files/DIR_'+str(toktok)+'/'+new_MID)
         return 'ERROR: README is not valid'
 
     if not mdr.valid_OS(TAR_PATH+'/README.txt'):
-        shutil.rmtree('/root/project/api/sandbox_files/DIR_'+str(toktok)+'/'+new_MID)
+        shutil.rmtree('/home/boincadm/project/api/sandbox_files/DIR_'+str(toktok)+'/'+new_MID)
         return 'ERROR: OS is not accepted'
         
     if not mdr.present_input_files(TAR_PATH):
-        shutil.rmtree('/root/project/api/sandbox_files/DIR_'+str(toktok)+'/'+new_MID)
+        shutil.rmtree('/home/boincadm/project/api/sandbox_files/DIR_'+str(toktok)+'/'+new_MID)
         return 'ERROR: Not all input files for commands are present'
 
     if not mdr.valid_language(TAR_PATH+'/README.txt'):
-        shutil.rmtree('/root/project/api/sandbox_files/DIR_'+str(toktok)+'/'+new_MID)
+        shutil.rmtree('/home/boincadm/project/api/sandbox_files/DIR_'+str(toktok)+'/'+new_MID)
         return 'ERROR: Language is not accepted'
 
     # Avoids cases where no libraries are needed at all
     if (not mdr.install_libraries(TAR_PATH+'/README.txt')) and (mdr.install_libraries(TAR_PATH+'/README.txt') != []):
-        shutil.rmtree('/root/project/api/sandbox_files/DIR_'+str(toktok)+'/'+new_MID)
+        shutil.rmtree('/home/boincadm/project/api/sandbox_files/DIR_'+str(toktok)+'/'+new_MID)
         return 'ERROR: Language does not support libraries'
 
 

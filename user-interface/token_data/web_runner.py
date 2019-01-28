@@ -37,5 +37,5 @@ with open("issued.txt", "r") as all_issued:
 			FF2.close()
 
 			# Executes the command on the shell 
-			os.system("/root/project/bin/boinc2docker_create_work.py " + alin.replace("\n", ""))                         
+			os.system("/home/boincadm/project/bin/boinc2docker_create_work.py " + alin.replace("\n", ""))                         
 			

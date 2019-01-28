@@ -15,9 +15,9 @@ from werkzeug.datastructures import ImmutableMultiDict
 
 
 app = Flask(__name__)
-UPLOAD_FOLDER = "/root/project/api/sandbox_files"
-ADTDP_FOLDER = "/root/project/adtd-protocol/process_files"
-FINAL_FOLDER = "/root/project/html/user/token_data/process_files"
+UPLOAD_FOLDER = "/home/boincadm/project/api/sandbox_files"
+ADTDP_FOLDER = "/home/boincadm/project/adtd-protocol/process_files"
+FINAL_FOLDER = "/home/boincadm/project/html/user/token_data/process_files"
 
 
 @app.route("/boincserver/v2/submit_known/token=<toktok>", methods = ['GET', 'POST'])

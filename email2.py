@@ -32,7 +32,7 @@ Necessary functions
 def obtain_email(toktok):
     
     toktok = toktok.replace('\n', '').replace(' ', '')
-    with open("/root/project/html/user/token_data/Tokens.txt", 'r') as TFIL:
+    with open("/home/boincadm/project/html/user/token_data/Tokens.txt", 'r') as TFIL:
          for line in TFIL:
              if toktok in line:
                 return line.split(',')[-1].replace('\n', '').replace(' ', '')

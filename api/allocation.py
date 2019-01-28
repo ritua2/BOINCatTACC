@@ -114,7 +114,7 @@ def delete_user_data():
     used_space = pp.user_sandbox_size(str(toktok))/1073741824
 
     # Finds all the user data
-    USER_PATH = "/root/project/api/sandbox_files/DIR_"+toktok
+    USER_PATH = "/home/boincadm/project/api/sandbox_files/DIR_"+toktok
     user_files = os.listdir(USER_PATH)
 
     if user_commands[0]:

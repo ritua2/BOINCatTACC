@@ -56,7 +56,7 @@ def random_dir_name():
 
 def user_sandbox_size(TOK):
     total_size = 0
-    for dirpath, dirnames, filenames in os.walk('/root/project/api/sandbox_files/DIR_'+TOK):
+    for dirpath, dirnames, filenames in os.walk('/home/boincadm/project/api/sandbox_files/DIR_'+TOK):
         for f in filenames:
             fp = os.path.join(dirpath, f)
             total_size += os.path.getsize(fp)
@@ -90,7 +90,7 @@ def send_mail(send_to, subject, text):
 def obtain_email(toktok):
     
     toktok = toktok.replace('\n', '').replace(' ', '')
-    with open("/root/project/html/user/token_data/Tokens.txt", 'r') as TFIL:
+    with open("/home/boincadm/project/html/user/token_data/Tokens.txt", 'r') as TFIL:
          for line in TFIL:
              if toktok in line:
                 return line.split(',')[-1].replace('\n', '').replace(' ', '')

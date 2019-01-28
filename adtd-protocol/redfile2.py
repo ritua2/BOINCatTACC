@@ -42,7 +42,7 @@ def summarizer(linlin):
    return [L1, L2]
 
 
-for file in glob.glob("/root/project/adtd-protocol/process_files/*.txt"):
+for file in glob.glob("/home/boincadm/project/adtd-protocol/process_files/*.txt"):
     
     with open(file, "r") as filproc:    
          # Moves all the data into redis   

@@ -18,7 +18,7 @@ import redis
 
 r = redis.Redis(host = '0.0.0.0', port = 6389, db=2)
 app = Flask(__name__)
-UPLOAD_FOLDER = "/root/project/api/sandbox_files"
+UPLOAD_FOLDER = "/home/boincadm/project/api/sandbox_files"
 valid_compilers = ['gcc', 'g++', 'gfortran']
 
 
@@ -237,7 +237,7 @@ def process_midas_jobs():
         return 'INVALID, Language does not support libraries'
 
     # Moves the directory to MIDAS and processes it
-    ALL_USER_DATA = os.listdir('/root/project/api/sandbox_files/DIR_'+str(TOK))
+    ALL_USER_DATA = os.listdir('/home/boincadm/project/api/sandbox_files/DIR_'+str(TOK))
     while True:
         new_MID = 'MID_'+pp.random_dir_name()
         if new_MID not in ALL_USER_DATA:

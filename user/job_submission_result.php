@@ -146,7 +146,7 @@ if(strpos($_SERVER['HTTP_REFERER'], 'job_submission') !== false){
 				curl_close ($ch);
 
 				/*//https://www.w3schools.com/Php/php_file_upload.asp
-				$target_dir = "/root/project/api/sandbox_files/DIR_".$token."/";
+				$target_dir = "/home/boincadm/project/api/sandbox_files/DIR_".$token."/";
 				$target_file = $target_dir . basename($fileName);
 				if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {*/
 				

@@ -16,9 +16,9 @@ import custodian as cus
 
 
 app = Flask(__name__)
-ADTDP_FOLDER = "/root/project/adtd-protocol/process_files/"
-BOINC_FOLDER = "/root/project/html/user/token_data/process_files/"
-UPLOAD_FOLDER = "/root/project/api/"
+ADTDP_FOLDER = "/home/boincadm/project/adtd-protocol/process_files/"
+BOINC_FOLDER = "/home/boincadm/project/html/user/token_data/process_files/"
+UPLOAD_FOLDER = "/home/boincadm/project/api/"
 SERVER_IP = os.environ['SERVER_IP']
 
 

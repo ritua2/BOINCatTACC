@@ -20,7 +20,7 @@ import preprocessing as pp
 r = redis.Redis(host = '0.0.0.0', port = 6389, db = 14)
 r_run = redis.Redis(host = '0.0.0.0', port = 6389, db =0)
 UPLOAD_FOLDER = "/results/adtdp/"
-TASKS_FOLDER = "/root/project/adtd-protocol/tasks/"
+TASKS_FOLDER = "/home/boincadm/project/adtd-protocol/tasks/"
 app = Flask(__name__)
 
 
@@ -66,7 +66,7 @@ def request_work():
         return "INVALID, job ID is not available"
 
     r.hset(work_ID, "Error", "Running")
-    return send_file("/root/project/adtd-protocol/tasks/"+work_ID+"/tbp.tar.gz")
+    return send_file("/home/boincadm/project/adtd-protocol/tasks/"+work_ID+"/tbp.tar.gz")
 
 
 # Erases a job when it returns an error

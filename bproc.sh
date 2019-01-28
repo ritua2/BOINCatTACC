@@ -17,9 +17,9 @@ crontab -l | { cat; echo "MYSQL_UPASS=\'$MYSQL_UPASS\'"; } | crontab -
 # Initiates the cron job for emails
 
 # Deletes unnecessary images and containers every hour
-crontab -l | { cat; echo "0 * * * * /root/project/idir.py"; } | crontab -
+crontab -l | { cat; echo "0 * * * * /home/boincadm/project/idir.py"; } | crontab -
 # Automatic dockerfile creation
-crontab -l | { cat; echo "*/15 * * * * /root/project/api/harbour.py"; } | crontab -
+crontab -l | { cat; echo "*/15 * * * * /home/boincadm/project/api/harbour.py"; } | crontab -
 # Erases all unaccounted images and stopped containers
 crontab -l | { cat; echo "*/15 * * * * docker ps -aq --no-trunc -f status=exited | xargs docker rm"; } | crontab -
 crontab -l | { cat; echo "*/15 * * * * docker images -q --filter dangling=true | xargs docker rmi -f"; } | crontab -
@@ -32,10 +32,10 @@ crontab -l | { cat; echo "0 1 * * * find /tmp -ctime +3 -exec rm -rf {} +"; } | 
 while true
 do
 
-   python3 /root/project/html/user/token_data/redfile.py
-   python3 /root/project/html/user/token_data/red_runner.py
-   python3 /root/project/adtd-protocol/redfile2.py
-   python3 /root/project/adtd-protocol/red_runner2.py
+   python3 /home/boincadm/project/html/user/token_data/redfile.py
+   python3 /home/boincadm/project/html/user/token_data/red_runner.py
+   python3 /home/boincadm/project/adtd-protocol/redfile2.py
+   python3 /home/boincadm/project/adtd-protocol/red_runner2.py
    sleep 15
 
 done

@@ -4,8 +4,8 @@
 
 while true
 do
-	/root/project/email_assimilator.py
-	/root/project/email2.py
+	/home/boincadm/project/email_assimilator.py
+	/home/boincadm/project/email2.py
 	sleep 1200
 
 done

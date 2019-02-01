@@ -8,7 +8,7 @@ page_head(null, null, null, null,  null, "Log In Verification");
 if(!isset($_POST['username'])){
 	echo "<script>window.location.replace('./login_as_a_researcher_form.php')</script>";
 }
-else {*/
+else {
 	//Commented out by Thomas (allowed anyone to log in as a researcher)
 	//End of Joshua's edit
 	$username=$_POST["username"];

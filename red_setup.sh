@@ -21,7 +21,7 @@ cp predis/* ./user-interface/token_data
 # Sets up a redis server on port 6389, which must be open in the docker-compose.yml
 redis-server --port 6389 &
 # Sets up python3, needed
-apt-get install python3 python3-pip python3-mysql.connector -y
+apt-get install python3 python3-pip python3-mysql.connector mailutils -y
 # Python modules
 pip3 install redis Flask Werkzeug docker ldap3 requests
 
@@ -109,6 +109,9 @@ sed -i "s@DocumentRoot.*@DocumentRoot /home/boincadm/project/html/user/\n@"  /et
 
 # Changes the master URL to just the root
 sed -i "s@<master_url>.*</master_url>@<master_url>$URL_BASE/</master_url>@" /home/boincadm/project/config.xml
+
+# Changes the DB ops for the new BOINC 4
+cat /home/boincadm/project/html/inc_previous/db_ops.inc > /home/boincadm/project/html/inc/db_ops.inc
 
 # Restarts apache
 service apache2 restart

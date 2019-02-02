@@ -27,8 +27,8 @@ printf "\nEnter Reef key: "
 read Reef_Key
 
 
-printf "\nexport SERVER_IP=$SERVER_IP\nexport BOINC_EMAIL=$BOINC_EMAIL\nexport BOINC_EMAIL_PASSWORD=$BOINC_EMAIL_PASSWORD\n" >> /root/.bashrc
-printf "\nexport MYSQL_UPASS=$MYSQL_UPASS\nexport Reef_IP=$Reef_IP\nexport Reef_Key=$Reef_Key\n" >> /root/.bashrc
+printf "\nexport SERVER_IP=$SERVER_IP\nexport BOINC_EMAIL=$BOINC_EMAIL\nexport BOINC_EMAIL_PASSWORD=$BOINC_EMAIL_PASSWORD\n" >> /home/boincadm/.bashrc
+printf "\nexport MYSQL_UPASS=$MYSQL_UPASS\nexport Reef_IP=$Reef_IP\nexport Reef_Key=$Reef_Key\n" >> /home/boincadm/.bashrc
 export SERVER_IP=$SERVER_IP
 export MYSQL_UPASS="$MYSQL_UPASS"
 export BOINC_EMAIL=$BOINC_EMAIL

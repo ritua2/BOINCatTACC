@@ -31,9 +31,7 @@ if float(Data_Plan) < 0:
 	raise SyntaxError
 
 Allowed_Users = str(input("Max. number of users allowed for this organization: "))
-print("Enter the list of allowed file email endings (including the @), comma separated")
-Email_Term = str(input("Email ending: "))
-Email_Term = ';'.join(Email_Term.replace(' ', '').split(", "))
+
 
 # All tokens are 24 characters long
 SEQ = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
@@ -43,7 +41,7 @@ for qq in range(0, 24):
 
 
 ORG_DATA = {'Name':Org_Name, 'No. Users':'0', 'Data Plan':Data_Plan, 'Allowed Users':Allowed_Users,
-           'Organization Token':orgtok, 'Users':{}, 'Allowed Email':Email_Term}
+           'Organization Token':orgtok, 'Users':{}}
 
 
 print("New organization created: "+str(Org_Name))

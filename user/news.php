@@ -25,6 +25,19 @@ page_head(null, null, null, null, null, "News");
 //Page Title
 echo '<center><h1>News</h1></center><br />';
 
+
+
+echo '<pre style="word-break:normal;white-space:normal;margin-left:20%;margin-right: 20%;"><style="text-align:left;"><p style="font-size:14px;font-weight: normal;"><span style="font-weight:bold;">'.tra('February 1st, 2019:').'</span>'.tra('Due to a database configuration issue, the BOINC@TACC project was unable to serve jobs to the volunteers for about a week. The issue has been mostly resolved now and the job scheduler is working as expected. We will be restoring the database content related to the volunteers by February 5, 2019. The data related to the researchers has not been impacted.').' </p>';
+
+echo '</style></pre></br>';
+
+
+
+echo '<pre style="word-break:normal;white-space:normal;margin-left:20%;margin-right: 20%;"><style="text-align:left;"><p style="font-size:14px;font-weight: normal;"><span style="font-weight:bold;">'.tra('January 1st, 2019:').'</span>'.tra('The TACC-2-BOINC project has been renamed to BOINC@TACC').' </p>';
+
+echo '</style></pre></br>';
+
+
 //List of News Updates
 echo '<pre style="word-break:normal;white-space:normal;margin-left:20%;margin-right: 20%;"><style="text-align:left;"><p style="font-size:14px;font-weight: normal;"><span style="font-weight:bold;">'.tra('July 30th, 2018:').'</span>'.tra('TACC-2-BOINC project goes live today. Volunteers are now invited to join the project and donate the compute cycles. Individual volunteers can create their accounts on the TACC-2-BOINC website and download the BOINC client for donating compute-cycles on their devices or VMs that they own in the cloud. Institutional volunteers, can email Ritu Arora at rauta@tacc.utexas.edu, to learn more about donating compute cycles.').' </p>';
 
@@ -36,3 +49,4 @@ page_tail();
 //End of Gerald Joshua's Edit
 
 ?>
+

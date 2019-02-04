@@ -31,7 +31,7 @@ function send_email($user, $subject, $body, $body_html=null, $mechanism="php_mai
         $success = true;
         try {
             //Set up the parameters
-            $url = 'http://'.$_SERVER['SERVER_NAME'].':6500/send_emails';
+            $url = 'http://'.$_SERVER['SERVER_NAME'].':5020/send_emails';
 
             $content = array("email_content"=>$body, "email_subject"=>$subject, "user_email"=>($user->email_addr));
             $JSONdata = json_encode($content, JSON_UNESCAPED_SLASHES);

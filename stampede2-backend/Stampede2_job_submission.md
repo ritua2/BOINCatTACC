@@ -105,3 +105,30 @@ chmod +X temp-boinc.sh
 			```
 
 
+
+
+9. OpenSees
+	* Run *temp-boinc.sh* :
+
+	```bash
+	./temp-boinc.sh
+	```
+
+	* Provide your email when requested
+
+	* Select *1* for *allowed options* when prompted  
+	* Select *9* for applications when prompted
+
+	* Continue with the following instructions to run a TACC training file  
+		* Provide the following files (space separated):
+
+			```bash
+			MC.tcl
+			```
+
+		* No directories must be provided (enter to skip)
+		* Provide the following command (line by line, empty line at the end to exit):
+
+			```bash
+			OpenSees < MC.tcl
+			```

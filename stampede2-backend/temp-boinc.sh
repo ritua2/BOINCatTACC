@@ -282,6 +282,7 @@ case "$user_option" in
 
         done
 
+        printf "\nUser files are being uploaded, do not press any keys ...\n"
 
         # Replaces them by curl or wget, depending on the image
         user_command=${user_command//GET_FILE/${curl_or_wget[$option2]}}

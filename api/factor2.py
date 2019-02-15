@@ -133,9 +133,9 @@ def authenticated_request_token(temptok):
     user_tok = EMAIL
     
     # Replaces single quotes by double quotes
-    Org_Users_Data = json.loads(r_org.hget(user_org, 'Users').decode('UTF-8').replace('\"', 'UHJKNM').replace('\'', '\"').replace('UHJKLM', '\''))
+    Org_Users_Data = json.loads(r_org.hget(user_org, 'Users').decode('UTF-8'))
     Org_Users_Data[user_tok]={'name':NAME, 'last name':LAST_NAME, 'email':EMAIL, 'allocation':ALLOCATION}
-    r_org.hset(user_org, 'Users', Org_Users_Data)
+    r_org.hset(user_org, 'Users', json.dumps(Org_Users_Data))
     r_temp.delete(temptok)
     r_org.hincrby(user_org, 'No. Users', 1)
 

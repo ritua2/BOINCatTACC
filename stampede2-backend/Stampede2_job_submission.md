@@ -14,7 +14,7 @@ Obtain the required files from [this directory](./S2-test-files):
 ```bash
 git clone https://github.com/ritua2/BOINCatTACC
 cd BOINCatTACC/stampede2-backend/S2-test-files
-chmod +X temp-boinc.sh
+chmod +X advance-submit.sh
 ```
 
 
@@ -25,7 +25,7 @@ chmod +X temp-boinc.sh
 	* Run *temp-boinc.sh* :
 
 	```bash
-	./temp-boinc.sh
+	./advance-submit.sh
 	```
 
 	* Provide your email when requested
@@ -52,7 +52,7 @@ chmod +X temp-boinc.sh
 	* Run *temp-boinc.sh* :
 
 	```bash
-	./temp-boinc.sh
+	./advance-submit.sh
 	```
 
 	* Provide your email when requested
@@ -80,7 +80,7 @@ chmod +X temp-boinc.sh
 	* Run *temp-boinc.sh* :
 
 	```bash
-	./temp-boinc.sh
+	./advance-submit.sh
 	```
 
 	* Provide your email when requested
@@ -111,7 +111,7 @@ chmod +X temp-boinc.sh
 	* Run *temp-boinc.sh* :
 
 	```bash
-	./temp-boinc.sh
+	./advance-submit.sh
 	```
 
 	* Provide your email when requested

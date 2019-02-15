@@ -12,6 +12,7 @@ Obtain the required files from [this directory](./S2-test-files):
 
 
 ```bash
+ml git
 git clone https://github.com/ritua2/BOINCatTACC
 cd BOINCatTACC/stampede2-backend/S2-test-files
 chmod +X advance-submit.sh

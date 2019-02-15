@@ -15,11 +15,17 @@ Obtain the required files from [this directory](./S2-test-files):
 ml git
 git clone https://github.com/ritua2/BOINCatTACC
 cd BOINCatTACC/stampede2-backend/S2-test-files
-chmod +X advance-submit.sh
+chmod +x advance-submit.sh
 ```
 
 
 * **Tutorial for TACC specific applications**  
+
+
+Note: The script also accounts for job submission using SLURM. In order to utilize BOINC, the job must use 8 or less cores, and below 2048 MB of RAM.
+
+
+
 
 1. AutoDock-Vina  
 

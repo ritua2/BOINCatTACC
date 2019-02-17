@@ -125,4 +125,4 @@ def add_username(username, email, toktok, org_key):
 
 
 if __name__ == '__main__':
-   app.run(host = '0.0.0.0', port = 5078)
+   app.run(host = '0.0.0.0', port = 5078, debug=False, threaded=True)

@@ -27,4 +27,4 @@ def mkdir_tmp(nd):
 
 if __name__ == '__main__':
     # Outside of container
-    app.run(host = '0.0.0.0', port = 6055)
+    app.run(host = '0.0.0.0', port = 6055, debug=False, threaded=True)

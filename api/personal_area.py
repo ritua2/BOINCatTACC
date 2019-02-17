@@ -49,4 +49,4 @@ def user_data(toktok):
 
 
 if __name__ == '__main__':
-   app.run(host = '0.0.0.0', port = 5092)
+   app.run(host = '0.0.0.0', port = 5092, debug=False, threaded=True)

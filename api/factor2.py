@@ -247,4 +247,4 @@ def authorize_from_org():
 
 
 if __name__ == '__main__':
-   app.run(host = '0.0.0.0', port = 5054)
+   app.run(host = '0.0.0.0', port = 5054, debug=False, threaded=True)

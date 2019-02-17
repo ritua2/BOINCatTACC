@@ -92,4 +92,4 @@ def upload_file(toktok):
 
     
 if __name__ == '__main__':
-   app.run(host = '0.0.0.0', port = 5075)
+   app.run(host = '0.0.0.0', port = 5075, debug=False, threaded=True)

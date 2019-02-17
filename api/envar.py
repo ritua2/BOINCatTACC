@@ -25,4 +25,4 @@ def reef():
 
 
 if __name__ == '__main__':
-   app.run(host = '0.0.0.0', port = 6071)
+   app.run(host = '0.0.0.0', port = 6071, debug=False, threaded=True)

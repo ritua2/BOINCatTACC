@@ -183,4 +183,4 @@ def process_web_jobs():
 
 if __name__ == '__main__':
     # Outside of container
-    app.run(host = '0.0.0.0', port = 6035)
+    app.run(host = '0.0.0.0', port = 6035, debug=False, threaded=True)

@@ -62,5 +62,5 @@ def signup_volunteer(email, anonym):
 
 
 if __name__ == '__main__':
-   app.run(host = '0.0.0.0', port = 6040)
+   app.run(host = '0.0.0.0', port = 6040, debug=False, threaded=True)
 

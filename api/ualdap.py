@@ -32,4 +32,4 @@ def ldap_check(username, pw):
 
 
 if __name__ == '__main__':
-   app.run(host = '0.0.0.0', port = 6032)
+   app.run(host = '0.0.0.0', port = 6032, debug=False, threaded=True)

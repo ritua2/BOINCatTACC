@@ -150,4 +150,4 @@ def delete_user_data():
 
 
 if __name__ == '__main__':
-   app.run(host = '0.0.0.0', port = 5052)
+   app.run(host = '0.0.0.0', port = 5052, debug=False, threaded=True)

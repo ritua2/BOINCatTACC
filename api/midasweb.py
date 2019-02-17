@@ -256,4 +256,4 @@ def process_midas_jobs():
 
 if __name__ == '__main__':
     # Outside of container
-    app.run(host = '0.0.0.0', port = 6075)
+    app.run(host = '0.0.0.0', port = 6075, debug=False, threaded=True)

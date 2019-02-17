@@ -166,4 +166,4 @@ def info(work_ID):
 
 
 if __name__ == '__main__':
-   app.run(host = '0.0.0.0', port = 5095)
+   app.run(host = '0.0.0.0', port = 5095, debug=False, threaded=True)

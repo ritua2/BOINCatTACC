@@ -139,3 +139,32 @@ Note: The script also accounts for job submission using SLURM. In order to utili
 			```bash
 			OpenSees < MC.tcl
 			```
+
+
+5. OpenFOAM6
+	* Run *temp-boinc.sh* :
+
+	```bash
+	./advance-submit.sh
+	```
+
+	* Provide your email when requested
+
+	* Select *1* for *allowed options* when prompted  
+	* Select *9* for applications when prompted
+
+	* Continue with the following instructions to run a TACC training file  
+		* No input files are needed:
+
+		* Provide the following directories, each in a new line:
+			```bash
+			0
+			constant
+			system
+			```
+		* Provide the following command (line by line, empty line at the end to exit):
+
+			```bash
+			blockMesh
+			icoFoam
+			```

@@ -31,7 +31,7 @@ else
 fi	
 echo -n "What is the number of cores required for execution (jobs with 9 or more cores will be run on TACC systems) : "
 read reqcores
-if (( reqcores > 8 )) ; then
+if (( reqcores > 4 )) ; then
   if [ -n "$taccsys" ] ; then
     server=$taccsys
   else

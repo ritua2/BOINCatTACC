@@ -89,12 +89,10 @@ Note: Both docker and docker-compose require sudo access, to avoid this problem:
 	* Be sure to have input the correct name and password, to change them again, change */root/.bashrc*
 	* The same applies to the Docker, MIDAS credentials - MIDAS is a software component for creating docker images from source-code
 	* Run the external Reef set-up to connect to an external container. The process is entirely automated and designed so that user files are stored in a different system.
-	* Log out of the container and then log back in again so the changes will take effect
+
 	Do:
 ```bash
-	 bash password_credentials.sh
-	 exit
-	 docker exec -it $APACHE bash
+	 source password_credentials.sh
 ```
 
 6. **Run the setup file**  
@@ -124,6 +122,27 @@ Note: Both docker and docker-compose require sudo access, to avoid this problem:
 	cd /home/boincadm/project/html/user/token_data
 	python3 create_organization.py
 ```
+
+
+8. **Assign VolCon credentials**  
+
+	* [VolCon](./volcon-mirrors) is a distributed way of running jobs on the cloud based on docker, without requiring the BOINC client or VirtualBox
+	* Although it can run on any system with an unique IP address (such as internal networks from the main BOINC server), it is primarily designed for cloud servers
+	* By default, the main BOINC server does not provide VolCon and so any jobs submitted to it will never be run
+	* To create a VolCon network, run the following steps (bash commands below):
+		1. Assign VolCon credentials: provide VolCon password
+		2. Start VolCon network: In order for VolCon to be more effective, a large set of working nodes is required. Although there are other methods, here we will use docker swarm; a docker image is provided that can execute all the roles.
+
+
+	* Note: VolCon is an update over the previously known ADTD-P system and, although both share many features, VolCon is not backwards compatible
+
+```bash
+# (1)
+python3 /home/boincadm/project/BOINCatTACC/create_VolCon_distributors.py
+
+```
+
+
 
 [1]: https://github.com/marius311/boinc-server-docker
 [2]: https://boinc.berkeley.edu/download.php

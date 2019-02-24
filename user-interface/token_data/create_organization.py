@@ -8,7 +8,6 @@ Creates organization wide tokens, to be used when organization users apply for a
 
 
 import redis
-import json
 import random
 
 
@@ -27,8 +26,8 @@ r = redis.Redis(host = '0.0.0.0', port = 6389, db = 3)
 Org_Name = str(input("Organization name: "))
 Data_Plan = str(input("Max. allowed storage for each user: "))
 if float(Data_Plan) < 0:
-	print("Invalid, users cannot have negative allocations")
-	raise SyntaxError
+    print("Invalid, users cannot have negative allocations")
+    raise SyntaxError
 
 Allowed_Users = str(input("Max. number of users allowed for this organization: "))
 
@@ -41,7 +40,7 @@ for qq in range(0, 24):
 
 
 ORG_DATA = {'Name':Org_Name, 'No. Users':'0', 'Data Plan':Data_Plan, 'Allowed Users':Allowed_Users,
-           'Organization Token':orgtok, 'Users':{}}
+           'Organization Token':orgtok, 'Users':'{}'}
 
 
 print("New organization created: "+str(Org_Name))

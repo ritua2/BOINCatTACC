@@ -205,7 +205,7 @@ def authorize_from_org():
 
     user_org = [all_orgs[x] for x in range(0, len(all_orgs)) if all_org_keys[x] == ORG_KEY][0]
 
-    Org_Users_Data = json.loads(r_org.hget(user_org, 'Users').decode('UTF-8').replace('\"', 'UHJKNM').replace('\'', '\"').replace('UHJKLM', '\''))
+    Org_Users_Data = json.loads(r_org.hget(user_org, 'Users').decode('UTF-8'))
 
 
     # If the user has already executed any BOINC programs before, then it simply returns its account keys
@@ -224,7 +224,7 @@ def authorize_from_org():
     
     # Replaces single quotes by double quotes
     Org_Users_Data[user_tok]={'name':NAME, 'last name':LAST_NAME, 'email':EMAIL, 'allocation':4000000}
-    r_org.hset(user_org, 'Users', Org_Users_Data)
+    r_org.hset(user_org, 'Users', json.dumps(Org_Users_Data))
     r_org.hincrby(user_org, 'No. Users', 1)
 
     # Also creates a Reef directory

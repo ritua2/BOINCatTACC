@@ -34,8 +34,9 @@ do
 
    python3 /home/boincadm/project/html/user/token_data/redfile.py
    python3 /home/boincadm/project/html/user/token_data/red_runner.py
-   python3 /home/boincadm/project/adtd-protocol/redfile2.py
-   python3 /home/boincadm/project/adtd-protocol/red_runner2.py
+   python3 /home/boincadm/project/volcon/redfile2.py
+   # Runs though the list and selects a random mirror in which to prepare the necessary files
+   python3 /home/boincadm/project/volcon/red_runner2.py &
    sleep 15
 
 done

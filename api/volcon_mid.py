@@ -96,6 +96,11 @@ def addme():
 
 
 
+# TODO TODO TODO TODO
+# Updates a job that is being run right now
+
+
+
 
 if __name__ == '__main__':
     app.run(host = '0.0.0.0', port = 5089, debug=False, threaded=True)

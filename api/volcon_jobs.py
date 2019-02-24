@@ -5,10 +5,12 @@ Processes job submissions from the BOINC server
 """
 
 
-import datetime
+
 from flask import Flask, request
 import hashlib
 import json
+import mysql_interactions as mints
+from threading import Thread
 
 
 app = Flask(__name__)
@@ -39,12 +41,43 @@ def l2_contains_l1(l1, l2):
 
 
 # Processes incoming jobs for TACC images
+# Automatically assigns them to a mirror after the user receives the job
 @app.route('/volcon/v2/api/jobs/tacc', methods=['POST'])
 def tacc_jobs():
 
-    
+    # Ensures that there is an appropriate json request
+    if not request.is_json:
+        return "INVALID: Request is not json"
+
+    proposal = request.get_json()
+
+    # Checks the required fields
+    req_fields = ["token", "image", "commands"]
+    req_check = l2_contains_l1(req_fields, proposal.keys())
+
+    if req_check != []:
+        return "INVALID: Lacking the following json fields to be read: "+",".join([str(a) for a in req_check])    
 
 
+    [TOKEN, IMAGE, COMMANDS] = [proposal["token"], proposal["image"], proposal["commands"]]
+
+    if "gpu" in IMAGE:
+        GPU = 1
+    else:
+        GPU = 0
+
+    try:
+        mints.add_job(TOKEN, IMAGE, COMMANDS, GPU)
+    except:
+        return "INVALID: Could not connect to MySQL database"
+
+
+    # Calls a mirror in the background
+    # TODO
+    thread = Thread(target=do_work, args=())
+    thread.start()
+
+    return "Successfully submitted job"
 
 
 

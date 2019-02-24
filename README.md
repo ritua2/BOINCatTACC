@@ -32,9 +32,9 @@ The BOINC server will automatically recognize your system as a volunteer and wil
 0. **Install [Docker][3] and [Docker-compose][4] in their most recent versions**  
 Note: Both docker and docker-compose require sudo access, to avoid this problem:
 ```bash
-   sudo groupadd docker
-   sudo gpasswd -a $USER docker
-   # Log out/in to activate these changes
+sudo groupadd docker
+sudo gpasswd -a $USER docker
+# Log out/in to activate these changes
 ```
 
 
@@ -46,12 +46,12 @@ Note: Both docker and docker-compose require sudo access, to avoid this problem:
 	* If not using root, it is possible that an error appears about Docker not being able to connect to the daemon. If this is the case, use 
 	*sudo* to obtain root access, and use *sudo* for all docker and/or docker-compose commands.
 ```bash
-	git clone https://github.com/marius311/boinc-server-docker.git
-	cd boinc-server-docker
-	docker-compose pull
-	# Enter the changes on the docker-compose
-	curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/docker-compose.yml > docker-compose.yml
-	URL_BASE=http://IP_ADDRESS docker-compose up -d
+git clone https://github.com/marius311/boinc-server-docker.git
+cd boinc-server-docker
+docker-compose pull
+# Enter the changes on the docker-compose
+curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/docker-compose.yml > docker-compose.yml
+URL_BASE=http://IP_ADDRESS docker-compose up -d
 ```
 	
 
@@ -65,11 +65,11 @@ Note: Both docker and docker-compose require sudo access, to avoid this problem:
 		* .htpasswd is located in */home/boincadm/project/html/ops/*
 	* Login into the administrative BOINC page at *SERVER_IP/boincserver_ops* with the username and password provided above
 ```bash
-	# Find the docker container
-	docker ps
-	docker exec -it $APACHE bash
-	cd /home/boincadm/project/html/ops/
-	htpasswd -c .htpasswd $NEWUSERNAME
+# Find the docker container
+docker ps
+docker exec -it $APACHE bash
+cd /home/boincadm/project/html/ops/
+htpasswd -c .htpasswd $NEWUSERNAME
 ```
 
 4. **Clone this repository**
@@ -78,9 +78,9 @@ Note: Both docker and docker-compose require sudo access, to avoid this problem:
 	* Clone via: *git clone https://github.com/ritua2/BOINCatTACC*
 	* *cd BOINCatTACC*
 ```bash
-	cd /home/boincadm/project
-	git clone https://github.com/ritua2/BOINCatTACC
-	cd BOINCatTACC
+cd /home/boincadm/project
+git clone https://github.com/ritua2/BOINCatTACC
+cd BOINCatTACC
 ```
 
 5. **Establish user email credentials**
@@ -92,15 +92,15 @@ Note: Both docker and docker-compose require sudo access, to avoid this problem:
 
 	Do:
 ```bash
-	 source password_credentials.sh
+source password_credentials.sh
 ```
 
 6. **Run the setup file**  
 	* It will install all the necessary packages, python libraries, set-up the internal Redis database, properly locate the files, set-up the APIs, Reef cloud storage, and automatic job processing
 	* The set-up file will also automatically prompt to enter the credentials for the email. Use caution, since an error would require to manually fix the /root/.bashrc file
 ```bash
-	 cd /home/boincadm/project/BOINCatTACC
-	 bash red_setup.sh
+ cd /home/boincadm/project/BOINCatTACC
+ bash red_setup.sh
 ```
 
 
@@ -119,20 +119,21 @@ Note: Both docker and docker-compose require sudo access, to avoid this problem:
 	* For more instructions on supplying tokens through organizations, check the API documentation
 	* To do this:
 ```bash
-	cd /home/boincadm/project/html/user/token_data
-	python3 create_organization.py
+cd /home/boincadm/project/html/user/token_data
+python3 create_organization.py
 ```
 
 
 8. **Assign VolCon credentials**  
 
 	* [VolCon](./volcon-mirrors) is a distributed way of running jobs on the cloud based on docker, without requiring the BOINC client or VirtualBox
-	* Although it can run on any system with an unique IP address (such as internal networks from the main BOINC server), it is primarily designed for cloud servers
+	* Although it can run on any system with an unique IP address (such as internal networks accessible from the main BOINC server), it is primarily designed for cloud servers
 	* By default, the main BOINC server does not provide VolCon and so any jobs submitted to it will never be run
 	* To create a VolCon network, run the following steps (bash commands below):
 		1. Assign VolCon credentials: provide VolCon password
 		2. Start VolCon network: In order for VolCon to be more effective, a large set of working nodes is required. Although there are other methods, here we will use docker swarm; a docker image is provided that can execute all the roles.
-
+		3. Assign Runner credentials: Multiple types of VolCon runners can be used at the same type (GPUs or not, different providers, etc). All runners within the same provided organization type are assumed to be similar and so they can be requested in such a way if the user wishes to.
+		4. Implement VolCon runners by organization: 
 
 	* Note: VolCon is an update over the previously known ADTD-P system and, although both share many features, VolCon is not backwards compatible
 
@@ -156,14 +157,14 @@ python3 /home/boincadm/project/BOINCatTACC/create_VolCon_distributors.py
 1. Disconnecting the APIs, including Reef:
 	* Disconnecting the APIs will not delete any files currently saved in Reef
 ```bash
-	cd /home/boincadm/project
-	./API_Daemon.sh -down
+cd /home/boincadm/project
+./API_Daemon.sh -down
 ```
 
 2. Pulling the APIs up again:
 ```bash
-	cd /home/boincadm/project
-	./API_Daemon.sh -up
+cd /home/boincadm/project
+./API_Daemon.sh -up
 ```
 
 3. I just submitted a job and it does not appear in the results ops page

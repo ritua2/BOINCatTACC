@@ -82,7 +82,9 @@ def addme():
         return "INVALID: Server IP has already been assigned"
 
     V = {"IP":IP,
-        "disconnect-key": proposal["disconnect-key"]
+        "disconnect-key": proposal["disconnect-key"],
+        "Jobs-Processed":"0",
+        "Jobs in progress":"0"
     }
 
     r.hmset("M-"+IP, V)

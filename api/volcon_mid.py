@@ -6,11 +6,12 @@ BASICS
 
 Connects and updates the list of VolCon instances and runners.
 Does not receive results (volcon_results.py)
+Does not process incoming jobs (volcon_jobs.py)
 """
 
 
 import datetime
-from flask import Flask, request, send_file, jsonify
+from flask import Flask, request, jsonify
 import hashlib
 import json
 import redis

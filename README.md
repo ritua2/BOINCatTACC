@@ -130,17 +130,52 @@ python3 create_organization.py
 	* Although it can run on any system with an unique IP address (such as internal networks accessible from the main BOINC server), it is primarily designed for cloud servers
 	* By default, the main BOINC server does not provide VolCon and so any jobs submitted to it will never be run
 	* To create a VolCon network, run the following steps (bash commands below):
+		0. Modify MySQL to account for VolCon jobs
 		1. Assign VolCon credentials: provide VolCon password
-		2. Start VolCon network: In order for VolCon to be more effective, a large set of working nodes is required. Although there are other methods, here we will use docker swarm; a docker image is provided that can execute all the roles.
+		2. Start VolCon network: In order for VolCon to be more effective, a large set of working nodes is required. Here will show how to manually run a simple mirror container.
 		3. Assign Runner credentials: Multiple types of VolCon runners can be used at the same type (GPUs or not, different providers, etc). All runners within the same provided organization type are assumed to be similar and so they can be requested in such a way if the user wishes to.
 		4. Implement VolCon runners by organization: 
 
 	* Note: VolCon is an update over the previously known ADTD-P system and, although both share many features, VolCon is not backwards compatible
 
+```mysql
+# (0) MySQL container, mysql
+use boincserver;
+
+CREATE TABLE IF NOT EXISTS volcon_jobs (
+    job_id            BIGINT AUTO_INCREMENT UNIQUE,
+    Token             VARCHAR(255),
+    Image             VARCHAR(255),
+    Command           VARCHAR(5000),
+    Date_Sub          DATETIME,
+    Date_Run          DATETIME,
+    Error             VARCHAR(255),
+    Notified          VARCHAR(255),
+    status            VARCHAR(255),
+    computation_time  DOUBLE,
+    download_time     DOUBLE,
+    GPU               bool,
+    received_time     DATETIME,
+    mirror_ip         VARCHAR(255),
+    volcon_id         VARCHAR(255),
+
+
+    PRIMARY KEY (job_id)
+);
+
+```
+
 ```bash
-# (1)
+# (1) Apache container
 python3 /home/boincadm/project/BOINCatTACC/create_VolCon_distributors.py
 
+
+# (2) Mirror server
+git clone https://github.com/ritua2/BOINCatTACC
+cd BOINCatTACC/volcon-mirrors
+# Build the image, image is not available in dockerhub
+docker build -t boinc_tacc/volcon-mirrors:latest .
+docker run -d -p 5000:5000 -e "main_server=boinc.tacc.utexas.edu" -e "volcon_key=$volcon_key" boinc_tacc/volcon-mirrors:latest
 ```
 
 

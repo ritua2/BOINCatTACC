@@ -23,15 +23,31 @@ def timnow():
 
 # Adds a job to MySQL
 # GPU (1 or 0)
-def add_job(token, image, commands, GPU):
+# VID (str): Volcon ID
+def add_job(token, image, commands, GPU, VID):
     boinc_db = mysql_con.connect(host = os.environ['URL_BASE'].split('/')[-1], port = 3306, user = 'root', password = '', database = 'boincserver')
     cursor = boinc_db.cursor(buffered=True)
 
 
 
     insert_new_job = (
-        "INSERT INTO volcon_jobs (token, Image, Command, Date_Sub, Notified, status, GPU) "
-        "VALUES (%s, %s, %s, %s, %s, %s, %s)")
+        "INSERT INTO volcon_jobs (token, Image, Command, Date_Sub, Notified, status, GPU, volcon_id) "
+        "VALUES (%s, %s, %s, %s, %s, %s, %s, %s)")
 
-    cursor.execute(insert_new_job, (token, image, commands, timnow(), "0", "Received", GPU) )
+    cursor.execute(insert_new_job, (token, image, commands, timnow(), "0", "Received", GPU, VID) )
     boinc_db.commit()
+
+
+
+# Updates a certain VolCon ID with a new status
+# Assumed to be non-locking
+def update_job_status(VID, new_status, lock = False):
+
+    if not lock:
+        boinc_db = mysql_con.connect(host = os.environ['URL_BASE'].split('/')[-1], port = 3306, user = 'root', password = '', database = 'boincserver')
+        cursor = boinc_db.cursor(buffered=True)
+        cursor.execute( "UPDATE volcon_jobs SET status = %s WHERE volcon_id = %s", (new_status, VID))
+        boinc_db.commit()
+    else:
+        # TODO TODO TODO
+        pass

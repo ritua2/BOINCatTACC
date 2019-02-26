@@ -47,7 +47,7 @@ def l2_contains_l1(l1, l2):
 
 
 
-# Ensures that the server is ADTDP available
+# Ensures that the server is VolCon available
 @app.route("/volcon/v2/api/available")
 def volcon_server():
     return "Server is VolCon able"

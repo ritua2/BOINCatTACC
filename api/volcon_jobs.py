@@ -11,6 +11,7 @@ import hashlib
 import json
 import mysql_interactions as mints
 from threading import Thread
+import uuid
 
 
 app = Flask(__name__)
@@ -58,8 +59,8 @@ def tacc_jobs():
     if req_check != []:
         return "INVALID: Lacking the following json fields to be read: "+",".join([str(a) for a in req_check])    
 
-
     [TOKEN, IMAGE, COMMANDS] = [proposal["token"], proposal["image"], proposal["commands"]]
+    VolCon_ID = uuid.uuid4().hex
 
     if "gpu" in IMAGE:
         GPU = 1
@@ -67,15 +68,15 @@ def tacc_jobs():
         GPU = 0
 
     try:
-        mints.add_job(TOKEN, IMAGE, COMMANDS, GPU)
+        mints.add_job(TOKEN, IMAGE, COMMANDS, GPU, VolCon_ID)
     except:
         return "INVALID: Could not connect to MySQL database"
 
 
     # Calls a mirror in the background
     # TODO
-    thread = Thread(target=do_work, args=())
-    thread.start()
+    #thread = Thread(target=mints.update_job_status, args=("Tested-mirror update", VolCon_ID))
+    #thread.start()
 
     return "Successfully submitted job"
 

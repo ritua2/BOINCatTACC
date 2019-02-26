@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 """
 BASICS
 
@@ -9,8 +11,8 @@ Processes job submissions from the BOINC server
 from flask import Flask, request
 import hashlib
 import json
+import mirror_interactions as mirror
 import mysql_interactions as mints
-from threading import Thread
 import uuid
 
 
@@ -22,7 +24,7 @@ def bad_password(volcon_type, given_password):
 
     try:
         system_key = r.hget(volcon_type, "Organization Token").decode("UTF-8")
-        hp = password = hashlib.sha256(given_password.encode('UTF-8')).hexdigest()
+        hp = hashlib.sha256(given_password.encode('UTF-8')).hexdigest()
 
         if hp == system_key:
             return False
@@ -72,11 +74,10 @@ def tacc_jobs():
     except:
         return "INVALID: Could not connect to MySQL database"
 
+    # TACC: Image is a TACC image
+    job_info = {"Image":IMAGE, "Command":COMMANDS, "TACC":1, "GPU":GPU, "VolCon_ID":VolCon_ID}
 
-    # Calls a mirror in the background
-    # TODO
-    #thread = Thread(target=mints.update_job_status, args=("Tested-mirror update", VolCon_ID))
-    #thread.start()
+    mirror.upload_job_to_mirror(job_info)
 
     return "Successfully submitted job"
 

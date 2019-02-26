@@ -7,8 +7,10 @@ Creates organization wide tokens, to be used when organization users apply for a
 """
 
 
+import hashlib
 import redis
 import random
+import sys
 
 
 
@@ -24,19 +26,21 @@ r = redis.Redis(host = '0.0.0.0', port = 6389, db = 3)
 # Email_Term: All the allowed email terminations
 
 Org_Name = str(input("Organization name: "))
+
+if Org_Name == "ORGS":
+	print("Cannot name an organization 'ORGS', it is already a system inner index")
+	sys.exit()
+
+
+
 Data_Plan = str(input("Max. allowed storage for each user: "))
 if float(Data_Plan) < 0:
     print("Invalid, users cannot have negative allocations")
     raise SyntaxError
 
 Allowed_Users = str(input("Max. number of users allowed for this organization: "))
-
-
-# All tokens are 24 characters long
-SEQ = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
-orgtok = ''
-for qq in range(0, 24):
-    orgtok += random.choice(SEQ)
+given_password = str(input("Enter org password to add users: "))
+orgtok = hashlib.sha256(given_password.encode('UTF-8')).hexdigest()
 
 
 ORG_DATA = {'Name':Org_Name, 'No. Users':'0', 'Data Plan':Data_Plan, 'Allowed Users':Allowed_Users,
@@ -44,5 +48,6 @@ ORG_DATA = {'Name':Org_Name, 'No. Users':'0', 'Data Plan':Data_Plan, 'Allowed Us
 
 
 print("New organization created: "+str(Org_Name))
-print("Token: "+str(orgtok))
 r.hmset(Org_Name, ORG_DATA)
+# Organizes them as ORG: Org. token
+r.hset("ORGS", Org_Name, orgtok)

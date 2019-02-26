@@ -25,10 +25,8 @@ def timnow():
 # GPU (1 or 0)
 # VID (str): Volcon ID
 def add_job(token, image, commands, GPU, VID):
-    boinc_db = mysql_con.connect(host = os.environ['URL_BASE'].split('/')[-1], port = 3306, user = 'root', password = '', database = 'boincserver')
+    boinc_db = mysql_con.connect(host = os.environ['URL_BASE'].split('/')[-1], port = 3306, user = os.environ["MYSQL_USER"], password = os.environ["MYSQL_UPASS"], database = 'boincserver')
     cursor = boinc_db.cursor(buffered=True)
-
-
 
     insert_new_job = (
         "INSERT INTO volcon_jobs (token, Image, Command, Date_Sub, Notified, status, GPU, volcon_id) "
@@ -44,7 +42,7 @@ def add_job(token, image, commands, GPU, VID):
 def update_job_status(VID, new_status, lock = False):
 
     if not lock:
-        boinc_db = mysql_con.connect(host = os.environ['URL_BASE'].split('/')[-1], port = 3306, user = 'root', password = '', database = 'boincserver')
+        boinc_db = mysql_con.connect(host = os.environ['URL_BASE'].split('/')[-1], port = 3306, user = os.environ["MYSQL_USER"], password = os.environ["MYSQL_UPASS"], database = 'boincserver')
         cursor = boinc_db.cursor(buffered=True)
         cursor.execute( "UPDATE volcon_jobs SET status = %s WHERE volcon_id = %s", (new_status, VID))
         boinc_db.commit()

@@ -14,6 +14,7 @@ import datetime
 from flask import Flask, request, jsonify
 import hashlib
 import json
+import mysql_interactions as mints
 import redis
 
 
@@ -28,7 +29,7 @@ def bad_password(volcon_type, given_password):
 
     try:
         system_key = r.hget(volcon_type, "Organization Token").decode("UTF-8")
-        hp = password = hashlib.sha256(given_password.encode('UTF-8')).hexdigest()
+        hp = hashlib.sha256(given_password.encode('UTF-8')).hexdigest()
 
         if hp == system_key:
             return False
@@ -96,8 +97,33 @@ def addme():
 
 
 
-# TODO TODO TODO TODO
-# Updates a job that is being run right now
+# Updates the status of a job that is being run right now
+@app.route('/volcon/v2/api/mirrors/status/update', methods=['POST'])
+def status_update():
+
+    # Ensures that there is an appropriate json request
+    if not request.is_json:
+        return "INVALID: Request is not json"
+
+    proposal = request.get_json()
+
+    # Checks the required fields
+    req_fields = ["key", "VolCon-ID" "status"]
+    req_check = l2_contains_l1(req_fields, proposal.keys())
+
+    if req_check != []:
+        return "INVALID: Lacking the following json fields to be read: "+",".join([str(a) for a in req_check])    
+
+    if bad_password("VolCon", proposal["key"]):
+        return "INVALID: incorrect password"
+
+
+    try:
+        mints.update_job_status(proposal["VolCon-ID"], proposal["status"], False)
+        return "Successfully updated job "+ proposal["VolCon-ID"]
+    except:
+        return "Failed to update job"
+
 
 
 

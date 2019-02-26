@@ -9,14 +9,16 @@ Does not receive results, they must be sent to the main BOINC server
 
 from flask import Flask, request, send_file, jsonify, after_this_request
 import json
+import requests as req
 import os, shutil
-import uuid
+
 
 
 app = Flask(__name__)
 
 
 skey = os.environ["SERVER_ID"]
+vkey = os.environ["volcon_key"]
 PATH="/mirror"
 
 
@@ -36,6 +38,13 @@ def bad_password(password):
 
 
 
+# Can be called to ensure that a mirror is available
+@app.route("/volcon/mirror/v2/api/available", methods=['GET'])
+def available():
+    return "Ok"
+
+
+
 # Receives a job from the server, stores the files
 # TACC images are not stored, volcon clients should pull them if not available
 # Runs public dockerhub images, not valid for MIDAS jobs
@@ -48,7 +57,7 @@ def receive_job_files():
     proposal = request.get_json()
 
     # Checks the required fields
-    req_fields = ["key", "Image", "Command", "GPU"]
+    req_fields = ["key", "Image", "Command", "GPU", "VolCon_ID", "TACC"]
     req_check = l2_contains_l1(req_fields, proposal.keys())
 
     if req_check != []:
@@ -57,10 +66,10 @@ def receive_job_files():
     if bad_password(proposal["key"]):
         return "INVALID: incorrect password"
 
+    VolCon_ID = proposal["VolCon_ID"]
+
     # Removes sensitive information
     proposal.pop("key", None)
-    VolCon_ID = uuid.uuid4().hex
-    proposal["VolCon-ID"] = VolCon_ID
 
     # Makes a new directory with the files
     os.mkdir(PATH+"/"+VolCon_ID)
@@ -69,6 +78,11 @@ def receive_job_files():
     # Saves the commands there
     with open(PATH+"/"+VolCon_ID+"/meta.json", "w") as ff:
         json.dump(proposal, ff)
+
+    # Updates the main server that the job is currently being run
+    r = requests.post('http://'+os.environ["main_server"]+":5089/volcon/v2/api/mirrors/status/update",
+            json={"key": vkey, "status":"Mirror received files", "VolCon-ID":VolCon_ID})
+
 
     return jsonify({"Status":"Succeed", "VolCon-ID":VolCon_ID})
 
@@ -96,6 +110,7 @@ def request_job(volcon_id):
         return response
 
     return send_file(PATH+"/"+volcon_id+"/meta.json")
+
 
 
 if __name__ == '__main__':

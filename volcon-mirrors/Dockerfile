@@ -10,6 +10,7 @@ FROM python:3.6-alpine
 
 
 COPY mirror.sh /mirror/mirror
+COPY mirror.py /mirror/mirror.py
 
 
 # Installs the necessary packages

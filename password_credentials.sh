@@ -11,6 +11,8 @@ printf "Leave empty for empty variable\n"
 
 printf "Enter server IP (without http or port): "
 read SERVER_IP
+printf "Enter MySQL username: "
+read MYSQL_USER
 printf "Enter MySQL password credentials (empty for no password): "
 read MYSQL_UPASS
 
@@ -28,7 +30,7 @@ read Reef_Key
 
 
 printf "\nexport SERVER_IP=$SERVER_IP\nexport BOINC_EMAIL=$BOINC_EMAIL\nexport BOINC_EMAIL_PASSWORD=$BOINC_EMAIL_PASSWORD\n" >> /home/boincadm/.bashrc
-printf "\nexport MYSQL_UPASS=$MYSQL_UPASS\nexport Reef_IP=$Reef_IP\nexport Reef_Key=$Reef_Key\n" >> /home/boincadm/.bashrc
+printf "\nexport MYSQL_USER=$MYSQL_USER\nexport MYSQL_UPASS=$MYSQL_UPASS\nexport Reef_IP=$Reef_IP\nexport Reef_Key=$Reef_Key\n" >> /home/boincadm/.bashrc
 export SERVER_IP=$SERVER_IP
 export MYSQL_UPASS="$MYSQL_UPASS"
 export BOINC_EMAIL=$BOINC_EMAIL

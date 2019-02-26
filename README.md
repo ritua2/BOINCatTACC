@@ -175,7 +175,7 @@ git clone https://github.com/ritua2/BOINCatTACC
 cd BOINCatTACC/volcon-mirrors
 # Build the image, image is not available in dockerhub
 docker build -t boinc_tacc/volcon-mirrors:latest .
-docker run -d -p 5000:5000 -e "main_server=boinc.tacc.utexas.edu" \
+docker run -d -p 7000:7000 -e "main_server=boinc.tacc.utexas.edu" \
        -e "volcon_key=$volcon_key" boinc_tacc/volcon-mirrors:latest
 ```
 

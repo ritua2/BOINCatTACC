@@ -88,6 +88,7 @@ chmod +x /home/boincadm/project/api/adtdp_common.py
 chmod +x /home/boincadm/project/api/signup_email.py
 chmod +x /home/boincadm/project/api/newfold.py
 chmod +x /home/boincadm/project/api/midasweb.py
+chmod +x /home/boincadm/project/api/volcon*
 chmod +x /home/boincadm/project/email2.py
 chmod +x /home/boincadm/project/automail.sh
 

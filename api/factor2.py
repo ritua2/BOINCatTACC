@@ -191,26 +191,27 @@ def authorize_from_org():
         return "INVALID, no data provided"
 
     EMAIL = request.form["email"]
-    ORG_KEY = hashlib.sha256(request.form["org_key"].encode('UTF-8')).hexdigest()[:24:]
+    ORG_KEY = hashlib.sha256(request.form["org_key"].encode('UTF-8')).hexdigest()
 
     if EMAIL=='':
         return "INVALID, email was not provided"
 
+    # Finds if an organization is allowed
+    for one_org in r_org.hkeys("ORGS"):
+        if ORG_KEY == r_org.hget("ORGS", one_org.decode("UTF-8")).decode("UTF-8"):
+            user_org = one_org.decode("UTF-8")
+            break
 
-    all_orgs = [x.decode('UTF-8') for x in r_org.keys()]
-    all_org_keys = [r_org.hmget(x.decode('UTF-8'), 'Organization Token')[0].decode('UTF-8') for x in r_org.keys()]
-
-    if ORG_KEY not in all_org_keys:
+    else:
         return "INVALID, user organization is not registered"
-
-    user_org = [all_orgs[x] for x in range(0, len(all_orgs)) if all_org_keys[x] == ORG_KEY][0]
 
     Org_Users_Data = json.loads(r_org.hget(user_org, 'Users').decode('UTF-8'))
 
-
     # If the user has already executed any BOINC programs before, then it simply returns its account keys
     try:
-        return [x for x in Org_Users_Data.keys() if Org_Users_Data[x]['email']==EMAIL][0]
+        if EMAIL in Org_Users_Data.keys():
+            return EMAIL
+
     except:
         pass
 

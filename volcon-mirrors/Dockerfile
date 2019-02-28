@@ -17,11 +17,11 @@ COPY mirror.py /mirror/mirror.py
 # Bash, curl for convenience
 RUN apk update && apk add bash curl &&\
     pip3 install gunicorn Flask requests &&\
-    chmod +x /mirror
+    chmod +x /mirror/mirror
 
 
 WORKDIR /mirror
 
 
-CMD ["/mirror/mirror"]
+CMD ["./mirror"]
 

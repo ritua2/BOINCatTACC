@@ -10,10 +10,16 @@ Since the app runs on , it cannot be accessed from outside the server
 
 from flask import Flask
 from ldap3 import Server, Connection, ALL
+import logging
+import os, sys
 
 
 
 app = Flask(__name__)
+
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
+
 
 
 # Checks if the user is validated through ldap
@@ -25,7 +31,6 @@ def ldap_check(username, pw):
 
     if not c.bind():
         return "INVALID, user is not registered or invalid credentials"
-
     return "User is authenticated"
 
 

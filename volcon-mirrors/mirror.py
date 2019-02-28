@@ -9,7 +9,7 @@ Does not receive results, they must be sent to the main BOINC server
 
 from flask import Flask, request, send_file, jsonify, after_this_request
 import json
-import requests as req
+import requests
 import os, shutil
 
 
@@ -102,8 +102,9 @@ def request_job(volcon_id):
         try:
             shutil.rmtree(PATH+"/"+volcon_id)
 
-            # TODO TODO TODO TODO
             # Notify the server that the job is being run
+            r = requests.post('http://'+os.environ["main_server"]+":5089/volcon/v2/api/mirrors/status/update",
+                json={"key": vkey, "status":"Job files requested", "VolCon-ID":volcon_id})
 
         except:
             pass

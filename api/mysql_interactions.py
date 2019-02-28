@@ -49,3 +49,12 @@ def update_job_status(VID, new_status, lock = False):
     else:
         # TODO TODO TODO
         pass
+
+
+
+# Updates the mirror ip
+def update_mirror_ip(VID, mirror_ip):
+    boinc_db = mysql_con.connect(host = os.environ['URL_BASE'].split('/')[-1], port = 3306, user = os.environ["MYSQL_USER"], password = os.environ["MYSQL_UPASS"], database = 'boincserver')
+    cursor = boinc_db.cursor(buffered=True)
+    cursor.execute( "UPDATE volcon_jobs SET mirror_ip = %s WHERE volcon_id = %s", (mirror_ip, VID))
+    boinc_db.commit()

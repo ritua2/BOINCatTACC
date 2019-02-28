@@ -30,7 +30,8 @@ def get_user_org(ORG_KEY):
 
     # Finds if an organization is allowed
     for one_org in r_org.hkeys("ORGS"):
-        if HOK == r_org.hget("ORGS", one_org.decode("UTF-8")).decode("UTF-8"):
+        # Accounts for keys already provided as a hash
+        if (HOK == r_org.hget("ORGS", one_org.decode("UTF-8")).decode("UTF-8")) or (ORG_KEY == r_org.hget("ORGS", one_org.decode("UTF-8")).decode("UTF-8")):
             return one_org.decode("UTF-8")
     else:
         return False

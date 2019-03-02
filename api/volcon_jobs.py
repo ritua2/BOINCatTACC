@@ -13,8 +13,10 @@ import hashlib
 import json
 import mirror_interactions as mirror
 import mysql_interactions as mints
+import queue
 import uuid
 
+Q1 = queue.Queue
 
 app = Flask(__name__)
 
@@ -78,6 +80,7 @@ def tacc_jobs():
     job_info = {"Image":IMAGE, "Command":COMMANDS, "TACC":1, "GPU":GPU, "VolCon_ID":VolCon_ID}
 
     mirror.upload_job_to_mirror(job_info)
+    Q1.put(VolCon_ID)
 
     return "Successfully submitted job"
 

@@ -169,7 +169,9 @@ CREATE TABLE IF NOT EXISTS volcon_jobs (
 # (1) Apache container
 python3 /home/boincadm/project/BOINCatTACC/create_VolCon_distributors.py
 
+```
 
+```bash
 # (2) Mirror server
 git clone https://github.com/ritua2/BOINCatTACC
 cd BOINCatTACC/volcon-mirrors
@@ -179,6 +181,10 @@ docker run -d -p 7000:7000 -e "main_server=boinc.tacc.utexas.edu" \
        -e "volcon_key=$volcon_key" boinc_tacc/volcon-mirrors:latest
 ```
 
+```bash
+# (2) Apache container
+python3 /home/boincadm/project/BOINCatTACC/create_VolCon_runners.py
+```
 
 
 [1]: https://github.com/marius311/boinc-server-docker

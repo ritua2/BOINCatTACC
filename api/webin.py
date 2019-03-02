@@ -27,12 +27,19 @@ TACCIM = {"carlosred/autodock-vina:latest":"curl -O ", "carlosred/bedtools:lates
             "carlosred/blast:latest":"curl -O ", "carlosred/bowtie:built":"curl -O ",
             "carlosred/gromacs:latest":"curl -O ", "carlosred/htseq:latest":"curl -O ",
             "carlosred/mpi-lammps:latest":"curl -O ", "carlosred/namd-cpu:latest":"curl -O ",
-            "carlosred/opensees:latest":"curl -O ", "carlosred/gpu:cuda":"curl -O "
+            "carlosred/opensees:latest":"curl -O ", "carlosred/gpu:cuda":"curl -O ", "carlosred/openfoam6:latest":"curl -O "
  }
 
 
+# Finds if an image is not TACC
+def image_is_TACC(image):
+    if image not in TACCIM.keys():
+        return False
+    return True
+
+
 # List of extra commands needed for some files
-EXIM = {"carlosred/gromacs:latest":"source /usr/local/gromacs/bin/GMXRC.bash; "}
+EXIM = {"carlosred/gromacs:latest":"source /usr/local/gromacs/bin/GMXRC.bash; ", "carlosred/openfoam6:latest":". /opt/openfoam6/etc/bashrc; "}
 
 
 # Returns a files download type
@@ -77,25 +84,6 @@ def get_reef_file(IMIM, TOK, filnam):
     return Com
 
 
-# Processes the topic commands
-# TS: Topics submitted
-def toproc(image_used, TS):
-
-    # Accounts for no topics
-    AA = TS
-    FJN = {}
-    for jkl in TS.keys():
-        JKL = jkl.upper()
-        AAc = AA[jkl]
-        if AAc == [""]:
-            FJN[JKL] = []
-
-        cursubs = []
-        for elem in AAc:
-            cursubs.append(elem.upper())
-        FJN[JKL] = cursubs
-
-    cus.complete_tag_work(image_used, FJN)
 
 
 @app.route("/boincserver/v2/api/process_web_jobs", methods=['GET', 'POST'])
@@ -117,11 +105,6 @@ def process_web_jobs():
         Image = dictdata["Image"]
         Custom = dictdata["Custom"]
         Command = dictdata["Command"]
-        tprov = json.loads(dictdata["topics"])
-
-        # TACC images have already assigned topics
-        if Image in cus.at.TACCIM.keys():
-            tprov = cus.at.TACCIM[Image]
 
     except:
         return "INVALID, json lacks at least one field (keys: Token, Boapp, Files, Image, Custom, Command)"
@@ -140,7 +123,7 @@ def process_web_jobs():
     if (Custom != "Yes") and (Custom != "No"):
         return "INVALID, Custom value can only be [Yes/No]"
 
-    if ("Custom" == "No") and (not cus.image_is_TACC(Image)):
+    if ("Custom" == "No") and (not image_is_TACC(Image)):
         return "INVALID, Image \'"+Image+"\' is not provided by TACC"
 
     # Writes the commands to a random file
@@ -173,7 +156,6 @@ def process_web_jobs():
 
     # Submits the file for processing
     if boapp == "boinc2docker":
-        toproc(Image, tprov)
         shutil.move(UPLOAD_FOLDER+new_filename, BOINC_FOLDER+new_filename)
     if boapp == "adtdp":
         shutil.move(UPLOAD_FOLDER+new_filename, ADTDP_FOLDER+new_filename)

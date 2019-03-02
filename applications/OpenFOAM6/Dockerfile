@@ -7,7 +7,7 @@
 
 
 
-FROM openfoam/openfoam6-graphical-apps:6
+FROM richardlock/openfoam6-paraview54-intelmpi:latest
 
 MAINTAINER Carlos Redondo <carlos.red@utexas.edu>
 ENV _SECOND_AUTHOR "Carlos Redondo <carlos.red@utexas.edu"
@@ -23,4 +23,9 @@ WORKDIR /data
 
 
 # Makes python synonym with python3 for simplicty
-RUN cp /usr/bin/python3 /usr/bin/python
+RUN cp /usr/bin/python3 /usr/bin/python && mkdir -p "/root/shared/results" && rm -rf /opt/OpenFOAM/OpenFOAM-6/tutorials/ \
+	/opt/OpenFOAM/OpenFOAM-6/doc/ 
+
+
+# Requires the command
+# source /opt/OpenFOAM/OpenFOAM-6/etc/bashrc

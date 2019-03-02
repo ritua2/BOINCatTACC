@@ -304,7 +304,9 @@ echo '
 						<li value="carlosred/mpi-lammps:latest"><a href="javascript:;">LAMMPS</a></li>
 						<li value="carlosred/namd-cpu:latest"><a href="javascript:;">NAMD</a></li>
 						<li value="carlosred/bowtie:built"><a href="javascript:;">Bowtie</a></li>
-						<li value="carlosred/gpu:cuda"><a href="javascript:;">Cuda</a></li> 		
+						<li value="carlosred/gpu:cuda"><a href="javascript:;">Cuda</a></li> 
+						<li value="carlosred/openfoam6:latest"><a href="javascript:;">OpenFOAM6</a></li>
+
 				</ul>
 			</div><br />
 			</div>

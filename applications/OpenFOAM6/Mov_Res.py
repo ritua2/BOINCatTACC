@@ -13,6 +13,7 @@ PATH = "/data/"
 # Finds those directories with p, U, or T files inside
 data_dirs = ['/data/'+x for x in list(os.walk(PATH))[0][1]]
 
+
 # If any of them has files p, U, or T: move the entire directory
 
 for possible_out in data_dirs:

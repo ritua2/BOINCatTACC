@@ -24,7 +24,7 @@ echo '<ol>
 echo "<h3>".tra("Directions to Submit Jobs Directly Through Stampede2/Lonestar5")."</h3>";
 echo '<p>'.tra("For submitting jobs directly from Stampede2/Lonestar5 systems, please run the BOINC@TACC job submission script available ").'<a href="https://github.com/ritua2/TACC-2-BOINC/blob/master/stampede2-backend/stampede_2_BOINC2.sh">'.tra("here.").'</a>';
 
-echo '<p><span style="font-weight: bold;">'.tra("Please note:").'</span>'.tra(" you will not be able to login to Stampede2/Lonestar5 if you do not already have an existing project allocation on TACC resources. Please visit the following visit to learn more about the process of requesting allocation on TACC resources: ").'<a href="https://portal.tacc.utexas.edu/">https://portal.tacc.utexas.edu/</a>';
+echo '<p><span style="font-weight: bold;">'.tra("Please note:").'</span>'.tra(" you will not be able to login to Stampede2/Lonestar5 if you do not already have an existing project allocation on TACC resources. Please visit the following website to learn more about the process of requesting allocation on TACC resources: ").'<a href="https://portal.tacc.utexas.edu/">https://portal.tacc.utexas.edu/</a>';
 
 echo '<p><h3>'.tra('Video demonstration of the BOINC@TACC infrastructure:').'</h3></p>';
 //iframe code from https://www.w3schools.com/html/tryit.asp?filename=tryhtml_youtubeiframe

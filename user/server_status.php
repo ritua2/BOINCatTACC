@@ -143,7 +143,7 @@ function show_status_html($x) {
             item_html("Tasks waiting for file deletion", $j->results_need_file_delete);
             item_html("Transitioner backlog (hours)", number_format($j->transitioner_backlog, 2));
             end_table();
-            echo "<h4>".tra("Users")."</h4>\n";
+            echo "<h4>".tra("Active Volunteers")."</h4>\n";
             start_table('table-striped');
             item_html("With credit", $j->users_with_credit);
             item_html("With recent credit", $j->users_with_recent_credit);

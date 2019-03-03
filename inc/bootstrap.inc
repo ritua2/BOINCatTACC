@@ -193,7 +193,7 @@ function sample_navbar(
         $x = array(
             array(tra("Preferences"), $url_prefix."prefs.php?subset=global"),
             array(tra("Server status"), $url_prefix."server_status.php"),
-            array(tra("Statistics"), $url_prefix."stats.php"),
+            //array(tra("Statistics"), $url_prefix."stats.php"),
             array(tra("Applications"), $url_prefix."apps.php"),
         );
         if (defined('REMOTE_JOB_SUBMISSION') && REMOTE_JOB_SUBMISSION) {

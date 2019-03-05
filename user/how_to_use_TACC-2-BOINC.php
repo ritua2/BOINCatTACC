@@ -38,8 +38,8 @@ curl -O http://opensees.berkeley.edu/wiki/images/a/a1/ElasticFrame.tcl<p></p>
 curl -O http://opensees.berkeley.edu/wiki/images/3/3d/MomentCurvature.tcl</li>
 <br>
 <li> ".tra("Create a directory named")." \"data\" ".tra("and copy the files inside this directory, and create a *.zip or a *.tar file for this data directory")."<p></p>
-cp ElasticFrame.tcl /data/ElFram.tcl<p></p>
-cp MomentCurvature.tcl /data/MomCurv.tcl </li>
+cp ElasticFrame.tcl ./data/ElFram.tcl<p></p>
+cp MomentCurvature.tcl ./data/MomCurv.tcl </li>
 <br>
 <li>".tra("Select OpenSees from the drop-down list")."</li>
 <br>

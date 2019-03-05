@@ -33,6 +33,7 @@ echo '<iframe width="560" height="315" src="https://www.youtube.com/embed/UH9mJj
 echo "<h3>".tra("Step-by-Step Instructions for Running the OpenSees Application from the Job Submission Page.")."</h3>";
 
 echo "<ol>
+<li>".tra("Make sure you are a registered BOINC@TACC user. Please see the sections above for registering to submit jobs by running a script from Stampede2/Lonestar5.")."<p></p>
 <li>".tra("Get the sample input files from the following paths:")."<p></p>
 curl -O http://opensees.berkeley.edu/wiki/images/a/a1/ElasticFrame.tcl<p></p>
 curl -O http://opensees.berkeley.edu/wiki/images/3/3d/MomentCurvature.tcl</li>

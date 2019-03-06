@@ -32,25 +32,99 @@ echo '<iframe width="560" height="315" src="https://www.youtube.com/embed/UH9mJj
 
 echo "<h3>".tra("Step-by-Step Instructions for Running the OpenSees Application from the Job Submission Page.")."</h3>";
 
-echo "<ol>
-<li>".tra("Make sure you are a registered BOINC@TACC user. Please see the sections above for registering to submit jobs by running a script from Stampede2/Lonestar5.")."<p></p>
-<li>".tra("Get the sample input files from the following paths:")."<p></p>
-curl -O http://opensees.berkeley.edu/wiki/images/a/a1/ElasticFrame.tcl<p></p>
-curl -O http://opensees.berkeley.edu/wiki/images/3/3d/MomentCurvature.tcl</li>
-<br>
-<li> ".tra("Create a directory named")." \"data\" ".tra("and copy the files inside this directory, and create a *.zip or a *.tar file for this data directory")."<p></p>
-cp ElasticFrame.tcl ./data/ElFram.tcl<p></p>
-cp MomentCurvature.tcl ./data/MomCurv.tcl </li>
-<br>
-<li>".tra("Select OpenSees from the drop-down list")."</li>
-<br>
-<li> ".tra("Enter the commands to run OpenSees in the text-box available through the web-interface")."<p></p>
-OpenSees < ./data/MomCurv.tcl<p></p>
-OpenSees < ./data/ElFram.tcl</li>
-<br>
-<li> ".tra("Upload the data.zip or data.tar file created in step # 2")."</li>
-<br>
-<li>".tra("Click on job-submit button.")."</li></ol>";
+echo '<ol>';
+
+echo '<li>Make sure you are a registered BOINC@TACC user and have completed the following steps:</li>';
+
+echo '<ul><li>Login to Stampede2 or Lonestar5 using your TACC portal credentials</li>';
+
+echo '<li>Create a directory named "boinc" (<font face="courier new">mkdir boinc</font>) and switch to this directory (<font face="courier new">cd boinc</font>)</li>';
+
+echo '<li>Copy the registration script by running the following command: <br>';
+
+echo '<font face="courier new">wget https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/register-boinc.sh</font>';
+
+echo '</li>';
+
+echo '<li>Add execute permissions on the script: <br>';
+
+echo '<font face="courier new">';
+
+echo 'chmod +x register-boinc.sh';
+
+echo '</font>';
+
+echo '</li>';
+
+echo '<li>Run the script for registration (register-boinc.sh): <br>';
+
+echo '<font face="courier new">';
+
+echo './register-boinc.sh';
+
+echo '</font>';
+
+echo '</li>';
+
+echo '</ul>';
+
+echo '<li>Create a directory named "data" on your computer and copy the sample input files for running OpenSees in this directory, example:<br>';
+
+echo '<font face="courier new">';
+
+echo 'mkdir data <br>';
+
+echo 'cd data<br>';
+
+echo 'curl -O http://opensees.berkeley.edu/wiki/images/a/a1/ElasticFrame.tcl<br>';
+
+echo 'curl -O http://opensees.berkeley.edu/wiki/images/3/3d/MomentCurvature.tcl <br>';
+
+echo 'cd ..<br>';
+
+echo '</font>';
+
+echo '</li>';
+
+echo '<li>Create a *.zip or a *.tgz file containing the contents of the data directory, example:<br>';
+
+echo '<font face="courier new">';
+
+echo 'tar -cvzf data.tgz data';
+
+echo '</font>';
+
+echo '</li>';
+
+echo '<li>Login to the BOINC@TACC website using your TACC credentials and click on "Job Submission" tab</li>';
+
+echo '<li>By default, the radio-button for "List of docker images maintained by BOINC@TACC" will be selected. Keep this as-is, and click on the drop-down list to select "OpenSees" </li>';
+
+echo '<li>In the text-box for the list of commands, enter:<br>';
+
+echo '<font face="courier new">';
+
+echo 'OpenSees < ./data/MomCurv.tcl;<br>';
+
+echo 'OpenSees < ./data/ElFram.tcl; <br>';
+
+echo '</font>';
+
+echo '</li>';
+
+echo '<li>Upload the data.zip or data.tgz file created in step # 3</li>';
+
+echo '<li>Click on "Submit the job" button</li>';
+
+echo '<li>If your job got submitted successfully, you will see it listed under the "Job History" page: https://boinc.tacc.utexas.edu/job_history.php</li>';
+
+echo '<li>Once your job has finished executing successfully, you will receive an email notification with the subject "BOINC job completed", and your job results will either be attached to the email as a *.tgz file or a link to download the results will also be provided<p>';
+
+echo 'Note: If your job was submitted successfully, and it ran on the client but there was a run-time error caused due to wrong parameters or wrong commands, you may still get an email with job completed with "success" but there will be no results';
+
+echo '</li>';
+
+echo '</ol>';
 //End of Joshua's edit
 page_tail();
 //End of the edit by Thomas

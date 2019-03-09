@@ -114,5 +114,24 @@ def request_job(volcon_id):
 
 
 
+# Deletes a job
+@app.route("/volcon/mirror/v2/api/public/delete_job/<volcon_id>/<sid>", methods=['GET'])
+def delete_job(volcon_id, sid):
+
+    if sid != skey:
+        return "INVALID credentials"
+
+    if not os.path.exists(PATH+"/"+volcon_id):
+        return "INVALID, job is already being executed or does not exist"
+
+    try:
+        shutil.rmtree(PATH+"/"+volcon_id)
+        return "Job deleted successfully"
+    except:
+        return "INVALID, job is already being executed or does not exist, a race condition has occurred"
+
+
+
+
 if __name__ == '__main__':
     app.run()

@@ -62,6 +62,7 @@ mv /home/boincadm/project/html/project /home/boincadm/project/html/project_old
 cp -r ./project /home/boincadm/project/html/project
 mv /home/boincadm/project/html/user_profile /home/boincadm/project/html/user_profile_old
 cp -r ./user_profile /home/boincadm/project/html/user_profile
+mkdir /home/boincadm/project/html/user_profile/images
 
 
 chmod +x /home/boincadm/project/email_assimilator.py
@@ -117,6 +118,9 @@ cat /home/boincadm/project/html/inc_previous/db_ops.inc > /home/boincadm/project
 
 # Fixes issue with results not being copied in the correct directory
 chmod -R a+rwx /results
+chown -R boincadm /home/boincadm/project/html/user_profile/images
+chgrp -R boincadm images/
+chmod -R 660  /home/boincadm/project/html/user_profile/images
 
 # Restarts apache
 service apache2 restart

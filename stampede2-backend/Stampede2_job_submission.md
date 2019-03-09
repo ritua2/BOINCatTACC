@@ -281,7 +281,36 @@ Note: The script also accounts for job submission using SLURM. In order to utili
 			```
 
 
-10. OpenFOAM6
+10. CUDA 
+
+	* Run *temp-boinc.sh* :
+
+	```bash
+	./advance-submit.sh
+	```
+
+	* Provide your email when requested
+
+	* Select *1* for *allowed options* when prompted  
+	* Select *10* for applications when prompted
+
+	* Continue with the following instructions to run a TACC training file  
+		* Provide the following files (space separated):
+
+			```bash
+			happ.cu
+			```
+
+		* No directories must be provided (enter to skip)
+		* Provide the following command (line by line, empty line at the end to exit):
+
+			```bash
+			nvcc happ.cu -o h.out
+			./h.out
+			```
+
+
+11. OpenFOAM6 (currently in testing)
 	* Run *temp-boinc.sh* :
 
 	```bash

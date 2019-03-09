@@ -97,6 +97,46 @@ def addme():
 
 
 
+# Adds a VolCon client
+# Each VolCon client is saved as a hash by the name cluster-{IP}, it is also provided as a key pair cluster-{IP}:"Organization Token" inside the cluster hash
+# This key can be used in the future if an administrator wishes to disconnect any VolCon client from the system
+# Requires a json input
+@app.route('/volcon/v2/api/cluster/client/addme', methods=['POST'])
+def addme():
+
+    # Ensures that there is an appropriate json request
+    if not request.is_json:
+        return "INVALID: Request is not json"
+
+    proposal = request.get_json()
+
+    # Checks the required fields
+    req_fields = ["key", "disconnect-key", "cluster"]
+    req_check = l2_contains_l1(req_fields, proposal.keys())
+
+    if req_check != []:
+        return "INVALID: Lacking the following json fields to be read: "+",".join([str(a) for a in req_check])
+
+    cluster = proposal["cluster"]
+    if bad_password(cluster, proposal["key"]):
+        return "INVALID: incorrect password"
+
+    IP = request.environ['REMOTE_ADDR']
+
+    if r.hexists(cluster, cluster+"-"+IP):
+        return "INVALID: Server IP has already been assigned"
+
+    V = {"IP":IP,
+        "disconnect-key": proposal["disconnect-key"]
+    }
+
+    r.hmset(cluster+"-"+IP, V)
+    r.hset(cluster, cluster+"-"+IP, proposal["disconnect-key"])
+
+    return "Successfully added to the list of mirrors"
+
+
+
 # Updates the status of a job that is being run right now
 @app.route('/volcon/v2/api/mirrors/status/update', methods=['POST'])
 def status_update():

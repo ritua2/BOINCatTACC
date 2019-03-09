@@ -95,7 +95,14 @@ cd BOINCatTACC
 source password_credentials.sh
 ```
 
-6. **Run the setup file**  
+6. **Setup Reef in an exteneral container**  
+	* Reef is the storage container where all user files (results or not) are stored
+	* Create IP following these [instructions](./pocket-reef) on a system with the above IP and password provided above
+	* Note: Reef can be setup on any server as long as its IP is accessible from the main server
+
+
+
+7. **Run the setup file**  
 	* It will install all the necessary packages, python libraries, set-up the internal Redis database, properly locate the files, set-up the APIs, Reef cloud storage, and automatic job processing
 	* The set-up file will also automatically prompt to enter the credentials for the email. Use caution, since an error would require to manually fix the /root/.bashrc file
 ```bash
@@ -104,7 +111,7 @@ source password_credentials.sh
 ```
 
 
-7. **Create organization accounts**  
+8. **Create organization accounts**  
 	 
 	* A new token must be assigned to each new user (researcher who wants to submit BOINC jobs)
 	* There are 2 options on assigning tokens:
@@ -124,7 +131,7 @@ python3 create_organization.py
 ```
 
 
-8. **Assign VolCon credentials**  
+9. **Assign VolCon credentials**  
 
 	* [VolCon](./volcon-mirrors) is a distributed way of running jobs on the cloud based on docker, without requiring the BOINC client or VirtualBox
 	* Although it can run on any system with an unique IP address (such as internal networks accessible from the main BOINC server), it is primarily designed for cloud servers
@@ -182,7 +189,7 @@ docker run -d -p 7000:7000 -e "main_server=boinc.tacc.utexas.edu" \
 ```
 
 ```bash
-# (2) Apache container
+# (3) Apache container
 python3 /home/boincadm/project/BOINCatTACC/create_VolCon_runners.py
 ```
 

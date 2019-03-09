@@ -26,7 +26,7 @@ if (new_org == "ORGS") or (new_org == "VolCon"):
 
 
 # Deletes information about all current VolCon mirrors if they are already set-up
-if r.hexists(new_org, 'Organization Token'):
+if r.get(new_org) != None:
     answer = str(input("'"+new_org+"' cluster is already setup, y to delete it (this action is not recoverable): "))
 
     if answer == "y":
@@ -47,12 +47,9 @@ if r.hexists(new_org, 'Organization Token'):
 password = hashlib.sha256(input("Enter cluster password: ").encode('UTF-8')).hexdigest()
 
 
-# For future records, all mirrors must start with M-{MIRROR IP} and will be provided as keys inside this hash
+# For future records, all cluster elements must start with cluster-{MIRROR IP} and will be provided as keys inside this hash
 # They will also appear as individual hashes inside Redis(db=3)
 
-org_info = {'Name':new_org, 'Organization Token':password, 'Available-Mirrors':'0', "Type":"VolCon"}
-
+org_info = {'Name':new_org, 'Organization Token':password, "Type":"VolCon-client"}
 
 r.hmset(new_org, org_info)
-
-

@@ -112,7 +112,7 @@ docknum=( ["1"]="autodock-vina" ["2"]="bedtools" ["3"]="blast"
 dockcomm=( ["1"]="" ["2"]="" ["3"]=""
            ["4"]="" ["5"]="source /usr/local/gromacs/bin/GMXRC.bash "
            ["6"]="" ["7"]="" ["8"]=""
-           ["9"]="" ["10"]="nvcc --version; ")
+           ["9"]="" ["10"]="nvcc --version ")
 
 # Some images don't accept curl, so they will use wget
 curl_or_wget=( ["1"]="curl -O" ["2"]="wget " ["3"]="wget " 

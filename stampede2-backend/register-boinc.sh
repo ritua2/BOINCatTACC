@@ -9,7 +9,7 @@
 printf "Welcome to Boinc registration\n\n"
 printf "This script will automatically set up credentials for submitting BOINC jobs\n\n\n"
 # Server IP or domain must be declared before
-SERVER_IP=t2b.tacc.utexas.edu # Declare it the first time this program is run
+SERVER_IP=boinc.tacc.utexas.edu # Declare it the first time this program is run
 
 # Colors, helpful for printing
 NCNC='\033[0m' # No color
@@ -28,15 +28,11 @@ fi
 
 # Gets the account for the org
 # Only TACC hosts are accepted
-IFS='.' read -ra LK1 <<< "$HOSTNAME"
-LL="${#LK1[@]}"
-ORK=""
+domain_name=$(dnsdomainname)
 
-for (( COUNTER=2; COUNTER<LL-1; COUNTER+=1 )); do
-    ORK+="${LK1[$COUNTER]}""."
-done
-
-ORK+="${LK1[$LL-1]}"
+# Reverses it, picks the first 15 letters, reverses it to ensure a correct domain
+dn=$(echo "$domain_name" | rev)
+ORK=$(echo "${dn:0:15}" | rev)
 
 
 

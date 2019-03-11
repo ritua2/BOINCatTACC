@@ -2,12 +2,12 @@
 -------
 
 
-* **Prerequisites**  
+#### **Prerequisites**  
 Instructions below require access to the TACC Stampede2 supercomputer  
 
 
 
-* **Installation**  
+#### **Installation**  
 Obtain the required files from [this directory](./S2-test-files):
 
 
@@ -19,7 +19,135 @@ chmod +x advance-submit.sh
 ```
 
 
-* **Tutorial for TACC specific applications**  
+#### **Accessing the tutorial files for specific applications**
+
+A sample exercise for each specific application is provided below. All the necessary files are available when cloning the github repo as per the above
+instructions. However, for users wishing to use only one application, follow the instructions below:
+
+* BOINC job submission
+
+```bash
+
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/advance-submit.sh
+chmod +x advance-submit.sh
+```
+
+
+1. AutoDock-Vina 
+
+```bash
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/protein.pdbqt
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/protein.pdb
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/ligand.pdbqt
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/ligand.pdb
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/ligand_experiment.pdbqt
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/conf.txt
+```
+
+
+2. Bedtools
+
+```bash
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/cpg.bed
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/exons.bed
+```
+
+
+3. Blast
+
+```bash
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/P04156.fasta
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/zebrafish.1.protein.faa.gz
+```
+
+
+
+4. Bowtie
+
+```bash
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/s_cerevisiae.ebwt.zip
+```
+
+
+
+5. Gromacs
+
+```bash
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/methane_water.gro
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/topol.top
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/em_steep.mdp
+```
+
+
+6. HTseq
+
+```bash
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/test.sam
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/gen.gtf
+```
+
+
+
+7. MPI-LAMMPS
+
+```bash
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/Al99.eam.alloy
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/aluminium.in
+```
+
+
+
+8. NAMD
+
+```bash
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/alanin.psf
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/alanin.conf
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/alanin.pdb
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/alanin.params
+```
+
+
+
+9. OpenSees
+
+```bash
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/MC.tcl
+```
+
+
+
+10. CUDA
+
+```bash
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/happ.cu
+```
+
+
+
+11. OpenFOAM6 (currently in testing)
+
+```bash
+mkdir 0 constant system
+curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/0/U > 0/U
+curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/0/p > 0/p
+curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/constant/transportProperties > constant/transportProperties
+mkdir constant/polyMesh
+curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/constant/polyMesh/boundary  > polyMesh/boundary
+curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/constant/polyMesh/faces     > polyMesh/faces
+curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/constant/polyMesh/neighbour > polyMesh/neighbour
+curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/constant/polyMesh/owner     > polyMesh/owner
+curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/constant/polyMesh/points    > polyMesh/points
+curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/system/blockMeshDict        > system/blockMeshDict
+curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/system/controlDict          > system/controlDict
+curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/system/fvSchemes            > system/fvSchemes
+curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/system/fvSolution           > system/fvSolution
+```
+
+
+
+
+
+#### **Tutorial for TACC specific applications**  
 
 
 Note: The script also accounts for job submission using SLURM. In order to utilize BOINC, the job must use 8 or less cores, and below 2048 MB of RAM.
@@ -198,7 +326,7 @@ Note: The script also accounts for job submission using SLURM. In order to utili
 
 
 
-7. Bowtie
+7. MPI-LAMMPS
 	* Run *temp-boinc.sh* :
 
 	```bash

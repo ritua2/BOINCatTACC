@@ -70,7 +70,7 @@ function send_email($user, $subject, $body, $body_html=null, $mechanism="php_mai
                 $mail->Body = $body;
             }
             if (!$mail->Send()) {
-                echo $mail->ErrorInfo;
+                // echo $mail->ErrorInfo; // Removed, warning error message causes multiple issues
                 return false;
             } else {
                 return true;

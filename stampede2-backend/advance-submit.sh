@@ -29,7 +29,7 @@ else
     server="stampede"
   fi
 fi	
-echo -n "What is the number of cores required for execution (jobs with 9 or more cores will be run on TACC systems) : "
+echo -n "What is the number of cores required for execution (jobs with 5 or more cores will be run on TACC systems) : "
 read reqcores
 if (( reqcores > 4 )) ; then
   if [ -n "$taccsys" ] ; then

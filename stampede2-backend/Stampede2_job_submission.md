@@ -150,7 +150,7 @@ curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backe
 #### **Tutorial for TACC specific applications**  
 
 
-Note: The script also accounts for job submission using SLURM. In order to utilize BOINC, the job must use 8 or less cores, and below 2048 MB of RAM.
+Note: The script also accounts for job submission using SLURM. In order to utilize BOINC, the job must use 5 or less cores, and below 2048 MB of RAM.
 
 
 

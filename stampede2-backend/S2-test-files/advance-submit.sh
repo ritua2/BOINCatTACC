@@ -31,7 +31,7 @@ else
 fi	
 echo -n "What is the number of cores required for execution (jobs with 9 or more cores will be run on TACC systems) : "
 read reqcores
-if (( reqcores > 8 )) ; then
+if (( reqcores > 5 )) ; then
   if [ -n "$taccsys" ] ; then
     server=$taccsys
   else
@@ -103,15 +103,12 @@ fi
 
 # Gets the account for the org
 # Only TACC hosts are accepted
-IFS='.' read -ra LK1 <<< "$HOSTNAME"
-LL="${#LK1[@]}"
-ORK=""
+domain_name=$(dnsdomainname)
 
-for (( COUNTER=2; COUNTER<LL-1; COUNTER+=1 )); do
-    ORK+="${LK1[$COUNTER]}""."
-done
+# Reverses it, picks the first 15 letters, reverses it to ensure a correct domain
+dn=$(echo "$domain_name" | rev)
+ORK=$(echo "${dn:0:15}" | rev)
 
-ORK+="${LK1[$LL-1]}"
 
 # Validates the researcher's email against the server's API
 TOKEN=$(curl -s -F email=$userEmail -F org_key=$ORK http://$SERVER_IP:5054/boincserver/v2/api/authorize_from_org)

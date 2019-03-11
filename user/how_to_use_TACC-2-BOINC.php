@@ -185,7 +185,7 @@ echo '';
 echo '<p><h3>'.tra('Video demonstration of the BOINC@TACC infrastructure:').'</h3></p>';
 //iframe code from https://www.w3schools.com/html/tryit.asp?filename=tryhtml_youtubeiframe
 echo '<iframe width="560" height="315" src="https://www.youtube.com/embed/UH9mJjZstO4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
-//End of Joshua's edit
+//End of Ritu and Joshua's edits
 page_tail();
 //End of the edit by Thomas
 ?>

@@ -146,6 +146,17 @@ echo tra("<h3>Project Team</h3>") .'<br>
 
   <div class="col-md-2">
     <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
+      <img src="/img1/Collin.jpg" alt="Collin" class="img-responsive">
+      <div class="info" style="padding: 10px 10px;">
+        <h4><a href="https://www.linkedin.com/in/collin-weir">Collin Weir</a></h4>
+        <p class="title">System Admin I</p>
+        <p>Networking, Security & Operations</p>
+        </div>
+    </div>
+  </div>
+
+  <div class="col-md-2">
+    <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
       <img src="/img1/gerald_joshua_cropped.jpg" alt="Joshua" class="img-responsive">
       <div class="info" style="padding: 10px 10px;">
         <h4><a href="https://www.linkedin.com/in/geraldjoshua">Gerald Joshua</a></h4>

@@ -5,9 +5,21 @@ require_once("../inc/util.inc");
 //Edited by Joshua
 page_head(null, null, null, null,  null, "Guide for TACC/XSEDE Researchers");
 echo "<br /><font size=+3>".tra("Guide for TACC/XSEDE Researchers")."</font>";
-echo '<p>'.tra("To submit jobs as a researcher, you could either use the job submission interface available on this website, or you could submit the jobs after logging in to the Stampede2/Lonestar5 systems at TACC.").'</p>';
+echo '<p>'.tra("To submit jobs as a researcher, you could either use the job submission interface available on this website, or you could submit the jobs after logging in to the Stampede2/Lonestar5 systems at TACC. This user-guide contains information on:").'</p>
 
-echo "<h3>".tra("Steps for Submitting Jobs from the Website")."</h3>";
+
+<a href="#go_1">Steps for Submitting Jobs from the Website</a><br>
+<a href="#go_2">Example: Step-by-Step Instructions for Running the OpenSees Application from the Job Submission Page </a><br>
+<a href="#go_3">Steps to Submit Jobs Directly Through Stampede2/Lonestar5 </a><br>
+<a href="#go_4"> Example: Step-by-Step Instructions for Running the OpenSees Application </a><br>
+<a href="#go_5"> Video Demonstration of the BOINC@TACC Infrastructure  </a><br>
+
+';
+
+
+
+
+echo "<h3  id=\"go_1\">".tra("1. Steps for Submitting Jobs from the Website")."</h3>";
 echo '<ol>';
 echo '<li> For submitting jobs through this website, you should first run the registration script from the Stampede2/Lonestar5 systems at least once</li>';
 echo '<ul>';
@@ -56,7 +68,7 @@ echo '<p> <b>Note </b>: If your job was submitted successfully, and it ran on th
 echo '';
 echo '</ol>';
 
-echo "<h3>".tra("Example: Step-by-Step Instructions for Running the OpenSees Application from the Job Submission Page.")."</h3>";
+echo "<h3 id=\"go_2\">".tra("2. Example: Step-by-Step Instructions for Running the OpenSees Application from the Job Submission Page")."</h3>";
 
 echo '<ol>';
 
@@ -153,7 +165,7 @@ echo '</li>';
 
 echo '</ol>';
 
-echo "<h3>".tra("Steps to Submit Jobs Directly Through Stampede2/Lonestar5")."</h3>";
+echo "<h3 id=\"go_3\">".tra("3. Steps to Submit Jobs Directly Through Stampede2/Lonestar5")."</h3>";
 echo 'In preparation of submitting jobs from Stampede2/Lonestar5, you will need to do the following:';
 echo '';
 echo '<ul>';
@@ -163,10 +175,11 @@ echo '';
 echo 'You would need to respond to the questions prompted by script, and if your job meets the constraints for running through BOINC@TACC, it will be submitted to the BOINC server, else, a SLURM job script will be generated for you so that you can run the job on Stampede2/Lonestar5.';
 echo '';
 echo '<br><br><b>Please note:</b> you will not be able to login to Stampede2/Lonestar5 if you do not already have an existing project allocation on TACC resources. Please visit the following website to learn more about the process of requesting allocation on TACC resources: <a href="https://portal.tacc.utexas.edu/"> https://portal.tacc.utexas.edu/ </a>';
-echo '';
+echo '</ul>';
 echo '';
 
-echo '<br><br><br><b>Example for an OpenSees job: </b><br><br>';
+echo '<h3 id="go_4">'.tra("4. Example: Step-by-Step Instructions for Running the OpenSees Application")."</h3>";
+
 
 echo "<ul>
 	<li>Obtain the necessary files<br></li>
@@ -189,9 +202,9 @@ chmod +<span class=\"hljs-keyword\">x</span> advance-submit.<span class=\"hljs-k
 </li>
 <li><p>Select <em>9</em> for applications when prompted</p>
 </li>
-<li><p>Continue with the following instructions to run a TACC training file  </p>
+<li><p>Continue with the following instructions to run an OpenSees input file  </p>
 <ul>
-<li><p>Provide the following file (space separated):</p>
+<li><p>Provide the following file:</p>
 <pre><code class=\"lang-bash\">  <span class=\"hljs-selector-tag\">MC</span><span class=\"hljs-selector-class\">.tcl</span>
 </code></pre>
 </li>
@@ -202,11 +215,11 @@ chmod +<span class=\"hljs-keyword\">x</span> advance-submit.<span class=\"hljs-k
 </code></pre>
 </li>
 </ul>
-</li>
 </ul>
+</li>
 ";
 
-echo '<p><h3>'.tra('Video demonstration of the BOINC@TACC infrastructure:').'</h3></p>';
+echo '<p><h3 id="go_5">'.tra('5. Video Demonstration of the BOINC@TACC Infrastructure ').'</h3></p>';
 //iframe code from https://www.w3schools.com/html/tryit.asp?filename=tryhtml_youtubeiframe
 echo '<iframe width="560" height="315" src="https://www.youtube.com/embed/UH9mJjZstO4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
 //End of Joshua's edit

@@ -160,32 +160,56 @@ echo '<ul>';
 echo '';
 echo '<li>Create a directory named "data" on your computer and copy the sample input files for running OpenSees in this directory </li>';
 echo '';
-echo '<li> Compress the “data” directory into either a *.tgz or a *.zip file </li>';
-echo '';
-echo '</ul>';
-echo '';
-echo '';
-echo 'For submitting jobs directly from Stampede2/Lonestar5 systems, please run the BOINC@TACC job submission script available <a href="https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/stampede_2_BOINC2.sh"> here. </a> You can run the following command to copy this script directly to Stampede2/Lonestar5: <br>';
-echo '<br>';
-echo '<font face="courier new"> wget https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/advance-submit.sh </font> <br>';
-echo '<br>';
-echo 'You would need to change the permission on the script to make it an executable: <br>';
-echo '<br>';
-echo '<font face="courier new"> chmod +x advance-submit.sh </font>';
-echo '<br>';
-echo '<br>You can then run the script using the following command:<br>';
-echo '<br>';
-echo '<font face="courier new">./advance-submit.sh </font><br>';
-echo '<br>';
 echo 'You would need to respond to the questions prompted by script, and if your job meets the constraints for running through BOINC@TACC, it will be submitted to the BOINC server, else, a SLURM job script will be generated for you so that you can run the job on Stampede2/Lonestar5.';
 echo '';
 echo '<br><br><b>Please note:</b> you will not be able to login to Stampede2/Lonestar5 if you do not already have an existing project allocation on TACC resources. Please visit the following website to learn more about the process of requesting allocation on TACC resources: <a href="https://portal.tacc.utexas.edu/"> https://portal.tacc.utexas.edu/ </a>';
 echo '';
 echo '';
+
+echo '<br><br><br><b>Example for an OpenSees job: </b><br><br>';
+
+echo "<ul>
+	<li>Obtain the necessary files<br></li>
+	</ul>
+	<pre><code class=\"lang-bash\">curl -O https:<span class=\"hljs-regexp\">//</span>raw.githubusercontent.com<span class=\"hljs-regexp\">/ritua2/</span>BOINCatTACC<span class=\"hljs-regexp\">/master/</span>stampede2-backend<span class=\"hljs-regexp\">/S2-test-files/</span>MC.tcl
+	</code></pre>
+	<ul>
+	<li>Run <em>advance-submit.sh</em> :</li>
+	</ul>
+	<pre><code class=\"lang-bash\">curl -O http<span class=\"hljs-variable\">s:</span>//raw.githubusercontent.<span class=\"hljs-keyword\">com</span>/ritua2/BOINCatTACC/master/stampede2-backend/advance-submit.<span class=\"hljs-keyword\">sh</span>
+chmod +<span class=\"hljs-keyword\">x</span> advance-submit.<span class=\"hljs-keyword\">sh</span>
+./advance-submit.<span class=\"hljs-keyword\">sh</span>
+</code></pre>
+<ul>
+
+
+<li><p>Provide your email when requested</p>
+</li>
+<li><p>Select <em>1</em> for <em>allowed options</em> when prompted  </p>
+</li>
+<li><p>Select <em>9</em> for applications when prompted</p>
+</li>
+<li><p>Continue with the following instructions to run a TACC training file  </p>
+<ul>
+<li><p>Provide the following file (space separated):</p>
+<pre><code class=\"lang-bash\">  <span class=\"hljs-selector-tag\">MC</span><span class=\"hljs-selector-class\">.tcl</span>
+</code></pre>
+</li>
+<li><p>No directories must be provided (enter to skip)</p>
+</li>
+<li><p>Provide the following command:</p>
+<pre><code class=\"lang-bash\">  <span class=\"hljs-selector-tag\">OpenSees</span> &lt; <span class=\"hljs-selector-tag\">MC</span><span class=\"hljs-selector-class\">.tcl</span>
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+";
+
 echo '<p><h3>'.tra('Video demonstration of the BOINC@TACC infrastructure:').'</h3></p>';
 //iframe code from https://www.w3schools.com/html/tryit.asp?filename=tryhtml_youtubeiframe
 echo '<iframe width="560" height="315" src="https://www.youtube.com/embed/UH9mJjZstO4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
-//End of Ritu and Joshua's edits
+//End of Joshua's edit
 page_tail();
 //End of the edit by Thomas
 ?>

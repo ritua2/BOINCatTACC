@@ -6,14 +6,9 @@ BASICS
 Sends an user an email when signing up
 """
 
-import os
-import smtplib
 from flask import Flask
-from email import encoders
-from email.mime.base import MIMEBase
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-
+import os
+import requests
 
 
 app = Flask(__name__)
@@ -23,14 +18,11 @@ app = Flask(__name__)
 @app.route("/boincserver/v2/api/signup/volunteer/<email>/<anonym>")
 def signup_volunteer(email, anonym):
 
-    sender = os.environ['BOINC_EMAIL']
-    gmail_password = os.environ['BOINC_EMAIL_PASSWORD']
 
     # Create the enclosing (outer) message
-    outer = MIMEMultipart()
-    outer['Subject'] = 'BOINC sign-up'
-    outer['To'] = email
-    outer['From'] = sender
+    outer = {}
+    outer['email_subject'] = 'BOINC sign-up'
+    outer['user_email'] = email
 
     text = "Welcome to BOINC@TACC,\n\nThank you for registering as a volunteer. "
     text += "If you have not done so, please install the BOINC client (http://boinc.berkeley.edu/download.php) and Virtualbox (https://www.virtualbox.org/wiki/Downloads).\n"
@@ -41,21 +33,11 @@ def signup_volunteer(email, anonym):
     text += "\n\nSincerely,\n\nThe TACC development team"
 
     # Adds the text
-    outer.attach(MIMEText(text))
-
-    composed = outer.as_string()
+    outer["email_content"] = text
 
     # Send the email
     try:
-        with smtplib.SMTP('smtp.gmail.com', 587) as s:
-            s.ehlo()
-            s.starttls()
-            s.ehlo()
-            s.login(sender, gmail_password)
-            s.sendmail(sender, [email], composed)
-            s.close()
-
-            return "Email sent"
+        requests.post('http://'+os.environ['URL_BASE'].split('/')[-1]+':5020/send_emails', json=outer)
 
     except:
         return "INVALID, could not send email"

@@ -118,20 +118,10 @@ Restructured due to div bug by Thomas
 */
 
 
-echo tra("<h3>Project Team</h3>") .'<br>
+
+echo tra("<h3>Current Team Members</h3>") .'<br>
 <div class="container">
 <div class="row">
-
-  <div class="col-md-2">
-    <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
-      <img src="/img1/Anubhaw_cropped.jpg" alt="Anubhaw" class="img-responsive">
-      <div class="info" style="padding: 10px 10px;">
-        <h4><a href="https://www.linkedin.com/in/anubhawn/">Anubhaw Nand</a></h4>
-        <p class="title">Graduate Student Intern</p>
-        <p>Software Development & Testing</p>
-        </div>
-    </div>
-  </div>
 
   <div class="col-md-2">
     <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
@@ -146,14 +136,47 @@ echo tra("<h3>Project Team</h3>") .'<br>
 
   <div class="col-md-2">
     <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
-      <img src="/img1/Collin.jpg" alt="Collin" class="img-responsive">
+      <img src="/img1/Collin_cropped.jpg" alt="Collin" class="img-responsive">
       <div class="info" style="padding: 10px 10px;">
         <h4><a href="https://www.linkedin.com/in/collin-weir">Collin Weir</a></h4>
-        <p class="title">System Admin I</p>
+        <p class="title">System<br> Admin I</p>
         <p>Networking, Security & Operations</p>
         </div>
     </div>
   </div>
+
+  <div class="col-md-2">
+    <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
+      <img src="/img1/ritu_2_2018_cropped.jpg" alt="Ritu" class="img-responsive">
+      <div class="info" style="padding: 10px 10px;">
+        <h4><a href="https://www.tacc.utexas.edu/about/directory/ritu-arora">Ritu Arora</a></h4>
+        <p class="title"><strong>Project PI</strong></p><br/>
+        <p>Software Design and Architecture</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+<br>
+';
+
+
+echo tra("<h3>Previous Team Members</h3>") .'<br>
+<div class="container">
+<div class="row">
+
+  <div class="col-md-2">
+    <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
+      <img src="/img1/Anubhaw_cropped.jpg" alt="Anubhaw" class="img-responsive">
+      <div class="info" style="padding: 10px 10px;">
+        <h4><a href="https://www.linkedin.com/in/anubhawn/">Anubhaw Nand</a></h4>
+        <p class="title">Graduate Student Intern</p>
+        <p>Software Development & Testing</p>
+        </div>
+    </div>
+  </div>
+
 
   <div class="col-md-2">
     <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
@@ -163,18 +186,6 @@ echo tra("<h3>Project Team</h3>") .'<br>
         <p class="title">Undergraduate Student Intern</p>
         <p>Software Development & Testing</p>
         </div>
-    </div>
-  </div>
-
-<!-- Added by Gerald Joshua, copied from above -->
-  <div class="col-md-2">
-    <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
-      <img src="/img1/ritu_2_2018_cropped.jpg" alt="Ritu" class="img-responsive">
-      <div class="info" style="padding: 10px 10px;">
-        <h4><a href="https://www.tacc.utexas.edu/about/directory/ritu-arora">Ritu Arora</a></h4>
-        <p class="title"><strong>Project PI</strong></p><br/>
-        <p>Software Design and Architecture</p>
-      </div>
     </div>
   </div>
   
@@ -194,34 +205,6 @@ echo tra("<h3>Project Team</h3>") .'<br>
 <br>
 ';
 
-//"/img/Thomas.jpg.jpeg.JPG"
-//"/img/Joshua.jpg.jpeg"
-//"/img/Anubhaw.jpg.jpeg"
-/*
-echo '<center><h1>'.tra("Principal Investigator of the Project").'</h1></center>';
-echo '<center><span style="font-size: 24px; font-weight: bold;"><a href="https://www.tacc.utexas.edu/about/directory/ritu-arora">Ritu Arora</a></span></center>'.tra("Project Team") .'<ul>
-     <li>Anubhaw  Nand (Graduate Student Intern, Software Development & Testing)
-     <li><a href="https://www.linkedin.com/in/carlos-redondo-albertos">'.tra("Carlos Redondo").'</a> (Undergraduate Student Intern, Software Development & Testing)
-     <li><a href="https://www.linkedin.com/in/geraldjoshua">'.tra("Gerald Joshua").'</a> (Undergraduate Student Intern, Software Development & Testing)
-     <li><a href="https://www.tacc.utexas.edu/about/directory/ritu-arora">'.tra("Ritu Arora").'</a> (Design and Architecture)
-     <li><a href =\"http://nia.ecsu.edu/sp/1617/johnson/\">'.tra("Thomas Johnson").'</a> (Undergraduate Student Intern, Software Development & Testing)
-</ul></tr></td>';
-*/
-
-//Project Overview
-/*
-echo '<center><h1>'.tra("Project Team: ").'</h1></center>';
-echo '<div style="font-size: 18px;"><center>
-	Anubhaw Nand (Graduate Student Intern, Software Development & Testing)<br />
-<a href="https://www.linkedin.com/in/carlos-redondo-albertos">Carlos Redondo</a> (Undergraduate Student Intern, Software Development & Testing)<br />
-<a href="https://www.linkedin.com/in/geraldjoshua">Gerald Joshua</a> (Undergraduate Student Intern, Software Development & Testing)<br />
-<a href="https://www.tacc.utexas.edu/about/directory/ritu-arora">Ritu Arora</a> (Design and Architecture)<br />
-<a href ="http://nia.ecsu.edu/sp/1617/johnson/">Thomas Johnson</a> (Undergraduate Student Intern, Software Development & Testing)<br />
-</center></div><br />';
-*/
-/*
-Thomas Johnson linked Thomas Johnson's and Carlos Redondo's personal pages
-*/
 
 //Added by Joshua, copied from Thomas's code on index.php
 echo '<script>

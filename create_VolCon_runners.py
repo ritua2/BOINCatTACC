@@ -21,12 +21,12 @@ r = redis.Redis(host = '0.0.0.0', port = 6389, db = 3)
 new_org = str(input("Enter cluster name: "))
 
 if (new_org == "ORGS") or (new_org == "VolCon"):
-    print("Name '"+new_org"' is already used for internal purposes")
+    print("Name '"+new_org+"' is already used for internal purposes")
     sys.exit()
 
 
 # Deletes information about all current VolCon mirrors if they are already set-up
-if r.get(new_org) != None:
+if r.exists(new_org):
     answer = str(input("'"+new_org+"' cluster is already setup, y to delete it (this action is not recoverable): "))
 
     if answer == "y":

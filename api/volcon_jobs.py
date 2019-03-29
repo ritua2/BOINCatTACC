@@ -16,7 +16,7 @@ import mysql_interactions as mints
 import queue
 import uuid
 
-Q1 = queue.Queue
+Q1 = queue.Queue()
 
 app = Flask(__name__)
 
@@ -83,6 +83,45 @@ def tacc_jobs():
     Q1.put(VolCon_ID)
 
     return "Successfully submitted job"
+
+
+
+# Receives a job request
+# Returns the VolCon ID and where it is stored
+@app.route('/volcon/v2/api/jobs/request', methods=['POST'])
+def request_job():
+
+    if not request.is_json:
+        return "INVALID: Request is not json"    
+
+    # Checks the required fields
+    req_fields = ["cluster", "GPU", "runner-id"]
+    req_check = l2_contains_l1(req_fields, proposal.keys())
+
+    if req_check != []:
+        return "INVALID: Lacking the following json fields to be read: "+",".join([str(a) for a in req_check]) 
+
+
+    # Ensures the VolCon runner is associated with a valid cluster
+    # TODO
+
+
+    # Checks the status of the queue for a new job
+    if not Q1.empty():
+        try:
+            # 1 s to avoid race conditions
+            VolCon_ID = Q1.get(timeout=1)
+        except:
+            return "No jobs available"
+    else:
+        return "No jobs available"
+
+
+    # Finds the mirror location of the files
+    return mints.get_mirror_for_job(VolCon_ID)
+
+
+
 
 
 

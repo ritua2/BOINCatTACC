@@ -67,7 +67,7 @@ URL_BASE=http://IP_ADDRESS docker-compose up -d
 ```bash
 # Find the docker container
 docker ps
-docker exec -it $APACHE bash
+docker exec -it boincserverdocker_apache_1 bash
 cd /home/boincadm/project/html/ops/
 htpasswd -c .htpasswd $NEWUSERNAME
 ```
@@ -141,7 +141,7 @@ python3 create_organization.py
 		1. Assign VolCon credentials: provide VolCon password
 		2. Start VolCon network: In order for VolCon to be more effective, a large set of working nodes is required. Here will show how to manually run a simple mirror container.
 		3. Assign Runner credentials: Multiple types of VolCon runners can be used at the same type (GPUs or not, different providers, etc). All runners within the same provided organization type are assumed to be similar and so they can be requested in such a way if the user wishes to.
-		4. Implement VolCon runners by organization: 
+		4. Implement VolCon runners by organization: The example here must be run within a VM, can be run on multiple machines without any changes.
 
 	* Note: VolCon is an update over the previously known ADTD-P system and, although both share many features, VolCon is not backwards compatible
 
@@ -174,12 +174,13 @@ CREATE TABLE IF NOT EXISTS volcon_jobs (
 
 ```bash
 # (1) Apache container
-python3 /home/boincadm/project/BOINCatTACC/create_VolCon_distributors.py
 
+python3 /home/boincadm/project/BOINCatTACC/create_VolCon_distributors.py
 ```
 
 ```bash
 # (2) Mirror server
+
 git clone https://github.com/ritua2/BOINCatTACC
 cd BOINCatTACC/volcon-mirrors
 # Build the image, image is not available in dockerhub
@@ -190,8 +191,22 @@ docker run -d -p 7000:7000 -e "main_server=boinc.tacc.utexas.edu" \
 
 ```bash
 # (3) Apache container
+
 python3 /home/boincadm/project/BOINCatTACC/create_VolCon_runners.py
 ```
+
+```bash
+# (4) Client server
+
+git clone https://github.com/ritua2/BOINCatTACC
+cd BOINCatTACC/volcon-clients
+# Build the image, image is not available in dockerhub
+docker build -t boinc_tacc/volcon-clients:latest .
+docker run -d -p 8000:8000 -e "main_server=boinc.tacc.utexas.edu" \
+       -e "cluster=andromeda" -e "cluster-key=segue1" \
+       -e "disconnect-key=m110" boinc_tacc/volcon-clients:latest
+```
+
 
 
 [1]: https://github.com/marius311/boinc-server-docker

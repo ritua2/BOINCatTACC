@@ -291,7 +291,7 @@ echo '
 			<div id="taccDockerSection">
 			<br /><br />
 			<div class="dropdown" style="margin-left: 34.5%;" >
-		  		<button class="btn btn-primary dropdown-toggle" id="dockerListBtn" value="none"  style="background-color: #174b63; font-weight: bold;" type="button" data-toggle="dropdown"><span id="buttonText">List of docker images maintained by BOINC@TACC</span>
+		  		<button class="btn btn-primary dropdown-toggle" id="dockerListBtn" value="none"  style="background-color: #174b63; font-weight: bold;" type="button" data-toggle="dropdown"><span id="buttonText">List of Docker images maintained by BOINC@TACC</span>
 		  		<span class="caret"></span></button>
 				<input type="hidden" id="dockerListParam" name="dockerList" value="none">
 		  		<ul id="imgDropDown" class="dropdown-menu">

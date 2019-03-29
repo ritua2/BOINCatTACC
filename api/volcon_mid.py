@@ -102,7 +102,7 @@ def addme():
 # This key can be used in the future if an administrator wishes to disconnect any VolCon client from the system
 # Requires a json input
 @app.route('/volcon/v2/api/cluster/client/addme', methods=['POST'])
-def addme():
+def client_addme():
 
     # Ensures that there is an appropriate json request
     if not request.is_json:
@@ -111,7 +111,7 @@ def addme():
     proposal = request.get_json()
 
     # Checks the required fields
-    req_fields = ["key", "disconnect-key", "cluster"]
+    req_fields = ["cluster", "cluster-key", "disconnect-key"]
     req_check = l2_contains_l1(req_fields, proposal.keys())
 
     if req_check != []:
@@ -148,7 +148,7 @@ def status_update():
     proposal = request.get_json()
 
     # Checks the required fields
-    req_fields = ["key", "VolCon-ID" "status"]
+    req_fields = ["key", "VolCon-ID", "status"]
     req_check = l2_contains_l1(req_fields, proposal.keys())
 
     if req_check != []:
@@ -156,7 +156,6 @@ def status_update():
 
     if bad_password("VolCon", proposal["key"]):
         return "INVALID: incorrect password"
-
 
     try:
         mints.update_job_status(proposal["VolCon-ID"], proposal["status"], False)

@@ -58,3 +58,19 @@ def update_mirror_ip(VID, mirror_ip):
     cursor = boinc_db.cursor(buffered=True)
     cursor.execute( "UPDATE volcon_jobs SET mirror_ip = %s WHERE volcon_id = %s", (mirror_ip, VID))
     boinc_db.commit()
+
+
+
+# Returns the mirror IP for a certain VolCon ID
+def get_mirror_for_job(VID):
+
+    boinc_db = mysql_con.connect(host = os.environ['URL_BASE'].split('/')[-1], port = 3306, user = os.environ["MYSQL_USER"], password = os.environ["MYSQL_UPASS"], database = 'boincserver')
+    cursor = boinc_db.cursor(buffered=True)
+
+    find_IP = ("SELECT mirror_ip WHERE volcon_id = %s")
+
+    cursor.execute(insert_new_job, (VID) )
+
+    for ips in cursor:
+        # Only returns the first one
+        return ips

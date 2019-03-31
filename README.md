@@ -143,6 +143,7 @@ python3 create_organization.py
 		3. Assign Runner credentials: Multiple types of VolCon runners can be used at the same type (GPUs or not, different providers, etc). All runners within the same provided organization type are assumed to be similar and so they can be requested in such a way if the user wishes to.
 		4. Implement VolCon runners by organization: The example here must be run within a VM, can be run on multiple machines without any changes.
 
+
 	* Note: VolCon is an update over the previously known ADTD-P system and, although both share many features, VolCon is not backwards compatible
 
 ```mysql
@@ -165,11 +166,11 @@ CREATE TABLE IF NOT EXISTS volcon_jobs (
     received_time     DATETIME,
     mirror_ip         VARCHAR(255),
     volcon_id         VARCHAR(255),
+    priority          VARCHAR(255),
 
 
     PRIMARY KEY (job_id)
 );
-
 ```
 
 ```bash
@@ -192,7 +193,7 @@ docker run -d -p 7000:7000 -e "main_server=boinc.tacc.utexas.edu" \
 ```bash
 # (3) Apache container
 
-python3 /home/boincadm/project/BOINCatTACC/create_VolCon_runners.py
+python3 /home/boincadm/project/BOINCatTACC/create_VolCon_clusters.py
 ```
 
 ```bash
@@ -203,8 +204,8 @@ cd BOINCatTACC/volcon-clients
 # Build the image, image is not available in dockerhub
 docker build -t boinc_tacc/volcon-clients:latest .
 docker run -d -p 8000:8000 -e "main_server=boinc.tacc.utexas.edu" \
-       -e "cluster=andromeda" -e "cluster-key=segue1" \
-       -e "disconnect-key=m110" boinc_tacc/volcon-clients:latest
+       -e "cluster=andromeda" -e "cluster_key=m110" \
+       boinc_tacc/volcon-clients:latest
 ```
 
 

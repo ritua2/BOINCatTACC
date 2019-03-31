@@ -118,7 +118,7 @@ def client_addme():
         return "INVALID: Lacking the following json fields to be read: "+",".join([str(a) for a in req_check])
 
     cluster = proposal["cluster"]
-    if bad_password(cluster, proposal["key"]):
+    if bad_password(cluster, proposal["cluster-key"]):
         return "INVALID: incorrect password"
 
     IP = request.environ['REMOTE_ADDR']
@@ -133,7 +133,7 @@ def client_addme():
     r.hmset(cluster+"-"+IP, V)
     r.hset(cluster, cluster+"-"+IP, proposal["disconnect-key"])
 
-    return "Successfully added to the list of mirrors"
+    return "Successfully added to the list of clients for the "+cluster+ " cluster"
 
 
 

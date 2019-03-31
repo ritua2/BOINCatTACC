@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-# Generates a random identifier for the current terminal, a set of 32 random characters
+# Generates a random identifier for the current server, a set of 32 random characters
 export SERVER_ID=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
 
 # Adds the server as a mirror

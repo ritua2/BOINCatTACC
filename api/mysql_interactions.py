@@ -24,15 +24,15 @@ def timnow():
 # Adds a job to MySQL
 # GPU (1 or 0)
 # VID (str): Volcon ID
-def add_job(token, image, commands, GPU, VID):
+def add_job(token, image, commands, GPU, VID, priority_level):
     boinc_db = mysql_con.connect(host = os.environ['URL_BASE'].split('/')[-1], port = 3306, user = os.environ["MYSQL_USER"], password = os.environ["MYSQL_UPASS"], database = 'boincserver')
     cursor = boinc_db.cursor(buffered=True)
 
     insert_new_job = (
-        "INSERT INTO volcon_jobs (token, Image, Command, Date_Sub, Notified, status, GPU, volcon_id) "
-        "VALUES (%s, %s, %s, %s, %s, %s, %s, %s)")
+        "INSERT INTO volcon_jobs (token, Image, Command, Date_Sub, Notified, status, GPU, volcon_id, priority) "
+        "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)")
 
-    cursor.execute(insert_new_job, (token, image, commands, timnow(), "0", "Received", GPU, VID) )
+    cursor.execute(insert_new_job, (token, image, commands, timnow(), "0", "Received", GPU, VID, priority_level) )
     boinc_db.commit()
 
 
@@ -67,10 +67,33 @@ def get_mirror_for_job(VID):
     boinc_db = mysql_con.connect(host = os.environ['URL_BASE'].split('/')[-1], port = 3306, user = os.environ["MYSQL_USER"], password = os.environ["MYSQL_UPASS"], database = 'boincserver')
     cursor = boinc_db.cursor(buffered=True)
 
-    find_IP = ("SELECT mirror_ip WHERE volcon_id = %s")
+    find_IP = ("SELECT mirror_ip FROM volcon_jobs WHERE volcon_id = %s")
 
     cursor.execute(insert_new_job, (VID) )
 
     for ips in cursor:
         # Only returns the first one
         return ips
+
+
+
+# Finds available jobs
+# A job is defined as available if (ERROR == NULL) and (status == 'Mirror received files')
+# Filters by GPU (1: GPU is required, 0: GPU is not required)
+# Filters by priority level
+# Returns a list of VolCon IDs
+
+def available_jobs(GPU_required, priority_level):
+
+    boinc_db = mysql_con.connect(host = os.environ['URL_BASE'].split('/')[-1], port = 3306, user = os.environ["MYSQL_USER"], password = os.environ["MYSQL_UPASS"], database = 'boincserver')
+    cursor = boinc_db.cursor(buffered=True)
+
+    find_VIDS = ("SELECT volcon_id, mirror_ip FROM volcon_jobs WHERE (ERROR IS NULL AND status = 'Mirror received files') AND (GPU = %s AND priority = %s)")
+    cursor.execute(find_VIDS, (GPU_required, priority_level) )
+
+    V = []
+    for vid in cursor:
+        V.append([vid[0], vid[1]])
+
+    return V
+

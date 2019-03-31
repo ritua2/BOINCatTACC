@@ -13,10 +13,8 @@ import hashlib
 import json
 import mirror_interactions as mirror
 import mysql_interactions as mints
-import queue
 import uuid
 
-Q1 = queue.Queue()
 
 app = Flask(__name__)
 
@@ -57,13 +55,13 @@ def tacc_jobs():
     proposal = request.get_json()
 
     # Checks the required fields
-    req_fields = ["token", "image", "commands"]
+    req_fields = ["token", "image", "commands", "priority"]
     req_check = l2_contains_l1(req_fields, proposal.keys())
 
     if req_check != []:
         return "INVALID: Lacking the following json fields to be read: "+",".join([str(a) for a in req_check])    
 
-    [TOKEN, IMAGE, COMMANDS] = [proposal["token"], proposal["image"], proposal["commands"]]
+    [TOKEN, IMAGE, COMMANDS, PRIORITY] = [proposal["token"], proposal["image"], proposal["commands"], proposal["priority"]]
     VolCon_ID = uuid.uuid4().hex
 
     if "gpu" in IMAGE:
@@ -72,7 +70,7 @@ def tacc_jobs():
         GPU = 0
 
     try:
-        mints.add_job(TOKEN, IMAGE, COMMANDS, GPU, VolCon_ID)
+        mints.add_job(TOKEN, IMAGE, COMMANDS, GPU, VolCon_ID, PRIORITY)
     except:
         return "INVALID: Could not connect to MySQL database"
 
@@ -80,7 +78,6 @@ def tacc_jobs():
     job_info = {"Image":IMAGE, "Command":COMMANDS, "TACC":1, "GPU":GPU, "VolCon_ID":VolCon_ID}
 
     mirror.upload_job_to_mirror(job_info)
-    Q1.put(VolCon_ID)
 
     return "Successfully submitted job"
 
@@ -95,26 +92,27 @@ def request_job():
         return "INVALID: Request is not json"    
 
     # Checks the required fields
-    req_fields = ["cluster", "GPU", "runner-id"]
+    req_fields = ["cluster", "disconnect-key", "GPU", "priority-level"]
     req_check = l2_contains_l1(req_fields, proposal.keys())
 
     if req_check != []:
         return "INVALID: Lacking the following json fields to be read: "+",".join([str(a) for a in req_check]) 
 
+    # Ensures the VolCon client is associated with a valid cluster
+    IP = request.environ['REMOTE_ADDR']
+    if not r.hexists(cluster, cluster+"-"+IP):
+        return "INVALID: Server IP is not associated with cluster ' "+proposal["cluster"]+ "'"
+    # Ensures that the key provided for this particular server is correct
+    if r.hget("VolCon", "M-"+IP) != proposal["disconnect-key"]:
+        return "INVALID key"
 
-    # Ensures the VolCon runner is associated with a valid cluster
-    # TODO
+    # Obtains a list of valid volcon_IDs and their respective mirror IPs
+    volmir = mints.available_jobs(proposal["GPU"], proposal["priority-level"])
+
+    # Locks and selects the first one for execution to avoid race conditions
 
 
     # Checks the status of the queue for a new job
-    if not Q1.empty():
-        try:
-            # 1 s to avoid race conditions
-            VolCon_ID = Q1.get(timeout=1)
-        except:
-            return "No jobs available"
-    else:
-        return "No jobs available"
 
 
     # Finds the mirror location of the files

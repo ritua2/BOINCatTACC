@@ -26,5 +26,6 @@ RUN apk update && apk add bash curl &&\
 WORKDIR /client
 
 
+
 CMD ["./runner"]
 

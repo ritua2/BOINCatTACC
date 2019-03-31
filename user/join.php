@@ -42,12 +42,12 @@ function show_new() {
         function() use ($master_url) {
             /*Edited by Joshua: We need ask the user to download virtual box before the 
             BOINC client software*/
-            echo '
+            echo '<u><b>Mac and Linux users:</b></u>
                 <ol>
                 <li> <p>'
                 .tra('Read our %1 Rules and Policies %2.', '<a href="info.php">', '</a>')
                 .'</p><li> <p>'
-                .tra('Download %1 VirtualBox %2.', '<a href="https://www.virtualbox.org/wiki/Downloads">','</a>')
+                .tra('Download %1 VirtualBox %2 (skip this step if you already have VirtualBox installed).', '<a href="https://www.virtualbox.org/wiki/Downloads">','</a>')
                 .'</p>'
                 .'<li> <p>'
                 .tra('Download the BOINC desktop software.')
@@ -62,6 +62,20 @@ function show_new() {
                 </ol>
             ';
             /*End of the edit by Joshua*/
+            echo '<u><b>Windows users</b></u>
+                <ol>
+                <li> <p>'
+                .tra('Read our %1 Rules and Policies %2.', '<a href="info.php">', '</a>')
+                .'</p></li><li><p>Either: </li>
+                <p>    (a) Go to the "Sign Up" page (<a href="https://boinc.tacc.utexas.edu/create_account_form.php">https://boinc.tacc.utexas.edu/create_account_form.php</a>), create account, download BOINC+VirtualBox software (<a href="https://boinc.berkeley.edu/download.php">https://boinc.berkeley.edu/download.php</a>), run the installer, and add the BOINC@TACC project in the BOINC client/manager (https://boinc.tacc.utexas.edu/).<p>
+                <p>    (b) Download VirtualBox (skip this step if you already have VirtualBox installed). Download the BOINC desktop software. Run the installer. Choose BOINC@TACC from the list, or enter https://boinc.tacc.utexas.edu/</p>
+                </li>
+
+                </ol>
+            ';
+            echo '<u><b>Android devices</b></u>
+                <ol>Download BOINC from the Google Play store or Amazon app store</ol>
+            ';
         }
     );
 }

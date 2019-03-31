@@ -22,7 +22,7 @@ GPU = os.environ["GPU"]
 main_server = os.environ["main_server"]
 
 # Max 5 minutes timeout for any job trying to load an image
-image =docker.from_env(timeout=5*60).images
+image = docker.from_env(timeout=5*60).images
 container =  docker.from_env().containers
 
 
@@ -87,7 +87,6 @@ def run_public_in_container(job_info, previous_download_time):
 
     # Filters the commands into an usable form
     CC = Command.replace("/bin/bash -c \"", "").replace("\"", "").split("; ")
-    print(CC)
     Report = {"date (Run)":prestime, "VolCon-ID":VolCon_ID, "download time":(d2-d1+previous_download_time)}
 
     # Returns the exit code
@@ -102,7 +101,6 @@ def run_public_in_container(job_info, previous_download_time):
 
             comres[0].append(command)
             comres[1].append("Success")
-
         except:
             comres[0].append(command)
             comres[1].append("Error")
@@ -118,7 +116,7 @@ def run_public_in_container(job_info, previous_download_time):
         with open(tarname, "wb") as tarta:
             for bitbit in RESRES[0]:
                 tarta.write(bitbit)
-        Report["Result Error"] = "Folder with results does not exist"
+        Report["Result Error"] = "0"
     except:
         Report["Error"] = "Results directory does not exist"
         # Notify the server of the error
@@ -131,12 +129,14 @@ def run_public_in_container(job_info, previous_download_time):
     completed_time = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
     Report["computation time"] = end_time-start_time
 
+
     # Uploads result files
 
     # Uploads finishes job notification
 
     # Kills the container and removes it
     CONTAINER.kill()
+    CONTAINER.remove(force = True)
     container.prune()
 
     # If the image is not TACC, it removes it

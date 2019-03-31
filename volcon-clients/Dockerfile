@@ -20,8 +20,7 @@ COPY closer.py /client/closer.py
 # Bash, curl for convenience
 RUN apk update && apk add bash curl docker &&\
     pip3 install docker Flask requests &&\
-    chmod +x /client/runner && touch /client/disconnect.txt &&\
-    apk add openrc --no-cache && rc-update add docker boot
+    chmod +x /client/runner && touch /client/disconnect.txt
 
 
 WORKDIR /client

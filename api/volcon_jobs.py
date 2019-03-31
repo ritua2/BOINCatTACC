@@ -145,6 +145,25 @@ def request_job():
 
 
 
+# Receives job files
+# Does NOT update the database, see next API
+@app.route("/volcon/v2/api/jobs/results/upload/<cluster_key>/<VID>", methods=['POST'])
+def results_upload(VID):
+
+    prestime = mints.timnow()
+
+    # Checks out if the given VolCon-ID exists in database
+
+
+
+# Receives job data and uopdates the database
+
+
+
+
+
+# Receives failed job notification
+
 
 
 

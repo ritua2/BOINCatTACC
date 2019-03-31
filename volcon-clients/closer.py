@@ -48,6 +48,7 @@ def close(disconnect_key):
 
 # Adds or removes what kind of priority can the system execute
 # Does not account for race conditions, expected to be done very rarely
+# Note: If a priority is repeated in the list, it needs to be removed as many times as there are mentions of it
 @app.route('/volcon/client/api/priorities/change/<change>/<talkedabout>/<disconnect_key>', methods=['GET'])
 def change_priorities(disconnect_key, change, talkedabout):
 
@@ -55,7 +56,7 @@ def change_priorities(disconnect_key, change, talkedabout):
         return "Incorrect key"
 
     with open("/client/priorities.json", "r") as ff:
-        current = json.loads(ff)
+        current = json.load(ff)
 
     if change == "append":
         current["available-priorities"].append(talkedabout)

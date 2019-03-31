@@ -8,7 +8,9 @@ Interactions with MySQL database
 import datetime
 import mysql.connector as mysql_con
 import os
+import random
 import redis
+import time
 
 
 
@@ -44,11 +46,15 @@ def update_job_status(VID, new_status, lock = False):
     if not lock:
         boinc_db = mysql_con.connect(host = os.environ['URL_BASE'].split('/')[-1], port = 3306, user = os.environ["MYSQL_USER"], password = os.environ["MYSQL_UPASS"], database = 'boincserver')
         cursor = boinc_db.cursor(buffered=True)
-        cursor.execute( "UPDATE volcon_jobs SET status = %s WHERE volcon_id = %s", (new_status, VID))
+        cursor.execute("UPDATE volcon_jobs SET status = %s WHERE volcon_id = %s", (new_status, VID))
         boinc_db.commit()
     else:
-        # TODO TODO TODO
-        pass
+        time.sleep(random.uniform(0, 0.030))
+        boinc_db = mysql_con.connect(host = os.environ['URL_BASE'].split('/')[-1], port = 3306, user = os.environ["MYSQL_USER"], password = os.environ["MYSQL_UPASS"], database = 'boincserver')
+        cursor = boinc_db.cursor(buffered=True)
+        cursor.execute("SELECT * FROM volcon_jobs WHERE volcon_id = '%s' FOR UPDATE NOWAIT", (VID))
+        cursor.execute("UPDATE volcon_jobs SET status = %s WHERE volcon_id = %s", (new_status, VID))
+        boinc_db.commit()
 
 
 
@@ -73,7 +79,7 @@ def get_mirror_for_job(VID):
 
     for ips in cursor:
         # Only returns the first one
-        return ips
+        return ips[0]
 
 
 
@@ -96,4 +102,9 @@ def available_jobs(GPU_required, priority_level):
         V.append([vid[0], vid[1]])
 
     return V
+
+
+
+# Blocks status 
+
 

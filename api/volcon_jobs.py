@@ -8,15 +8,20 @@ Processes job submissions from the BOINC server
 
 
 
-from flask import Flask, request
+from flask import Flask, request, jsonify
 import hashlib
 import json
 import mirror_interactions as mirror
 import mysql_interactions as mints
+import redis
 import uuid
 
 
+
+
+
 app = Flask(__name__)
+r = redis.Redis(host = '0.0.0.0', port = 6389, db = 3)
 
 
 # Checks a password withe respective type of Volcon system (mirrors)
@@ -91,6 +96,7 @@ def request_job():
     if not request.is_json:
         return "INVALID: Request is not json"    
 
+    proposal = request.get_json()
     # Checks the required fields
     req_fields = ["cluster", "disconnect-key", "GPU", "priority-level"]
     req_check = l2_contains_l1(req_fields, proposal.keys())
@@ -100,23 +106,41 @@ def request_job():
 
     # Ensures the VolCon client is associated with a valid cluster
     IP = request.environ['REMOTE_ADDR']
+    cluster = proposal["cluster"]
     if not r.hexists(cluster, cluster+"-"+IP):
-        return "INVALID: Server IP is not associated with cluster ' "+proposal["cluster"]+ "'"
+        return "INVALID: Server IP is not associated with cluster ' "+cluster+ "'"
     # Ensures that the key provided for this particular server is correct
-    if r.hget("VolCon", "M-"+IP) != proposal["disconnect-key"]:
+    if r.hget(cluster, cluster+"-"+IP).decode("UTF-8") != proposal["disconnect-key"]:
         return "INVALID key"
 
     # Obtains a list of valid volcon_IDs and their respective mirror IPs
     volmir = mints.available_jobs(proposal["GPU"], proposal["priority-level"])
 
+    if volmir == []:
+        return jsonify({"jobs-available":"0"})
+
     # Locks and selects the first one for execution to avoid race conditions
+    unavailable = True
 
+    for item in volmir:
 
-    # Checks the status of the queue for a new job
+        VID = item[0]
+        new_status = "Job has been requested by client"
+        try:
+            mints.update_job_status(VID, new_status, True)
+            VolCon_ID = VID
+            mirror_IP = item[1]
+            unavailable = False
+            break
+        except:
+            # Race condition has occurred and has been avoided
+            pass
 
+    if unavailable:
+        return jsonify({"jobs-available":"0"})
 
     # Finds the mirror location of the files
-    return mints.get_mirror_for_job(VolCon_ID)
+    return jsonify({"VolCon-ID":VolCon_ID, "mirror-IP":mirror_IP})
 
 
 

@@ -23,6 +23,22 @@ def timnow():
 
 
 
+# Creates a temporary VolCon-ID tag in Redis
+# The reason is that Redis rpop operations are atomic and so avoid race conditions
+def tag_volcon(VID):
+    r.rpush(VID, timnow())
+
+
+
+# Checks if a value has not been checked yet
+def race_condition_occurred(VID):
+    if r.rpop(VID) == None:
+        return True
+    else:
+        return False
+
+
+
 # Adds a job to MySQL
 # GPU (1 or 0)
 # VID (str): Volcon ID
@@ -46,7 +62,7 @@ def update_job_status(VID, new_status, lock = False):
     if not lock:
         boinc_db = mysql_con.connect(host = os.environ['URL_BASE'].split('/')[-1], port = 3306, user = os.environ["MYSQL_USER"], password = os.environ["MYSQL_UPASS"], database = 'boincserver')
         cursor = boinc_db.cursor(buffered=True)
-        cursor.execute("UPDATE volcon_jobs SET status = %s WHERE volcon_id = %s", (new_status, VID))
+        cursor.execute( "UPDATE volcon_jobs SET status = %s WHERE volcon_id = %s", (new_status, VID))
         boinc_db.commit()
     else:
         time.sleep(random.uniform(0, 0.030))
@@ -55,6 +71,7 @@ def update_job_status(VID, new_status, lock = False):
         cursor.execute("SELECT * FROM volcon_jobs WHERE volcon_id = '%s' FOR UPDATE NOWAIT", (VID))
         cursor.execute("UPDATE volcon_jobs SET status = %s WHERE volcon_id = %s", (new_status, VID))
         boinc_db.commit()
+
 
 
 
@@ -73,14 +90,13 @@ def get_mirror_for_job(VID):
     boinc_db = mysql_con.connect(host = os.environ['URL_BASE'].split('/')[-1], port = 3306, user = os.environ["MYSQL_USER"], password = os.environ["MYSQL_UPASS"], database = 'boincserver')
     cursor = boinc_db.cursor(buffered=True)
 
-    find_IP = ("SELECT mirror_ip FROM volcon_jobs WHERE volcon_id = %s")
+    find_IP = ("SELECT mirror_ip WHERE volcon_id = %s")
 
     cursor.execute(insert_new_job, (VID) )
 
     for ips in cursor:
         # Only returns the first one
         return ips[0]
-
 
 
 # Finds available jobs
@@ -102,9 +118,3 @@ def available_jobs(GPU_required, priority_level):
         V.append([vid[0], vid[1]])
 
     return V
-
-
-
-# Blocks status 
-
-

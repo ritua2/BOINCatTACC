@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 """
 BASICS
 
@@ -14,6 +12,7 @@ import json
 import mirror_interactions as mirror
 import mysql_interactions as mints
 import redis
+import random
 import uuid
 
 
@@ -83,6 +82,8 @@ def tacc_jobs():
     job_info = {"Image":IMAGE, "Command":COMMANDS, "TACC":1, "GPU":GPU, "VolCon_ID":VolCon_ID}
 
     mirror.upload_job_to_mirror(job_info)
+    # Adds tag
+    mints.tag_volcon(VolCon_ID)
 
     return "Successfully submitted job"
 
@@ -115,7 +116,7 @@ def request_job():
 
     # Obtains a list of valid volcon_IDs and their respective mirror IPs
     volmir = mints.available_jobs(proposal["GPU"], proposal["priority-level"])
-
+    random.shuffle(volmir)
     if volmir == []:
         return jsonify({"jobs-available":"0"})
 
@@ -123,18 +124,18 @@ def request_job():
     unavailable = True
 
     for item in volmir:
-
+        print(item)
         VID = item[0]
         new_status = "Job has been requested by client"
-        try:
-            mints.update_job_status(VID, new_status, True)
+        if not mints.race_condition_occurred(VID):
+            try:
+                mints.update_job_status(VID, new_status, True)
+            except:
+                continue            
             VolCon_ID = VID
             mirror_IP = item[1]
             unavailable = False
             break
-        except:
-            # Race condition has occurred and has been avoided
-            pass
 
     if unavailable:
         return jsonify({"jobs-available":"0"})
@@ -149,5 +150,3 @@ def request_job():
 
 if __name__ == '__main__':
     app.run(host = '0.0.0.0', port = 5091, debug=False, threaded=True)
-
-

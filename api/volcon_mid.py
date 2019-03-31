@@ -158,7 +158,7 @@ def status_update():
         return "INVALID: incorrect password"
 
     try:
-        mints.update_job_status(proposal["VolCon-ID"], proposal["status"], False)
+        mints.update_job_status(proposal["VolCon-ID"], proposal["status"], True)
         return "Successfully updated job "+ proposal["VolCon-ID"]
     except:
         return "Failed to update job"

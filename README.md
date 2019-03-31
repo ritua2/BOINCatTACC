@@ -155,6 +155,7 @@ CREATE TABLE IF NOT EXISTS volcon_jobs (
     Token             VARCHAR(255),
     Image             VARCHAR(255),
     Command           VARCHAR(5000),
+    Command_Errors    VARCHAR(5000),
     Date_Sub          DATETIME,
     Date_Run          DATETIME,
     Error             VARCHAR(255),
@@ -206,7 +207,7 @@ docker build -t boinc_tacc/volcon-clients:latest .
 # Set GPU=1 to allow GPU jobs, set as 0 as default
 docker run -d -p 8000:8000 -e "main_server=boinc.tacc.utexas.edu" \
        -e "cluster=andromeda" -e "cluster_key=m110" -e "GPU=1" \
-       boinc_tacc/volcon-clients:latest
+       --privileged boinc_tacc/volcon-clients:latest
 ```
 
 

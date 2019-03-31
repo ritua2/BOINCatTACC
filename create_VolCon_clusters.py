@@ -29,7 +29,7 @@ if (new_cluster == "ORGS") or (new_cluster == "VolCon"):
 if r.exists(new_cluster):
 
     if r.hexists("ORGS", new_cluster):
-        print("Name '"++"' is already an organization")
+        print("Name '"+new_cluster+"' is already an organization")
         sys.exit()
 
 
@@ -70,6 +70,7 @@ while True:
 # For future records, all cluster elements must start with cluster-{MIRROR IP} and will be provided as keys inside this hash
 # They will also appear as individual hashes inside Redis(db=3)
 
-org_info = {'Name':new_cluster, 'Organization Token':password, "Type":"VolCon-client", "GPU":GPU_yn}
+cluster_info = {'Name':new_cluster, 'Organization Token':password, "Type":"VolCon-client", "GPU":GPU_yn}
 
-r.hmset(new_cluster, org_info)
+r.hmset(new_cluster, cluster_info)
+

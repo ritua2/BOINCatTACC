@@ -102,11 +102,10 @@ def run_public_in_container(job_info, previous_download_time):
 
             comres[0].append(command)
             comres[1].append("Success")
-            GR += 1
+
         except:
             comres[0].append(command)
             comres[1].append("Error")
-            BR +=1
 
     Report["Commands"] = comres
 
@@ -142,5 +141,5 @@ def run_public_in_container(job_info, previous_download_time):
 
     # If the image is not TACC, it removes it
     if not TACC:
-        image.remove(Image, force=True)
+        image.remove(Image, force = False)
 

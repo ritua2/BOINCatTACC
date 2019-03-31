@@ -207,7 +207,7 @@ docker build -t boinc_tacc/volcon-clients:latest .
 # Set GPU=1 to allow GPU jobs, set as 0 as default
 docker run -d -p 8000:8000 -e "main_server=boinc.tacc.utexas.edu" \
        -e "cluster=andromeda" -e "cluster_key=m110" -e "GPU=1" \
-       --privileged boinc_tacc/volcon-clients:latest
+       --privileged -v /var/run/docker.sock:/var/run/docker.sock boinc_tacc/volcon-clients:latest
 ```
 
 

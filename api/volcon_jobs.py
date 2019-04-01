@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 """
 BASICS
 
@@ -6,6 +8,7 @@ Processes job submissions from the BOINC server
 
 
 
+import datetime
 from flask import Flask, request, jsonify
 import hashlib
 import json
@@ -14,6 +17,7 @@ import mysql_interactions as mints
 import redis
 import random
 import uuid
+from werkzeug.utils import secure_filename
 
 
 
@@ -45,6 +49,10 @@ def l2_contains_l1(l1, l2):
 
     return[elem for elem in l1 if elem not in l2]
 
+
+
+def present_day():
+    return return datetime.datetime.utcnow().strftime("%Y-%m-%d")
 
 
 # Processes incoming jobs for TACC images
@@ -147,16 +155,42 @@ def request_job():
 
 # Receives job files
 # Does NOT update the database, see next API
-@app.route("/volcon/v2/api/jobs/results/upload/<cluster_key>/<VID>", methods=['POST'])
+@app.route("/volcon/v2/api/jobs/results/upload/<VID>", methods=['POST'])
 def results_upload(VID):
 
     prestime = mints.timnow()
 
     # Checks out if the given VolCon-ID exists in database
+    if not VolCon_ID_exists(VID):
+        return "INVALID: VolCon-ID does not exist"
+
+    try:
+        file = request.files["file"]
+    except:
+        return "INVALID, file not provided"
+
+    # Always in the same location
+    location = "/results/VolCon/"+present_day()
+
+    # Creates directory if needed
+    if present_day() not in os.listdir("/results/VolCon"):
+        # Creates directory, avoids race conditions
+        try:
+            os.mkdir(location)
+        except:
+            pass
+
+    new_name = secure_filename(file.filename)
+    # Saves the file
+    file.save(location+"/"+new_name)
+
+    # Updates the status in the database
+    mints.update_job_status(VID, "Results received", False)
+
+    return "Results uploaded"
 
 
-
-# Receives job data and uopdates the database
+# Receives job data and updates the database
 
 
 

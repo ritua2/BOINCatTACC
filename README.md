@@ -205,6 +205,7 @@ cd BOINCatTACC/volcon-clients
 # Build the image, image is not available in dockerhub
 docker build -t boinc_tacc/volcon-clients:latest .
 # Set GPU=1 to allow GPU jobs, set as 0 as default
+# Set np to change the number of processes, default is 4 (i.e. np=8, 8 processes)
 docker run -d -p 8000:8000 -e "main_server=boinc.tacc.utexas.edu" \
        -e "cluster=andromeda" -e "cluster_key=m110" -e "GPU=1" \
        --privileged -v /var/run/docker.sock:/var/run/docker.sock boinc_tacc/volcon-clients:latest

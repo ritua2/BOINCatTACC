@@ -60,11 +60,16 @@ def get_mirror_info(jinfo):
 def run_public_in_container(job_info, previous_download_time):
 
     prestime = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
-    GPU = job_info["GPU"]
+    GPU_job = job_info["GPU"]
     Image = job_info["Image"]
     Command = job_info["Command"]
     TACC = job_info["TACC"]
     VolCon_ID = job_info["VolCon_ID"]
+
+    if GPU:
+        executer = "nvidia"
+    else:
+        executer = None
 
     # Chooses the results directory
     # Set as BOINC default if no more information is provided
@@ -76,7 +81,7 @@ def run_public_in_container(job_info, previous_download_time):
     # Runs the container detached
     try:
         d1 = time.time()
-        CONTAINER = container.run(image=Image, command="sleep infinity", detach=True)
+        CONTAINER = container.run(image=Image, command="sleep infinity", detach=True, runtime=executer)
         d2 = time.time()
 
     except:
@@ -109,7 +114,7 @@ def run_public_in_container(job_info, previous_download_time):
 
     # Retrieves the result files
     # Opens it into a random name tar.gz that will be deleted later
-    tarname = VolCon_ID+".tar.gz"
+    tarname = VolCon_ID+".tar"
 
     try:
         RESRES = CONTAINER.get_archive(path=results_dir)
@@ -131,10 +136,13 @@ def run_public_in_container(job_info, previous_download_time):
 
 
     # Uploads result files
+    requests.post('http://'+os.environ["main_server"]+":5091/volcon/v2/api/jobs/results/upload/"+VolCon_ID,
+                    files={"file": open("VolCon_ID+".tar"","rb")})
 
     # Uploads finishes job notification
 
     # Kills the container and removes it
+    os.remove(tarname)
     CONTAINER.kill()
     CONTAINER.remove(force = True)
     container.prune()
@@ -142,4 +150,17 @@ def run_public_in_container(job_info, previous_download_time):
     # If the image is not TACC, it removes it
     if not TACC:
         image.remove(Image, force = False)
+
+
+
+# Complete process function, including priority search
+
+
+
+
+
+
+
+# Multiple processes
+
 

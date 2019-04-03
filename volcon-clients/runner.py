@@ -50,16 +50,20 @@ def get_mirror_info_public(jinfo):
 
     # Returns False if its credentials are invalid
     try:
-        A = json.loads(r.text)
-        return A
+        return json.loads(r.text)
     except:
         return r.text
+
+
+
+# Obtains MIDAS info
 
 
 
 # Runs a public image (TACC or not) job
 # Based on the server information, runs the job
 # previous_download_time (float): Time in seconds, for the previous steps
+# Valid for MIDAS and public
 def run_in_container(job_info, previous_download_time):
 
     prestime = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
@@ -69,7 +73,8 @@ def run_in_container(job_info, previous_download_time):
     TACC = job_info["TACC"]
     VolCon_ID = job_info["VolCon_ID"]
 
-    if GPU:
+    # As of above, a non-GPU system should never request a GPU job
+    if GPU_job:
         executer = "nvidia"
     else:
         executer = None
@@ -87,12 +92,20 @@ def run_in_container(job_info, previous_download_time):
         CONTAINER = container.run(image=Image, command="sleep infinity", detach=True, runtime=executer)
         d2 = time.time()
 
-    except:
-        Con_Data = {"date (Run)":prestime, "VolCon-ID":VolCon_ID, "Error":"Container failed to start"}
-        # Notifies server
-        # TODO TODO TODO
+    except Exception as e:
+        Failed_Report = {"date (Run)":prestime, "VolCon-ID":VolCon_ID, "Error":"Container failed to start", "download time":previous_download_time}
+        
+        # Requires new failed job API for simplicity
+        send_report = requests.post('http://'+os.environ["main_server"]+":5091/volcon/v2/api/jobs/failed/report",
+                json=Failed_Report)
 
+        container.prune()
 
+        try:
+            image.remove(Image, force = True)
+        except:
+            # Someone may have provided an image that does not exist
+            pass
 
         return None
 
@@ -131,9 +144,12 @@ def run_in_container(job_info, previous_download_time):
     except:
         Report["Result Error"] = "Results directory does not exist"
         # Notify the server of the error
-        requests.post('http://'+os.environ["main_server"]+":5091/volcon/v2/api/jobs/upload/report",
-            json=Report)
+        end_time = time.time()
+        completed_time = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
+        Report["computation time"] = end_time-start_time
 
+        send_report = requests.post('http://'+os.environ["main_server"]+":5091/volcon/v2/api/jobs/upload/report",
+            json=Report)
         os.remove(tarname)
         CONTAINER.remove(force = True)
         container.prune()
@@ -146,21 +162,12 @@ def run_in_container(job_info, previous_download_time):
     completed_time = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
     Report["computation time"] = end_time-start_time
 
-    # Tries to contact the server
-    try:
-
-        # Uploads result files
-        requests.post('http://'+os.environ["main_server"]+":5091/volcon/v2/api/jobs/results/upload/"+VolCon_ID,
-                    files={"file": open(VolCon_ID+".tar","rb")})
-
-        # Uploads finishes job notification
-        requests.post('http://'+os.environ["main_server"]+":5091/volcon/v2/api/jobs/upload/report",
-                    json=Report)
-    except:
-        # The server has been disconnected
-        pass
-
-
+    # Uploads result files
+    rup = requests.post('http://'+os.environ["main_server"]+":5091/volcon/v2/api/jobs/results/upload/"+VolCon_ID,
+                        files={"file": open(VolCon_ID+".tar","rb")})
+    # Uploads finishes job notification
+    send_report = requests.post('http://'+os.environ["main_server"]+":5091/volcon/v2/api/jobs/upload/report",
+        json=Report)
 
     # Kills the container and removes it
     os.remove(tarname)
@@ -174,14 +181,6 @@ def run_in_container(job_info, previous_download_time):
 
 
 
-# Complete process function, including priority search
-
-
-
-
-
-
 
 # Multiple processes
-
 

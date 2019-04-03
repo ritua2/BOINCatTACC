@@ -28,13 +28,19 @@ read Reef_IP
 printf "\nEnter Reef key: "
 read Reef_Key
 
+# Some functionalities are implemented different in production and development
+printf "\nIs this system a development server[y/other for no]? "
+read dev_yn
+
 
 printf "\nexport SERVER_IP=$SERVER_IP\nexport BOINC_EMAIL=$BOINC_EMAIL\nexport BOINC_EMAIL_PASSWORD=$BOINC_EMAIL_PASSWORD\n" >> /home/boincadm/.bashrc
 printf "\nexport MYSQL_USER=$MYSQL_USER\nexport MYSQL_UPASS=$MYSQL_UPASS\nexport Reef_IP=$Reef_IP\nexport Reef_Key=$Reef_Key\n" >> /home/boincadm/.bashrc
+printf "\nexport dev_yn=$dev_yn\n" >> /home/boincadm/.bashrc
 export SERVER_IP=$SERVER_IP
 export MYSQL_UPASS="$MYSQL_UPASS"
 export BOINC_EMAIL=$BOINC_EMAIL
 export BOINC_EMAIL_PASSWORD=$BOINC_EMAIL_PASSWORD
 export Reef_IP=$Reef_IP
 export Reef_Key=$Reef_Key
+export dev_yn=$dev_yn
 printf "Your variables have now been set and are accessible from command line\n"

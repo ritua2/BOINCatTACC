@@ -42,15 +42,16 @@ def race_condition_occurred(VID):
 # Adds a job to MySQL
 # GPU (1 or 0)
 # VID (str): Volcon ID
-def add_job(token, image, commands, GPU, VID, priority_level):
+# public (1 or 0): Image is publicly available in Dockerhub, 0 for MIDAS
+def add_job(token, image, commands, GPU, VID, priority_level, public=1):
     boinc_db = mysql_con.connect(host = os.environ['URL_BASE'].split('/')[-1], port = 3306, user = os.environ["MYSQL_USER"], password = os.environ["MYSQL_UPASS"], database = 'boincserver')
     cursor = boinc_db.cursor(buffered=True)
 
     insert_new_job = (
-        "INSERT INTO volcon_jobs (token, Image, Command, Date_Sub, Notified, status, GPU, volcon_id, priority) "
-        "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)")
+        "INSERT INTO volcon_jobs (token, Image, Command, Date_Sub, Notified, status, GPU, volcon_id, priority, public) "
+        "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
 
-    cursor.execute(insert_new_job, (token, image, commands, timnow(), "0", "Received", GPU, VID, priority_level) )
+    cursor.execute(insert_new_job, (token, image, commands, timnow(), "0", "Received", GPU, VID, priority_level, public) )
     boinc_db.commit()
     cursor.close()
     boinc_db.close()
@@ -98,13 +99,13 @@ def update_mirror_ip(VID, mirror_ip):
 # Filters by priority level
 # Returns a list of VolCon IDs
 
-def available_jobs(GPU_required, priority_level):
+def available_jobs(GPU_required, priority_level, public=1):
 
     boinc_db = mysql_con.connect(host = os.environ['URL_BASE'].split('/')[-1], port = 3306, user = os.environ["MYSQL_USER"], password = os.environ["MYSQL_UPASS"], database = 'boincserver')
     cursor = boinc_db.cursor(buffered=True)
 
-    find_VIDS = ("SELECT volcon_id, mirror_ip FROM volcon_jobs WHERE (ERROR IS NULL AND status = 'Mirror received files') AND (GPU = %s AND priority = %s)")
-    cursor.execute(find_VIDS, (GPU_required, priority_level) )
+    find_VIDS = ("SELECT volcon_id, mirror_ip FROM volcon_jobs WHERE (ERROR IS NULL AND status = 'Mirror received files') AND ((GPU <= %s AND priority = %s) AND public >= %s)")
+    cursor.execute(find_VIDS, (GPU_required, priority_level, public) )
 
     V = []
     for vid in cursor:
@@ -119,13 +120,71 @@ def available_jobs(GPU_required, priority_level):
 def VolCon_ID_exists(VID):
     boinc_db = mysql_con.connect(host = os.environ['URL_BASE'].split('/')[-1], port = 3306, user = os.environ["MYSQL_USER"], password = os.environ["MYSQL_UPASS"], database = 'boincserver')
     cursor = boinc_db.cursor(buffered=True)
-    cursor.execute("SELECT volcon_id FROM volcon_jobs WHERE volcon_id = '%s'", (VID,) )
+    cursor.execute("SELECT volcon_id FROM volcon_jobs WHERE volcon_id = %s", (VID,) )
 
     for ips in cursor:
         # Exists
         cursor.close()
         boinc_db.close()
         return True
+
+    cursor.close()
+    boinc_db.close()
+    # Does not exist
+    return False
+
+
+
+# Updates a certain VolCon ID after receiving its results
+def update_execution_report(VID, command_error, computation_time, date_run, download_time, Error, notification_email_status, client_ip):
+
+    boinc_db = mysql_con.connect(host = os.environ['URL_BASE'].split('/')[-1], port = 3306, user = os.environ["MYSQL_USER"], password = os.environ["MYSQL_UPASS"], database = 'boincserver')
+    cursor = boinc_db.cursor(buffered=True)
+
+    date_received = timnow()
+
+    to_be_executed = ("UPDATE volcon_jobs SET status = %s, Command_Errors = %s, "+
+                    "computation_time = %s, Date_Run = %s, download_time = %s, Error = %s, Notified = %s, "+
+                    "received_time = %s, client_ip = %s    WHERE volcon_id = %s"
+                    )
+
+    cursor.execute( to_be_executed,
+                    ("Complete", command_error, computation_time, date_run, download_time, Error, notification_email_status, date_received, client_ip, VID))
+    boinc_db.commit()
+    cursor.close()
+    boinc_db.close()
+
+
+
+# Updates the database with a failed job
+def failed_execution_report(VID, date_run, download_time, Error, notification_email_status, client_ip):
+
+    boinc_db = mysql_con.connect(host = os.environ['URL_BASE'].split('/')[-1], port = 3306, user = os.environ["MYSQL_USER"], password = os.environ["MYSQL_UPASS"], database = 'boincserver')
+    cursor = boinc_db.cursor(buffered=True)
+
+    date_received = timnow()
+
+    to_be_executed = ("UPDATE volcon_jobs SET status = %s, "+
+                    "Date_Run = %s, download_time = %s, Error = %s, Notified = %s, "+
+                    "received_time = %s, client_ip = %s    WHERE volcon_id = %s"
+                    )
+
+    cursor.execute( to_be_executed,
+                    ("Failed", date_run, download_time, Error, notification_email_status, date_received, client_ip, VID))
+    boinc_db.commit()
+    cursor.close()
+    boinc_db.close()
+
+
+
+# Finds the Token associated with a  VolCon_ID
+def token_from_VolCon_ID(VID):
+    boinc_db = mysql_con.connect(host = os.environ['URL_BASE'].split('/')[-1], port = 3306, user = os.environ["MYSQL_USER"], password = os.environ["MYSQL_UPASS"], database = 'boincserver')
+    cursor = boinc_db.cursor(buffered=True)
+    cursor.execute("SELECT Token FROM volcon_jobs WHERE volcon_id = %s", (VID,) )
+
+    for ips in cursor:
+        return ips[0]
 
     cursor.close()
     boinc_db.close()

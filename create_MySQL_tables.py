@@ -19,6 +19,7 @@ cursor = boinc_db.cursor(buffered=True)
 cursor.execute("""
     CREATE TABLE IF NOT EXISTS volcon_jobs (
     job_id            BIGINT AUTO_INCREMENT UNIQUE,
+    client_ip         VARCHAR(255),
     Command           VARCHAR(5000),
     Command_Errors    VARCHAR(5000),
     computation_time  DOUBLE,

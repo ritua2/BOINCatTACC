@@ -138,6 +138,10 @@ nohup /home/boincadm/project/automail.sh &
 #sed -i "12iprint('This action will restart the tag database, if you wish to continue, comment this line'); sys.exit()" create_tag_db.py
 
 
+# Creates the MySQL tables
+python3 create_MySQL_tables.py
+
+
 # Needed to avoid confusion
 sleep 2
 printf "\nSet-up completed, server is ready now\n"

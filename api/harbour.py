@@ -72,8 +72,13 @@ def complete_build(IMTAG, UTOK, MIDIR, COMMAND_TXT, DOCK_DOCK, BOCOM, FILES_PATH
             cus.complete_tag_work(UTOK, TAGS)
             shutil.move(COMMAND_TXT+".txt", "/home/boincadm/project/html/user/token_data/process_files/"+COMMAND_TXT+".txt")
 
-        if boapp == "adtdp":
+
+        # VolCon instructions
+        # Deletes the image, submits the saved version to a mirror
+        # REDO REST OF PAGE TODO TODO TODO TODO
+        if boapp == "volcon":
             shutil.move(COMMAND_TXT+".txt", "/home/boincadm/project/adtd-protocol/process_files/"+COMMAND_TXT+".txt")
+
 
         # Deletes the key
         r.delete(UTOK+';'+MIDIR)

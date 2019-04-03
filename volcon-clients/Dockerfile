@@ -10,6 +10,7 @@ FROM python:3.6-alpine
 
 ENV GPU="0"
 ENV np="4"
+ENV only_public="0"
 
 
 COPY runner.sh /client/runner

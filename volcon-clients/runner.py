@@ -20,6 +20,8 @@ cluster_key = os.environ["cluster_key"]
 dk = os.environ["disconnect_key"]
 GPU = os.environ["GPU"]
 main_server = os.environ["main_server"]
+processes = int(os.environ["np"])
+only_public = os.environ["only_public"]
 
 # Max 5 minutes timeout for any job trying to load an image
 image = docker.from_env(timeout=5*60).images
@@ -33,13 +35,14 @@ container =  docker.from_env().containers
 def request_job(priority_level):
 
     r = requests.post('http://'+os.environ["main_server"]+":5091/volcon/v2/api/jobs/request",
-        json={"cluster": cluster, "disconnect-key":dk, "GPU":GPU, "priority-level":priority_level})
+        json={"cluster": cluster, "disconnect-key":dk, "GPU":GPU, "priority-level":priority_level, "public":only_public})
     return json.loads(r.text)
 
 
 
 # Given a JSON object with the VolCon information, it calls the respective mirror and retrieves the information in a JSON format
-def get_mirror_info(jinfo):
+# Only valid for public images (not MIDAS)
+def get_mirror_info_public(jinfo):
 
     mirror_IP = jinfo["mirror-IP"]
     VolCon_ID = jinfo["VolCon-ID"]
@@ -57,7 +60,7 @@ def get_mirror_info(jinfo):
 # Runs a public image (TACC or not) job
 # Based on the server information, runs the job
 # previous_download_time (float): Time in seconds, for the previous steps
-def run_public_in_container(job_info, previous_download_time):
+def run_in_container(job_info, previous_download_time):
 
     prestime = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
     GPU_job = job_info["GPU"]
@@ -88,6 +91,9 @@ def run_public_in_container(job_info, previous_download_time):
         Con_Data = {"date (Run)":prestime, "VolCon-ID":VolCon_ID, "Error":"Container failed to start"}
         # Notifies server
         # TODO TODO TODO
+
+
+
         return None
 
     # Filters the commands into an usable form
@@ -117,16 +123,22 @@ def run_public_in_container(job_info, previous_download_time):
     tarname = VolCon_ID+".tar"
 
     try:
-        RESRES = CONTAINER.get_archive(path=results_dir)
         with open(tarname, "wb") as tarta:
+            RESRES = CONTAINER.get_archive(path=results_dir)
             for bitbit in RESRES[0]:
                 tarta.write(bitbit)
         Report["Result Error"] = "0"
     except:
-        Report["Error"] = "Results directory does not exist"
+        Report["Result Error"] = "Results directory does not exist"
         # Notify the server of the error
-        # TODO
+        requests.post('http://'+os.environ["main_server"]+":5091/volcon/v2/api/jobs/upload/report",
+            json=Report)
+
         os.remove(tarname)
+        CONTAINER.remove(force = True)
+        container.prune()
+        if not TACC:
+            image.remove(Image, force = False)
 
         return None
 
@@ -134,12 +146,21 @@ def run_public_in_container(job_info, previous_download_time):
     completed_time = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
     Report["computation time"] = end_time-start_time
 
+    # Tries to contact the server
+    try:
 
-    # Uploads result files
-    requests.post('http://'+os.environ["main_server"]+":5091/volcon/v2/api/jobs/results/upload/"+VolCon_ID,
-                    files={"file": open("VolCon_ID+".tar"","rb")})
+        # Uploads result files
+        requests.post('http://'+os.environ["main_server"]+":5091/volcon/v2/api/jobs/results/upload/"+VolCon_ID,
+                    files={"file": open(VolCon_ID+".tar","rb")})
 
-    # Uploads finishes job notification
+        # Uploads finishes job notification
+        requests.post('http://'+os.environ["main_server"]+":5091/volcon/v2/api/jobs/upload/report",
+                    json=Report)
+    except:
+        # The server has been disconnected
+        pass
+
+
 
     # Kills the container and removes it
     os.remove(tarname)

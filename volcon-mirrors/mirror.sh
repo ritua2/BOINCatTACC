@@ -10,4 +10,5 @@ curl -X POST -H "Content-Type: application/json" -d \
 
 
 # Activates the APIs (4 workers)
-gunicorn -w 4 -b 0.0.0.0:7000 mirror:app
+# Maximum timeout is 90 s
+gunicorn -w 4 -b 0.0.0.0:7000 mirror:app --timeout 90

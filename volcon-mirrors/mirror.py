@@ -100,10 +100,13 @@ def receive_MIDAS_files(VolCon_ID, mirrorkey):
     if bad_password(mirrorkey):
         return "INVALID: incorrect password"
 
+    if "file" not in request.files.keys():
+        return "INVALID, file not provided"
+
     try:
         file = request.files["file"]
     except:
-        return "INVALID, file not provided"
+        return "INVALID, file is too large, exceeded 90 s timeout for file processing"
 
     storage_location = PATH+"/"+VolCon_ID+"-files"
     if not os.path.exists(storage_location):

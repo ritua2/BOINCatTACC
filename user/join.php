@@ -42,11 +42,14 @@ function show_new() {
         function() use ($master_url) {
             /*Edited by Joshua: We need ask the user to download virtual box before the 
             BOINC client software*/
+            echo '<u><b>Android devices</b></u>
+                            <ol>Download BOINC from the Google Play store or Amazon app store</ol>
+                                ';
             echo '<u><b>Mac and Linux users:</b></u>
                 <ol>
                 <li> <p>'
                 .tra('Read our %1 Rules and Policies %2.', '<a href="info.php">', '</a>')
-                .'</p><li> <p>'
+                .'</p><li>Go to the <a href="https://boinc.tacc.utexas.edu/create_account_form.php">Sign Up</a> page, create account. </li><li> <p>'
                 .tra('Download %1 VirtualBox %2 (skip this step if you already have VirtualBox installed).', '<a href="https://www.virtualbox.org/wiki/Downloads">','</a>')
                 .'</p>'
                 .'<li> <p>'
@@ -64,16 +67,17 @@ function show_new() {
                 <ol>
                 <li> <p>'
                 .tra('Read our %1 Rules and Policies %2.', '<a href="info.php">', '</a>')
-                .'</p></li><li><p>Either: </li>
-                <p>    (a) Go to the "Sign Up" page (<a href="https://boinc.tacc.utexas.edu/create_account_form.php">https://boinc.tacc.utexas.edu/create_account_form.php</a>), create account, download BOINC+VirtualBox software (<a href="https://boinc.berkeley.edu/download.php">https://boinc.berkeley.edu/download.php</a>), run the installer, and add the BOINC@TACC project in the BOINC client/manager (https://boinc.tacc.utexas.edu/).<p>
-                <p>    (b) Download VirtualBox (<a href="https://www.virtualbox.org/wiki/Downloads">https://www.virtualbox.org/wiki/Downloads</a>) (skip this step if you already have VirtualBox installed). Download the BOINC desktop software (<a href="https://boinc.berkeley.edu/download.php">https://boinc.berkeley.edu/download.php</a>). Run the installer. Choose BOINC@TACC from the list, or enter https://boinc.tacc.utexas.edu/</p>
-                </li>
+                .'</p></li><li>Go to the <a href="https://boinc.tacc.utexas.edu/create_account_form.php">Sign Up</a> page, create account.</li><li><p>Either: </li>
+        <p>    (a) Download <a href="https://boinc.berkeley.edu/download.php">BOINC+VirtualBox</a> software from the URL shown after you have created the account. <p>
+                      
+                       or
 
+                <p>    (b) If you already have <a href="https://www.virtualbox.org/wiki/Downloads">VirtualBox</a> installed, download the <a href="https://boinc.berkeley.edu/download.php">BOINC software</a>.
+                </li><li>Run the installer.</li><li>
+Choose BOINC@TACC from the drop-down list in the client or enter the following URL: https://boinc.tacc.utexas.edu/ </li>
                 </ol>
             ';
-            echo '<u><b>Android devices</b></u>
-                <ol>Download BOINC from the Google Play store or Amazon app store</ol>
-            ';
+
         }
     );
 }

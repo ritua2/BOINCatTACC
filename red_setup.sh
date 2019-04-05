@@ -115,6 +115,8 @@ sed -i "s@<master_url>.*</master_url>@<master_url>$URL_BASE/</master_url>@" /hom
 # Changes the DB ops for the new BOINC 4
 cat /home/boincadm/project/html/inc_previous/db_ops.inc > /home/boincadm/project/html/inc/db_ops.inc
 
+# Changes to mass emails
+cat /home/boincadm/project/BOINCatTACC > /home/boincadm/project/html/ops/mass_email.php
 
 # Fixes issue with results not being copied in the correct directory
 chmod -R a+rwx /results

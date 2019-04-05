@@ -75,9 +75,23 @@ def complete_build(IMTAG, UTOK, MIDIR, COMMAND_TXT, DOCK_DOCK, BOCOM, FILES_PATH
 
         # VolCon instructions
         # Deletes the image, submits the saved version to a mirror
-        # REDO REST OF PAGE TODO TODO TODO TODO
+
         if boapp == "volcon":
-            shutil.move(COMMAND_TXT+".txt", "/home/boincadm/project/adtd-protocol/process_files/"+COMMAND_TXT+".txt")
+            
+            # Move commands to the mirror
+
+            # Move image to mirror
+
+
+            # Add job to VolCon
+
+
+            # Email user with dockerfile, move it to Reef 
+
+
+
+
+            return None
 
 
         # Deletes the key
@@ -112,7 +126,7 @@ def complete_build(IMTAG, UTOK, MIDIR, COMMAND_TXT, DOCK_DOCK, BOCOM, FILES_PATH
         r.delete(UTOK+';'+MIDIR)
         # Deletes the unused container
         client.containers.prune()
-        MESSAGE = Failure_Message.replace("DATETIME", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+        MESSAGE = Failure_Message.replace("DATETIME", datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"))
         MESSAGE += "\n\nDockerfile created below: \n\n"+DOCK_DOCK
         pp.send_mail(researcher_email, 'Failed MIDAS build', MESSAGE)
 

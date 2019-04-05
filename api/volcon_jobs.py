@@ -146,7 +146,6 @@ def request_job():
     unavailable = True
 
     for item in volmir:
-        print(item)
         VID = item[0]
         new_status = "Job has been requested by client"
         if not mints.race_condition_occurred(VID):

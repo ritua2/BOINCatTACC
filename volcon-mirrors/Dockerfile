@@ -23,5 +23,5 @@ RUN apk update && apk add bash curl &&\
 WORKDIR /mirror
 
 
-CMD ["./mirror"]
+CMD ["/mirror/mirror"]
 

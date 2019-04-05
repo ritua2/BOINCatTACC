@@ -52,3 +52,19 @@ def upload_job_to_mirror(JOB_INFO):
     # Calls own server to update the new status
     requests.post('http://'+os.environ["SERVER_IP"]+":5089/volcon/v2/api/mirrors/status/update",
         json=JOB_INFO)
+
+
+
+# Uploads a certain file to a mirror
+# full_file_path(str): Full path to file
+# mirror_ip (str)
+# volcon_id (str)
+def upload_file_to_mirror(full_file_path, mirror_ip, volcon_id):
+    requests.post('http://'+mirror_ip+":7000/volcon/mirror/v2/api/MIDAS/receive_files/"+volcon_id+"/key="+mirror_key(mirror_ip),
+                        files={"file": open(full_file_path,"rb")})
+
+
+
+# Uploads a set of files to a mirror and the job information
+def MIDAS_job_to_mirror(JOB_INFO, fileset):
+

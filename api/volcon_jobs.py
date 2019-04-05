@@ -96,7 +96,7 @@ def tacc_jobs():
         return "INVALID: Could not connect to MySQL database"
 
     # TACC: Image is a TACC image
-    job_info = {"Image":IMAGE, "Command":COMMANDS, "TACC":1, "GPU":GPU, "VolCon_ID":VolCon_ID}
+    job_info = {"Image":IMAGE, "Command":COMMANDS, "TACC":1, "GPU":GPU, "VolCon_ID":VolCon_ID, "public":1}
 
     mirror.upload_job_to_mirror(job_info)
     # Adds tag

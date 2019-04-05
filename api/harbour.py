@@ -14,13 +14,17 @@ If the build succeeds, then the memory it occupies is reduced from the user's ac
 import os, sys, shutil
 import custodian as cus
 import docker
+import email_common as ec
 import json
 import redis
 import hashlib
 import datetime
 from midas_processing import midas_reader as mdr
+import mirror_interactions as mirror
+import mysql_interactions as mints
 import preprocessing as pp
 import requests
+import uuid
 
 
 
@@ -78,12 +82,45 @@ def complete_build(IMTAG, UTOK, MIDIR, COMMAND_TXT, DOCK_DOCK, BOCOM, FILES_PATH
 
         if boapp == "volcon":
             
-            # Move commands to the mirror
+            # Deletes the key
+            r.delete(UTOK+';'+MIDIR)
 
-            # Move image to mirror
+            # Saves the image into a file
+            img = image.get(IMTAG)
+            resp = img.save()
+            random_generated_dir = hashlib.sha256(str(datetime.datetime.now()).encode('UTF-8')).hexdigest()[:4:]
+            os.mkdir(random_generated_dir)
+            with open(random_generated_dir+"/image.tar.gz", "wb") as ff:
+                for salmon in resp:
+                    ff.write(salmon)
 
+            VolCon_ID = uuid.uuid4().hex
+            mirror_IP = mirror.get_random_mirror()
+
+            full_image_path = os.getcwd()+"/"+random_generated_dir+"/image.tar.gz"
+
+            # Move image to the mirror
+            mirror.upload_file_to_mirror(full_image_path, mirror_IP, VolCon_ID)
+
+            # Moves the file to where it belongs
+            saved_named = "../image_"+hashlib.sha256(str(datetime.datetime.utcnow()).encode('UTF-8')).hexdigest()[:4:]+".tar.gz"
+            shutil.move(full_image_path, saved_name)
+
+            # Move commands to mirror
+            Commands = " ".join(BOCOM.split(" ")[1::])
 
             # Add job to VolCon
+            # Set as medium priority
+            mints.add_job(UTOK, "Custom", Commands, 0, VolCon_ID, "2", public=0)
+
+            # MIDAS cannot accept GPU jobs
+            job_info = {"Image":"Custom", "Command":Commands, "TACC":0, "GPU":0,
+                        "VolCon_ID":VolCon_ID, "public":0, "key":mirror.mirror_key(mirror_IP)}
+            
+            requests.post('http://'+mirror_ip+":7000/volcon/mirror/v2/api/public/receive_job_files",
+                json=job_info)
+
+
 
 
             # Email user with dockerfile, move it to Reef 

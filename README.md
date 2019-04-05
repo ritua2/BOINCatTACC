@@ -157,6 +157,7 @@ python3 /home/boincadm/project/BOINCatTACC/create_VolCon_distributors.py
 
 git clone https://github.com/ritua2/BOINCatTACC
 cd BOINCatTACC/volcon-mirrors
+
 # Build the image, image is not available in dockerhub
 docker build -t boinc_tacc/volcon-mirrors:latest .
 docker run -d -p 7000:7000 -e "main_server=boinc.tacc.utexas.edu" \

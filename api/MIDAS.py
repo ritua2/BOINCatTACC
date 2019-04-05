@@ -180,7 +180,7 @@ def midas(toktok):
     # If no app is provided, it will assume BOINC
     try:
         boapp = request.form["app"].lower()
-        if (boapp != "boinc2docker") and (boapp != "adtdp"):
+        if (boapp != "boinc2docker") and (boapp != "volcon"):
             return "INVALID app"
     except:
         boapp = "boinc2docker"

@@ -24,9 +24,9 @@ def signup_volunteer(email, anonym):
     outer['email_subject'] = 'BOINC sign-up'
     outer['user_email'] = email
 
-    text = "Welcome to BOINC@TACC,\n\nThank you for registering as a volunteer. "
-    text += "If you have not done so, please install the BOINC client (http://boinc.berkeley.edu/download.php) and Virtualbox (https://www.virtualbox.org/wiki/Downloads).\n"
-    text += "When prompted, select  "+os.environ['URL_BASE'].replace("http://", '')+"  as the BOINC project.\n"
+    text = "Welcome to BOINC@TACC,\n\nThank you for registering as a volunteer! "
+    text += "If you have not done so, please install the BOINC client (http://boinc.berkeley.edu/download.php) and Virtualbox (https://www.virtualbox.org/wiki/Downloads) to run BOINC@TACC jobs. "
+    text += "When prompted, select BOINC@TACC from the project list or manually add the following URL: "+os.environ['URL_BASE'].replace("http://", '')+" .\n"
     text += "\nFor GDPR compliance reasons, we have created an anonymized name for you and that is: "+anonym+" . This name is "
     text += "associated with your account and you can see it in your profile settings. This anonymized named will be displayed "
     text += "in the leaderboard on the BOINC@TACC website.For getting your actual screen name and not the anonymized name displayed on the leaderboard, please send an email to rauta@tacc.utexas.edu.\n"

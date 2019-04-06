@@ -99,8 +99,6 @@ def tacc_jobs():
     job_info = {"Image":IMAGE, "Command":COMMANDS, "TACC":1, "GPU":GPU, "VolCon_ID":VolCon_ID, "public":1}
 
     mirror.upload_job_to_mirror(job_info)
-    # Adds tag
-    mints.tag_volcon(VolCon_ID)
 
     return "Successfully submitted job"
 

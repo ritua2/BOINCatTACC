@@ -56,6 +56,10 @@ def add_job(token, image, commands, GPU, VID, priority_level, public=1):
     cursor.close()
     boinc_db.close()
 
+    # Tags the job
+    # Adds tag
+    tag_volcon(VID)
+
 
 
 # Updates a certain VolCon ID with a new status

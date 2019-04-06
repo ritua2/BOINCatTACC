@@ -82,7 +82,8 @@ case "total_credit":
 case "expavg_credit":
     break;
 default:
-    $sort_by = "expavg_credit";
+    //$sort_by = "expavg_credit";
+    $sort_by = "total_credit";
 }
 
 $offset = get_int("offset", true);
@@ -115,7 +116,7 @@ if ($offset < ITEM_LIMIT) {
 }
 
 // Now display what we've got (either gotten from cache or from DB)
-page_head(tra("Top participants"));
+page_head(tra("Top participants*"));
 user_table_start($sort_by);
 $i = 1 + $offset;
 $n = sizeof($data);
@@ -135,6 +136,8 @@ if ($n==$users_per_page){ //If we aren't on the last page
     $new_offset = $offset + $users_per_page;
     echo "<a href=top_users.php?sort_by=$sort_by&amp;offset=$new_offset>".tra("Next %1", $users_per_page)."</a>";
 }
+
+echo '<br><br>* All usernames are anonymized for GDPR compliance by default. However, as requested by some users, their real username is shown.';
 
 page_tail();
 

@@ -8,6 +8,7 @@ Executes the VolCon jobs in independent docker containers
 import datetime
 import docker 
 import json
+from multiprocessing import Pool
 import os
 import requests
 import sys
@@ -56,7 +57,56 @@ def get_mirror_info_public(jinfo):
 
 
 
-# Obtains MIDAS info
+# Checks the job information and checks if is a custom image or not
+def is_custom_job(job_info):
+
+    if "public" not in job_info.keys():
+        return False
+    return job_info["public"] == 0
+
+
+
+# For custom jobs
+# Tags the resulting image
+# If any of these fail, it notifies the main server about the error
+def custom_action(job_info, mirror_IP):
+
+    # Creates a random name for the image
+    image_name = hashlib.sha256(str(datetime.datetime.utcnow()).encode('UTF-8')).hexdigest()[:4:]
+    job_info["Image"] = "custom:"+image_name
+
+    # Downloads the image from the mirror
+    rim = requests.get("http://"+mirror_IP+":7000/volcon/mirror/v2/api/public/request_job_file/"+job_info["VolCon_ID"]+"/image.tar.gz")
+
+    with open(image_name+".tar.gz", "wb") as ff:
+        ff.write(rim.content)
+
+    print("Downloaded image from mirror")
+
+    # It could fail
+    try:
+        gg = open(image_name+".tar.gz", "rb")
+        IMG = image.load(gg.read())[0] # Only want the first
+        gg.close()
+        print("Downloaded file")
+        os.remove(image_name+".tar.gz")
+
+    except:
+        os.remove(image_name+".tar.gz")
+        Failed_Report = {"date (Run)":prestime, "VolCon-ID":VolCon_ID, 
+                        "Error":"Could not load image", "download time":0}
+    
+        # Requires new failed job API for simplicity
+        requests.post('http://'+os.environ["main_server"]+":5091/volcon/v2/api/jobs/failed/report",
+                json=Failed_Report)
+        return False
+  
+    # Tags the image
+    IMG.tag("custom", image_name)
+    print("Tagged image")
+    return "custom:"+image_name
+
+
 
 
 
@@ -96,7 +146,7 @@ def run_in_container(job_info, previous_download_time):
         Failed_Report = {"date (Run)":prestime, "VolCon-ID":VolCon_ID, "Error":"Container failed to start", "download time":previous_download_time}
         
         # Requires new failed job API for simplicity
-        send_report = requests.post('http://'+os.environ["main_server"]+":5091/volcon/v2/api/jobs/failed/report",
+        requests.post('http://'+os.environ["main_server"]+":5091/volcon/v2/api/jobs/failed/report",
                 json=Failed_Report)
 
         container.prune()
@@ -150,6 +200,7 @@ def run_in_container(job_info, previous_download_time):
 
         send_report = requests.post('http://'+os.environ["main_server"]+":5091/volcon/v2/api/jobs/upload/report",
             json=Report)
+
         os.remove(tarname)
         CONTAINER.remove(force = True)
         container.prune()
@@ -163,11 +214,13 @@ def run_in_container(job_info, previous_download_time):
     Report["computation time"] = end_time-start_time
 
     # Uploads result files
-    rup = requests.post('http://'+os.environ["main_server"]+":5091/volcon/v2/api/jobs/results/upload/"+VolCon_ID,
+    requests.post('http://'+os.environ["main_server"]+":5091/volcon/v2/api/jobs/results/upload/"+VolCon_ID,
                         files={"file": open(VolCon_ID+".tar","rb")})
+
     # Uploads finishes job notification
     send_report = requests.post('http://'+os.environ["main_server"]+":5091/volcon/v2/api/jobs/upload/report",
         json=Report)
+
 
     # Kills the container and removes it
     os.remove(tarname)
@@ -182,5 +235,47 @@ def run_in_container(job_info, previous_download_time):
 
 
 
-# Multiple processes
+# Runs the complete process
+def volcon_run(useless_input):
 
+    while True:
+
+        # May be editing the file at this moment
+        try:
+            # Gets the list of priorities
+            with open("/client/priorities.json", "r") as ff:
+                current = json.load(ff)
+        except:
+            time.sleep(0.5)
+            continue
+
+        priorities = current["available-priorities"]
+
+        for priority in priorities:
+
+            Jreq = request_job(priority)
+            if Jreq == {"jobs-available":"0"}:
+                continue
+
+            mip = Jreq["mirror-IP"]
+            da1 = time.time()
+            K = get_mirror_info_public(Jreq)
+
+            if is_custom_job(K):
+                CA = custom_action(K, mip)
+
+                if CA == False:
+                    # Failure in image processing
+                    return None
+
+            da2 = time.time()
+            run_in_container(K, da2-da1)
+
+
+
+# Multiple processes
+# Multiple processes
+if __name__ == "__main__":
+
+   p = Pool(processes)
+   p.map(volcon_run, [a for a in range(0, processes)])

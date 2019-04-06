@@ -32,6 +32,7 @@ r = redis.Redis(host = '0.0.0.0', port = 6389, db = 2)
 # Starts a client for docker
 client = docker.from_env()
 image = client.images
+container =  docker.from_env().containers
 
 
 Success_Message = "Your MIDAS job has generated an image submitted for processing.\nThis message was completed on DATETIME UTC."
@@ -89,21 +90,21 @@ def complete_build(IMTAG, UTOK, MIDIR, COMMAND_TXT, DOCK_DOCK, BOCOM, FILES_PATH
             img = image.get(IMTAG)
             resp = img.save()
             random_generated_dir = hashlib.sha256(str(datetime.datetime.now()).encode('UTF-8')).hexdigest()[:4:]
-            os.mkdir(random_generated_dir)
-            with open(random_generated_dir+"/image.tar.gz", "wb") as ff:
+            image_dir = os.getcwd()+"/"+random_generated_dir
+            os.mkdir(image_dir)
+            full_image_path = image_dir+"/image.tar.gz"
+            with open(full_image_path, "wb") as ff:
                 for salmon in resp:
                     ff.write(salmon)
 
             VolCon_ID = uuid.uuid4().hex
             mirror_IP = mirror.get_random_mirror()
 
-            full_image_path = os.getcwd()+"/"+random_generated_dir+"/image.tar.gz"
-
             # Move image to the mirror
             mirror.upload_file_to_mirror(full_image_path, mirror_IP, VolCon_ID)
 
             # Moves the file to where it belongs
-            saved_named = "../image_"+hashlib.sha256(str(datetime.datetime.utcnow()).encode('UTF-8')).hexdigest()[:4:]+".tar.gz"
+            saved_name = "image_"+hashlib.sha256(str(datetime.datetime.utcnow()).encode('UTF-8')).hexdigest()[:4:]+".tar.gz"
             shutil.move(full_image_path, saved_name)
 
             # Move commands to mirror
@@ -111,19 +112,35 @@ def complete_build(IMTAG, UTOK, MIDIR, COMMAND_TXT, DOCK_DOCK, BOCOM, FILES_PATH
 
             # Add job to VolCon
             # Set as medium priority
-            mints.add_job(UTOK, "Custom", Commands, 0, VolCon_ID, "2", public=0)
+            mints.add_job(UTOK, "Custom", Commands, 0, VolCon_ID, "Middle", public=0)
+            mints.update_mirror_ip(VolCon_ID, mirror_IP)
 
             # MIDAS cannot accept GPU jobs
             job_info = {"Image":"Custom", "Command":Commands, "TACC":0, "GPU":0,
                         "VolCon_ID":VolCon_ID, "public":0, "key":mirror.mirror_key(mirror_IP)}
             
-            requests.post('http://'+mirror_ip+":7000/volcon/mirror/v2/api/public/receive_job_files",
+            requests.post('http://'+mirror_IP+":7000/volcon/mirror/v2/api/public/receive_job_files",
                 json=job_info)
 
+            # Moves data to Reef
+            requests.post('http://'+os.environ['Reef_IP']+':2001/reef/result_upload/'+os.environ['Reef_Key']+'/'+UTOK,
+                    files={"file": open(saved_name, "rb")})
 
+            # Deletes local copy
+            os.remove(saved_name)
+            # Removes the image
+            container.prune()
+            image.remove(IMTAG, force=True)
 
+            # Email user with dockerfile
+            MESSAGE = Success_Message.replace("DATETIME", datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"))
+            MESSAGE += "\n\nClick on the following link to obtain a compressed version of the application docker image.\n"
+            MESSAGE += "You are welcome to upload the image on dockerhub in order to reduce the future job processing time for the same application (no allocation will be discounted): \n"
+            MESSAGE += os.environ["SERVER_IP"]+":5060/boincserver/v2/reef/results/"+UTOK+"/"+saved_name.replace("../", "")
+            MESSAGE += "\n\nRun the following command on the image: \n"+' '.join(BOCOM.split(' ')[1::])
+            MESSAGE += "\n\nThis is the Dockerfile we used to process your job: \n\n"+DOCK_DOCK
 
-            # Email user with dockerfile, move it to Reef 
+            ec.send_mail_complete(researcher_email, "Succesful MIDAS build", MESSAGE, [])
 
 
 

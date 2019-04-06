@@ -42,9 +42,7 @@ function show_new() {
         function() use ($master_url) {
             /*Edited by Joshua: We need ask the user to download virtual box before the 
             BOINC client software*/
-            echo '<u><b>Android devices</b></u>
-                            <ol>Download BOINC from the Google Play store or Amazon app store</ol>
-                                ';
+
             echo '<u><b>Mac and Linux users:</b></u>
                 <ol>
                 <li> <p>'
@@ -72,7 +70,7 @@ function show_new() {
                       
                        or
 
-                <p>    (b) If you already have <a href="https://www.virtualbox.org/wiki/Downloads">VirtualBox</a> installed, download the <a href="https://boinc.berkeley.edu/download.php">BOINC software</a>.
+                <p>    (b) If you already have <a href="https://www.virtualbox.org/wiki/Downloads">VirtualBox</a> installed, download the <a href="https://boinc.berkeley.edu/download.php">BOINC software</a> only.
                 </li><li>Run the installer.</li><li>
 Choose BOINC@TACC from the drop-down list in the client or enter the following URL: https://boinc.tacc.utexas.edu/ </li>
                 </ol>

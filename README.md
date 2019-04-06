@@ -186,7 +186,6 @@ docker run -d -p 8000:8000 -e "main_server=boinc.tacc.utexas.edu" \
 ```
 
 
-
 [1]: https://github.com/marius311/boinc-server-docker
 [2]: https://boinc.berkeley.edu/download.php
 [3]: https://docs.docker.com/install/linux/docker-ce/ubuntu/

@@ -90,7 +90,7 @@ if ($receiver > 0) {
         $body_to_send = str_replace("USERNAME", $user->name, $body);
         $body_to_send .= "\n\nTo opt out of future emails from ".PROJECT.", please edit your project preferences at ".secure_url_base()."prefs.php?subset=project\n";
         
-	send_email($user, $subject, $body_to_send, null, "linux_mail");
+	   send_email($user, $subject, $body_to_send, null, "linux_mail");
 
 /*
 	$retval = send_email($user, $subject, $body_to_send);

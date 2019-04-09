@@ -6,7 +6,8 @@ Executes the VolCon jobs in independent docker containers
 
 
 import datetime
-import docker 
+import docker
+import hashlib 
 import json
 from multiprocessing import Pool
 import os
@@ -266,8 +267,7 @@ def volcon_run(useless_input):
 
                 if CA == False:
                     # Failure in image processing
-                    return None
-
+                    continue
             da2 = time.time()
             run_in_container(K, da2-da1)
 

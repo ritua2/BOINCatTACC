@@ -8,7 +8,7 @@ Processes all commands submitted through the web interface and creates a file re
 
 import os, sys, shutil
 import json
-from flask import Flask, request, jsonify, send_file
+from flask import Flask, request, jsonify, send_file, abort
 import preprocessing as pp
 import custodian as cus
 
@@ -100,7 +100,7 @@ def process_web_jobs():
 
     try:
         TOK = dictdata["Token"]
-        boapp = dictdata['Boapp'].lower()
+        # boapp = dictdata['Boapp'].lower() # It is now decided based on the application
         Reefil = dictdata["Files"]
         Image = dictdata["Image"]
         Custom = dictdata["Custom"]
@@ -114,51 +114,59 @@ def process_web_jobs():
 
     # Checks if user wants boinc2docker or adtd-p
     try:
-        if (boapp != "boinc2docker") and (boapp != "adtdp"):
+        if (boapp != "boinc2docker") and (boapp != "volcon"):
             return "INVALID application"
 
     except:
         return "INVALID, application not provided"
 
-    if (Custom != "Yes") and (Custom != "No"):
-        return "INVALID, Custom value can only be [Yes/No]"
+    if Custom != "Yes":
+        return abort(406) # Incorrect API
 
-    if ("Custom" == "No") and (not image_is_TACC(Image)):
+    if not image_is_TACC(Image):
         return "INVALID, Image \'"+Image+"\' is not provided by TACC"
 
-    # Writes the commands to a random file
-    new_filename = pp.random_file_name()
 
 
-    with open(UPLOAD_FOLDER+new_filename, "w") as comfil:
-        comfil.write(Image + " /bin/bash -c ")
-
-        # Custom images require more work because it must be ensured the results will be back
-        if Custom == "Yes":
-            # Creates a new working directory
-            comfil.write("\"mkdir -p /data; cd /data; ")
-            # Adds the files
-            for FF in Reefil:
-                comfil.write(get_reef_file(Image, TOK, FF)+" ")
-
-            comfil.write(Command+" mkdir -p /root/shared/results/; mv ./* /root/shared/results\"")
-            comfil.write("\n"+str(TOK))
-
-        elif Custom == "No":
-            comfil.write("\"")
-            comfil.write(extra_image_commands(Image))
-            # Adds the files
-            for FF in Reefil:
-                comfil.write(get_reef_file(Image, TOK, FF)+" ")
-
-            comfil.write(Command+" python /Mov_Res.py\"")
-            comfil.write("\n"+str(TOK))
-
-    # Submits the file for processing
     if boapp == "boinc2docker":
+        # Writes the commands to a random file
+        new_filename = pp.random_file_name()
+
+
+        with open(UPLOAD_FOLDER+new_filename, "w") as comfil:
+            comfil.write(Image + " /bin/bash -c ")
+
+            # Custom images require more work because it must be ensured the results will be back
+            if Custom == "Yes":
+                # Creates a new working directory
+                comfil.write("\"mkdir -p /data; cd /data; ")
+                # Adds the files
+                for FF in Reefil:
+                    comfil.write(get_reef_file(Image, TOK, FF)+" ")
+
+                comfil.write(Command+" mkdir -p /root/shared/results/; mv ./* /root/shared/results\"")
+                comfil.write("\n"+str(TOK))
+
+            elif Custom == "No":
+                comfil.write("\"")
+                comfil.write(extra_image_commands(Image))
+                # Adds the files
+                for FF in Reefil:
+                    comfil.write(get_reef_file(Image, TOK, FF)+" ")
+
+                comfil.write(Command+" python /Mov_Res.py\"")
+                comfil.write("\n"+str(TOK))
+
         shutil.move(UPLOAD_FOLDER+new_filename, BOINC_FOLDER+new_filename)
-    if boapp == "adtdp":
-        shutil.move(UPLOAD_FOLDER+new_filename, ADTDP_FOLDER+new_filename)
+
+
+    if boapp == "volcon":
+        
+        # Send commands to mirror
+
+
+
+
 
     return "Commands submitted for processing"
 

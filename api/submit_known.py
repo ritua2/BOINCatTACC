@@ -86,7 +86,8 @@ def upload_file(toktok):
             AA += cus.complete_tag_work(an_image, TST, jobsub=len(Im_Names))
         shutil.move(UPLOAD_FOLDER+'/'+new_filename, FINAL_FOLDER+'/'+new_filename)
     if app == "adtdp":
-        shutil.move(UPLOAD_FOLDER+'/'+new_filename, ADTDP_FOLDER+'/'+new_filename)
+        os.remove(UPLOAD_FOLDER+'/'+new_filename)
+        return "This system has been discontinued, use the new VolCon API instead"
 
     return "File submitted for processing\n"+AA
 

@@ -28,8 +28,8 @@ r = redis.Redis(host = '0.0.0.0', port = 6389, db = 3)
 Org_Name = str(input("Organization name: "))
 
 if Org_Name == "ORGS":
-	print("Cannot name an organization 'ORGS', it is already a system inner index")
-	sys.exit()
+    print("Cannot name an organization 'ORGS', it is already a system inner index")
+    sys.exit()
 
 
 

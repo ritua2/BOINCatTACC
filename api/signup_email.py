@@ -6,6 +6,7 @@ BASICS
 Sends an user an email when signing up
 """
 
+import email_common as ec
 from flask import Flask
 import os
 import requests
@@ -36,11 +37,8 @@ def signup_volunteer(email, anonym):
     outer["email_content"] = text
 
     # Send the email
-    try:
-        requests.post('http://'+os.environ['URL_BASE'].split('/')[-1]+':5020/send_emails', json=outer)
+    return ec.send_mail_complete(email, 'BOINC sign-up', text, [])
 
-    except:
-        return "INVALID, could not send email"
 
 
 if __name__ == '__main__':

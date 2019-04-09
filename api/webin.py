@@ -9,8 +9,11 @@ Processes all commands submitted through the web interface and creates a file re
 import os, sys, shutil
 import json
 from flask import Flask, request, jsonify, send_file, abort
+import mirror_interactions as mirror
+import mysql_interactions as mints
 import preprocessing as pp
 import custodian as cus
+import uuid
 
 
 
@@ -100,11 +103,16 @@ def process_web_jobs():
 
     try:
         TOK = dictdata["Token"]
-        # boapp = dictdata['Boapp'].lower() # It is now decided based on the application
         Reefil = dictdata["Files"]
         Image = dictdata["Image"]
         Custom = dictdata["Custom"]
         Command = dictdata["Command"]
+
+        if "priority" not in dictdata.keys():
+            PRIORITY = "Middle"
+        else:
+            PRIORITY = dictdata["priority"]
+
 
     except:
         return "INVALID, json lacks at least one field (keys: Token, Boapp, Files, Image, Custom, Command)"
@@ -112,19 +120,19 @@ def process_web_jobs():
     if pp.token_test(TOK) == False:
         return "INVALID token"
 
-    # Checks if user wants boinc2docker or adtd-p
-    try:
-        if (boapp != "boinc2docker") and (boapp != "volcon"):
-            return "INVALID application"
 
-    except:
-        return "INVALID, application not provided"
+    # For testing TODO TODO TODO TODO
+    boapp = "volcon"
 
-    if Custom != "Yes":
-        return abort(406) # Incorrect API
+    # Backwards-compatible with the previous ADTD-P calls
+    if boapp == "adtdp":
+        boapp = "volcon"
+
+    if (Custom != "Yes" ) and (Custom != "No"):
+        return abort(422) # Incorrect API
 
     if not image_is_TACC(Image):
-        return "INVALID, Image \'"+Image+"\' is not provided by TACC"
+        Custom = "Yes"
 
 
 
@@ -137,6 +145,7 @@ def process_web_jobs():
             comfil.write(Image + " /bin/bash -c ")
 
             # Custom images require more work because it must be ensured the results will be back
+            # Ensures
             if Custom == "Yes":
                 # Creates a new working directory
                 comfil.write("\"mkdir -p /data; cd /data; ")
@@ -162,13 +171,51 @@ def process_web_jobs():
 
     if boapp == "volcon":
         
-        # Send commands to mirror
+        # Only CUDA requires a GPU
+        # Custom images are also assumed to not require a GPU TODO TODO TODO TODO
+        if Image == "carlosred/gpu:cuda":
+            GPU = 1
+        else:
+            GPU = 0
 
+        VolCon_ID = uuid.uuid4().hex
 
+        COMMANDS = " /bin/bash -c \""
 
+        if Custom == "Yes":
+            TACC = 0
+            COMMANDS += "mkdir -p /data; cd /data; "
+            for FF in Reefil:
+                if FF == '':
+                    break
+                COMMANDS += get_reef_file(Image, TOK, FF)+" "
+
+            # Splits the commands and ensures that they are run in /data
+            newcoms = ";".join(["cd /data && "+x for x in Command.split(";")])
+
+            COMMANDS += newcoms+" mkdir -p /root/shared/results/; mv /data/* /root/shared/results"
+
+        else:
+            TACC = 1
+            COMMANDS += extra_image_commands(Image)
+            for FF in Reefil:
+                if FF == '':
+                    break
+                COMMANDS += get_reef_file(Image, TOK, FF)+" "
+            COMMANDS += Command+" python /Mov_Res.py"
+
+        COMMANDS += "\""
+
+        job_info = {"Image":Image, "Command":COMMANDS, "TACC":TACC, "GPU":GPU, "VolCon_ID":VolCon_ID, "public":1}
+
+        # Updates the job in the database
+        mints.add_job(TOK, Image, COMMANDS, GPU, VolCon_ID, PRIORITY)
+        # Pushes job information to mirrors
+        mirror.upload_job_to_mirror(job_info)
 
 
     return "Commands submitted for processing"
+
 
 
 if __name__ == '__main__':

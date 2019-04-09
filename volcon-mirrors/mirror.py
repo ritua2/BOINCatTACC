@@ -106,7 +106,7 @@ def receive_MIDAS_files(VolCon_ID, mirrorkey):
     try:
         file = request.files["file"]
     except:
-        return "INVALID, file is too large, exceeded 90 s timeout for file processing"
+        return "INVALID, file is too large, exceeded 300 s timeout for file processing"
 
     storage_location = PATH+"/"+VolCon_ID+"-files"
     if not os.path.exists(storage_location):

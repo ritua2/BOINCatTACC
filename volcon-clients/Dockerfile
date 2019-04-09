@@ -1,7 +1,7 @@
 ############
 # BASICS
 #
-# Implements a VolCon mirror that can temporarily store job files for a particular job
+# Implements a VolCon client
 #
 ############
 

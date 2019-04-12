@@ -36,8 +36,12 @@ container =  docker.from_env().containers
 # Returns [Mirror IP, VolCon-ID]
 def request_job(priority_level):
 
-    r = requests.post('http://'+os.environ["main_server"]+":5091/volcon/v2/api/jobs/request",
-        json={"cluster": cluster, "disconnect-key":dk, "GPU":GPU, "priority-level":priority_level, "public":only_public})
+    try:
+        r = requests.post('http://'+os.environ["main_server"]+":5091/volcon/v2/api/jobs/request",
+            json={"cluster": cluster, "disconnect-key":dk, "GPU":GPU, "priority-level":priority_level, "public":only_public})
+    except:
+        # A connection error, 104 is the most probable
+        return {"jobs-available":"0"}
     return json.loads(r.text)
 
 
@@ -82,14 +86,11 @@ def custom_action(job_info, mirror_IP):
     with open(image_name+".tar.gz", "wb") as ff:
         ff.write(rim.content)
 
-    print("Downloaded image from mirror")
-
     # It could fail
     try:
         gg = open(image_name+".tar.gz", "rb")
         IMG = image.load(gg.read())[0] # Only want the first
         gg.close()
-        print("Downloaded file")
         os.remove(image_name+".tar.gz")
 
     except:
@@ -104,9 +105,7 @@ def custom_action(job_info, mirror_IP):
   
     # Tags the image
     IMG.tag("custom", image_name)
-    print("Tagged image")
     return "custom:"+image_name
-
 
 
 
@@ -221,7 +220,6 @@ def run_in_container(job_info, previous_download_time):
     # Uploads finishes job notification
     send_report = requests.post('http://'+os.environ["main_server"]+":5091/volcon/v2/api/jobs/upload/report",
         json=Report)
-
 
     # Kills the container and removes it
     os.remove(tarname)

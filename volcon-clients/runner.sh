@@ -28,6 +28,9 @@ wait_for_disconnect () {
         if [ "$dk" = "$disconnect_key" ]; then
             kill 1
         fi
+
+        sleep 10 # Saves resources
+
     done
 
 }

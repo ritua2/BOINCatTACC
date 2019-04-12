@@ -202,9 +202,9 @@ def process_midas_jobs():
                 shutil.rmtree(TMP)
                 return "INVALID, cannot open zip file"
 
-    # The application is adtdp if using c++ libraries
+    # The application is volcon if using c++ libraries
     if libs['cPlusPlus'] != []:
-        boapp = "adtdp"
+        boapp = "volcon"
 
     # Creates an acceptable README
     with open(TMP+"README.txt", 'w') as readme:

@@ -42,7 +42,8 @@ def image_is_TACC(image):
 
 
 # List of extra commands needed for some files
-EXIM = {"carlosred/gromacs:latest":"source /usr/local/gromacs/bin/GMXRC.bash; ", "carlosred/openfoam6:latest":". /opt/openfoam6/etc/bashrc; "}
+EXIM = {"carlosred/gromacs:latest":"source /usr/local/gromacs/bin/GMXRC.bash && ",
+        "carlosred/openfoam6:latest":"source /opt/OpenFOAM/OpenFOAM-6/etc/bashrc && "}
 
 
 # Returns a files download type
@@ -197,12 +198,11 @@ def process_web_jobs():
 
         else:
             TACC = 1
-            COMMANDS += extra_image_commands(Image)
             for FF in Reefil:
                 if FF == '':
                     break
                 COMMANDS += get_reef_file(Image, TOK, FF)+" "
-            COMMANDS += Command+" python /Mov_Res.py"
+            COMMANDS += ";".join([extra_image_commands(Image) +z for z in Command.split(";")])+" python /Mov_Res.py"
 
         COMMANDS += "\""
 

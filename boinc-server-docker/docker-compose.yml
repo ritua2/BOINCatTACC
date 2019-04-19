@@ -1,0 +1,66 @@
+version: "3.4"
+
+volumes:
+  mysql:
+  project:
+  results:
+  secrets:
+
+services:
+  mysql:
+    image: boinc/server_mysql:$VERSION$DEFAULTARGS
+    build: 
+      context: images/mysql
+      target: mysql$DEFAULTARGS
+    volumes:
+      - "mysql:/var/lib/mysql"
+    environment: 
+     - MYSQL_ROOT_PASSWORD=
+     - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    ports:
+     - "3306:3306"
+
+  makeproject:
+    image: boinc/server_makeproject:$VERSION$TAG$DEFAULTARGS
+    build: 
+      context: images/makeproject
+      target: makeproject$DEFAULTARGS
+      args:
+        - TAG
+        - BOINC_USER
+        - PROJECT_ROOT
+    volumes:
+      - "project:$PROJECT_ROOT.dst"
+      - "secrets:/run/secrets"
+    hostname: makeproject
+    environment:
+      - URL_BASE
+      - PROJECT
+
+  apache:
+    image: boinc/server_apache:$VERSION$TAG$DEFAULTARGS
+    build: 
+      context: images/apache
+      target: apache$DEFAULTARGS
+      args:
+        - TAG
+        - BOINC_USER
+        - PROJECT_ROOT
+    hostname: $PROJECT
+    depends_on:
+      - mysql
+    volumes: 
+      - "project:$PROJECT_ROOT"
+      - "results:/results"
+      - "secrets:/run/secrets"
+      - "/dev/null:/run/secrets/keys/code_sign_private"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    ports: 
+      - "80:80"
+      - "443:443"
+      - "5000:5000"
+      - "5050-5100:5050-5100"
+    tty: true
+    environment:
+      - URL_BASE
+      - PROJECT

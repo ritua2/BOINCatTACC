@@ -39,21 +39,18 @@ sudo gpasswd -a $USER docker
 
 
 1. **Follow the installation instructions provided by [boinc-server-docker][1]**
-	* Modify the *docker-compose.yml* to make it similar to the one provided in this repository. This updated compose file opens the ports 
-	necessary for API usage. The only changes needed are in the ports for mysql and apache containers.
 	* Most likely, this server will be installed on a cloud server. If that is the case, do not compose up directly. It is necessary to specify
 	the IP of the system using the syntax below.
 	* If not using root, it is possible that an error appears about Docker not being able to connect to the daemon. If this is the case, use 
 	*sudo* to obtain root access, and use *sudo* for all docker and/or docker-compose commands.
 ```bash
-git clone https://github.com/marius311/boinc-server-docker.git
-cd boinc-server-docker
+git https://github.com/ritua2/BOINCatTACC
+cd BOINCatTACC/boinc-server-docker
 docker-compose pull
 # Enter the changes on the docker-compose
-curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/docker-compose.yml > docker-compose.yml
 URL_BASE=http://IP_ADDRESS docker-compose up -d
 ```
-	
+
 
 2. **Wait a few seconds until the *make_project* container sets up the BOINC server and its mysql database**
 	This process is complete when a webpage is accessible on *SERVER_IP/boincserver*

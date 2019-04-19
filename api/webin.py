@@ -113,20 +113,17 @@ def process_web_jobs():
             PRIORITY = "Middle"
         else:
             PRIORITY = dictdata["priority"]
-
-
     except:
         return "INVALID, json lacks at least one field (keys: Token, Boapp, Files, Image, Custom, Command)"
 
     if pp.token_test(TOK) == False:
         return "INVALID token"
 
+    # Checks the list of Commands to ensure their correct execution
+    Command = ';'.join([C for C in Command.split(';') if C.count(C[0]) != len(C) ]) +';'
 
-    # For testing TODO TODO TODO TODO
-    boapp = "volcon"
-
-    # Backwards-compatible with the previous ADTD-P calls
-    if boapp == "adtdp":
+    boapp = "boinc2docker"
+    if Image == "carlosred/gpu:cuda":
         boapp = "volcon"
 
     if (Custom != "Yes" ) and (Custom != "No"):

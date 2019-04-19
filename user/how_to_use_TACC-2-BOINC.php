@@ -43,11 +43,11 @@ echo '<li> Go to the Job Submission page: https://boinc.tacc.utexas.edu/job_subm
 echo '';
 echo '<li> For running applications through BOINC@TACC, you will need to select one of the following options: <br>';
 echo '';
-echo '<ul><li> <b>Use the Docker image of an application supported by BOINC@TACC </b>: If you are using the Docker image provided by BOINC@TACC, keep the radio-button for the "List of BOINC@TACC Docker images" selected and select the desired Docker image</li>';
+echo '<ul><li> <b>Use the Docker image of an application supported by BOINC@TACC </b>: If you are using the Docker image provided by BOINC@TACC, keep the radio-button for the "List of BOINC@TACC Docker images" selected and select the desired Docker image from the drop-down list.</li>';
 echo '';
 echo '<li> <b> Use a Docker image of the application supported by you or someone else on Docker Hub </b>: If the Docker image is on Docker Hub but not supported by BOINC@TACC, click the radio button for Docker Hub. Type in the name of the desired Docker image as it appears on Docker Hub (not the URL). Then select the "Check if it exists on Docker hub" button and the BOINC@TACC system will check if the Docker image exists or not. </li>';
 echo '';
-echo '<li> If your code is not containerized yet, you can upload the code and the steps to compile it through the job submission page. A Docker image will be created automatically for you. </li></ul>';
+echo '<li> <b>If your code is not containerized</b> yet, you can upload the code and the steps to compile it through the job submission page. A Docker image will be created automatically for you. </li></ul>';
 echo '';
 echo '</li>';
 echo '';
@@ -143,9 +143,9 @@ echo '<li>In the text-box for the list of commands, enter:<br>';
 
 echo '<font face="courier new">';
 
-echo 'OpenSees < ./data/MomCurv.tcl;<br>';
+echo 'OpenSees < ./data/MomentCurvature.tcl;<br>';
 
-echo 'OpenSees < ./data/ElFram.tcl; <br>';
+echo 'OpenSees < ./data/ElasticFrame.tcl; <br>';
 
 echo '</font>';
 

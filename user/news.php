@@ -27,6 +27,13 @@ echo '<center><h1>News</h1></center><br />';
 
 
 
+
+echo '<pre style="word-break:normal;white-space:normal;margin-left:20%;margin-right: 20%;"><style="text-align:left;"><p style="font-size:14px;font-weight: normal;"><span style="font-weight:bold;">'.tra('April 18th, 2019:').'</span>'.tra('A manuscript on BOINC@TACC has been published by Springer. Thanks to all the volunteers for making it possible. More information about the article is available at  <a href="https://link.springer.com/chapter/10.1007/978-981-13-7729-7_8"> https://link.springer.com/chapter/10.1007/978-981-13-7729-7_8</a>').' </p>';
+
+echo '</style></pre></br>';
+
+
+
 echo '<pre style="word-break:normal;white-space:normal;margin-left:20%;margin-right: 20%;"><style="text-align:left;"><p style="font-size:14px;font-weight: normal;"><span style="font-weight:bold;">'.tra('February 1st, 2019:').'</span>'.tra('Due to a database configuration issue, the BOINC@TACC project was unable to serve jobs to the volunteers for about a week. The issue has been mostly resolved now and the job scheduler is working as expected. We will be restoring the database content related to the volunteers by February 5, 2019. The data related to the researchers has not been impacted.').' </p>';
 
 echo '</style></pre></br>';

@@ -26,6 +26,9 @@ log.setLevel(logging.ERROR)
 @app.route("/boincserver/v2/api/ldap_check/<username>/<pw>")
 def ldap_check(username, pw):
 
+    if os.environ["dev_yn"] == "y":
+        return True
+
     s = Server('ldap.tacc.utexas.edu', port=389, get_info=ALL)
     c = Connection(s, user='uid='+username+",ou=People,dc=tacc,dc=utexas,dc=edu", password=pw)
 

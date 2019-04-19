@@ -73,6 +73,8 @@ cursor.execute("""
     )
     """)
 
+
+
 # Random name table
 cursor.execute("""
     CREATE TABLE screen_name_anonymization (name VARCHAR(254), random_name VARCHAR (254))

@@ -141,7 +141,6 @@ def process_web_jobs():
         # Writes the commands to a random file
         new_filename = pp.random_file_name()
 
-
         with open(UPLOAD_FOLDER+new_filename, "w") as comfil:
             comfil.write(Image + " /bin/bash -c ")
 

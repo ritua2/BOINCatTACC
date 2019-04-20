@@ -102,7 +102,7 @@ sed -i "162i# Commented" /etc/apache2/apache2.conf
 sed -i "163i# Commented" /etc/apache2/apache2.conf
 
 # Updates the scheduler
-printf "<!-- <scheduler>http://$URL_BASE/boincserver_cgi/cgi</scheduler> -->\n" > /home/boincadm/project/html/user/schedulers.txt
+printf "<!-- <scheduler>$URL_BASE/boincserver_cgi/cgi</scheduler> -->\n" > /home/boincadm/project/html/user/schedulers.txt
 printf "<link rel=\"boinc_scheduler\" href=\"$URL_BASE/boincserver_cgi/cgi\">" >> /home/boincadm/project/html/user/schedulers.txt
 
 

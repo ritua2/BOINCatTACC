@@ -132,8 +132,6 @@ def process_web_jobs():
     if not image_is_TACC(Image):
         Custom = "Yes"
 
-
-
     if boapp == "boinc2docker":
         # Writes the commands to a random file
         new_filename = pp.random_file_name()

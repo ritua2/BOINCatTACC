@@ -19,9 +19,12 @@ from email.mime.text import MIMEText
 import requests
 
 
+
+
+
 r = redis.Redis(host = '0.0.0.0', port = 6389, db = 0)
 
-boinc_db = mysql_con.connect(host = os.environ['URL_BASE'].split('/')[-1], port = 3306, user = 'root', password = '', database = 'boincserver')
+boinc_db = mysql_con.connect(host = os.environ['URL_BASE'].split('/')[-1], port = 3306, user = os.environ["MYSQL_USER"], password = os.environ["MYSQL_UPASS"], database = 'boincserver')
 
 cursor = boinc_db.cursor()
 
@@ -220,15 +223,17 @@ def automatic_text(timrec, Ocome, TOK, ATTA):
        outcome = "UNKNOWN RESULT"
 
     Text1 = "Your BOINC job has been completed with status: "+outcome
-    Text1 += ".\nAll results files, if any, are attached.\nServer received results on: "+timrec
+    Text1 += ".\nIf there are any result files, they are attached.\nServer received results on: "+timrec
     Text1 += " UTC. This message was sent on "+prestime+" UTC.\n\n"
-    Text1 += "Your results are also available in your Reef account in the directory ___RESULTS.\n\n"
-    Text1 += "Click or copy the following URLs to access your results:\n"
+    #Text1 += "Your results are also available in your Reef account in the directory ___RESULTS.\n\n"
+    Text1 += "Click on or copy the following URL/s to access your results from the browser:\n"
     for anat in ATTA:
         ST = os.environ["SERVER_IP"]+":5060/boincserver/v2/reef/results/"
         ST += TOK+"/"+anat.split("/")[-1]
         Text1 += ST+'\n'
 
+
+    Text1 += "NOTE: If the download does not automatically start from the above URL, use curl or wget to download the file. For example: curl -O "+ST+" .\n\n"
 
     Text1 += "Sincerely,\n  TACC BOINC research group\n\n\n"
     Text1 += "NOTE: This is an automated message, all emails received at this address will be ignored."

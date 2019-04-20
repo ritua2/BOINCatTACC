@@ -44,7 +44,7 @@ sudo gpasswd -a $USER docker
 	* If not using root, it is possible that an error appears about Docker not being able to connect to the daemon. If this is the case, use 
 	*sudo* to obtain root access, and use *sudo* for all docker and/or docker-compose commands.
 ```bash
-git https://github.com/ritua2/BOINCatTACC
+git clone https://github.com/ritua2/BOINCatTACC
 cd BOINCatTACC/boinc-server-docker
 docker-compose pull
 # Enter the changes on the docker-compose
@@ -121,9 +121,10 @@ source password_credentials.sh
 	* Organizations themselves are required to submit jobs using the Stampede2 backend
 	* Only one organization is needed. However, more can be created in order to separate and differentiate users
 	* For more instructions on supplying tokens through organizations, check the API documentation
+	* Always use organization name 'TACC' in order to avoid issues with the front-end
 	* To do this:
 ```bash
-cd /home/boincadm/project/html/user/token_data
+cd /home/boincadm/project/BOINCatTACC/user-interface/token_data
 python3 create_organization.py
 ```
 

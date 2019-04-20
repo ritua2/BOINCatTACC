@@ -162,7 +162,8 @@ if(strpos($_SERVER['HTTP_REFERER'], 'job_submission') !== false){
 				$url = "http://".$reefIP.":2000/reef/upload/".$reefKey."/".$token; 
 				curl_setopt($ch, CURLOPT_URL, $url);
 				curl_setopt($ch, CURLOPT_POST, 1);
-				curl_setopt($ch, CURLOPT_POSTFIELDS, array('file' =>$cFile,'filename'=>$fileName));		
+				curl_setopt($ch, CURLOPT_POSTFIELDS, array('file' =>$cFile,'filename'=>$fileName));
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); // Removes the Reef message	
 				$result = curl_exec($ch);
 
 				if (curl_errno($ch) || strpos($result, 'INVALID') !== false) {

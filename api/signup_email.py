@@ -19,7 +19,6 @@ app = Flask(__name__)
 @app.route("/boincserver/v2/api/signup/volunteer/<email>/<anonym>")
 def signup_volunteer(email, anonym):
 
-
     # Create the enclosing (outer) message
     outer = {}
     outer['email_subject'] = 'BOINC sign-up'

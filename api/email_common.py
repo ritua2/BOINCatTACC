@@ -62,9 +62,20 @@ def send_mail_complete(send_to, subject, text, attachments):
     if os.environ["dev_yn"] == "y":
         return send_mail_dev(send_to, subject, text, attachments)
     else:
+        outer = {}
+        outer["email_subject"] = subject
+        outer["email_content"] = text
+        outer["user_email"] = send_to
+        outer["attachments"] = attachments
 
-        # TODO TODO TODO
-        pass
+        # Results are temporarily stored outside the container
+        for file in attachments:
+            requests.post('http://'+os.environ['URL_BASE'].split('/')[-1]+':5021/provide_file',
+                            files={"file": open(file,"rb")})
+
+        # Requests the message to be sent
+        requests.post('http://'+os.environ['URL_BASE'].split('/')[-1]+':5021/send_emails', json=outer)
+
 
 
 

@@ -12,11 +12,9 @@ import datetime
 import smtplib
 import os, shutil, sys
 from os.path import basename
-from email import encoders
-from email.mime.base import MIMEBase
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
+from api import email_common as ec
 import requests
+import  tarfile
 
 
 
@@ -108,50 +106,6 @@ def result_ID_from_WUID(wuman):
 
 
 
-# Emails an user 
-# send_from (str): Sender name
-# send_to (arr) (str): Email address of recipients
-# text (str): Text to be sent, always constant
-# files (arr) (str): Files to be included, add full path
-
-def send_mail(send_from, send_to, subject, text, attachments):
-
-    sender = os.environ['BOINC_EMAIL']
-    gmail_password = os.environ['BOINC_EMAIL_PASSWORD']
-    
-    # Create the enclosing (outer) message
-    outer = MIMEMultipart()
-    outer['Subject'] = 'BOINC job completed'
-    outer['To'] = ', '.join([send_to])
-    outer['From'] = sender
-    # Adds the text
-    outer.attach(MIMEText(text))
-    # Add the attachments to the message
-    for file in attachments:
-        with open(file, 'rb') as fp:
-             msg = MIMEBase('application', "octet-stream")
-             msg.set_payload(fp.read())
-        encoders.encode_base64(msg)
-        msg.add_header('Content-Disposition', 'attachment', filename=os.path.basename(file))
-        outer.attach(msg)
-
-    composed = outer.as_string()
-
-    # Send the email
-    try:
-        with smtplib.SMTP('smtp.gmail.com', 587) as s:
-            s.ehlo()
-            s.starttls()
-            s.ehlo()
-            s.login(sender, gmail_password)
-            s.sendmail(sender, [send_to], composed)
-            s.close()
-
-    except:
-        print("Unable to send the email. Error: ", sys.exc_info()[0])
-        raise
-
-
 """
 Main
 """
@@ -208,6 +162,19 @@ for idid in range(0, allrun):
             break
 
 
+
+# Finds the contents of a tar file
+# full_path_to_tar (str): Full path to the tar file
+def tar_contents(full_path_to_tar):
+
+    tar = tarfile.open(full_path_to_tar)
+    tar_contents = tar.getmembers()
+    tar.close()
+    return tar_contents
+
+
+
+
 # Creates the main text submitted
 # timrec (str): Time received
 # Ocome (int): Outcome, 1 (Success), 3 (Computational Error)
@@ -226,14 +193,19 @@ def automatic_text(timrec, Ocome, TOK, ATTA):
     Text1 += ".\nIf there are any result files, they are attached.\nServer received results on: "+timrec
     Text1 += " UTC. This message was sent on "+prestime+" UTC.\n\n"
     #Text1 += "Your results are also available in your Reef account in the directory ___RESULTS.\n\n"
-    Text1 += "Click on or copy the following URL/s to access your results from the browser:\n"
-    for anat in ATTA:
-        ST = os.environ["SERVER_IP"]+":5060/boincserver/v2/reef/results/"
-        ST += TOK+"/"+anat.split("/")[-1]
-        Text1 += ST+'\n'
+
+    if (len(ATTA) > 0) and any(len(tar_contents(result_file)) > 0 for result_file in ATTA ):
+        Text1 += "Click on or copy the following URL/s to access your results from the browser:\n"
+        for anat in ATTA:
+            ST = os.environ["SERVER_IP"]+":5060/boincserver/v2/reef/results/"
+            ST += TOK+"/"+anat.split("/")[-1]
+            Text1 += ST+'\n'
 
 
-    Text1 += "NOTE: If the download does not automatically start from the above URL, use curl or wget to download the file. For example: curl -O "+ST+" .\n\n"
+        Text1 += "NOTE: If the download does not automatically start from the above URL, use curl or wget to download the file. For example: curl -O "+ST+" .\n\n"
+    elif all(len(tar_contents(result_file)) == 0 for result_file in ATTA):
+        Text1 += "The job ran normally without errors, however, no results have been uploaded to the server.\nThis reflects a possible error in the provided commands to be executed\n\n"
+
 
     Text1 += "Sincerely,\n  TACC BOINC research group\n\n\n"
     Text1 += "NOTE: This is an automated message, all emails received at this address will be ignored."
@@ -246,8 +218,13 @@ for nvnv in range(0, len(to_be_notified[0])):
     email_text = automatic_text(to_be_notified[3][nvnv], to_be_notified[1][nvnv], all_toks[nvnv], attachments)
     researcher_email = to_be_notified[2][nvnv]
     print(researcher_email)
+
+    # Ignores empty attachments
+    real_attachments = [possible_attachment for possible_attachment in attachments if len(tar_contents(possible_attachment)) > 0]
+
     # Uploads the result to the external Reef container
     for resfil in attachments:
         requests.post('http://'+os.environ['Reef_IP']+':2001/reef/result_upload/'+os.environ['Reef_Key']+'/'+all_toks[nvnv], files={"file": open(resfil, "rb")})
 
-    send_mail('Automated BOINC Notifications', researcher_email, 'Completed Job', email_text, attachments)
+    ec.send_mail_complete(researcher_email, 'Completed BOINC Job', email_text, real_attachments)
+

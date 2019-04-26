@@ -66,11 +66,11 @@ def send_mail_complete(send_to, subject, text, attachments):
         outer["email_subject"] = subject
         outer["email_content"] = text
         outer["user_email"] = send_to
-        outer["attachments"] = attachments
+        outer["attachments"] = [atta.split("/")[-1] for atta in attachments]
 
         # Results are temporarily stored outside the container
         for file in attachments:
-            requests.post('http://'+os.environ['URL_BASE'].split('/')[-1]+':5021/provide_file',
+            requests.post('http://'+os.environ['URL_BASE'].split('/')[-1]+':5021/emails/provide_file',
                             files={"file": open(file,"rb")})
 
         # Requests the message to be sent

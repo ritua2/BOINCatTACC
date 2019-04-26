@@ -22,14 +22,13 @@ email_results_directory = "/email_data/"
 def provide_file():
 
     file = request.files['file']
-    fnam = request.form['filename']
 
     # Avoids empty filenames and those with commas
     if file.filename == '':
        return 'INVALID, no file uploaded'
-    new_name = secure_filename(fnam)
+    new_name = secure_filename(file.filename)
 
-    file.save(email_results_directory+new_name, new_name)
+    file.save(email_results_directory+new_name)
     return "File saved in the main server"
 
 
@@ -51,7 +50,7 @@ def send_emails():
 
     #Get the visitor's IP
     if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
-	visitorIP = request.environ['REMOTE_ADDR']
+        visitorIP = request.environ['REMOTE_ADDR']
     else:
         visitorIP = request.environ['HTTP_X_FORWARDED_FOR']
 
@@ -91,6 +90,8 @@ def send_emails():
         send_email_to_t2b = 'echo "'+email_content+'" | mail  -s "'+email_subject+'" '
 
 
+        corrected_filenames = []
+
         # Sends the file and deletes the local copy since there is no use for it in the local server
         for file_name in attachments:
             correct_file_path = full_path_for_email(file_name)
@@ -101,7 +102,7 @@ def send_emails():
 
             send_email_to_user += " -a "+correct_file_path
             send_email_to_t2b  += " -a "+correct_file_path
-            os.remove(correct_file_path)
+            corrected_filenames.append(correct_file_path)
 
         # Adds the emails at the end
         send_email_to_user += " "+ user_email 
@@ -110,6 +111,10 @@ def send_emails():
         try:
             os.system(send_email_to_user)
             os.system(send_email_to_t2b)
+
+            for fnam in corrected_filenames:
+                os.remove(fnam)
+
             return "Email Sent"
         except Exception as e:
             return e

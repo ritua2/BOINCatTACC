@@ -706,7 +706,7 @@ case "$user_option" in
 
 
         comfiles=()
-        printf "\n\nEnter the ${PURPLEPURPLE}commands${NCNC} below, leave empty to exit section:\n"
+        printf "\n\nEnter the ${PURPLEPURPLE}commands${NCNC} below for compiling the program OR running the script. Leave empty to exit section:\n"
 
 
         while true

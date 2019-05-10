@@ -96,7 +96,7 @@ case $server in
 
 
 
-printf "Your job has been selected for BOINC. Since BOINC is built using volunteer resources, we cannot guarantee your job turnaroundtime time of ""$turnaroundtime""\n\n"
+printf "Your job has been selected for BOINC. Since BOINC is built using volunteer resources, we cannot guarantee your job turnaroundtime time of ""$turnaroundtime"" min\n\n"
 
 
 printf "Welcome to Boinc job submission\n\n"

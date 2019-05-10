@@ -543,7 +543,7 @@ case "$user_option" in
 
 
         # In case the user provides their own README
-        printf "\nAre you providing a pre-compiled tar file (including README.txt) for MIDAS use in this directory?[y/n]\n"
+        printf "\nAre you providing an existing tar file (including README.txt) for MIDAS use in this directory?[y/n]\n"
         read README_ready
         if [[ "${README_ready,,}" = "y" ]]; then
 

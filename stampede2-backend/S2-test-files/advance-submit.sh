@@ -32,10 +32,9 @@ else
   fi
 fi  
 
-echo -n "What is the expected job turnaround time in minutes? The average job turnaround time on BOINC@TACC has been around 10 hours recently. For testing BOINC@TACC, jobs with shorter than the average turnaround time will be accepted."
+echo -n "What is the expected job turnaround time in minutes? The average job turnaround time on BOINC@TACC has been around 10 hours recently."
 read turnaroundtime
-#if (( turnaroundtime > $(( $runtime*2 + 600 )) )) ; then
-if (( turnaroundtime > $(( $runtime*2 + 60)) )) ; then
+if (( turnaroundtime > $(( $runtime*2 +600 )) )) ; then
   server="boinc"
 else
   if [ -n "$taccsys" ] ; then
@@ -95,11 +94,14 @@ case $server in
   boinc)
 	#!/bin/bash
 
-printf "Your job is qualified to run on BOINC@TACC. Since BOINC@TACC relies on volunteered computing resources, we cannot guarantee your job turnaround time of ""$turnaroundtime"" minutes.\n\n"
+printf "Your job is qualified to run on BOINC@TACC. Since BOINC@TACC relies on volunteered computing resources, we cannot guarantee your job turnaround time of ""$turnaroundtime"".\n\n"
 
 
-printf "Welcome to BOINC@TACC job submission\n\n"
-printf "NOTE: NO MPI jobs distributed accross more than one volunteer are supported. No jobs with external downloads while the job is running (no curl, wget, rsync, ..) are supported.\n"
+printf "Your job has been selected for BOINC. Since BOINC is built using volunteer resources, we cannot guarantee your job turnaroundtime time of ""$turnaroundtime"" min\n\n"
+
+
+printf "Welcome to Boinc job submission\n\n"
+printf "NOTE: NO MPI jobs distributed accross more than one volunteer, No jobs with external downloads while the job is running (no curl, wget, rsync, ..).\n"
 # Server IP or domain must be declared before
 SERVER_IP='boinc.tacc.utexas.edu'
 
@@ -241,8 +243,8 @@ apptags=(
 ########################################
 
 allowed_OS=("Ubuntu_16.04")
-allowed_languages=("C" "C++" "Python" "Python3" "Fortran" "R" "bash" )
-languages_with_libs=("Python" "Python3" "C++")
+allowed_languages=("c" "c++" "python" "python3" "fortran" "r" "bash" )
+languages_with_libs=("python" "python3" "c++")
 
 
 
@@ -541,7 +543,7 @@ case "$user_option" in
 
 
         # In case the user provides their own README
-        printf "\nAre you providing an existing tar file (including README.txt) for MIDAS use?[y/n]\n"
+        printf "\nAre you providing a pre-compiled tar file (including README.txt) for MIDAS use in this directory?[y/n]\n"
         read README_ready
         if [[ "${README_ready,,}" = "y" ]]; then
 
@@ -722,7 +724,7 @@ case "$user_option" in
                 exit 0
             fi
 
-            printf "Enter file for command: "
+            printf "Enter the name of the program file to use in the compile command: "
             read comfil
             if [[ -z "$comfil" || ! -f $comfil ]]; then
                 printf "${REDRED}File $comfil does not exist${NCNC}\n"
@@ -784,7 +786,7 @@ case "$user_option" in
                         printf "Enter any other flags or inputs (as is): "
                         read other_flags
                         if [ ! -z "$other_flags" ]; then
-                            printf '2 for after file (i.e. gcc myfile -lgmp), any other for before: '
+                            printf 'Enter 2 for adding the flag after the file (i.e., gcc myfile.c -lgmp), and 1 for adding the flag before the file name: '
                             read flagorder
 
                             if [ "$flagorder" = "2" ]; then

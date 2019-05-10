@@ -32,7 +32,7 @@ else
   fi
 fi  
 
-echo -n "What is the expected job turnaround time in minutes?"
+echo -n "What is the expected job turnaround time in minutes? The average job turnaround time on BOINC@TACC has been around 10 hours recently."
 read turnaroundtime
 if (( turnaroundtime > $(( $runtime*2 +600 )) )) ; then
   server="boinc"

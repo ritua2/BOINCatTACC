@@ -631,7 +631,7 @@ case "$user_option" in
                 liblang="C++ cget"
             fi
 
-            printf "Enter library: "
+            printf "Enter library (one per line): "
             read LIB
 
             if [ -z "$LIB" ]; then

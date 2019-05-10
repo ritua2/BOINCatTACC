@@ -497,6 +497,7 @@ case "$user_option" in
         
 
         printf "Enter ${PURPLEPURPLE}languages${NCNC} used (space-separated):\n"
+        printf "If your command is within a bash file, enter all languages used within the bash file (i.e. if your bash file contains the instructions gcc hello.c -o h.out && ./a.out , select the languages bash c)"
         read -a user_langs
 
         for LLL in "${user_langs[@]}"
@@ -536,7 +537,7 @@ case "$user_option" in
                 liblang="C++ cget"
             fi
 
-            printf "Enter library: "
+            printf "Enter library  (one per line): "
             read LIB
 
             if [ -z "$LIB" ]; then

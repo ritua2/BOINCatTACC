@@ -32,9 +32,10 @@ else
   fi
 fi  
 
-echo -n "What is the expected job turnaround time in minutes? The average job turnaround time on BOINC@TACC has been around 10 hours recently."
+echo -n "What is the expected job turnaround time in minutes? The average job turnaround time on BOINC@TACC has been around 10 hours recently. For testing BOINC@TACC, jobs with shorter than the average turnaround time will be accepted."
 read turnaroundtime
-if (( turnaroundtime > $(( $runtime*2 +600 )) )) ; then
+#if (( turnaroundtime > $(( $runtime*2 + 600 )) )) ; then
+if (( turnaroundtime > $(( $runtime*2 + 60)) )) ; then
   server="boinc"
 else
   if [ -n "$taccsys" ] ; then

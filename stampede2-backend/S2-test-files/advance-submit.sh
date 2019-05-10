@@ -18,9 +18,11 @@ if [ -n "$taccsys" ] ; then
 fi
 echo "Welcome to job submission script"
 echo "We are asking set of interactive questions so that we can judge the best run"
-echo -n "What is turnaround time in minute : "
-read turnaroundtime
-if (( turnaroundtime > 5 && turnaroundtime < 30 )) ; then
+
+
+echo -n "What is runtime time in minutes : "
+read runtime
+if (( runtime > 1 && runtime < 1440 )) ; then
   server="boinc"
 else
   if [ -n "$taccsys" ] ; then
@@ -28,17 +30,31 @@ else
   else
     server="stampede"
   fi
-fi	
-echo -n "What is the number of cores required for execution (jobs with 9 or more cores will be run on TACC systems) : "
-read reqcores
-if (( reqcores > 5 )) ; then
+fi  
+
+echo -n "What is turnaroundtime time in minutes : "
+read turnaroundtime
+if (( turnaroundtime > $(( $runtime*2 +600 )) )) ; then
+  server="boinc"
+else
   if [ -n "$taccsys" ] ; then
     server=$taccsys
   else
     server="stampede"
   fi
 fi
-echo -n "How much memory will be required for this job(in MB) (jobs with 2049 or more MB usage will be run on TACC systems) : "
+
+echo -n "What is the number of cores required for execution (jobs with 5 or more cores will be run on TACC systems) : "
+read reqcores
+if (( reqcores > 4 )) ; then
+  if [ -n "$taccsys" ] ; then
+    server=$taccsys
+  else
+    server="stampede"
+  fi
+fi
+
+echo -n "How much memory will be required for this job (in MB) (jobs with 2049 or more MB usage will be run on TACC systems) : "
 read reqmemory
 if (( reqmemory > 2048 )) ; then
   if [ -n "$taccsys" ] ; then
@@ -77,6 +93,11 @@ fi
 case $server in
   boinc)
 	#!/bin/bash
+
+
+
+printf "Your job has been selected for BOINC. Since BOINC is built using volunteer resources, we cannot guarantee your job turnaroundtime time of ""$turnaroundtime"" min\n\n"
+
 
 printf "Welcome to Boinc job submission\n\n"
 printf "NOTE: NO MPI jobs distributed accross more than one volunteer, No jobs with external downloads while the job is running (no curl, wget, rsync, ..).\n"
@@ -173,30 +194,30 @@ declare -A dockapps
 dockapps=( ["autodock-vina"]="carlosred/autodock-vina:latest" ["bedtools"]="carlosred/bedtools:latest" ["blast"]="carlosred/blast:latest"
            ["bowtie"]="carlosred/bowtie:built" ["gromacs"]="carlosred/gromacs:latest"
            ["htseq"]="carlosred/htseq:latest" ["mpi-lammps"]="carlosred/mpi-lammps:latest" ["namd"]="carlosred/namd-cpu:latest"
-           ["opensees"]="carlosred/opensees:latest" ["CUDA"]="carlosred/gpu:cuda")
+           ["opensees"]="carlosred/opensees:latest" ["CUDA"]="carlosred/gpu:cuda" ["OpenFOAM6"]="carlosred/openfoam6:latest")
 
-numdocks=(1 2 3 4 5 6 7 8 9 10)
+numdocks=(1 2 3 4 5 6 7 8 9 10 11)
 docknum=( ["1"]="autodock-vina" ["2"]="bedtools" ["3"]="blast"
            ["4"]="bowtie" ["5"]="gromacs"
            ["6"]="htseq" ["7"]="mpi-lammps" ["8"]="namd"
-           ["9"]="opensees" ["10"]="CUDA")
+           ["9"]="opensees" ["10"]="CUDA" ["11"]="OpenFOAM6")
 
 # Extra commands before each app
 dockcomm=( ["1"]="" ["2"]="" ["3"]=""
            ["4"]="" ["5"]="source /usr/local/gromacs/bin/GMXRC.bash "
            ["6"]="" ["7"]="" ["8"]=""
-           ["9"]="" ["10"]="nvcc --version; ")
+           ["9"]="" ["10"]="nvcc --version " ["11"]="source /opt/OpenFOAM/OpenFOAM-6/etc/bashrc ")
 
 # Some images don't accept curl, so they will use wget
 curl_or_wget=( ["1"]="curl -O" ["2"]="wget " ["3"]="wget " 
             ["4"]="curl -O " ["5"]="curl -O " ["6"]="curl -O " 
-            ["7"]="curl -O " ["8"]="curl -O " ["9"]="curl -O " ["10"]="curl -O ")
+            ["7"]="curl -O " ["8"]="curl -O " ["9"]="curl -O " ["10"]="curl -O " ["11"]="curl -O ")
 
-# Some images require the adtd-p protocol, whereas others do not
+# Some images require the VolCon, whereas others do not
 exwith=( ["1"]="boinc2docker" ["2"]="boinc2docker" ["3"]="boinc2docker"
            ["4"]="boinc2docker" ["5"]="boinc2docker"
            ["6"]="boinc2docker" ["7"]="boinc2docker" ["8"]="boinc2docker"
-           ["9"]="boinc2docker" ["10"]="adtdp")
+           ["9"]="boinc2docker" ["10"]="adtdp" ["11"]="boinc2docker")
 
 
 # Tags for TACC-provided images
@@ -212,7 +233,8 @@ apptags=(
                 ["7"]="CHEMISTRY"
                 ["8"]="CHEMISTRY"
                 ["9"]="ENGINEERING STRUCTURES"
-                ["10"]="GPU")
+                ["10"]="GPU"
+                ["11"]="ENGINEERING")
 
 
 ########################################
@@ -235,7 +257,11 @@ case "$user_option" in
         printf "\nSubmitting a BOINC job to a known image, select the image below:\n"
 
         # All the options
-        printf "  1 Autodock-vina\n  2 Bedtools\n  3 Blast\n  4 Bowtie\n  5 Gromacs\n  6 HTSeq\n  7 MPI-LAMMPS\n  8 NAMD\n  9 OpenSEES\n  10 CUDA\n"
+        for key in "${!docknum[@]}"
+        do
+            printf "    $key) ${docknum[$key]}\n"
+        done
+
         printf "Enter option number: "
         read option2
 
@@ -359,6 +385,69 @@ case "$user_option" in
 
         printf "\n${GREENGREEN}Files succesfully uploaded to BOINC server${NCNC}\n"
 
+
+        # If a user has multiple commands prepared, it submits those
+        printf "Do you want to submit multiple commands for this application using an input file (one line per command) [y if yes]?: "
+        read multiple_commands
+
+        if [ "$multiple_commands" = "y" ]; then
+
+            printf "\nEnter input file name: "
+            read multicom_file
+
+            if [ ! -f "$multicom_file" ]; then
+                printf "${REDRED}File ""$multicom_file"" does not exist, program exited${NCNC}\n"
+                exit 0
+            fi
+
+            cat "$multicom_file" | while read line
+            do
+
+                # Checks for empty lines
+                if [ -z "$line" ]; then
+                    continue
+                fi
+
+                # Checks for commands
+                if [ $(echo "$line" | head -c 1) = "#" ]; then
+                    continue
+                fi
+
+                previous_command="$user_command"
+
+                # For all others, splits the command 
+                IFS=';' read -r -a mcom <<< "$line"
+
+                for COM in "${mcom[@]}"
+                do
+                    if [ -z "${dockcomm[$option2]}" ]; then
+                        previous_command="$previous_command $COM;"
+                        continue
+                    fi
+
+                    previous_command="$previous_command ${dockcomm[$option2]} && "
+                    previous_command="$previous_command $COM;"
+                done
+
+                previous_command="$previous_command python /Mov_Res.py\""
+
+                printf "$user_app  $previous_command" > BOINC_Proc_File.txt
+
+                cat BOINC_Proc_File.txt
+                printf "\n"
+
+                # Uploads the command to the server
+                curl -F file=@BOINC_Proc_File.txt -F app=$boapp -F "$main_topic""=""$sub_topic"  http://$SERVER_IP:5075/boincserver/v2/submit_known/token=$TOKEN
+                rm BOINC_Proc_File.txt
+                printf "\n"    
+
+            done
+            exit
+        fi
+
+
+
+        printf "\n\nSelected one job submission:\n\n"
 
         # Asks the user for the lists of commands
         printf "\nEnter the list of commands, one at a time, as you would in the program itself (empty command to end):\n"

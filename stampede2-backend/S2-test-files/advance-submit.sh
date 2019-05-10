@@ -241,8 +241,8 @@ apptags=(
 ########################################
 
 allowed_OS=("Ubuntu_16.04")
-allowed_languages=("c" "c++" "python" "python3" "fortran" "r" "bash" )
-languages_with_libs=("python" "python3" "c++")
+allowed_languages=("C" "C++" "Python" "Python3" "Fortran" "R" "bash" )
+languages_with_libs=("Python" "Python3" "C++")
 
 
 

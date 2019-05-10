@@ -97,8 +97,8 @@ case $server in
 printf "Your job is qualified to run on BOINC@TACC. Since BOINC@TACC relies on volunteered computing resources, we cannot guarantee your job turnaround time of ""$turnaroundtime"".\n\n"
 
 
-printf "Welcome to Boinc job submission\n\n"
-printf "NOTE: NO MPI jobs distributed accross more than one volunteer, No jobs with external downloads while the job is running (no curl, wget, rsync, ..).\n"
+printf "Welcome to BOINC@TACC job submission\n\n"
+printf "NOTE: NO MPI jobs distributed accross more than one volunteer are supported. No jobs with external downloads while the job is running (no curl, wget, rsync, ..) are supported.\n"
 # Server IP or domain must be declared before
 SERVER_IP='boinc.tacc.utexas.edu'
 
@@ -111,7 +111,7 @@ PURPLEPURPLE='\033[1;35m'
 NCNC='\033[0m' # No color
 
 
-printf "Enter email to which send results: "
+printf "Enter the email id to which the results should be sent: "
 read userEmail
 
 

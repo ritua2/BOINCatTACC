@@ -543,7 +543,7 @@ case "$user_option" in
 
 
         # In case the user provides their own README
-        printf "\nAre you providing a pre-compiled tar file (including README.txt) for MIDAS use in this directory?[y/n]\n"
+        printf "\nAre you providing an existing tar file (including README.txt) for MIDAS use in this directory?[y/n]\n"
         read README_ready
         if [[ "${README_ready,,}" = "y" ]]; then
 
@@ -706,9 +706,8 @@ case "$user_option" in
 
 
         comfiles=()
-        printf "\n\nEnter the ${PURPLEPURPLE}commands${NCNC} below, leave empty to exit section:\n"
+        printf "\n\nEnter the ${PURPLEPURPLE} compilation and runtime commands${NCNC} below, leave empty to exit section:\n"
         printf "NOTE: If you wish to specify compilation and run instructions, please write them into a bash file, then select language bash, and provide the filename in the next prompt\n\n"
-
 
         while true
         do
@@ -725,7 +724,7 @@ case "$user_option" in
                 exit 0
             fi
 
-            printf "Enter file for command: "
+            printf "Enter the name of the program file to use in the compile command: "
             read comfil
             if [[ -z "$comfil" || ! -f $comfil ]]; then
                 printf "${REDRED}File $comfil does not exist${NCNC}\n"
@@ -787,7 +786,7 @@ case "$user_option" in
                         printf "Enter any other flags or inputs (as is): "
                         read other_flags
                         if [ ! -z "$other_flags" ]; then
-                            printf '2 for after file (i.e. gcc myfile -lgmp), any other for before: '
+                            printf 'Enter 2 for adding the flag after the file (i.e., gcc myfile.c -lgmp), and 1 for adding the flag before the file name: '
                             read flagorder
 
                             if [ "$flagorder" = "2" ]; then
@@ -1083,4 +1082,3 @@ esac
     ;;
 esac
 #done
-	

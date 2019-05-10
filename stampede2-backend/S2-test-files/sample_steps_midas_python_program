@@ -1,0 +1,75 @@
+staff(1106)$ ./advance-submit.sh 
+Let us determine if your job qualifies for BOINC@TACC or not.
+What is anticipated job runtime in minutes? 1
+What is the expected job turnaround time in minutes? The average job turnaround time on BOINC@TACC has been around 10 hours recently.1000
+How many cores are needed? Jobs with 5 or more cores will be run on TACC systems.1
+How much memory is required for this job (in MB)? Jobs with 2049 or more MB usage will be run on TACC systems.1
+Based upon your responses, your job qualifies to run on boinc clients
+Do you want to proceed to run the job on BOINC server [y/n] ? y
+Your job is qualified to run on BOINC@TACC. Since BOINC@TACC relies on volunteered computing resources, we cannot guarantee your job turnaround time of 1000.
+
+Your job has been selected for BOINC. Since BOINC is built using volunteer resources, we cannot guarantee your job turnaroundtime time of 1000 min
+
+Welcome to Boinc job submission
+
+NOTE: NO MPI jobs distributed accross more than one volunteer, No jobs with external downloads while the job is running (no curl, wget, rsync, ..).
+Enter the email id to which the results should be sent: rauta@tacc.utexas.edu
+
+User email already in database
+BOINC connection established
+The allowed options are below:
+   1  Submitting a BOINC job from TACC supported docker images using local files in this machine
+   2  Submitting a file with a list of commands from an existing dockerhub image (no extra files on this machine)
+   3  Submitting a BOINC job from a set of commands (source code, input local files) (MIDAS)
+Enter your selected option: 3
+
+MIDAS job submission
+WARNING MIDAS is designed for prototyping only, not for continuous job submission
+For large scale job submission, use options 1 and 2
+
+--------------------
+Allowed OS:
+Ubuntu_16.04
+Allowed languages:
+   c   c++   python   python3   fortran   r   bash
+* python refers to python 3, since python2 is not accepted for MIDAS use
+--------------------
+Are you providing a pre-compiled tar file (including README.txt) for MIDAS use in this directory?[y/n]
+n
+Enter OS:
+Ubuntu_16.04
+Enter languages used (space-separated):
+python
+
+Libraries
+As of now, only the following languages accept libraries:
+ python(3)   c++ (using cget)
+Leave empty and press enter to skip or exit this prompt:
+
+Enter language: python
+Enter library: numpy
+Enter language: python
+Enter library: scipy
+Enter language: python
+Enter library: matplotlib
+Enter language: 
+
+
+
+Enter list of local directories used (each in a new line, leave empty to exit):
+WARNING Local directories will maintain local structure in BOINC, MIDAs will automatically untar them
+
+No more directories have been added
+
+Enter the setup files (one per line), leave empty to exit:
+
+
+
+Enter the commands below, leave empty to exit section:
+Enter language: python
+Enter the name of the program file to use in the compile command: voronoi.py
+Enter language: 
+Enter output files or ALL, leave empty to exit: ALL
+
+Enter a topic, leave empty to exit: 
+File submitted for processing

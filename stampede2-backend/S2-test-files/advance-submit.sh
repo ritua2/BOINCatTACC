@@ -5,22 +5,22 @@ taccsys=$TACC_SYSTEM
 if [ -n "$taccsys" ] ; then
     hostnm=$HOSTNAME
     slurmpresent=$(sbatch --version|tail -1)
-    echo "$hostnm , $taccsys , $slurmpresent"
+    #echo "$hostnm , $taccsys , $slurmpresent"
     if [[ $slurmpresent = *"slurm"* ]]; then
-	echo "Slurm has been found"
-	slurmpresent=y
+        #echo "Slurm has been found"
+        slurmpresent=y
     else
-	echo "There is no slurm job scheduler in this machine"
-	echo "We will ask questions to determine if your job qualifies to run on Boinc clients"
-	slurmpresent=n
+        echo "There is no slurm job scheduler on this system."
+        echo "We will ask you some questions to determine if your job qualifies to run through BOINC@TACC."
+        slurmpresent=n
     fi
-    echo "$hostnm , $taccsys , $slurmpresent"
+    #echo "$hostnm , $taccsys , $slurmpresent"
 fi
-echo "Welcome to job submission script"
-echo "We are asking set of interactive questions so that we can judge the best run"
+#echo "Welcome to job submission script"
+echo "Let us determine if your job qualifies for BOINC@TACC or not."
 
 
-echo -n "What is runtime time in minutes : "
+echo -n "What is anticipated job runtime in minutes? "
 read runtime
 if (( runtime > 1 && runtime < 1440 )) ; then
   server="boinc"
@@ -32,7 +32,7 @@ else
   fi
 fi  
 
-echo -n "What is turnaroundtime time in minutes : "
+echo -n "What is the expected job turnaround time in minutes? The average job turnaround time on BOINC@TACC has been around 10 hours recently."
 read turnaroundtime
 if (( turnaroundtime > $(( $runtime*2 +600 )) )) ; then
   server="boinc"
@@ -44,7 +44,7 @@ else
   fi
 fi
 
-echo -n "What is the number of cores required for execution (jobs with 5 or more cores will be run on TACC systems) : "
+echo -n "How many cores are needed? Jobs with 5 or more cores will be run on TACC systems."
 read reqcores
 if (( reqcores > 4 )) ; then
   if [ -n "$taccsys" ] ; then
@@ -54,7 +54,7 @@ if (( reqcores > 4 )) ; then
   fi
 fi
 
-echo -n "How much memory will be required for this job (in MB) (jobs with 2049 or more MB usage will be run on TACC systems) : "
+echo -n "How much memory is required for this job (in MB)? Jobs with 2049 or more MB usage will be run on TACC systems."
 read reqmemory
 if (( reqmemory > 2048 )) ; then
   if [ -n "$taccsys" ] ; then
@@ -85,7 +85,7 @@ if [ $server = "boinc" ]; then
   fi
 else
   if [ $slurmpresent == "n" ] ; then
-    echo "Based on questionnaire the job qualifies to run on TACC System but there is no Slurm job available"
+    echo "Based on your responses, the job should be run on an HPC platform."
     echo "Exiting..."
     exit 0
   fi
@@ -94,6 +94,7 @@ case $server in
   boinc)
 	#!/bin/bash
 
+printf "Your job is qualified to run on BOINC@TACC. Since BOINC@TACC relies on volunteered computing resources, we cannot guarantee your job turnaround time of ""$turnaroundtime"".\n\n"
 
 
 printf "Your job has been selected for BOINC. Since BOINC is built using volunteer resources, we cannot guarantee your job turnaroundtime time of ""$turnaroundtime"" min\n\n"
@@ -113,7 +114,7 @@ PURPLEPURPLE='\033[1;35m'
 NCNC='\033[0m' # No color
 
 
-printf "Enter email to which send results: "
+printf "Enter the email id to which the results should be sent: "
 read userEmail
 
 
@@ -706,6 +707,7 @@ case "$user_option" in
 
         comfiles=()
         printf "\n\nEnter the ${PURPLEPURPLE}commands${NCNC} below, leave empty to exit section:\n"
+        printf "NOTE: If you wish to specify compilation and run instructions, please write them into a bash file, then select language bash, and provide the filename in the next prompt\n\n"
 
 
         while true

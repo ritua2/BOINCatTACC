@@ -612,6 +612,7 @@ case "$user_option" in
 
         comfiles=()
         printf "\n\nEnter the ${PURPLEPURPLE}commands${NCNC} below, leave empty to exit section:\n"
+        printf "NOTE: If you wish to specify compilation and run instructions, please write them into a bash file, then select language bash, and provide the filename in the next prompt\n\n"
 
 
         while true

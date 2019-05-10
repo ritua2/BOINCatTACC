@@ -95,7 +95,7 @@ case $server in
   boinc)
 	#!/bin/bash
 
-printf "Your job is qualified to run on BOINC@TACC. Since BOINC@TACC relies on volunteered computing resources, we cannot guarantee your job turnaround time of ""$turnaroundtime"".\n\n"
+printf "Your job is qualified to run on BOINC@TACC. Since BOINC@TACC relies on volunteered computing resources, we cannot guarantee your job turnaround time of ""$turnaroundtime"" minutes.\n\n"
 
 
 printf "Welcome to BOINC@TACC job submission\n\n"

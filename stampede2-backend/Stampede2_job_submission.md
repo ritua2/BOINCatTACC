@@ -3,7 +3,7 @@
 
 
 #### **Prerequisites**  
-Instructions below require access to the TACC Stampede2 supercomputer  
+Instructions below should be run from Stampede2 or Lonestar5 supercomputers  
 
 
 

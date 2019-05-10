@@ -1,0 +1,4 @@
+python tester.py 1
+python tester.py 2
+python tester.py 3
+

@@ -28,6 +28,31 @@ echo '<center><h1>News</h1></center><br />';
 
 
 
+echo '<pre style="word-break:normal;white-space:normal;margin-left:20%;margin-right: 20%;"><style="text-align:left;"><p style="font-size:14px;font-weight: normal;"><span style="font-weight:bold;">'.tra('May 29th, 2019:').'</span>'.tra('Dear All,<br><br>
+
+We are happy to announce that we have TACC-branded gifts for top-10 volunteers as of May 29, 2019, calculated by recent average credit. If you are in the top-10 list - pasted below - and are comfortable in sharing your mailing address for receiving the gifts, please send your address to rauta@tacc.utexas.edu .<br><br>
+
+List of top-10 volunteers:<br><br>
+
+Rank Name<br>
+<b>1</b>  fsu95OTBmn<br>
+<b>2</b>  VqOBVSxU66<br>
+<b>3</b>  WIODAJAjcN<br>
+<b>4</b>  UagA6nNtYD<br>
+<b>5</b>  DrBob<br>
+<b>6</b>  a4luBHEdoa<br>
+<b>7</b>  Hans Sveen<br>
+<b>8</b>  XXYjDCp4sK<br>
+<b>9</b>  eG7kHKxeTJ<br>
+<b>10</b> HOg09POs7b<br>
+<br>
+Thanks,<br><br>
+
+BOINC@TACC team').' </p>';
+
+echo '</style></pre></br>';
+
+
 echo '<pre style="word-break:normal;white-space:normal;margin-left:20%;margin-right: 20%;"><style="text-align:left;"><p style="font-size:14px;font-weight: normal;"><span style="font-weight:bold;">'.tra('April 18th, 2019:').'</span>'.tra('A manuscript on BOINC@TACC has been published by Springer. Thanks to all the volunteers for making it possible. More information about the article is available at  <a href="https://link.springer.com/chapter/10.1007/978-981-13-7729-7_8"> https://link.springer.com/chapter/10.1007/978-981-13-7729-7_8</a>').' </p>';
 
 echo '</style></pre></br>';

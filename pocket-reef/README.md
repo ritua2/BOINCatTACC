@@ -15,7 +15,7 @@ Pocket Reef is designed as a complement to a BOINC server, although it can also 
 **Instructions**  
 * Clone this current directory
 * Change directory
-* CHnage the Reef key (recommended)
+* Change the Reef key (recommended)
 * Set up the docker compose
 
 ```bash

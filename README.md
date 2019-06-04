@@ -64,7 +64,7 @@ URL_BASE=http://IP_ADDRESS docker-compose up -d
 ```bash
 # Find the docker container
 docker ps
-docker exec -it boincserverdocker_apache_1 bash
+docker exec -it boinc-server-docker_apache_1 bash
 cd /home/boincadm/project/html/ops/
 htpasswd -c .htpasswd $NEWUSERNAME
 ```

@@ -21,7 +21,9 @@
 require_once("../inc/util.inc");
 require_once("../inc/user.inc");
 require_once("../inc/boinc_db.inc");
+require_once("../inc/deanonymize_user.inc");
 require_once("../inc/forum.inc");
+
 
 
 check_get_args(array());
@@ -57,6 +59,27 @@ echo'<br><br>';
 echo '<font size=+3 style ="position:relative; left:36%;">'.tra("Your Account").'</font>';//Repositions the `Your Account` (user) text on the webpage
 
 show_account_private($user);
+$real_username = $user->name;
+
+
+// If the user is currently using an anonymous username
+if (using_anonymous_username($real_username)){
+
+    echo "<form action=\"deanonymize_action.php\" method=\"post\">";
+    echo '<input type="hidden" name="action" value="change">';
+    echo "<input type=\"submit\" value=\"Anonymous, click here to show real username\" name=\"show_real_username\"></form>";
+    echo '</td></tr>';
+
+} else {
+
+    echo "<form action=\"deanonymize_action.php\" method=\"post\">";
+    echo '<input type="hidden" name="action" value="change">';
+    echo "<input type=\"submit\" value=\"Using real username, click here to show an anonymous username\" name=\"show_anonymous_username\"></form>";
+    echo '</td></tr>';
+}
+
+
+
 
 page_tail();
 

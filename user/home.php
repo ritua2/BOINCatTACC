@@ -58,26 +58,32 @@ if ($init) {
 echo'<br><br>';
 echo '<font size=+3 style ="position:relative; left:36%;">'.tra("Your Account").'</font>';//Repositions the `Your Account` (user) text on the webpage
 
-show_account_private($user);
+
 $real_username = $user->name;
 
 
 // If the user is currently using an anonymous username
 if (using_anonymous_username($real_username)){
-
     echo "<form action=\"deanonymize_action.php\" method=\"post\">";
-    echo '<input type="hidden" name="action" value="change">';
-    echo "<input type=\"submit\" value=\"Anonymous, click here to show real username\" name=\"show_real_username\"></form>";
-    echo '</td></tr>';
+    echo '<input type="hidden" name="action" value="change"><label for "action"> Click the following button to display your real username on the public profile: </label>';
+    echo "<input type=\"submit\"  value=\"show real username\" name=\"show_real_username\"></form>";
+
 
 } else {
 
     echo "<form action=\"deanonymize_action.php\" method=\"post\">";
-    echo '<input type="hidden" name="action" value="change">';
-    echo "<input type=\"submit\" value=\"Using real username, click here to show an anonymous username\" name=\"show_anonymous_username\"></form>";
-    echo '</td></tr>';
+    echo '<input type="hidden" name="action" value="change"><label for "action"> Click the following button to display an anonymous username on the public profile: </label>'';
+    echo "<input type=\"submit\" value=\"show anonymous username\" name=\"show_anonymous_username\"></form>";
 }
 
+
+// Allows to change preferences for exporting data
+echo "<form action=\"deanonymize_action.php\" method=\"post\">";
+echo '<input type="hidden" name="action" value="change">';
+echo "<input type=\"submit\" value=\"Using real username, click here to display an anonymous username in the message boards\" name=\"export_stats\"></form>";
+echo '</td></tr>';
+
+show_account_private($user);
 
 
 

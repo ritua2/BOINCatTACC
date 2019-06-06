@@ -31,7 +31,7 @@ cursor.execute("""
     Image             VARCHAR(255),
     mirror_ip         VARCHAR(255),
     Notified          VARCHAR(255),
-    public              bool,
+    public            bool,
     priority          VARCHAR(255),
     received_time     DATETIME,
     status            VARCHAR(255),
@@ -78,9 +78,10 @@ cursor.execute("""
 # Random name table
 cursor.execute("""
     CREATE TABLE screen_name_anonymization (
-        name VARCHAR(254),
-        random_name VARCHAR (254),
-        original_random_name VARCHAR (254)
+        name                  VARCHAR(255),
+        random_name           VARCHAR (255),
+        original_random_name  VARCHAR (255),
+        export_stats          bool,
     )
     """)
 

@@ -72,7 +72,7 @@ if (using_anonymous_username($real_username)){
 } else {
 
     echo "<form action=\"deanonymize_action.php\" method=\"post\">";
-    echo '<input type="hidden" name="action" value="change"><label for "action"> Click the following button to display an anonymous username on the public profile: </label>'';
+    echo '<input type="hidden" name="action" value="change"><label for "action"> Click the following button to display an anonymous username on the public profile: </label>';
     echo "<input type=\"submit\" value=\"show anonymous username\" name=\"show_anonymous_username\"></form>";
 }
 

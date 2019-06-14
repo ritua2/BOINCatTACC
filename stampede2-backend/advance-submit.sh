@@ -432,7 +432,7 @@ case "$user_option" in
 
                 previous_command="$previous_command python /Mov_Res.py\""
 
-                printf "$user_app  $previous_command" > BOINC_Proc_File.txt
+                printf "$previous_command" > BOINC_Proc_File.txt
 
                 cat BOINC_Proc_File.txt
                 printf "\n"

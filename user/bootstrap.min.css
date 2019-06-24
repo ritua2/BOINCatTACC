@@ -14,12 +14,15 @@
   position: absolute;
   left:0;
   right:0;
-  background-color: #174b63;
+  background-color: #003399;
   border: none;
   border-radius: 0px;
   z-index: 6;
-  font-weight: bold;
-  font-size: 1.2em;
+  font-weight: normal;
+  font-size: 1em;
+  text-transform: uppercase;
+  margin:0px;
+  padding:0px;
  }
 
 .navbar-default .navbar-brand {
@@ -45,7 +48,7 @@
 }
 
 .navbar-default .navbar-nav > li > .dropdown-menu {
-  background-color: #174b63;
+  background-color: #003399;
 }
 
 .navbar-default .navbar-nav > li > .dropdown-menu > li > a {
@@ -54,41 +57,41 @@
 
 .navbar-default .navbar-nav > li > .dropdown-menu > li > a:hover,
 .navbar-default .navbar-nav > li > .dropdown-menu > li > a:focus {
-  color: #174b63;
+  color: #003399;
 }
 
 .navbar-default .navbar-nav > li > .dropdown-menu > li.divider {
-  background-color: #174b63;
+  background-color: #003399;
 }
 
 .navbar-default .navbar-nav .open .dropdown-menu > .active > a,
 .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,
 .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
   color: #ffffff;
-  background-color: #174b63;
+  background-color: #003399;
 }
 
 .navbar-default .navbar-nav > .active > a,
 .navbar-default .navbar-nav > .active > a:hover,
 .navbar-default .navbar-nav > .active > a:focus {
   color: #ffffff;
-  background-color: #174b63;
+  background-color: #003399;
 }
 
 .navbar-default .navbar-nav > .open > a,
 .navbar-default .navbar-nav > .open > a:hover,
 .navbar-default .navbar-nav > .open > a:focus {
   color: #ffffff;
-  background-color: #174b63;
+  background-color: #003399;
 }
 
 .navbar-default .navbar-toggle {
-  border-color: #174b63;
+  border-color: #003399;
 }
 
 .navbar-default .navbar-toggle:hover,
 .navbar-default .navbar-toggle:focus {
-  background-color: #174b63;
+  background-color: #003399;
 }
 
 .navbar-default .navbar-toggle .icon-bar {
@@ -120,13 +123,13 @@
   .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,
   .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
     color: #ffffff;
-    background-color: #174b63;
+    background-color: #003399;
   }
 }
 
 .btn-success, .btn-success:hover, .btn-success:focus, .btn-success:hover:disabled
 , .btn-success:active, .btn-success:visited{
-	background-color: #174b63;
-	border-color: #174b63;
+	background-color: #003399;
+	border-color: #003399;
 }
 /*End of the edit by Joshua*/

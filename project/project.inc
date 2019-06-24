@@ -37,6 +37,8 @@ define("IMAGE_URL", "user_profile/images/");
 define("PROFILE_PATH", "../user_profile/");
 define("PROFILE_URL", "user_profile/");
 define("LANGUAGE_FILE", "languages.txt");
+define("SECURE_URL_BASE", "https://boinc-dev.tacc.utexas.edu/");
+
 
 //-------------- contact info
 
@@ -142,9 +144,10 @@ function make_php_mailer() {
 //For getting the footer to stay down on the page
 //https://css-tricks.com/fun-viewport-units/
 function project_banner($title, $prefix, $is_main) {
-    echo '<div class="container-fluid">
+    echo '<div class="container-fluid" style="background-color:#003399; margin-left:-15px; margin-right:-15px; margin-bottom:0px; padding-bottom:0px; padding-top:10px;">
     <!--<div class="row">-->
-  <div class="col-md-6" style=" margin-left: -2%;margin-top:1%;">
+<a href="/index.php"><img class="img-responsive" style="float: left; margin:2px 0px -5px 27px; padding: 0px; height:50px;" src="https://www.tacc.utexas.edu/documents/1084364/1748789/boinc-white.png/" /></a>
+<!--  <div class="col-md-6" style=" margin-left: -2%;margin-top:1%;">
 
 <a href="index.php" class="svg"><img class="img-responsive" src="./img1/boincattacc3x.png" style="margin-top: .5em;max-width:400px;height:58px;"></a>
 
@@ -156,7 +159,7 @@ function project_banner($title, $prefix, $is_main) {
           <a href="https://www.tacc.utexas.edu/">
         <img class="img-responsive" style="width: 230px; position: absolute; top: 4px; right: -50px; float: right;" src="./img1/taccLogo.png" alt="TACC Logo">
           </a>
-    </div>
+    </div>-->
     <!--</div>-->
         </div>
                     ';
@@ -300,35 +303,51 @@ End of the Edit by Joshua*/
 <!-- </div> -->
         <!-- Small Summary about Boinc -->
 
-    <img class="img-responsive" style="margin-top:2.9%; height: 23vh;width: 100%;" src="img1/stampedecropped_1.jpg">
-        <div class="container-fluid" style="position: relative;
-  /*Edited by Joshua: Increase the z-index so that the tooltip can be fully shown to the screen*/
-  z-index: 5;/*End of the edit by Joshua*/
-  top: 30%;
-  left: 0%;
-  right: 3%;
-  text-align: left;
-  /*font-weight:bold;Commented out for font size responsive to viewport size (Thomas Johnson)*/
-  font-size: 1.2em;
-  background-color: #E9E9E9;
-  /*opacity: 0.75*/
-  filter: alpha(opacity=50);
-  padding: 1em;
-  border-radius: 0px;">
+   <!-- <img class="img-responsive" style="margin-top:2.9%; height: 23vh;width: 100%;" src="img1/stampedecropped_1.jpg">-->
+<div class="container-fluid" style="position: relative; z-index: 5; 
+margin:-7px -36px 15px -36px; 
+padding:45px 76px 35px 76px; 
+text-align: left; 
+font-size: 1.2em; 
+background-color: #d6d3c4;
+filter: alpha(opacity=50);
+border-radius: 0px;">
 
-      <div class="col-md-12">
-            <div  class="col-md-6" style="border-right:solid black;">
-                <!-- Edited by Ritu, Joshua: Updated the text to BOINC@TACC -->
-                <span style="font-weight:normal;font-size:calc(12px + (22 - 12) * ((100vw - 300px) / (3000 - 300)));"><p><b>What is BOINC@TACC? </b> It is a project based on the <a class="popup" data-toggle="tooltip" onclick="myFunction()" style="border-bottom: 1px dotted #000;text-decoration: none;">Volunteer Computing (VC)<span class="popuptext" style="left: 70%;" id="Popup"><span class="close">&times;</span>Volunteer Computing (VC) is a computing paradigm that helps individuals and projects to use donated remote resources for doing computations.</span></a> model. It helps <a href="https://www.tacc.utexas.edu/" target="_blank">TACC</a>/<a href="https://xsede.org" target="_blank">XSEDE</a> researchers in running applications from a wide range of scientific domains (such as, aerospace engineering, computational biology, and earthquake engineering) on the laptops, desktops, tablets, or cloud-based Virtual Machines (VMs) owned by <a  class="popup" data-toggle="tooltip" onclick="myFunction2()" style="border-bottom: 1px dotted #000;text-decoration: none;"> volunteers <span class="popuptext" id="Popup2"> <span class="close">&times;</span>The volunteers allow the BOINC@TACC project to run researchers\' software applications on their computers. Any individual or institution interested in supporting scientific research is invited to join the BOINC@TACC project as a volunteer. They would need to sign-up for the project, and may need to download a software.</span></a>.
-
-                <p><p> <b>How can volunteers help?</b> Volunteers can help scientific research by signing up for the BOINC@TACC project and allowing it to run applications on their computers and VMs. They may also need to download the required software from this website. To volunteer, <a href="./join.php" class="btn btn-success">join BOINC@TACC </a> after reading the <a href="https://boinc.tacc.utexas.edu/info.php" class="btn btn-success" target="_blank">project policies</a>.</span></div>            
-                <div class="col-md-6"><span style="font-weight:normal;font-size:calc(12px + (22 - 12) * ((100vw - 300px) / (3000 - 300)));"><p><b>How do researchers benefit? </b>This project helps the <a class="popup" data-toggle="tooltip" onclick="myFunction3()" style="border-bottom: 1px dotted #000;text-decoration: none;">researchers <span class="popuptext" style="left: 70%;" id="Popup3"><span class="close">&times;</span>All active users of TACC resources are eligible to run jobs through the BOINC@TACC infrastructure and qualify as researchers.</span></a> in supplementing the compute-cycles available through their <a href="https://portal.tacc.utexas.edu/allocations-overview" target="_blank">TACC</a>/<a href="https://portal.xsede.org" target="_blank">XSEDE</a> allocations. With BOINC@TACC, they can run small high-throughput computing jobs, that involve small amounts of data transfer and processing, without spending their active allocations. <i>For details on using the BOINC@TACC infrastructure, please click <a href="./how_to_use_TACC-2-BOINC.php">here</i></a>.</p>
-                <p><b>How is BOINC@TACC implemented? </b> It leverages the <a  class="popup" data-toggle="tooltip" onclick="myFunction4()" style="border-bottom: 1px dotted #000;text-decoration: none;">BOINC <span class="popuptext" style="left: -150%; top:=0%;" id="Popup4"> <span class="close">&times;</span>BOINC is an open-source software platform for volunteer computing and it has a client-server architecture. Once a BOINC client is downloaded on a device (desktop, laptop, phone, tablet, or a VM running in the cloud) owned by a volunteer or an institution, the BOINC server running at TACC will start sending computational tasks to the client when it is plugged in to the power supply and is available to accept tasks. Upon the completion of the tasks, the results are gathered from the clients participating in the computations, and are uploaded to the BOINC server, from where they are then forwarded to the researchers.</span></a> middleware and extends it to 1) support the job submissions from supercomputers, 2) use the VMs in the cloud, and 3) automatically create Docker images of the source-code written in selected languages. The project\'s source code is available on <a href="https://github.com/ritua2/BOINCatTACC">Github</a>.</span>
-                <!--End of the edit by Joshua -->
-      </div>
-      </div>
-
+<div class="col-md-12">
+        <div  class="col-md-6">
+    <h1 style="margin-top:7px;">VOLUNTEER COMPUTING</h1>
+        <p>Contribute your extra computing power to open science. By running BOINC while your system is idle you will be powering discoveries that change the world.</p>
+        <br />
+    <p><a href="/create_account_form.php"><span style="padding:20px; border: solid 1px #000000; text-decoration: none;">JOIN BOINC&#64;TACC</span></a></p>
+<br /><!--<p>Already joined? <a href="">Login Now!</a></p>--></div>
+    <div  class="col-md-6">
+    <img src="https://www.tacc.utexas.edu/documents/1084364/1748789/stampede-boinc.jpg/" class="img-responsive" />
+    </div>
         </div>
+</div>
+
+<div class="container-fluid" style="position: relative; z-index: 5; 
+margin:0px 0px -10px 0px;
+padding:20px 40px 5px 40px;
+text-align: left;
+font-size: 1em;
+background-color: #ffffff;
+filter: alpha(opacity=50);
+border-radius: 0px;">
+
+<div class="col-md-12">
+        <div  class="col-md-6">
+        <p><b>What is BOINC&#64;TACC?</b><br />It is a project based on the Volunteer Computing (VC)  model. It helps TACC/XSEDE researchers in running applications from a wide range of scientific domains (such as, aerospace engineering, computational biology, and earthquake engineering) on the laptops, desktops, tablets, or cloud-based Virtual Machines (VMs) owned by volunteers.</p>
+    <p><b>How can volunteers help?</b><br />Volunteers can help scientific research by signing up for the BOINC&#64;TACC project and allowing it to run applications on their computers and VMs. They may also need to download the required software from this website. To volunteer, <b><a href="/create_account_form.php">join BOINC&#64;TACC</a></b> after reading the <b><a href="/info.php">project policies</a></b>.</p>
+        </div>
+        <div  class="col-md-6">
+<p><b>How do researchers benefit?</b><br />This project helps the  in supplementing the compute-cycles available through their <a href="https://portal.tacc.utexas.edu/allocations-overview" target="_blank">TACC</a>/<a href="https://portal.xsede.org/" target="_blank">XSEDE</a> allocations. With BOINC&#64;TACC, researchers can run small high-throughput computing jobs that involve small amounts of data transfer and processing without spending their active allocations. For details on using the BOINC&#64;TACC infrastructure, <a href="/how_to_use_TACC-2-BOINC.php">click here</a>.</p>
+<p><b>How is BOINC&#64;TACC implemented?</b><br />
+It leverages the middleware and extends it to support the job submissions from supercomputers, uses the VMs in the cloud, and automatically creates Docker images of the source-code written in selected languages. The project source code is available on <a href="https://github.com/ritua2/BOINCatTACC" target="_blank">Github</a>.</p>        </div>
+        </div>
+</div>
+
+
     ';//water.jpg was a placeholder
     }
     /*
@@ -356,18 +375,12 @@ function project_footer($show_return, $show_date, $prefix) {
     //https://css-tricks.com/fun-viewport-units/
     echo '
     <div id="footer">
-        <footer style="position:relative; margin-left: -15px; margin-right: -15px; bottom: 0;left:0; right:0; background-color: #174b63; padding: 10px; text-align:center; color:#fff;height=105px;">
+        <footer style="position:relative; margin-left: -15px; margin-right: -15px; margin-bottom: 0px; margin-top:0px; background-color: #323f48; padding: 15px 10px 15px 30px; text-align:center; color:#fff;height=105px;">
         <div class="container-fluid">
-                        <span style="font-size:20px; font-weight:bold;"> This project has been generously funded by the National
- Science Foundation (NSF) Award #1664022.
-                <a href="https://www.nsf.gov/">
-                                                <img class="nsfLogo" src="./img1/nsf.jpg" width="65" height="65" alt="NSF Logo">
-                                        </a>
-                        </span>
-                <div class="container-fluid">
-                <span> &copy;'.gmdate("Y ").COPYRIGHT_HOLDER.'</span>
-                </div>
-        </div>
+<a href="https://www.nsf.gov/"><img class="nsfLogo" src="./img1/nsf.jpg" width="65" height="65" alt="NSF Logo" style="float:left; border:none; margin-right:10px; margin-top"></a>
+<p style="margin:13px 5px 5px 5px; font-size:12px; font-weight:bold; text-align:left; color: #cccccc;"> BOINC@TACC has been generously funded by <a href="https://www.nsf.gov/awardsearch/showAward?AWD_ID=1664022&HistoricalAwards=false" style="color: #cccccc;" target="_blank">NSF award #1664022</a></p>
+<p style="margin:5px; font-size:12px; text-align:left; color: #cccccc;">&copy;2019 All Rights Reserved &nbsp;|&nbsp; <a href="https://boinc.berkeley.edu/" style="color: #cccccc;" target="_blank">BOINC</a> &nbsp;|&nbsp; <a href="https://www.tacc.utexas.edu/" style="color: #cccccc;" target="_blank">TACC</a> &nbsp;|&nbsp; <a href="https://www.utexas.edu/" style="color: #cccccc;" target="_blank">University of Texas at Austin</a></p>
+    </div>
         </footer>
         </div>
     ';

@@ -87,11 +87,18 @@ function make_user(
     $randomName = sanitize_tags($randomName);
     $randomName = BoincDb::escape_string($randomName);
 
+
+    // Creates a second random name to ensure email verification
+    $random_email_verification = (string)generateRandomString();
+    $random_email_verification = sanitize_tags($random_email_verification);
+    $random_email_verification = BoincDb::escape_string($random_email_verification);
+
+
     //Insert the new user into screen_name_anonymization table
     $uid = BoincUser::insert("(name, random_name, original_random_name) values('$name', '$randomName', '$randomName')", "screen_name_anonymization");
     //End of the edit by Joshua
 
-    $uid = BoincUser::insert("(create_time, email_addr, name, authenticator, country, postal_code, total_credit, expavg_credit, expavg_time, project_prefs, teamid,  venue, send_email, show_hosts, posts, seti_id, seti_nresults, seti_last_result_time, seti_total_cpu, has_profile, cross_project_id, passwd_hash, email_validated, donated) values($now, '$email_addr', '$name', '$authenticator', '$country', '$postal_code', 0, 0, unix_timestamp(), '$project_prefs', $teamid, '', 1, 1, 0, 0, 0, 0, 0, 0, '$cross_project_id', '$passwd_hash', 0, 0)");
+    $uid = BoincUser::insert("(create_time, email_addr, name, authenticator, country, postal_code, total_credit, expavg_credit, expavg_time, project_prefs, teamid,  venue, send_email, show_hosts, posts, seti_id, seti_nresults, seti_last_result_time, seti_total_cpu, has_profile, cross_project_id, passwd_hash, email_validated, donated, validation_key) values($now, '$email_addr', '$name', '$authenticator', '$country', '$postal_code', 0, 0, unix_timestamp(), '$project_prefs', $teamid, '', 1, 1, 0, 0, 0, 0, 0, 0, '$cross_project_id', '$passwd_hash', 0, 0, '$random_email_verification')");
     
     if (!$uid) {
         return null;

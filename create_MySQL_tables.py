@@ -79,17 +79,18 @@ cursor.execute("""
 cursor.execute("""
     CREATE TABLE screen_name_anonymization (
         name                  VARCHAR(255),
-        random_name           VARCHAR (255),
-        original_random_name  VARCHAR (255),
-        export_stats          bool,
+        random_name           VARCHAR(255),
+        original_random_name  VARCHAR(255),
+        export_stats          VARCHAR(255),
+        email_id              VARCHAR(254),
     )
     """)
 
-
-# Random name instructions
 cursor.execute("""
-    ALTER TABLE screen_name_anonymization ADD COLUMN (email_id VARCHAR (254))
+    ALTER TABLE user ADD COLUMN validation_key VARCHAR(255)  AFTER email_validated
 """)
+
+
 
 cursor.execute("""
     CREATE TRIGGER update_email AFTER INSERT ON user

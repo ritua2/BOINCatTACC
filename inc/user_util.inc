@@ -114,6 +114,16 @@ function make_user(
 	curl_close ($ch);
 	//End of the edit by Gerald Joshua
 
+
+    // Sends an email for email verification
+    $ch = curl_init();
+    $url = "http://0.0.0.0:6040/boincserver/v2/api/validate_email/volunteer/".$email_addr."/".$random_email_verification;
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    $result = curl_exec($ch);
+    curl_close ($ch);
+
+
     $user = BoincUser::lookup_id($uid);
     if (defined('RECORD_USER_IP')) {
         $ip = $_SERVER['REMOTE_ADDR'];

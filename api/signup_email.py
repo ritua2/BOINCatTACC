@@ -40,6 +40,19 @@ def signup_volunteer(email, anonym):
 
 
 
+# Sends an email with links so that users can validate their email
+@app.route("/boincserver/v2/api/validate_email/volunteer/<email>/<validate_key>")
+def validate_email(email, validate_key):
+
+    text = "Welcome to BOINC@TACC,\n\nThank you for registering as a volunteer!\n\n"
+    text += "Please verify your email by clicking on copying the following link into your browser search bar: "
+    text += os.environ['URL_BASE']+"/validate_email.php?"+email+"-"+validate_key
+    text += "\n\nSincerely,\n\nThe TACC development team"
+
+    # Send the email
+    return ec.send_mail_complete(email, 'BOINC email verification', text, [])
+
+
 if __name__ == '__main__':
    app.run(host = '0.0.0.0', port = 6040, debug=False, threaded=True)
 

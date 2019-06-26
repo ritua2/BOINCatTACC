@@ -35,10 +35,14 @@ if ($option) {
 
 page_head(tra("Profiles"));
 
+echo "This page is unavailable.";
+
+/*
 echo "
     <p>".tra("%1 Profiles %2 let individuals share backgrounds and opinions with the %3 community.", "<b>", "</b>", PROJECT)." ".
     tra("Explore the diversity of your fellow volunteers, and contribute your own views for others to enjoy.")."
     <p>".tra("If you haven't already, you can %1 create your own user profile %2 for others to see!", "<a href=\"create_profile.php\">", "</a>");
+
 
 start_table();
 
@@ -118,4 +122,10 @@ function select_profile($cmd) {
 }
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
+
+
+*/
+
+page_tail();
+
 ?>

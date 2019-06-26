@@ -66,14 +66,14 @@ $real_username = $user->name;
 if (using_anonymous_username($real_username)){
     echo "<form action=\"deanonymize_action.php\" method=\"post\">";
     echo '<input type="hidden" name="action" value="change"><label for "action"> Click the following button to display your real username on the public profile: </label>';
-    echo "<input style=\"background-color: #DCDCDC\" type=\"submit\"  value=\"show real username\" name=\"show_real_username\"></form>";
+    echo "<input style=\"background-color: #DCDCDC; margin-left: 20px\" type=\"submit\"  value=\"show real username\" name=\"show_real_username\"></form>";
 
 
 } else {
 
     echo "<form action=\"deanonymize_action.php\" method=\"post\">";
     echo '<input type="hidden" name="action" value="change"><label for "action"> Click the following button to display an anonymous username on the public profile: </label>';
-    echo "<input style=\"background-color: #DCDCDC\" type=\"submit\" value=\"show anonymous username\" name=\"show_anonymous_username\"></form>";
+    echo "<input style=\"background-color: #DCDCDC; margin-left: 20px\" type=\"submit\" value=\"show anonymous username\" name=\"show_anonymous_username\"></form>";
 }
 
 echo "<br><br>";

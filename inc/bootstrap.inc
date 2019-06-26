@@ -218,7 +218,7 @@ function sample_navbar(
         array(tra("Message boards"), $url_prefix."forum_index.php"),
         //array(tra("Questions and Answers"), $url_prefix."forum_help_desk.php"),
         array(tra("Teams"), $url_prefix."team.php", tra("create or join a team")),
-        array(tra("Profiles"), $url_prefix."profile_menu.php"),
+        //array(tra("Profiles"), $url_prefix."profile_menu.php"),
         array(tra("Preferences"), $url_prefix."edit_forum_preferences_form.php"),
         array(tra("User search"), $url_prefix."user_search.php"),
         array(tra("User of the day"), $url_prefix."uotd.php"),

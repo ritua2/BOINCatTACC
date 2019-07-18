@@ -7,7 +7,15 @@ Parses the query of a URL to allow the user to verify their email
 */
 
 require_once("../inc/boinc_db.inc");
+require_once("../inc/util.inc");
+require_once("../inc/email.inc");
+require_once("../inc/xml.inc");
+require_once("../inc/user_util.inc");
+require_once("../inc/team.inc");
 
+
+
+date_default_timezone_set("UTC");
 
 
 $complete_query = $_SERVER['QUERY_STRING'];
@@ -21,13 +29,13 @@ $secret_key = $query_parts[1];
 
 
 // Checks if the email has been verified
-$user_data = BoincUser::lookup("email_addr = '$user_email'", "user");
-$email_val = $user_data->email_validated;
+$user_data = BoincUser::lookup("email_addr = '$user_email'", "email_verification");
+$email_verified_yet = $user_data->date_verified;
 
 
 // User does not exist
-if ($email_val != '0'){
-    echo "User '$user_email' does not have a BOINC@TACC account or this account has already been validated.";
+if (! is_null($email_verified_yet)){
+    echo "User '$user_email' does not have a BOINC@TACC account or this email has already been verified.";
     exit();
 } 
 
@@ -35,11 +43,22 @@ $email_validation_key = $user_data->validation_key;
 
 if ($email_validation_key == $secret_key){
 
+    $current_UTC_date = date("Y-m-d H:i:s", time());
+
     // Sets the validation key as 1
     $db = BoincDb::get();
-    $db->update_aux('user', "email_validated=1 WHERE email_addr = '$user_email'");
+    $db->update_aux('email_verification', "date_verified='".$current_UTC_date."' WHERE email_addr = '$user_email'");
 
-    echo "Your email has been verified<br>Please click <a href=\"/login_form.php\">here</a> following link to login to your account";
+    $user_signup_email = $user_data->email_addr;
+    $user_signup_name = $user_data->name;
+
+
+    // Creates account
+    make_user($user_data->email_addr, $user_data->name, $user_data->passwd_hash, $user_data->country, $user_data->postal_code,
+                $user_data->project_prefs, $user_data->teamid);
+
+
+    echo "Your email has been verified<br>Please click <a href=\"/login_form.php\">here</a> to login to your account";
 
 } else {
     echo "Incorrect validation key";

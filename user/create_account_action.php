@@ -19,20 +19,17 @@
 include_once("../inc/util.inc");
 include_once("../inc/user_util.inc");
 
+
 $user = validate_post_make_user();
 
 // In success case, redirect to a fixed page so that user can
 // return to it without getting "Repost form data" stuff
 
-$next_url = post_str('next_url', true);
-$next_url = sanitize_local_url($next_url);
-if ($next_url) {
-    Header("Location: ".url_base()."$next_url");
+if ($user) {
+    // User was created
+    echo "<br>An automated email has been sent to the provided email address for verification.";
 } else {
-    Header("Location: ".url_base().USER_HOME);
-    send_cookie('init', "1", true);
-    send_cookie('via_web', "1", true);
+    echo "<br>Could not create user";
 }
-send_cookie('auth', $user->authenticator, true);
 
 ?>

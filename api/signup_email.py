@@ -38,7 +38,7 @@ def signup_volunteer(email, anonym):
 def validate_email(email, validate_key):
 
     text = "Welcome to BOINC@TACC,\n\nThank you for registering as a volunteer!\n\n"
-    text += "Please verify your email by clicking on copying the following link into your browser search bar: "
+    text += "Please verify your email by clicking or copying the following link into your browser search bar: "
     text += os.environ['URL_BASE']+"/validate_email.php?"+email+"-"+validate_key
     text += "\n\nSincerely,\n\nThe TACC development team"
 

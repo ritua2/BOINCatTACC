@@ -86,9 +86,24 @@ cursor.execute("""
     )
     """)
 
+
+
+# Signup table for email verification
 cursor.execute("""
-    ALTER TABLE user ADD COLUMN validation_key VARCHAR(255)  AFTER email_validated
-""")
+    CREATE TABLE email_verification (
+        email_addr            VARCHAR(254) UNIQUE,
+        name                  VARCHAR(254),
+        passwd_hash           VARCHAR(254),
+        country               VARCHAR(254),
+        postal_code           VARCHAR(254),
+        project_prefs         BLOB,
+        teamid               INT(11),
+        validation_key        VARCHAR(254),
+        date_signup           DATETIME,
+        date_verified         DATETIME
+    )
+    """)
+
 
 
 

@@ -23,6 +23,11 @@ include_once("../inc/util.inc");
 include_once("../inc/email.inc");
 include_once("../inc/recaptchalib.php");
 
+
+
+date_default_timezone_set("UTC");
+
+
 function is_banned_email_addr($email_addr) {
     global $banned_email_domains;
     if (isset($banned_email_domains)) {
@@ -88,17 +93,11 @@ function make_user(
     $randomName = BoincDb::escape_string($randomName);
 
 
-    // Creates a second random name to ensure email verification
-    $random_email_verification = (string)generateRandomString();
-    $random_email_verification = sanitize_tags($random_email_verification);
-    $random_email_verification = BoincDb::escape_string($random_email_verification);
-
-
     //Insert the new user into screen_name_anonymization table
     $uid = BoincUser::insert("(name, random_name, original_random_name) values('$name', '$randomName', '$randomName')", "screen_name_anonymization");
     //End of the edit by Joshua
 
-    $uid = BoincUser::insert("(create_time, email_addr, name, authenticator, country, postal_code, total_credit, expavg_credit, expavg_time, project_prefs, teamid,  venue, send_email, show_hosts, posts, seti_id, seti_nresults, seti_last_result_time, seti_total_cpu, has_profile, cross_project_id, passwd_hash, email_validated, donated, validation_key) values($now, '$email_addr', '$name', '$authenticator', '$country', '$postal_code', 0, 0, unix_timestamp(), '$project_prefs', $teamid, '', 1, 1, 0, 0, 0, 0, 0, 0, '$cross_project_id', '$passwd_hash', 0, 0, '$random_email_verification')");
+    $uid = BoincUser::insert("(create_time, email_addr, name, authenticator, country, postal_code, total_credit, expavg_credit, expavg_time, project_prefs, teamid,  venue, send_email, show_hosts, posts, seti_id, seti_nresults, seti_last_result_time, seti_total_cpu, has_profile, cross_project_id, passwd_hash, email_validated, donated) values($now, '$email_addr', '$name', '$authenticator', '$country', '$postal_code', 0, 0, unix_timestamp(), '$project_prefs', $teamid, '', 1, 1, 0, 0, 0, 0, 0, 0, '$cross_project_id', '$passwd_hash', 1, 0)");
     
     if (!$uid) {
         return null;
@@ -113,15 +112,6 @@ function make_user(
 	$result = curl_exec($ch);
 	curl_close ($ch);
 	//End of the edit by Gerald Joshua
-
-
-    // Sends an email for email verification
-    $ch = curl_init();
-    $url = "http://0.0.0.0:6040/boincserver/v2/api/validate_email/volunteer/".$email_addr."/".$random_email_verification;
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    $result = curl_exec($ch);
-    curl_close ($ch);
 
 
     $user = BoincUser::lookup_id($uid);
@@ -215,6 +205,11 @@ function validate_post_make_user() {
     if (!is_valid_email_addr($new_email_addr)) {
         show_error(tra("Invalid email address: please enter a valid address of the form name@xxx.yyy"));
     }
+
+    // Spaces are disallowed in email address
+    $new_email_addr = str_replace(' ', '', $new_email_addr);
+
+
     $user = BoincUser::lookup_email_addr($new_email_addr);
     if ($user) {
         show_error(tra("There's already an account with that email address."));
@@ -251,20 +246,36 @@ function validate_post_make_user() {
         $postal_code = '';
     }
 
-    $user = make_user(
-        $new_email_addr, $new_name, $passwd_hash,
-        $country, $postal_code, $project_prefs, $teamid
-    );
-    if (!$user) {
+
+    // Creates a random name to ensure email verification
+    $random_email_verification = (string)generateRandomString();
+    $random_email_verification = sanitize_tags($random_email_verification);
+    $random_email_verification = BoincDb::escape_string($random_email_verification);
+
+    $current_UTC_date = date("Y-m-d H:i:s", time());
+
+
+    $uid = BoincUser::insert("(name, email_addr, passwd_hash, country, postal_code, project_prefs, teamid, validation_key, date_signup) values('$new_name', '$new_email_addr', '$passwd_hash', '$country', '$postal_code', '$project_prefs', '$teamid', '$random_email_verification', '$current_UTC_date')", "email_verification");
+
+
+    if (!$uid) {
         show_error(
             tra("Couldn't create account").": ".BoincDb::error()
         );
+    } else {
+        // Sends an email for email verification
+        $ch = curl_init();
+        $url = "http://0.0.0.0:6040/boincserver/v2/api/validate_email/volunteer/".$new_email_addr."/".$random_email_verification;
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $result = curl_exec($ch);
+        curl_close ($ch);
     }
 
     if (defined('INVITE_CODES')) {
         error_log("Account '$new_email_addr' created using invitation code '$invite_code'");
     }
-    return $user;
+    return TRUE;
 }
 
 // delete a user and all associated records except

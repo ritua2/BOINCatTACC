@@ -64,45 +64,6 @@ def email_from_token(token):
     return token
 
 
-# Processes incoming jobs for TACC images
-# Automatically assigns them to a mirror after the user receives the job
-@app.route('/volcon/v2/api/jobs/tacc', methods=['POST'])
-def tacc_jobs():
-
-    # Ensures that there is an appropriate json request
-    if not request.is_json:
-        return "INVALID: Request is not json"
-
-    proposal = request.get_json()
-
-    # Checks the required fields
-    req_fields = ["token", "image", "commands", "priority"]
-    req_check = l2_contains_l1(req_fields, proposal.keys())
-
-    if req_check != []:
-        return "INVALID: Lacking the following json fields to be read: "+",".join([str(a) for a in req_check])    
-
-    [TOKEN, IMAGE, COMMANDS, PRIORITY] = [proposal["token"], proposal["image"], proposal["commands"], proposal["priority"]]
-    VolCon_ID = uuid.uuid4().hex
-
-    if "gpu" in IMAGE:
-        GPU = 1
-    else:
-        GPU = 0
-
-    try:
-        mints.add_job(TOKEN, IMAGE, COMMANDS, GPU, VolCon_ID, PRIORITY)
-    except:
-        return "INVALID: Could not connect to MySQL database"
-
-    # TACC: Image is a TACC image
-    job_info = {"Image":IMAGE, "Command":COMMANDS, "TACC":1, "GPU":GPU, "VolCon_ID":VolCon_ID, "public":1}
-
-    mirror.upload_job_to_mirror(job_info)
-
-    return "Successfully submitted job"
-
-
 
 # Receives a job request
 # Returns the VolCon ID and where it is stored

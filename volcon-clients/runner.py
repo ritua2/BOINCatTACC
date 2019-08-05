@@ -1,3 +1,5 @@
+#!/usr/local/bin/python3
+
 """
 BASICS
 
@@ -39,10 +41,11 @@ def request_job(priority_level):
     try:
         r = requests.post('http://'+os.environ["main_server"]+":5091/volcon/v2/api/jobs/request",
             json={"cluster": cluster, "disconnect-key":dk, "GPU":GPU, "priority-level":priority_level, "public":only_public})
+        return json.loads(r.text)
     except:
         # A connection error, 104 is the most probable
         return {"jobs-available":"0"}
-    return json.loads(r.text)
+
 
 
 
@@ -136,23 +139,23 @@ def run_in_container(job_info, previous_download_time):
     else:
         results_dir = "/root/shared/results"
 
+
     # Runs the container detached
     try:
         d1 = time.time()
-        CONTAINER = container.run(image=Image, command="sleep infinity", detach=True, runtime=executer)
+        CONTAINER = container.run(image=Image, command="yes", detach=True, runtime=executer) 
         d2 = time.time()
 
-    except Exception as e:
+    except:
         Failed_Report = {"date (Run)":prestime, "VolCon-ID":VolCon_ID, "Error":"Container failed to start", "download time":previous_download_time}
         
         # Requires new failed job API for simplicity
         requests.post('http://'+os.environ["main_server"]+":5091/volcon/v2/api/jobs/failed/report",
                 json=Failed_Report)
 
-        container.prune()
-
         try:
-            image.remove(Image, force = True)
+            if not TACC:
+                image.remove(Image, force = True)
         except:
             # Someone may have provided an image that does not exist
             pass
@@ -203,7 +206,7 @@ def run_in_container(job_info, previous_download_time):
 
         os.remove(tarname)
         CONTAINER.remove(force = True)
-        container.prune()
+        
         if not TACC:
             image.remove(Image, force = False)
 
@@ -225,7 +228,6 @@ def run_in_container(job_info, previous_download_time):
     os.remove(tarname)
     CONTAINER.kill()
     CONTAINER.remove(force = True)
-    container.prune()
 
     # If the image is not TACC, it removes it
     if not TACC:
@@ -235,45 +237,40 @@ def run_in_container(job_info, previous_download_time):
 
 
 # Runs the complete process
-def volcon_run(useless_input):
+def volcon_run(priority):
 
-    while True:
+    Jreq = request_job(priority)
+    if Jreq == {"jobs-available":"0"}:
+        return None
 
-        # May be editing the file at this moment
-        try:
-            # Gets the list of priorities
-            with open("/client/priorities.json", "r") as ff:
-                current = json.load(ff)
-        except:
-            time.sleep(0.5)
-            continue
+    mip = Jreq["mirror-IP"]
+    da1 = time.time()
+    K = get_mirror_info_public(Jreq)
 
-        priorities = current["available-priorities"]
+    if is_custom_job(K):
+        CA = custom_action(K, mip)
 
-        for priority in priorities:
-
-            Jreq = request_job(priority)
-            if Jreq == {"jobs-available":"0"}:
-                continue
-
-            mip = Jreq["mirror-IP"]
-            da1 = time.time()
-            K = get_mirror_info_public(Jreq)
-
-            if is_custom_job(K):
-                CA = custom_action(K, mip)
-
-                if CA == False:
-                    # Failure in image processing
-                    continue
-            da2 = time.time()
-            run_in_container(K, da2-da1)
+        if CA == False:
+            # Failure in image processing
+            return None
+    da2 = time.time()
+    run_in_container(K, da2-da1)
 
 
 
-# Multiple processes
 # Multiple processes
 if __name__ == "__main__":
 
-   p = Pool(processes)
-   p.map(volcon_run, [a for a in range(0, processes)])
+    try:
+        # Gets the list of priorities
+        with open("/client/priorities.json", "r") as ff:
+            current = json.load(ff)
+    except:
+        time.sleep(0.5)
+        sys.exit()
+
+    priorities = processes*current["available-priorities"]
+
+    p = Pool(processes)
+    p.map(volcon_run, [a for a in  priorities])
+    container.prune()

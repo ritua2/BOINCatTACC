@@ -40,4 +40,9 @@ python3 /client/closer.py &
 wait_for_disconnect &
 
 # Runs the client to receive and execute VolCon jobs
-python3 /client/runner.py
+while true
+do
+    python3 /client/runner.py
+    # Timeout for OS to clear memory
+    sleep 1
+done

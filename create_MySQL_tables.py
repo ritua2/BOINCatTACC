@@ -79,10 +79,10 @@ cursor.execute("""
 cursor.execute("""
     CREATE TABLE screen_name_anonymization (
         name                  VARCHAR(255),
-        random_name           VARCHAR(255),
-        original_random_name  VARCHAR(255),
+        random_name           VARCHAR(255) UNIQUE,
+        original_random_name  VARCHAR(255) UNIQUE,
         export_stats          VARCHAR(255),
-        email_id              VARCHAR(254),
+        email_id              VARCHAR(254) UNIQUE,
     )
     """)
 

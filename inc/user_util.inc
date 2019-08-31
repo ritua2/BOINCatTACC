@@ -201,6 +201,13 @@ function validate_post_make_user() {
         show_error($reason);
     }
 
+    $user_already_exists = BoincUser::lookup("name='$new_name'");
+    if ($user_already_exists) {
+        show_error(tra("There's already an account with that name."));
+    }
+
+
+
     $new_email_addr = strtolower(post_str("new_email_addr"));
     if (!is_valid_email_addr($new_email_addr)) {
         show_error(tra("Invalid email address: please enter a valid address of the form name@xxx.yyy"));

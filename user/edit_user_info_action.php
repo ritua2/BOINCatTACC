@@ -52,6 +52,15 @@ if (POSTAL_CODE) {
 $name = BoincDb::escape_string($name);
 $url = BoincDb::escape_string($url);
 
+
+$user_already_exists = BoincUser::lookup("name='$name'");
+if ($user_already_exists) {
+    error_page(tra("There's already an account with that name."));
+    exit();
+}
+
+
+
 //Added by Gerald Joshua: Update the screen_name_anonymization table as well
 $set_clause = "name = '$name'";
 $where_clause = "name = '$user->name'";

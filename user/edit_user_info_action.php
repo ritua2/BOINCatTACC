@@ -60,15 +60,16 @@ if ($user_already_exists) {
 }
 
 
-
-//Added by Gerald Joshua: Update the screen_name_anonymization table as well
-$set_clause = "name = '$name'";
-$where_clause = "name = '$user->name'";
-BoincUser::screen_name_update($set_clause, $where_clause);
-
 $result = $user->update(
     "name='$name', url='$url', country='$country', postal_code='$postal_code'"
 );
+
+$original_name = $user->name;
+
+//Added by Gerald Joshua: Update the screen_name_anonymization table as well
+$set_clause = "name = '$name'";
+$where_clause = "name = '$original_name'";
+BoincUser::screen_name_update($set_clause, $where_clause);
 
 if ($result) {
     Header("Location: ".USER_HOME);

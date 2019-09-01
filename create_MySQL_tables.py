@@ -124,6 +124,10 @@ cursor.execute("""
 """)
 
 
+# Unique names
+cursor.execute("ALTER TABLE user ADD UNIQUE (name)")
+cursor.execute("ALTER TABLE screen_name_anonymization ADD UNIQUE (name)")
+
 
 boinc_db.commit()
 cursor.close()

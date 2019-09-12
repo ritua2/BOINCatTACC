@@ -24,6 +24,11 @@ check_get_args(array());
 redirect_to_secure_url("edit_email_form.php");
 $user = get_logged_in_user();
 
+page_head(tra("This feature is no longer supported"));
+
+
+/*
+
 page_head(tra("Change email address"));
 
 $email_text = "";
@@ -45,6 +50,12 @@ form_input_text(
 form_input_text(tra("Password"), "passwd", "", "password");
 form_submit(tra("Change email address"));
 form_end();
+
+
+*/
+
+
+
 page_tail();
 
 ?>

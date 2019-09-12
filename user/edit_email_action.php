@@ -23,12 +23,18 @@ require_once("../inc/user_util.inc");
 
 check_get_args(array());
 
+
+page_head(tra("This feature is no longer supported"));
+
+
+/*
+
 $user = get_logged_in_user();
 
 $email_addr = strtolower(post_str("email_addr"));
 $passwd = post_str("passwd", true);
 
-page_head(tra("Change email address of account"));
+
 
 if (!is_valid_email_addr($email_addr)) {
     echo tra("New email address '%1' is invalid.", $email_addr);
@@ -69,6 +75,9 @@ if (!is_valid_email_addr($email_addr)) {
         }
     }
 }
+
+
+*/
 
 page_tail();
 ?>

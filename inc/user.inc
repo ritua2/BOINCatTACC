@@ -266,9 +266,16 @@ function show_user_info_private($user) {
         );
     } else {
         row2(tra("Change"),
+
+            "<a href=\"".secure_url_base()."/edit_passwd_form.php\">".tra("password")."</a>
+            &middot; <a href=\"edit_user_info_form.php?$url_tokens\">".tra("other account info")."</a>"
+
+            // Old version, allows user to change email
+            /*
             "<a href=\"edit_email_form.php\">".tra("email address")."</a>
             &middot; <a href=\"".secure_url_base()."/edit_passwd_form.php\">".tra("password")."</a>
             &middot; <a href=\"edit_user_info_form.php?$url_tokens\">".tra("other account info")."</a>"
+            */
         );
     }
     row2(tra("User ID")."<br/><p class=\"small\">".tra("Used in community functions")."</p>", $user->id);

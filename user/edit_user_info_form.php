@@ -29,11 +29,16 @@ page_head(tra("Edit account information"));
 form_start('edit_user_info_action.php', 'post');
 echo form_tokens($user->authenticator);
 
+
+/*
+// Changes to username are no longer allowed
+
 form_input_text(
     tra("Screen name %1 real name or nickname%2", "<br><p class=\"small\">", "</p>"),
     'user_name',
     $user->name
 );
+*/
 
 form_input_text(
     tra("URL %1 of your personal web page; optional%2", "<br><p class=\"small\">", "</p>"),

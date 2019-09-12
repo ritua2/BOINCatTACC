@@ -26,6 +26,8 @@ check_get_args(array("tnow", "ttok"));
 $user = get_logged_in_user();
 check_tokens($user->authenticator);
 
+
+/*
 $name = trim(post_str("user_name"));
 if ($name != sanitize_tags($name)) {
     error_page(tra("HTML tags are not allowed in your name."));
@@ -33,6 +35,10 @@ if ($name != sanitize_tags($name)) {
 if (strlen($name) == 0) {
     error_page(tra("You must supply a name for your account."));
 }
+*/
+
+
+
 $url = post_str("url", true);
 $url = sanitize_tags($url);
 $country = post_str("country");
@@ -48,6 +54,18 @@ if (POSTAL_CODE) {
 } else {
     $postal_code = '';
 }
+
+
+
+$url = BoincDb::escape_string($url);
+$result = $user->update(
+    "url='$url', country='$country', postal_code='$postal_code'"
+);
+
+
+/*
+// Updating usernames is no longer allowed
+
 
 $name = BoincDb::escape_string($name);
 $url = BoincDb::escape_string($url);
@@ -70,6 +88,9 @@ $original_name = $user->name;
 $set_clause = "name = '$name'";
 $where_clause = "name = '$original_name'";
 BoincUser::screen_name_update($set_clause, $where_clause);
+
+*/
+
 
 if ($result) {
     Header("Location: ".USER_HOME);

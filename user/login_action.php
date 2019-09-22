@@ -35,19 +35,6 @@ check_get_args(array("id", "t", "h", "key"));
 //
 function login_with_email($email_addr, $passwd, $next_url, $perm) {
     $user = BoincUser::lookup_email_addr($email_addr);
-
-    // Enforces that the user has verified their emaail
-    $safe_email =  BoincDb::escape_string($email_addr);
-    // Checks if the email has been verified
-    $user_data = BoincUser::lookup("email_addr = '$safe_email'", "user");
-    $email_val = $user_data->email_validated;
-
-    if ($email_val != '1'){
-        echo "User '$safe_email' does not have a verified email address.";
-        exit();
-    } 
-
-
     if (!$user) {
         sleep(LOGIN_FAIL_SLEEP_SEC);
         page_head("No such account");

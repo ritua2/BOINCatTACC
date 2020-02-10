@@ -78,11 +78,11 @@ cursor.execute("""
 # Random name table
 cursor.execute("""
     CREATE TABLE screen_name_anonymization (
-        name                  VARCHAR(255),
+        name                  VARCHAR(255) UNIQUE,
         random_name           VARCHAR(255) UNIQUE,
         original_random_name  VARCHAR(255) UNIQUE,
         export_stats          VARCHAR(255),
-        email_id              VARCHAR(254) UNIQUE,
+        email_id              VARCHAR(254) UNIQUE
     )
     """)
 
@@ -92,7 +92,7 @@ cursor.execute("""
 cursor.execute("""
     CREATE TABLE email_verification (
         email_addr            VARCHAR(254) UNIQUE,
-        name                  VARCHAR(254),
+        name                  VARCHAR(254) UNIQUE,
         passwd_hash           VARCHAR(254),
         country               VARCHAR(254),
         postal_code           VARCHAR(254),

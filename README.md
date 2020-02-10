@@ -1,6 +1,6 @@
 ### BOINC@TACC project ###
 
-This project provides a conduit for routing High-Throughput Computing (HTC) jobs from TACC rsources to a BOINC server, and from there, to the BOINC clients (which run on volunteered hardware resources and VMs in the cloud). The project is funded through NSF Award #1664022.
+This project provides a conduit for routing High-Throughput Computing (HTC) jobs from TACC resources to a BOINC server, and from there, to the BOINC clients (which run on volunteered hardware resources and VMs in the cloud). The project is funded through NSF Award #1664022.
 
 This repository includes the following:
 
@@ -11,7 +11,7 @@ This repository includes the following:
 5) A mechanism for running BOINC jobs directly inside a Docker container instead of running them in VirtualBox. This is useful for institutional donors who may have volunteered VMs in the cloud.
 
 
-## The project leverages the boinc-server-docker software developed by [Marius Millea][1]
+### The project leverages the boinc-server-docker software developed by [Marius Millea][1]
 
 Following folders are available in this repository:
 * user-interface: Creates a web interface to allow researchers to submit and track jobs. 

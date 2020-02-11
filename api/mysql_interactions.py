@@ -196,3 +196,20 @@ def token_from_VolCon_ID(VID):
     return False
 
 
+
+# Adds tag
+# All variables must be passed as either string or None
+# boinc_application (str): As of now, only "boinc2docker" or "volcon"
+# origin: "terminal" or "web" (web interface)
+def add_tag(username, token, tags, Image, Command, boinc_application, origin):
+    boinc_db = mysql_con.connect(host = os.environ['URL_BASE'].split('/')[-1], port = 3306, user = os.environ["MYSQL_USER"], password = os.environ["MYSQL_UPASS"], database = 'boincserver')
+    cursor = boinc_db.cursor(buffered=True)
+
+    insert_new_job = (
+        "INSERT INTO tags (username, token, tags, Image, Command, date_processed, boinc_application, origin) "
+        "VALUES (%s, %s, %s, %s, %s, %s, %s, %s)")
+
+    cursor.execute(insert_new_job, (username, token, tags, Image, Command, timnow(), boinc_application, origin) )
+    boinc_db.commit()
+    cursor.close()
+    boinc_db.close()

@@ -106,6 +106,21 @@ cursor.execute("""
 
 
 
+# Tags table
+cursor.execute("""
+    CREATE TABLE tags (
+        username             VARCHAR(254),
+        token                VARCHAR(254),
+        tags                 VARCHAR(254),
+        Image                VARCHAR(254),
+        Command              VARCHAR(5000),
+        date_processed       DATETIME,
+        boinc_application    VARCHAR(254),
+        origin               VARCHAR(254)
+    )
+    """)
+
+
 
 cursor.execute("""
     CREATE TRIGGER update_email AFTER INSERT ON user

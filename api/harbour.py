@@ -50,7 +50,7 @@ Failure_Message = "Your MIDAS job has failed dockerfile construction.\nThis mess
 # BOCOM (str): Boinc command to run
 def user_image(IMTAG, FILES_PATH = '.'):
 
-    image.build(path=FILES_PATH, tag=IMTAG.lower())
+    image.build(path=FILES_PATH, tag=IMTAG.lower(), timeout=180)
 
 
 # Full process of building a docker image
@@ -66,15 +66,6 @@ def complete_build(IMTAG, UTOK, MIDIR, COMMAND_TXT, DOCK_DOCK, BOCOM, FILES_PATH
         boapp = r.get(UTOK+';'+MIDIR).decode("UTF-8")
         
         if boapp == "boinc2docker":
-
-            # Reads tag information from json file
-            # Image is the user ID because:
-            #    | - Traceable
-            #    | - MID is a random token
-            with open("tag_info.json", 'r') as J:
-                TAGS = json.load(J)
-
-            cus.complete_tag_work(UTOK, TAGS)
             shutil.move(COMMAND_TXT+".txt", "/home/boincadm/project/html/user/token_data/process_files/"+COMMAND_TXT+".txt")
 
 
@@ -173,7 +164,7 @@ def complete_build(IMTAG, UTOK, MIDIR, COMMAND_TXT, DOCK_DOCK, BOCOM, FILES_PATH
         MESSAGE += os.environ["SERVER_IP"]+":5060/boincserver/v2/reef/results/"+UTOK+"/"+saved_name
         MESSAGE += "\n\nRun the following command on the image: \n"+' '.join(BOCOM.split(' ')[1::])
         MESSAGE += "\n\nThis is the Dockerfile we used to process your job: \n\n"+DOCK_DOCK
-        pp.send_mail(researcher_email, 'Succesful MIDAS build', MESSAGE)
+        ec.send_mail_complete(researcher_email, "Succesful MIDAS build", MESSAGE, [])
 
     except Exception as e:
         print(e)
@@ -182,7 +173,7 @@ def complete_build(IMTAG, UTOK, MIDIR, COMMAND_TXT, DOCK_DOCK, BOCOM, FILES_PATH
         client.containers.prune()
         MESSAGE = Failure_Message.replace("DATETIME", datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"))
         MESSAGE += "\n\nDockerfile created below: \n\n"+DOCK_DOCK
-        pp.send_mail(researcher_email, 'Failed MIDAS build', MESSAGE)
+        ec.send_mail_complete(researcher_email, "Succesful MIDAS build", MESSAGE, [])
 
 
 to_be_processed = [] # [[TOKEN, MIDAS directory], ...]

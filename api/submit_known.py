@@ -13,6 +13,9 @@ import preprocessing as pp
 from werkzeug.datastructures import ImmutableMultiDict
 
 
+import custodian as cus
+
+
 
 app = Flask(__name__)
 UPLOAD_FOLDER = "/home/boincadm/project/api/sandbox_files"
@@ -20,8 +23,8 @@ ADTDP_FOLDER = "/home/boincadm/project/adtd-protocol/process_files"
 FINAL_FOLDER = "/home/boincadm/project/html/user/token_data/process_files"
 
 
-@app.route("/boincserver/v2/submit_known/token=<toktok>", methods = ['GET', 'POST'])
-def upload_file(toktok):
+@app.route("/boincserver/v2/submit_known/token=<toktok>/username=<Username>", methods = ['GET', 'POST'])
+def upload_file(toktok, Username):
     
     TOK = toktok
     if pp.token_test(TOK) == False:
@@ -36,17 +39,26 @@ def upload_file(toktok):
     try:
         dictdata = ImmutableMultiDict(request.form).to_dict(flat='')
         app = str(dictdata["app"][0].lower())
-        # Gets the list of topics/subtopics
-        Tops = [j for j in dictdata.keys() if j != "app"]
-        # Each topic will be defined by Topic: subtopics
-        # Subtopics are separated by commas
-        TST = {} # Topics structure
+        
 
-        for one_top in Tops:
-            TST[one_top] = [zz for zz in dictdata[one_top][0].upper().split(',') if zz != '']
+        try:
+            tags_used = [x.strip() for x in dictdata["topics"][0].split(";") if x.strip() != ""]
+
+            if tags_used == []:
+                tags_used = "STEM"
+            else:
+                tags_used = ",".join(tags_used)
+                tags_used = tags_used.lower()
+
+        except Exception as e:
+            print(e)
+            # Error in processing json
+            tags_used = "STEM"
+
 
     except:
         return "INVALID, not all data has been provided"
+
 
     # If no app is provided, it will assume BOINC
     try:
@@ -67,29 +79,40 @@ def upload_file(toktok):
 
     # Gets the image names
     # Although uncommon, users can write multiple commands in a single file
-    Im_Names = []
     with open(UPLOAD_FOLDER+'/'+new_filename, 'r') as comfil:
         for line in comfil:
             LL = line.replace('\n', '')
             if len(line.split(' ')) == 1:
                 continue
-            Im_Names.append(line.split(' ')[0])
+
+            an_image = line.split(' ')[0]
+            a_command = " ".join(line.split(' ')[1:])
+
+            # Removes unnecessary content from the command
+            a_command = a_command.replace("/bin/bash -c \"cd /data;", "")
+            a_command = a_command.replace("python /Mov_Res.py\"", "")
+
+
+            # Removes curl and wget commands
+            a_command = [x.strip() for x in a_command.split(";") if ("curl -O" not in x) and ("wget" not in x)]
+            a_command = ";".join(a_command)
+
+
+            # Adds the topic to database
+            cus.complete_tag_work(Username, TOK, tags_used, an_image, a_command, app, "terminal")
 
     # Adds the token at the end of the file
     with open(UPLOAD_FOLDER+'/'+new_filename, 'a') as nod:
         nod.write('\n'+str(TOK))
 
-    AA = ''
     if app == "boinc2docker":
-        # Adds the topic to database
-        for an_image in Im_Names:
-            AA += cus.complete_tag_work(an_image, TST, jobsub=len(Im_Names))
         shutil.move(UPLOAD_FOLDER+'/'+new_filename, FINAL_FOLDER+'/'+new_filename)
+
     if app == "adtdp":
         os.remove(UPLOAD_FOLDER+'/'+new_filename)
         return "This system has been discontinued, use the new VolCon API instead"
 
-    return "File submitted for processing\n"+AA
+    return "File submitted for processing\n"
 
     
 if __name__ == '__main__':

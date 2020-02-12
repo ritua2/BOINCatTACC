@@ -32,7 +32,7 @@ else
   fi
 fi  
 
-echo -n "What is the expected job turnaround time in minutes? The average job turnaround time on BOINC@TACC has been around 10 hours recently."
+echo -n "What is the expected job turnaround time in minutes? The average job turnaround time on BOINC@TACC has been around 10 hours recently. "
 read turnaroundtime
 if (( turnaroundtime > $(( $runtime*2 +600 )) )) ; then
   server="boinc"
@@ -225,17 +225,17 @@ exwith=( ["1"]="boinc2docker" ["2"]="boinc2docker" ["3"]="boinc2docker"
 # Multiple subtopics split by ,
 declare -A apptags
 apptags=(  
-                ["1"]="BIOLOGY"
-                ["2"]="BIOLOGY GENETICS"
-                ["3"]="BIOLOGY GENETICS"
-                ["4"]="BIOLOGY GENETICS"
-                ["5"]="CHEMISTRY"
-                ["6"]="COMPUTER_SCIENCE"
-                ["7"]="CHEMISTRY"
-                ["8"]="CHEMISTRY"
-                ["9"]="ENGINEERING STRUCTURES"
-                ["10"]="GPU"
-                ["11"]="ENGINEERING")
+                ["1"]="STEM"
+                ["2"]="STEM"
+                ["3"]="STEM"
+                ["4"]="STEM"
+                ["5"]="STEM"
+                ["6"]="STEM"
+                ["7"]="STEM"
+                ["8"]="STEM"
+                ["9"]="STEM"
+                ["10"]="STEM"
+                ["11"]="STEM")
 
 
 ########################################
@@ -275,15 +275,8 @@ case "$user_option" in
         user_app=${dockapps[${docknum[$option2]}]}
         boapp=${exwith[$option2]}
 
-        # Selects the tags
-        topsubtop=()
-        for elem in ${apptags[$option2]}
-        do
-            topsubtop+=("$elem")
-        done
-        # Tag instructions
-        main_topic="${topsubtop[0]}"
-        sub_topic="${topsubtop[1]}"
+        # Tags are entered automatically
+        chosen_tags=${apptags[$option2]}
 
         # Obtains the image and the base commands
         # Add the possible source (such as in gromacs at the start
@@ -438,7 +431,7 @@ case "$user_option" in
                 printf "\n"
 
                 # Uploads the command to the server
-                curl -F file=@BOINC_Proc_File.txt -F app=$boapp -F "$main_topic""=""$sub_topic"  http://$SERVER_IP:5075/boincserver/v2/submit_known/token=$TOKEN
+                curl -F file=@BOINC_Proc_File.txt -F app=$boapp -F topics="$chosen_tags"  http://$SERVER_IP:5075/boincserver/v2/submit_known/token=$TOKEN/username=$unam
                 rm BOINC_Proc_File.txt
                 printf "\n"    
 
@@ -475,7 +468,7 @@ case "$user_option" in
         # Adds the commands to a text file to be submitted
         printf "$user_command" > BOINC_Proc_File.txt
 
-        curl -F file=@BOINC_Proc_File.txt -F app=$boapp -F "$main_topic""=""$sub_topic"  http://$SERVER_IP:5075/boincserver/v2/submit_known/token=$TOKEN
+        curl -F file=@BOINC_Proc_File.txt -F app=$boapp -F topics="$chosen_tags"  http://$SERVER_IP:5075/boincserver/v2/submit_known/token=$TOKEN/username=$unam
         rm BOINC_Proc_File.txt
         printf "\n"        
         ;;
@@ -502,26 +495,13 @@ case "$user_option" in
         fi
 
         # Asks the user for topics
-        topsubtopics=""
-        while true
-        do
-            curtopic=""
-            printf "\nEnter a topic, leave empty to exit: "
-            read main_topic
-            if [ -z $main_topic ]; then
-                break
-            fi
-            curtopic="$curtopic$main_topic""="
-            # The curl operation will fail with spaces
-            printf "\nEnter list of subtopics, comma separated, without any spaces in between:\n"
-            read subtopics
+        chosen_tags=""
 
-            curtopic="$curtopic$subtopics"
-            topsubtopics="$topsubtopics -F $curtopic"     
+        printf "\nEnter a list of topics (separate by semicolons), leave empty to exit: "
+        read chosen_tags
 
-        done
 
-        curl -F file=@$filetosubmit -F app=$boapp $topsubtopics http://$SERVER_IP:5075/boincserver/v2/submit_known/token=$TOKEN
+        curl -F file=@$filetosubmit -F app=$boapp -F topics="$chosen_tags" http://$SERVER_IP:5075/boincserver/v2/submit_known/token=$TOKEN/username=$unam
         printf "\n"
         ;;
         

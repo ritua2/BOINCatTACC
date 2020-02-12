@@ -544,7 +544,7 @@ case "$user_option" in
             fi
 
 
-            curl -F file=@$completed_midas -F app=$boapp  http://$SERVER_IP:5085/boincserver/v2/midas/token=$TOKEN
+            curl -F file=@$completed_midas -F app=$boapp  http://$SERVER_IP:5085/boincserver/v2/midas/token=$TOKEN/username=$unam
             printf "\n"
             exit 0
         fi
@@ -873,50 +873,13 @@ case "$user_option" in
 
         cp README.txt Temp-BOINC/
 
-        # Asks the user for topics
-
-        TOPICS=()
-        while true
-        do
-            curtopic=""
-            printf "\nEnter a ${BLUEBLUE}topic${NCNC}, leave empty to exit: "
-            read main_topic
-            if [ -z $main_topic ]; then
-                break
-            fi
-
-            # The curl operation will fail with spaces
-            printf "\nEnter list of subtopics, space-separated, without any spaces in between:\n"
-            read subtopics
-
-            # Selects the tags
-            topsubtop=()
-            for elem in $subtopics
-            do
-                topsubtop+=("\"$elem\"")
-            done
-            
-            # Joins the subtopics as an array
-            subs=$(join_by "," "${topsubtop[@]}")
-
-            curtopic="\"$main_topic\""":[$subs]"
-            # Adds it to array
-            TOPICS+=("$curtopic")
-        done
-
-        # Joins the complete topics array
-        COMPLETE_TOPICS="{\n $(join_by "," "${TOPICS[@]}") \n}"
-
-        # Adds it to a testing file
-        printf "$COMPLETE_TOPICS \n" > Temp-BOINC/tag_info.json
-
 
         # Tars the files and uploads the result to BOINC
         cd Temp-BOINC/
         Tnam="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1).tar.gz"
         tar -czf "$Tnam" .
 
-        curl -F file=@$Tnam -F app=$boapp http://$SERVER_IP:5085/boincserver/v2/midas/token=$TOKEN
+        curl -F file=@$Tnam -F app=$boapp http://$SERVER_IP:5085/boincserver/v2/midas/token=$TOKEN/username=$unam
         printf "\n"
         cd ..
 

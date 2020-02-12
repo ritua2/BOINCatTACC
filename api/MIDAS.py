@@ -18,6 +18,10 @@ from werkzeug.utils import secure_filename
 import redis
 
 
+import custodian as cus
+
+
+
 r = redis.Redis(host = '0.0.0.0', port = 6389, db=2)
 app = Flask(__name__)
 UPLOAD_FOLDER = "/home/boincadm/project/api/sandbox_files"
@@ -161,8 +165,8 @@ def delete_midas_dir(toktok):
 
 
 # Uploads a file for further MIDAS processing
-@app.route('/boincserver/v2/midas/token=<toktok>', methods = ['GET', 'POST'])
-def midas(toktok):
+@app.route('/boincserver/v2/midas/token=<toktok>/username=<Username>', methods = ['GET', 'POST'])
+def midas(toktok, Username):
 
     if  pp.token_test(toktok) == False:
         return 'Invalid token'
@@ -244,6 +248,22 @@ def midas(toktok):
 
     # Creates a redis database with syntax {TOKEN;MID_DIRECTORY:boapp}
     r.set(toktok+';'+new_MID, boapp)
+
+
+    # Obtains the commands to run
+    ALL_COMS = mdr.present_input_files(TAR_PATH)
+    FINAL_COMMANDS = []
+    for acom in ALL_COMS:
+
+        # Other languages
+        FINAL_COMMANDS.append(mdr.execute_command(acom))
+
+    complete_command = ";".join(FINAL_COMMANDS)
+
+
+    # Adds tags to database
+    # STEM is always assumed
+    cus.complete_tag_work(Username, toktok, "STEM", "CUSTOM", complete_command, boapp, "terminal")
 
     return 'File submitted for processing'
 

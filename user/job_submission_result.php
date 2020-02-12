@@ -57,37 +57,22 @@ if(strpos($_SERVER['HTTP_REFERER'], 'job_submission') !== false){
 		$boincApp = "adtdp";	
 	}
 
+
+
 	//Check if a job topic is included 
 	if(isset($_POST['nonMidasTopic'])){
-		if(strlen(trim($_POST['nonMidasTopic'])) !== 0){
-			$theTopics = trim($_POST['nonMidasTopic']);
-			//echo "trim: ".$theTopics.'<br/>';
-			$theTopics = '{"'.$theTopics;
-			//echo '{" '.$theTopics.'<br/>';
-			if(strpos($theTopics, ',') !== false){
-				$theTopics = str_replace(',', '","', $theTopics);	
-			}
-			//echo ', '.$theTopics.'<br/>';
-			if(strpos($theTopics, '(') !== false){
-				$theTopics = str_replace('(', '":["', $theTopics);	
-			}
-			//echo '( '.$theTopics.'<br/>';
-			if(strpos($theTopics, ')') !== false){
-				$theTopics = str_replace(')', '"]', $theTopics);	
-			}
-			//echo ') '.$theTopics.'<br/>';
-			if(strpos($theTopics, ';') !== false){
-				$theTopics = str_replace(';', ',"', $theTopics);	
-			}
-			//echo '; '.$theTopics.'<br/>';
-			$theTopics .= '}';
-			//echo ' '.$theTopics.'<br/>';
 
-			/*//Convert string to json
-			$theTopics = json_decode($theTopics, true);
-			if($theTopics != NULL)
-				$theJson = json_encode($theTopics, JSON_UNESCAPED_SLASHES);
-				echo $theJson;*/
+		$providedTopics = str_replace("\n", "", $_POST['nonMidasTopic']);
+		$providedTopics = str_replace("\n", "", $providedTopics);
+		$providedTopics = trim($providedTopics);
+
+		if(strlen($providedTopics) !== 0){
+
+			// Topics have been provided
+			$theTopics = $providedTopics;
+		} else {
+			// No topic provided
+			$theTopics = "";
 		}
 	}
 
@@ -130,8 +115,8 @@ if(strpos($_SERVER['HTTP_REFERER'], 'job_submission') !== false){
 			curl_close($ch);
 			
 			//Set up a json
-			$tempData = array('Token'=> $token, 'Boapp'=>$boincApp, 'Files'=> array($fileName),'Image'=> $dockerImg,'Custom'=> $theCustom,'Command'=> $commandLine, 'topics'=>$theTopics);
-			$theJson = json_encode($tempData, JSON_UNESCAPED_SLASHES); 		
+			$tempData = array('Token'=> $token, 'Boapp'=>$boincApp, 'Files'=> array($fileName),'Image'=> $dockerImg,'Custom'=> $theCustom,'Command'=> $commandLine, 'topics'=>$theTopics, 'Username'=>$_SESSION['user']);
+			$theJson = json_encode($tempData, JSON_UNESCAPED_SLASHES);
 
 			//Input File Uploading
 			if($fileUploaded == "1"){

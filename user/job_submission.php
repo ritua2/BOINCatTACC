@@ -196,7 +196,7 @@ echo '
 				</span>';
 
 			//The input field
-			form_input_text("" , "Midas Topic", "", "","style='margin-left: 3%; margin-bottom: 18px;' name='midasTopic' id='midasTopicInput' placeholder='Format: TOPIC(SUBTOPICS), e.g., BIOLOGY(GENETICS, ANATOMY);COMPUTER SCIENCE()' value=''");
+			form_input_text("" , "Midas Topic", "", "","style='margin-left: 3%; margin-bottom: 18px;' name='midasTopic' id='midasTopicInput' placeholder='Format: T1;T2, e.g., biology;computer science. Capital letters will be transformed to lower case.' value=''");
 			
 			echo'
 			</div>
@@ -328,7 +328,7 @@ echo '
 		/*Section for non-midas job topics or subtopics*/
 		echo '<div id="nonMidasTopics">';
 		echo '<span style="margin-left: 15%; float:left; font-weight:bold;"><a href="javascript:;" data-toggle="tooltip" data-placement="bottom" title="Each job will be associated with one or more tags which are essentially the topics of the job submitted. Each topic can have a list of sub topic. Please follow the format specified in the input field.">'.tra("The Job Topic and/or Sub Topics").'</a></span>';
-		form_input_text("" , "Non Midas Topic", "", "","style='margin-bottom: 18px;' name='nonMidasTopic' id='nonMidasTopicInput' placeholder='Format: TOPIC(SUBTOPICS), e.g., BIOLOGY(GENETICS, ANATOMY);COMPUTER SCIENCE()' value=''");
+		form_input_text("" , "Non Midas Topic", "", "","style='margin-bottom: 18px;' name='nonMidasTopic' id='nonMidasTopicInput' placeholder='Format: T1;T2, e.g., biology;computer science. Capital letters will be transformed to lower case.' value=''");
 		echo '<br/><br/>';
 		echo'</div>';
 		/*End of non-midas job topics section or subtopics*/

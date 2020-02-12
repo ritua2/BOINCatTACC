@@ -102,19 +102,21 @@ def process_web_jobs():
     except:
         return "INVALID, JSON could not be parsed"
 
+
     try:
         TOK = dictdata["Token"]
         Reefil = dictdata["Files"]
         Image = dictdata["Image"]
         Custom = dictdata["Custom"]
         Command = dictdata["Command"]
+        Username = dictdata["Username"]
 
         if "priority" not in dictdata.keys():
             PRIORITY = "Middle"
         else:
             PRIORITY = dictdata["priority"]
     except:
-        return "INVALID, json lacks at least one field (keys: Token, Boapp, Files, Image, Custom, Command)"
+        return "INVALID, json lacks at least one field (keys: Token, Boapp, Files, Image, Custom, Command, Username)"
 
     if pp.token_test(TOK) == False:
         return "INVALID token"
@@ -131,6 +133,28 @@ def process_web_jobs():
 
     if not image_is_TACC(Image):
         Custom = "Yes"
+        # Gets the tags
+        try:
+            tags_used = [x.strip() for x in dictdata["topics"].split(";") if x.strip() != ""]
+
+            if tags_used == []:
+                tags_used = "STEM"
+            else:
+                tags_used = ",".join(tags_used)
+                tags_used = tags_used.lower()
+
+        except Exception as e:
+            print(e)
+            # Error in processing json
+            tags_used = "STEM"
+
+    else:
+        # Default tag: STEM
+        tags_used = "STEM"
+
+
+    # Adds tag to database
+    cus.complete_tag_work(Username, TOK, tags_used, Image, Command, boapp, "web")
 
     if boapp == "boinc2docker":
         # Writes the commands to a random file

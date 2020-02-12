@@ -16,6 +16,10 @@ from werkzeug.utils import secure_filename
 import redis
 
 
+import custodian as cus
+
+
+
 r = redis.Redis(host = '0.0.0.0', port = 6389, db=2)
 app = Flask(__name__)
 UPLOAD_FOLDER = "/home/boincadm/project/api/sandbox_files"
@@ -163,6 +167,7 @@ def process_midas_jobs():
         setfiles = dictdata["setup_filename"]
         outfiles = dictdata["output_file"]
         coms = dictdata["command_lines"]
+        Username = dictdata["Username"]
 
     except:
         return "INVALID, json lacks at least one field"
@@ -170,6 +175,23 @@ def process_midas_jobs():
     if  pp.token_test(TOK) == False:
         shutil.rmtree(TMP)
         return 'INVALID, invalid token'
+
+
+    try:
+        tags_used = [x.strip() for x in dictdata["topics"].split(";") if x.strip() != ""]
+
+        if tags_used == []:
+            tags_used = "STEM"
+        else:
+            tags_used = ",".join(tags_used)
+            tags_used = tags_used.lower()
+
+    except Exception as e:
+        print(e)
+        # Error in processing json
+        tags_used = "STEM"
+
+
 
     # MIDAS files are stored in a temporary folder
     boapp = "boinc2docker"
@@ -249,6 +271,9 @@ def process_midas_jobs():
 
     # Creates a redis database with syntax {TOKEN}.{MID_DIRECTORY}
     r.set(TOK+';'+new_MID, boapp)
+
+    # Adds tag to database
+    cus.complete_tag_work(Username, TOK, tags_used, "CUSTOM", coms, boapp, "web")
 
     return 'File submitted for processing'
 

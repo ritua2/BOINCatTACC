@@ -153,42 +153,24 @@ function get_json(){
 	$progLangArr = get_prog_lang_list();
 
 	//For topic tags
-	$theTopics = json_encode (json_decode ("{}"));
-
-	//Check if a job topic is included 
 	if(isset($_POST['midasTopic'])){
-		if(strlen(trim($_POST['midasTopic'])) !== 0){
-			$theTopics = trim($_POST['midasTopic']);
-			//echo "trim: ".$theTopics.'<br/>';
-			$theTopics = '{"'.$theTopics;
-			//echo '{" '.$theTopics.'<br/>';
-			if(strpos($theTopics, ',') !== false){
-				$theTopics = str_replace(',', '","', $theTopics);	
-			}
-			//echo ', '.$theTopics.'<br/>';
-			if(strpos($theTopics, '(') !== false){
-				$theTopics = str_replace('(', '":["', $theTopics);	
-			}
-			//echo '( '.$theTopics.'<br/>';
-			if(strpos($theTopics, ')') !== false){
-				$theTopics = str_replace(')', '"]', $theTopics);	
-			}
-			//echo ') '.$theTopics.'<br/>';
-			if(strpos($theTopics, ';') !== false){
-				$theTopics = str_replace(';', ',"', $theTopics);	
-			}
-			//echo '; '.$theTopics.'<br/>';
-			$theTopics .= '}';
-			//echo ' '.$theTopics.'<br/>';
 
-			/*//Convert string to json
-			$theTopics = json_decode($theTopics, true);
-			if($theTopics != NULL)
-				$theJson = json_encode($theTopics, JSON_UNESCAPED_SLASHES);
-				echo $theJson;*/
+		$providedTopics = str_replace("\n", "", $_POST['midasTopic']);
+		$providedTopics = str_replace("\n", "", $providedTopics);
+		$providedTopics = trim($providedTopics);
+
+		$theTopics = "";
+
+		if(strlen($providedTopics) !== 0){
+
+			// Topics have been provided
+			$theTopics = $providedTopics;
 		}
+	} else {
+		$theTopics = "";
 	}
-	
+
+
 	//Create folder if necessary
 	if(isset($_FILES["setup_file"]) || isset($_FILES["midas_input_file"])){
 		while(!create_folder($theFolderName)){
@@ -215,7 +197,8 @@ function get_json(){
 					  'command_lines'=>get_command_lines(),
 					  'token'=>get_user_token(),
 					  'setup_filename'=>get_setup_file_name(),
-					  'topics'=>$theTopics
+					  'topics'=>$theTopics,
+					  'Username'=>$_SESSION['user']
 				);
 	$JSONdata = json_encode($tempData, JSON_UNESCAPED_SLASHES);
 

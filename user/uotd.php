@@ -48,7 +48,7 @@ if (!$profile) {
     //Commented out by Gerald Joshua
     //page_head(tra("User of the Day for %1: %2", $d, $user->name));
     //Added by Gerald Joshua
-    echo '<center><h1>'.tra("User of The Day").'</h1></center><br />';\
+    echo '<center><h1>'.tra("User of The Day").'</h1></center><br />';
     echo '<center><h3>'.get_user_random_name($user->name).'</h1></center><br />';
     //End of Gerald Joshua's edit
     start_table();

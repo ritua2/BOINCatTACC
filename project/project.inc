@@ -341,9 +341,28 @@ border-radius: 0px;">
     <p><b>How can volunteers help?</b><br />Volunteers can help scientific research by signing up for the BOINC&#64;TACC project and allowing it to run applications on their computers and VMs. They may also need to download the required software from this website. To volunteer, <b><a href="/create_account_form.php">join BOINC&#64;TACC</a></b> after reading the <b><a href="/info.php">project policies</a></b>.</p>
         </div>
         <div  class="col-md-6">
-<p><b>How do researchers benefit?</b><br />This project helps the  in supplementing the compute-cycles available through their <a href="https://portal.tacc.utexas.edu/allocations-overview" target="_blank">TACC</a>/<a href="https://portal.xsede.org/" target="_blank">XSEDE</a> allocations. With BOINC&#64;TACC, researchers can run small high-throughput computing jobs that involve small amounts of data transfer and processing without spending their active allocations. For details on using the BOINC&#64;TACC infrastructure, <a href="/how_to_use_TACC-2-BOINC.php">click here</a>.</p>
+<p><b>How do researchers benefit?</b><br />This project helps the 
+    <a class="popup" data-toggle="tooltip" onclick="myFunction3()" style="border-bottom: 1px dotted #000;text-decoration: none;">
+        researchers 
+        <span class="popuptext" style="left: 70%;" id="Popup3">
+            <span class="close">&times;</span>
+                All active users of TACC resources are eligible to run jobs through the BOINC@TACC infrastructure and qualify as researchers.
+        </span>
+    </a> 
+
+    in supplementing the compute-cycles available through their <a href="https://portal.tacc.utexas.edu/allocations-overview" target="_blank">TACC</a>/<a href="https://portal.xsede.org/" target="_blank">XSEDE</a> allocations. With BOINC&#64;TACC, researchers can run small high-throughput computing jobs that involve small amounts of data transfer and processing without spending their active allocations. For details on using the BOINC&#64;TACC infrastructure, <a href="/how_to_use_TACC-2-BOINC.php">click here</a>.</p>
 <p><b>How is BOINC&#64;TACC implemented?</b><br />
-It leverages the middleware and extends it to support the job submissions from supercomputers, uses the VMs in the cloud, and automatically creates Docker images of the source-code written in selected languages. The project source code is available on <a href="https://github.com/ritua2/BOINCatTACC" target="_blank">Github</a>.</p>        </div>
+It leverages the 
+
+    <a  class="popup" data-toggle="tooltip" onclick="myFunction4()" style="border-bottom: 1px dotted #000;text-decoration: none;">
+        BOINC 
+        <span class="popuptext" style="left: -150%; top:=0%;" id="Popup4"> 
+            <span class="close">&times;</span>
+            BOINC is an open-source software platform for volunteer computing and it has a client-server architecture. Once a BOINC client is downloaded on a device (desktop, laptop, phone, tablet, or a VM running in the cloud) owned by a volunteer or an institution, the BOINC server running at TACC will start sending computational tasks to the client when it is plugged in to the power supply and is available to accept tasks. Upon the completion of the tasks, the results are gathered from the clients participating in the computations, and are uploaded to the BOINC server, from where they are then forwarded to the researchers.
+            </span>
+    </a>
+
+    middleware and extends it to support the job submissions from supercomputers, uses the VMs in the cloud, and automatically creates Docker images of the source-code written in selected languages. The project source code is available on <a href="https://github.com/ritua2/BOINCatTACC" target="_blank">Github</a>.</p>        </div>
         </div>
 </div>
 

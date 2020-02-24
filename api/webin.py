@@ -122,7 +122,7 @@ def process_web_jobs():
         return "INVALID token"
 
     # Checks the list of Commands to ensure their correct execution
-    Command = ';'.join([C for C in Command.split(';') if C.count(C[0]) != len(C) ]) +';'
+    Command = ';'.join([C for C in Command.split(';') if (C != '') and (C.count(C[0]) != len(C)) ]) +';'
 
     boapp = "boinc2docker"
     if Image == "carlosred/gpu:cuda":

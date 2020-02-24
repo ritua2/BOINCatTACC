@@ -342,7 +342,7 @@ border-radius: 0px;">
         </div>
         <div  class="col-md-6">
 <p><b>How do researchers benefit?</b><br />This project helps the 
-    <a class="popup" data-toggle="tooltip" onclick="myFunction3()" style="border-bottom: 1px dotted #000;text-decoration: none;">
+    <a class="popup" data-toggle="tooltip" onclick="myFunction3()" style="text-decoration: none;">
         researchers 
         <span class="popuptext" style="left: 70%;" id="Popup3">
             <span class="close">&times;</span>
@@ -354,7 +354,7 @@ border-radius: 0px;">
 <p><b>How is BOINC&#64;TACC implemented?</b><br />
 It leverages the 
 
-    <a  class="popup" data-toggle="tooltip" onclick="myFunction4()" style="border-bottom: 1px dotted #000;text-decoration: none;">
+    <a  class="popup" data-toggle="tooltip" onclick="myFunction4()" style="text-decoration: none;">
         BOINC 
         <span class="popuptext" style="left: -150%; top:=0%;" id="Popup4"> 
             <span class="close">&times;</span>

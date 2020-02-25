@@ -51,7 +51,7 @@ echo '<li> <b>If your code is not containerized</b> yet, you can upload the code
 echo '';
 echo '</li>';
 echo '';
-echo '<li> Type in the list of commands necessary to run the file. Separate each command with a “semi-colon” or remember to hit enter after each line of command </li>';
+echo '<li> Type in the list of commands necessary to run the application. Separate each command with a “semi-colon” or remember to hit enter after each line of command </li>';
 echo '';
 echo '<li> Select whether the input files will be uploaded as a compressed TAR file (*.tgz) or as a ZIP file (*.zip). Then browse to the desired *.tgz or *.zip file on your computer using the "Browse" button. Then select the file, and click the "Submit the Job" button. <br>';
 echo 'Congrats, your job is submitted!';

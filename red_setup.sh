@@ -35,6 +35,7 @@ cp -r ./api /home/boincadm/project
 cp -r ./volcon /home/boincadm/project
 cp ./email_assimilator.py /home/boincadm/project
 cp ./email2.py /home/boincadm/project
+cp ./email_all.py /home/boincadm/project
 cp -r ./user-interface/* /home/boincadm/project/html/user
 cp ./API_Daemon.sh  /home/boincadm/project
 cp ./bproc.sh  /home/boincadm/project
@@ -120,9 +121,11 @@ cat /home/boincadm/project/BOINCatTACC > /home/boincadm/project/html/ops/mass_em
 
 # Fixes issue with results not being copied in the correct directory
 chmod -R a+rwx /results
-chown -R boincadm /home/boincadm/project/html/user_profile/images
-chgrp -R boincadm images/
-chmod -R 660  /home/boincadm/project/html/user_profile/images
+chown -R www-data /home/boincadm/project/html/user_profile/
+chgrp -R www-data /home/boincadm/project/html/user_profile/
+chmod a-r /home/boincadm/project/html/user_profile/
+chmod a-r /home/boincadm/project/html/user_profile/images
+chmod a-r /home/boincadm/project/html/user_profile/img1
 
 # Restarts apache
 service apache2 restart

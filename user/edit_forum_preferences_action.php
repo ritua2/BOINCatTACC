@@ -69,6 +69,8 @@ if (!DISABLE_FORUMS) {
 $avatar_type = post_int("avatar_select");
 $newfile=IMAGE_PATH.$user->id."_avatar.jpg";
 
+
+
 // Update the user avatar
 if ($avatar_type<0 or $avatar_type>3) $avatar_type=0;
 if ($avatar_type==0){
@@ -100,7 +102,7 @@ if ($avatar_type==0){
         ImageJPEG($image2, $newfile);
     }
     if (file_exists($newfile)){
-        $avatar_url=IMAGE_URL.$user->id."_avatar.jpg"; //$newfile;
+        $avatar_url = "/boincserver/".IMAGE_URL.$user->id."_avatar.jpg";
     } else {
         //User didn't upload a compatible file or it went lost on the server
         $avatar_url="";

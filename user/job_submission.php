@@ -254,7 +254,7 @@ echo '
 			<div style="margin: -1.5% 0 0 34.5%;">
 				<label style="margin-left:">
 					<input type="radio" id="midasTarUpload" name="inputFileOpt" checked="checked">
-					<span style="margin-left:5px;">Tar Upload</span>
+					<span style="margin-left:5px;">Upload compressed TAR file</span>
 				</label>
 
 				<label style="margin-left: 3%;">
@@ -349,7 +349,7 @@ echo '
 		//File Upload Code to be placed below
 		 echo /*Started by Thomas, edited by Gerald Joshua*/' 
 		<label style="margin-left:3%;"><input type="radio" id="tarUpload" checked="checked">
-		<span style="margin-left:5px;">Tar Upload</span></label>
+		<span style="margin-left:5px;">Compressed TAR file Upload</span></label>
 
 		<label style="margin-left: 3.5%;"><input type="radio" id="zipUpload"><span style="margin-left: 5px;">Zip Upload</span></label>
 

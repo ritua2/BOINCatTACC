@@ -131,11 +131,11 @@ curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backe
 curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/0/p > 0/p
 curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/constant/transportProperties > constant/transportProperties
 mkdir constant/polyMesh
-curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/constant/polyMesh/boundary  > polyMesh/boundary
-curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/constant/polyMesh/faces     > polyMesh/faces
-curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/constant/polyMesh/neighbour > polyMesh/neighbour
-curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/constant/polyMesh/owner     > polyMesh/owner
-curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/constant/polyMesh/points    > polyMesh/points
+curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/constant/polyMesh/boundary  > constant/polyMesh/boundary
+curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/constant/polyMesh/faces     > constant/polyMesh/faces
+curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/constant/polyMesh/neighbour > constant/polyMesh/neighbour
+curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/constant/polyMesh/owner     > constant/polyMesh/owner
+curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/constant/polyMesh/points    > constant/polyMesh/points
 curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/system/blockMeshDict        > system/blockMeshDict
 curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/system/controlDict          > system/controlDict
 curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/system/fvSchemes            > system/fvSchemes

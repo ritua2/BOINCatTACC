@@ -21,10 +21,10 @@ echo '<p>'.tra("To submit jobs as a researcher, you could either use the job sub
 
 echo "<h3  id=\"go_1\">".tra("1. Steps for Submitting Jobs from the Website")."</h3>";
 echo '<ol>';
-echo '<li> For submitting jobs through this website, you should first run the registration script from the Stampede2/Lonestar5 systems at least once</li>';
+echo '<li> For submitting jobs through this website, you should first run the registration script from the Stampede2/Lonestar5 systems at least once<br>';
 echo '<ul>';
 echo '<li> Login to Stampede2 or Lonestar5 using your TACC portal credentials </li>';
-echo '<li> Create a directory named "boinc" ( <font face="courier new">mkdir boinc</font>) and switch to this directory ( <font face="courier new">cd boinc</font>) </li>';
+echo '<li> Create a directory named "boinc" ( <font face="courier new">mkdir boinc</font>) and switch to this directory ( <font face="courier new">cd boinc</font>)';
 echo '<li> Copy the registration script by running the following command: <br>';
 echo '<font face="courier new"> wget https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/register-boinc.sh </font>';
 echo '</li>';
@@ -34,7 +34,7 @@ echo '</li>';
 echo '<li> Run the script for registration (register-boinc.sh): <br>';
 echo '<font face="courier new">./register-boinc.sh </font>';
 echo '</li>';
-echo '</ul>';
+echo '</ul></li>';
 echo '';
 echo '<li> Log in to this website as a Researcher using your TACC portal credentials: <a href = "https://boinc.tacc.utexas.edu/login_as_a_researcher_form.php " target="_blank">https://boinc.tacc.utexas.edu/login_as_a_researcher_form.php </a>';
 echo '</li>';

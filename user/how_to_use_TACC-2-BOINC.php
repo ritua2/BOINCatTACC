@@ -14,6 +14,7 @@ echo '<p>'.tra("To submit jobs as a researcher, you could either use the job sub
 <a href="#go_4"> Example: Step-by-Step Instructions for Running the OpenSees Application</a><br>
 <a href="#go_5"> Video Demonstration of the BOINC@TACC Infrastructure</a><br>
 <a href="#jobsubmissionthroughstampede2"> Steps for Running Additional Applications from Stampede2 or Lonestar5</a><br>
+<a href="#jobsubmissionthroughwebsite"> Steps for Running Additional Applications from the Website</a><br>
 ';
 
 
@@ -224,6 +225,7 @@ echo '<p><h3 id="go_5">'.tra('5. Video Demonstration of the BOINC@TACC Infrastru
 echo '<iframe width="560" height="315" src="https://www.youtube.com/embed/UH9mJjZstO4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
 
 echo file_get_contents("../inc/script_instructions.html");
+echo file_get_contents("../inc/website_application_instructions.html");
 
 //End of Joshua's edit
 page_tail();

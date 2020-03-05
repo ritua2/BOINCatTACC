@@ -9,11 +9,11 @@ echo '<p>'.tra("To submit jobs as a researcher, you could either use the job sub
 
 
 <a href="#go_1">Steps for Submitting Jobs from the Website</a><br>
-<a href="#go_2">Example: Step-by-Step Instructions for Running the OpenSees Application from the Job Submission Page </a><br>
-<a href="#go_3">Steps to Submit Jobs Directly Through Stampede2/Lonestar5 </a><br>
-<a href="#go_4"> Example: Step-by-Step Instructions for Running the OpenSees Application </a><br>
-<a href="#go_5"> Video Demonstration of the BOINC@TACC Infrastructure  </a><br>
-
+<a href="#go_2">Example: Step-by-Step Instructions for Running the OpenSees Application from the Job Submission Page</a><br>
+<a href="#go_3">Steps to Submit Jobs Directly Through Stampede2/Lonestar5</a><br>
+<a href="#go_4"> Example: Step-by-Step Instructions for Running the OpenSees Application</a><br>
+<a href="#go_5"> Video Demonstration of the BOINC@TACC Infrastructure</a><br>
+<a href="#jobsubmissionthroughstampede2"> Steps for Running Additional Applications from Stampede2 or Lonestar5</a><br>
 ';
 
 
@@ -115,9 +115,9 @@ echo 'mkdir data <br>';
 
 echo 'cd data<br>';
 
-echo 'curl -O http://opensees.berkeley.edu/wiki/images/a/a1/ElasticFrame.tcl<br>';
+echo 'curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/ElasticFrame.tcl<br>';
 
-echo 'curl -O http://opensees.berkeley.edu/wiki/images/3/3d/MomentCurvature.tcl <br>';
+echo 'curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/MomentCurvature.tcl<br>';
 
 echo 'cd ..<br>';
 
@@ -222,6 +222,9 @@ chmod +<span class=\"hljs-keyword\">x</span> advance-submit.<span class=\"hljs-k
 echo '<p><h3 id="go_5">'.tra('5. Video Demonstration of the BOINC@TACC Infrastructure ').'</h3></p>';
 //iframe code from https://www.w3schools.com/html/tryit.asp?filename=tryhtml_youtubeiframe
 echo '<iframe width="560" height="315" src="https://www.youtube.com/embed/UH9mJjZstO4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
+
+echo file_get_contents("../inc/script_instructions.html");
+
 //End of Joshua's edit
 page_tail();
 //End of the edit by Thomas

@@ -217,6 +217,9 @@ def execute_command(COMMAND, cpp_libs=[]):
     if LANG == 'r':
         if len(COMMAND) == 3:
             return com1+" > "+str(COMMAND[2])
+        else:
+            # No input file
+            return command_instructions[LANG].replace('FILE', COMMAND[1])
     
     if LANG == 'c':
 

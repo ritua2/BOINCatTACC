@@ -32,7 +32,7 @@ else
   fi
 fi  
 
-echo -n "What is the expected job turnaround time in minutes? The average job turnaround time on BOINC@TACC has been around 10 hours recently."
+echo -n "What is the expected job turnaround time in minutes? The average job turnaround time on BOINC@TACC has been around 10 hours recently. "
 read turnaroundtime
 if (( turnaroundtime > $(( $runtime*2 +600 )) )) ; then
   server="boinc"
@@ -225,17 +225,17 @@ exwith=( ["1"]="boinc2docker" ["2"]="boinc2docker" ["3"]="boinc2docker"
 # Multiple subtopics split by ,
 declare -A apptags
 apptags=(  
-                ["1"]="BIOLOGY"
-                ["2"]="BIOLOGY GENETICS"
-                ["3"]="BIOLOGY GENETICS"
-                ["4"]="BIOLOGY GENETICS"
-                ["5"]="CHEMISTRY"
-                ["6"]="COMPUTER_SCIENCE"
-                ["7"]="CHEMISTRY"
-                ["8"]="CHEMISTRY"
-                ["9"]="ENGINEERING STRUCTURES"
-                ["10"]="GPU"
-                ["11"]="ENGINEERING")
+                ["1"]="STEM"
+                ["2"]="STEM"
+                ["3"]="STEM"
+                ["4"]="STEM"
+                ["5"]="STEM"
+                ["6"]="STEM"
+                ["7"]="STEM"
+                ["8"]="STEM"
+                ["9"]="STEM"
+                ["10"]="STEM"
+                ["11"]="STEM")
 
 
 ########################################
@@ -275,15 +275,8 @@ case "$user_option" in
         user_app=${dockapps[${docknum[$option2]}]}
         boapp=${exwith[$option2]}
 
-        # Selects the tags
-        topsubtop=()
-        for elem in ${apptags[$option2]}
-        do
-            topsubtop+=("$elem")
-        done
-        # Tag instructions
-        main_topic="${topsubtop[0]}"
-        sub_topic="${topsubtop[1]}"
+        # Tags are entered automatically
+        chosen_tags=${apptags[$option2]}
 
         # Obtains the image and the base commands
         # Add the possible source (such as in gromacs at the start
@@ -432,13 +425,13 @@ case "$user_option" in
 
                 previous_command="$previous_command python /Mov_Res.py\""
 
-                printf "$user_app  $previous_command" > BOINC_Proc_File.txt
+                printf "$previous_command" > BOINC_Proc_File.txt
 
                 cat BOINC_Proc_File.txt
                 printf "\n"
 
                 # Uploads the command to the server
-                curl -F file=@BOINC_Proc_File.txt -F app=$boapp -F "$main_topic""=""$sub_topic"  http://$SERVER_IP:5075/boincserver/v2/submit_known/token=$TOKEN
+                curl -F file=@BOINC_Proc_File.txt -F app=$boapp -F topics="$chosen_tags"  http://$SERVER_IP:5075/boincserver/v2/submit_known/token=$TOKEN/username=$unam
                 rm BOINC_Proc_File.txt
                 printf "\n"    
 
@@ -475,7 +468,7 @@ case "$user_option" in
         # Adds the commands to a text file to be submitted
         printf "$user_command" > BOINC_Proc_File.txt
 
-        curl -F file=@BOINC_Proc_File.txt -F app=$boapp -F "$main_topic""=""$sub_topic"  http://$SERVER_IP:5075/boincserver/v2/submit_known/token=$TOKEN
+        curl -F file=@BOINC_Proc_File.txt -F app=$boapp -F topics="$chosen_tags"  http://$SERVER_IP:5075/boincserver/v2/submit_known/token=$TOKEN/username=$unam
         rm BOINC_Proc_File.txt
         printf "\n"        
         ;;
@@ -502,26 +495,13 @@ case "$user_option" in
         fi
 
         # Asks the user for topics
-        topsubtopics=""
-        while true
-        do
-            curtopic=""
-            printf "\nEnter a topic, leave empty to exit: "
-            read main_topic
-            if [ -z $main_topic ]; then
-                break
-            fi
-            curtopic="$curtopic$main_topic""="
-            # The curl operation will fail with spaces
-            printf "\nEnter list of subtopics, comma separated, without any spaces in between:\n"
-            read subtopics
+        chosen_tags=""
 
-            curtopic="$curtopic$subtopics"
-            topsubtopics="$topsubtopics -F $curtopic"     
+        printf "\nEnter a list of topics (separate by semicolons), leave empty to exit: "
+        read chosen_tags
 
-        done
 
-        curl -F file=@$filetosubmit -F app=$boapp $topsubtopics http://$SERVER_IP:5075/boincserver/v2/submit_known/token=$TOKEN
+        curl -F file=@$filetosubmit -F app=$boapp -F topics="$chosen_tags" http://$SERVER_IP:5075/boincserver/v2/submit_known/token=$TOKEN/username=$unam
         printf "\n"
         ;;
         
@@ -543,7 +523,7 @@ case "$user_option" in
 
 
         # In case the user provides their own README
-        printf "\nAre you providing an existing tar file (including README.txt) for MIDAS use in this directory?[y/n]\n"
+        printf "\nAre you providing a pre-compiled tar file (including README.txt) for MIDAS use in this directory?[y/n]\n"
         read README_ready
         if [[ "${README_ready,,}" = "y" ]]; then
 
@@ -564,7 +544,7 @@ case "$user_option" in
             fi
 
 
-            curl -F file=@$completed_midas -F app=$boapp  http://$SERVER_IP:5085/boincserver/v2/midas/token=$TOKEN
+            curl -F file=@$completed_midas -F app=$boapp  http://$SERVER_IP:5085/boincserver/v2/midas/token=$TOKEN/username=$unam
             printf "\n"
             exit 0
         fi
@@ -631,7 +611,7 @@ case "$user_option" in
                 liblang="C++ cget"
             fi
 
-            printf "Enter library: "
+            printf "Enter library (one per line): "
             read LIB
 
             if [ -z "$LIB" ]; then
@@ -706,8 +686,9 @@ case "$user_option" in
 
 
         comfiles=()
-        printf "\n\nEnter the ${PURPLEPURPLE} compilation and runtime commands${NCNC} below, leave empty to exit section:\n"
+        printf "\n\nEnter the ${PURPLEPURPLE}commands${NCNC} below, leave empty to exit section:\n"
         printf "NOTE: If you wish to specify compilation and run instructions, please write them into a bash file, then select language bash, and provide the filename in the next prompt\n\n"
+
 
         while true
         do
@@ -724,7 +705,7 @@ case "$user_option" in
                 exit 0
             fi
 
-            printf "Enter the name of the program file to use in the compile command: "
+            printf "Enter file for command: "
             read comfil
             if [[ -z "$comfil" || ! -f $comfil ]]; then
                 printf "${REDRED}File $comfil does not exist${NCNC}\n"
@@ -748,9 +729,9 @@ case "$user_option" in
 
                     if [ -z "$rwriter" ]; then
                         comfiles+=("$comlang: $comfil")
+                    else
+                        comfiles+=("$comlang: $comfil: $rwriter")
                     fi
-
-                    comfiles+=("$comlang: $comfil: $rwriter")
                     ;;
 
                 "c++")
@@ -786,7 +767,7 @@ case "$user_option" in
                         printf "Enter any other flags or inputs (as is): "
                         read other_flags
                         if [ ! -z "$other_flags" ]; then
-                            printf 'Enter 2 for adding the flag after the file (i.e., gcc myfile.c -lgmp), and 1 for adding the flag before the file name: '
+                            printf '2 for after file (i.e. gcc myfile -lgmp), any other for before: '
                             read flagorder
 
                             if [ "$flagorder" = "2" ]; then
@@ -892,50 +873,13 @@ case "$user_option" in
 
         cp README.txt Temp-BOINC/
 
-        # Asks the user for topics
-
-        TOPICS=()
-        while true
-        do
-            curtopic=""
-            printf "\nEnter a ${BLUEBLUE}topic${NCNC}, leave empty to exit: "
-            read main_topic
-            if [ -z $main_topic ]; then
-                break
-            fi
-
-            # The curl operation will fail with spaces
-            printf "\nEnter list of subtopics, space-separated, without any spaces in between:\n"
-            read subtopics
-
-            # Selects the tags
-            topsubtop=()
-            for elem in $subtopics
-            do
-                topsubtop+=("\"$elem\"")
-            done
-            
-            # Joins the subtopics as an array
-            subs=$(join_by "," "${topsubtop[@]}")
-
-            curtopic="\"$main_topic\""":[$subs]"
-            # Adds it to array
-            TOPICS+=("$curtopic")
-        done
-
-        # Joins the complete topics array
-        COMPLETE_TOPICS="{\n $(join_by "," "${TOPICS[@]}") \n}"
-
-        # Adds it to a testing file
-        printf "$COMPLETE_TOPICS \n" > Temp-BOINC/tag_info.json
-
 
         # Tars the files and uploads the result to BOINC
         cd Temp-BOINC/
         Tnam="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1).tar.gz"
         tar -czf "$Tnam" .
 
-        curl -F file=@$Tnam -F app=$boapp http://$SERVER_IP:5085/boincserver/v2/midas/token=$TOKEN
+        curl -F file=@$Tnam -F app=$boapp http://$SERVER_IP:5085/boincserver/v2/midas/token=$TOKEN/username=$unam
         printf "\n"
         cd ..
 
@@ -1082,3 +1026,4 @@ esac
     ;;
 esac
 #done
+	

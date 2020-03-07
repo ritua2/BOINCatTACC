@@ -729,9 +729,9 @@ case "$user_option" in
 
                     if [ -z "$rwriter" ]; then
                         comfiles+=("$comlang: $comfil")
+                    else
+                        comfiles+=("$comlang: $comfil: $rwriter")
                     fi
-
-                    comfiles+=("$comlang: $comfil: $rwriter")
                     ;;
 
                 "c++")

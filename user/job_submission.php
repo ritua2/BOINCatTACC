@@ -422,7 +422,7 @@ echo '
 		if(returnVal)
 			$("#midasSubmitBtn").prop("disabled",false);
 		else
-			$("#midasSubmitBtn").prop("disabled",true);;
+			$("#midasSubmitBtn").prop("disabled",true);
 	}
 
 	//Check if docker image inserted by the user exists in docker hub
@@ -637,6 +637,7 @@ echo '
 		$("#p3Lib").hide();
 		$("#output_file_list").hide();
 		$("#midasSubmitBtn").prop("disabled",true);
+		$("#midasSubmitBtn").prop("value", "Submit the job");
 
 		//libraries and programming languages
 		//R

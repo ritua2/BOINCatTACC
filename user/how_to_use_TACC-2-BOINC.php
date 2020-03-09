@@ -15,6 +15,8 @@ echo '<p>'.tra("To submit jobs as a researcher, you could either use the job sub
 <a href="#go_5"> Video Demonstration of the BOINC@TACC Infrastructure</a><br>
 <a href="#jobsubmissionthroughstampede2"> Steps for Running Additional Applications from Stampede2 or Lonestar5</a><br>
 <a href="#jobsubmissionthroughwebsite"> Steps for Running Additional Applications from the Website</a><br>
+<a href="#MIDAS_stampede2"> Steps for Containerizing and Running Custom Applications</a><br>
+<a href="#MIDAS_web"> Building automatic Docker image from custom C code</a><br>
 ';
 
 
@@ -226,6 +228,10 @@ echo '<iframe width="560" height="315" src="https://www.youtube.com/embed/UH9mJj
 
 echo file_get_contents("../inc/script_instructions.html");
 echo file_get_contents("../inc/website_application_instructions.html");
+echo file_get_contents("../inc/MIDAS_script_instructions.html");
+
+echo '<p><h3 id="MIDAS_web">'.tra('9. Building automatic Docker image from custom C code').'</h3></p>';
+echo '<iframe width="560" height="315" src="https://www.youtube.com/embed/NP0WzGmsJnE" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
 
 //End of Joshua's edit
 page_tail();

@@ -98,14 +98,14 @@ curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-ba
     <ul>
       <li>Obtain the input and data files:</li>
 
-      <pre><code class="bash language-bash">curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/cpg.bed
-curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/exons.bed
+      <pre><code class="bash language-bash">curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/d1.bed
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/query.bed
 </code></pre>
 
 
       <li>Compress all necessary files into a <em>.tar.gz</em>, <em>.tgz</em>, or <em>.zip</em> compressed file</li>
 
-      <pre><code class="bash language-bash">tar -cvzf data.tar.gz cpg.bed exons.bed</code></pre>
+      <pre><code class="bash language-bash">tar -cvzf data.tar.gz d1.bed query.bed</code></pre>
 
       <li>
         Log in to the BOINC@TACC website as a Researcher using your TACC portal credentials: <a href = "https://boinc.tacc.utexas.edu/login_as_a_researcher_form.php" target="_blank">https://boinc.tacc.utexas.edu/login_as_a_researcher_form.php</a>
@@ -120,7 +120,7 @@ curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-ba
       </li>
 
       <li>In the text-box for the list of commands, enter:
-        <pre><code class="bash language-bash">bedtools intersect -a cpg.bed -b exons.bed &gt; bed_test.txt;</code></pre>
+        <pre><code class="bash language-bash">bedtools intersect -a query.bed -b d1.bed &gt; bed_test.txt;</code></pre>
       </li>
 
       <li>

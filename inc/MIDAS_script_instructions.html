@@ -1,0 +1,316 @@
+<h3 id="MIDAS_stampede2">8. Steps for Containerizing and Running Custom Applications</h2>
+
+<h4 id="prerequisites"><strong>Prerequisites</strong></h4>
+
+<p>
+  Instructions below should be run from Stampede2 or Lonestar5 supercomputers.
+</p>
+
+<p>
+  A separate registration step is not required for users who are submitting jobs for the first time from Stampede2 or Lonestar5 systems. The registration process is automatically taken care of at the time of submitting jobs to BOINC@TACC from Stamepede2 or Lonestar5.
+</p>
+
+<h4 id="installation"><strong>Installation</strong></h4>
+
+<p>
+  Obtain the required files from <a href="https://github.com/ritua2/BOINCatTACC/tree/master/stampede2-backend/S2-test-files">this directory</a>:
+</p>
+
+<pre><code class="bash language-bash">svn checkout https://github.com/ritua2/BOINCatTACC/trunk/stampede2-backend/S2-test-files
+cd S2-test-files
+chmod +x advance-submit.sh</code></pre>
+
+<h4 id="accessingthetutorialfilesforspecificapplications"><strong>Tutorial files for custom applications</strong></h4>
+
+<p>
+  A sample exercise for each specific language is provided below. All the necessary files are available when cloning the github repo as per the above instructions. However, for users wishing to use only one test case, follow the instructions below:
+</p>
+
+<p>
+  Note: The script also accounts for job submission using SLURM. In order to utilize BOINC, the job must use 5 or less cores, and below 2048 MB of RAM.
+</p>
+
+<ul>
+  <li>BOINC job submission</li>
+
+<pre><code class="bash language-bash">curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/advance-submit.sh
+chmod +x advance-submit.sh
+</code></pre>
+
+</ul>
+
+<ol>
+  <li>C
+    <ul>
+      <li>Obtain the input and data files:</li>
+
+      <pre><code class="bash language-bash">curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/hello_world.c</code></pre>
+
+
+      <li>Run job submission script:</li>
+
+      <pre><code class="bash language-bash">./advance-submit.sh</code></pre>
+
+      <li><p>Provide your email when requested</p></li>
+
+      <li><p>Select <em>3</em> for <em>allowed options</em> when prompted  </p></li>
+
+      <li><p>Select <em>n</em> for <em>providing a pre-compiled tar file</em> when prompted</p></li>
+
+      <li><p>Select <em>U</em> or <em>Ubuntu_16.04</em> for OS when prompted, this is the only available operating system as of now</p></li>
+
+      <li><p>Select <em>c</em> for <em>languages used</em> when prompted</p></li>
+
+      <li><p>Press <em>Enter</em> for <em>libraries used</em> when prompted</p></li>
+
+      <li><p>Press <em>Enter</em> for <em>local directories used</em> when prompted</p></li>
+
+      <li><p>Press <em>Enter</em> for <em>setup files used</em> when prompted</p></li>
+
+      <li><p>Write <em>c</em> for <em>language</em> when prompted as part of a Command</p></li>
+
+      <li><p>Write <em>hello_world.c</em> for <em>file</em> when prompted as part of a Command</p></li>
+
+      <li><p>Press <em>Enter</em> for <em>any linked libraries</em> when prompted as part of a Command</p></li>
+
+      <li><p>Press <em>Enter</em> for <em>other flags or inputs</em> when prompted as part of a Command</p></li>
+
+      <li><p>Press <em>Enter</em> for <em>Continue?</em> when prompted as part of a Command</p></li>
+      <li><p>Press <em>Enter</em> for <em>language</em> when prompted as part of a Command</p></li>
+
+      <li><p>Write <em>hw.txt</em> for <em>Enter output files</em></p></li>
+
+      <li><p>Press <em>Enter</em> for <em>Enter output files</em></p></li>
+
+    </ul>
+  </li>
+
+
+
+
+
+  <li>C++
+    <ul>
+      <li>Obtain the input and data files:</li>
+
+      <pre><code class="bash language-bash">curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/hello_world.cc</code></pre>
+
+
+      <li>Run job submission script:</li>
+
+      <pre><code class="bash language-bash">./advance-submit.sh</code></pre>
+
+      <li><p>Provide your email when requested</p></li>
+
+      <li><p>Select <em>3</em> for <em>allowed options</em> when prompted  </p></li>
+
+      <li><p>Select <em>n</em> for <em>providing a pre-compiled tar file</em> when prompted</p></li>
+
+      <li><p>Select <em>U</em> or <em>Ubuntu_16.04</em> for OS when prompted, this is the only available operating system as of now</p></li>
+
+      <li><p>Select <em>c++</em> for <em>languages used</em> when prompted</p></li>
+
+      <li><p>Press <em>Enter</em> for <em>libraries used</em> when prompted</p></li>
+
+      <li><p>Press <em>Enter</em> for <em>local directories used</em> when prompted</p></li>
+
+      <li><p>Press <em>Enter</em> for <em>setup files used</em> when prompted</p></li>
+
+      <li><p>Write <em>c++</em> for <em>language</em> when prompted as part of a Command</p></li>
+
+      <li><p>Write <em>hello_world.cc</em> for <em>file</em> when prompted as part of a Command</p></li>
+
+      <li><p>Press <em>Enter</em> for <em>requiring CGET libraries</em> when prompted as part of a Command</p></li>
+
+      <li><p>Press <em>Enter</em> for <em>any linked libraries</em> when prompted as part of a Command</p></li>
+
+      <li><p>Press <em>Enter</em> for <em>other flags or inputs</em> when prompted as part of a Command</p></li>
+
+      <li><p>Press <em>Enter</em> for <em>Continue?</em> when prompted as part of a Command</p></li>
+      <li><p>Press <em>Enter</em> for <em>language</em> when prompted as part of a Command</p></li>
+
+      <li><p>Write <em>hw.txt</em> for <em>Enter output files</em></p></li>
+
+      <li><p>Press <em>Enter</em> for <em>Enter output files</em></p></li>
+
+    </ul>
+  </li>
+
+
+
+
+  <li>Fortran
+    <ul>
+      <li>Obtain the input and data files:</li>
+
+      <pre><code class="bash language-bash">curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/hello_world.f90</code></pre>
+
+
+      <li>Run job submission script:</li>
+
+      <pre><code class="bash language-bash">./advance-submit.sh</code></pre>
+
+      <li><p>Provide your email when requested</p></li>
+
+      <li><p>Select <em>3</em> for <em>allowed options</em> when prompted  </p></li>
+
+      <li><p>Select <em>n</em> for <em>providing a pre-compiled tar file</em> when prompted</p></li>
+
+      <li><p>Select <em>U</em> or <em>Ubuntu_16.04</em> for OS when prompted, this is the only available operating system as of now</p></li>
+
+      <li><p>Select <em>fortran</em> for <em>languages used</em> when prompted</p></li>
+
+      <li><p>Press <em>Enter</em> for <em>libraries used</em> when prompted</p></li>
+
+      <li><p>Press <em>Enter</em> for <em>local directories used</em> when prompted</p></li>
+
+      <li><p>Press <em>Enter</em> for <em>setup files used</em> when prompted</p></li>
+
+      <li><p>Write <em>fortran</em> for <em>language</em> when prompted as part of a Command</p></li>
+
+      <li><p>Write <em>hello_world.f90</em> for <em>file</em> when prompted as part of a Command</p></li>
+
+      <li><p>Press <em>Enter</em> for <em>language</em> when prompted as part of a Command</p></li>
+
+      <li><p>Write <em>hw.txt</em> for <em>Enter output files</em></p></li>
+
+      <li><p>Press <em>Enter</em> for <em>Enter output files</em></p></li>
+
+    </ul>
+  </li>
+
+
+
+
+
+  <li>Python3
+    <ul>
+      <li>Obtain the input and data files:</li>
+
+      <pre><code class="bash language-bash">curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/hello_world.py</code></pre>
+
+
+      <li>Run job submission script:</li>
+
+      <pre><code class="bash language-bash">./advance-submit.sh</code></pre>
+
+      <li><p>Provide your email when requested</p></li>
+
+      <li><p>Select <em>3</em> for <em>allowed options</em> when prompted  </p></li>
+
+      <li><p>Select <em>n</em> for <em>providing a pre-compiled tar file</em> when prompted</p></li>
+
+      <li><p>Select <em>U</em> or <em>Ubuntu_16.04</em> for OS when prompted, this is the only available operating system as of now</p></li>
+
+      <li><p>Select <em>python3</em> for <em>languages used</em> when prompted</p></li>
+
+      <li><p>Press <em>Enter</em> for <em>libraries used</em> when prompted</p></li>
+
+      <li><p>Press <em>Enter</em> for <em>local directories used</em> when prompted</p></li>
+
+      <li><p>Press <em>Enter</em> for <em>setup files used</em> when prompted</p></li>
+
+      <li><p>Write <em>python3</em> for <em>language</em> when prompted as part of a Command</p></li>
+
+      <li><p>Write <em>hello_world.py</em> for <em>file</em> when prompted as part of a Command</p></li>
+
+      <li><p>Press <em>Enter</em> for <em>language</em> when prompted as part of a Command</p></li>
+
+      <li><p>Write <em>hw.txt</em> for <em>Enter output files</em></p></li>
+
+      <li><p>Press <em>Enter</em> for <em>Enter output files</em></p></li>
+
+    </ul>
+  </li>
+
+
+
+
+
+  <li>R
+    <ul>
+      <li>Obtain the input and data files:</li>
+
+      <pre><code class="bash language-bash">curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/hello_world.py</code></pre>
+
+
+      <li>Run job submission script:</li>
+
+      <pre><code class="bash language-bash">./advance-submit.sh</code></pre>
+
+      <li><p>Provide your email when requested</p></li>
+
+      <li><p>Select <em>3</em> for <em>allowed options</em> when prompted  </p></li>
+
+      <li><p>Select <em>n</em> for <em>providing a pre-compiled tar file</em> when prompted</p></li>
+
+      <li><p>Select <em>U</em> or <em>Ubuntu_16.04</em> for OS when prompted, this is the only available operating system as of now</p></li>
+
+      <li><p>Select <em>r</em> for <em>languages used</em> when prompted</p></li>
+
+      <li><p>Press <em>Enter</em> for <em>libraries used</em> when prompted</p></li>
+
+      <li><p>Press <em>Enter</em> for <em>local directories used</em> when prompted</p></li>
+
+      <li><p>Press <em>Enter</em> for <em>setup files used</em> when prompted</p></li>
+
+      <li><p>Write <em>r</em> for <em>language</em> when prompted as part of a Command</p></li>
+
+      <li><p>Write <em>hello_world.r</em> for <em>file</em> when prompted as part of a Command</p></li>
+
+      <li><p>Press <em>Enter</em> for <em>file to which write results</em> when prompted as part of a Command</p></li>
+
+      <li><p>Press <em>Enter</em> for <em>language</em> when prompted as part of a Command</p></li>
+
+      <li><p>Write <em>hw.txt</em> for <em>Enter output files</em></p></li>
+
+      <li><p>Press <em>Enter</em> for <em>Enter output files</em></p></li>
+
+    </ul>
+  </li>
+
+
+
+
+
+  <li>Bash
+    <ul>
+      <li>Obtain the input and data files:</li>
+
+      <pre><code class="bash language-bash">curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/hello_world.py</code></pre>
+
+
+      <li>Run job submission script:</li>
+
+      <pre><code class="bash language-bash">./advance-submit.sh</code></pre>
+
+      <li><p>Provide your email when requested</p></li>
+
+      <li><p>Select <em>3</em> for <em>allowed options</em> when prompted  </p></li>
+
+      <li><p>Select <em>n</em> for <em>providing a pre-compiled tar file</em> when prompted</p></li>
+
+      <li><p>Select <em>U</em> or <em>Ubuntu_16.04</em> for OS when prompted, this is the only available operating system as of now</p></li>
+
+      <li><p>Select <em>bash</em> for <em>languages used</em> when prompted</p></li>
+
+      <li><p>Press <em>Enter</em> for <em>libraries used</em> when prompted</p></li>
+
+      <li><p>Press <em>Enter</em> for <em>local directories used</em> when prompted</p></li>
+
+      <li><p>Press <em>Enter</em> for <em>setup files used</em> when prompted</p></li>
+
+      <li><p>Write <em>bash</em> for <em>language</em> when prompted as part of a Command</p></li>
+
+      <li><p>Write <em>hello_world.sh</em> for <em>file</em> when prompted as part of a Command</p></li>
+
+      <li><p>Press <em>Enter</em> for <em>language</em> when prompted as part of a Command</p></li>
+
+      <li><p>Write <em>hw.txt</em> for <em>Enter output files</em></p></li>
+
+      <li><p>Press <em>Enter</em> for <em>Enter output files</em></p></li>
+
+    </ul>
+  </li>
+
+</ol>

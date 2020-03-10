@@ -42,7 +42,7 @@ chmod +x advance-submit.sh
 <ol>
   <li>AutoDock-Vina
     <ul>
-      <li>Obtain the necessary files:</li>
+      <li>Obtain the input and data files:</li>
 
       <pre><code class="bash language-bash">curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/protein.pdbqt
 curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/protein.pdb
@@ -87,7 +87,7 @@ curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-ba
   <li>Bedtools
 
     <ul>
-      <li>Obtain the necessary files:</li>
+      <li>Obtain the input and data files:</li>
 
       <pre><code class="bash language-bash">curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/cpg.bed
 curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/exons.bed
@@ -128,7 +128,7 @@ curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-ba
   <li>Blast
 
     <ul>
-      <li>Obtain the necessary files:</li>
+      <li>Obtain the input and data files:</li>
 
       <pre><code class="bash language-bash">curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/P04156.fasta
 curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/zebrafish.1.protein.faa.gz
@@ -172,7 +172,7 @@ blastp -query P04156.fasta -db zebrafish.1.protein.faa -out results.txt
   <li>Bowtie
 
     <ul>
-      <li>Obtain the necessary files:</li>
+      <li>Obtain the input and data files:</li>
 
       <pre><code class="bash language-bash">curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/s_cerevisiae.ebwt.zip</code></pre>
 
@@ -213,7 +213,7 @@ bowtie -c s_cerevisiae ATTGTAGTTCGAGTAAGTAATGTGGGTTTG &gt; res_bowtie.txt
   <li>Gromacs
 
     <ul>
-      <li>Obtain the necessary files:</li>
+      <li>Obtain the input and data files:</li>
 
       <pre><code class="bash language-bash">curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/methane_water.gro
 curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/topol.top
@@ -254,7 +254,7 @@ curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-ba
   <li>HTSeq
 
     <ul>
-      <li>Obtain the necessary files:</li>
+      <li>Obtain the input and data files:</li>
 
       <pre><code class="bash language-bash">curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/test.sam
 curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/gen.gtf</code></pre>
@@ -294,7 +294,7 @@ curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-ba
   <li>MPI-LAMMPS
 
     <ul>
-      <li>Obtain the necessary files:</li>
+      <li>Obtain the input and data files:</li>
 
       <pre><code class="bash language-bash">curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/Al99.eam.alloy
 curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/aluminium.in</code></pre>
@@ -334,7 +334,7 @@ curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-ba
   <li>NAMD
 
     <ul>
-      <li>Obtain the necessary files:</li>
+      <li>Obtain the input and data files:</li>
 
       <pre><code class="bash language-bash">curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/alanin.psf
 curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/alanin.conf
@@ -376,7 +376,7 @@ curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-ba
   <li>CUDA
 
     <ul>
-      <li>Obtain the necessary files:</li>
+      <li>Obtain the input and data files:</li>
 
       <pre><code class="bash language-bash">curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/happ.cu</code></pre>
 
@@ -415,9 +415,9 @@ curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-ba
   <li>OpenFOAM6
 
     <ul>
-      <li>Obtain the necessary files:</li>
+      <li>Obtain the input and data files:</li>
 
-      <pre><code class="bash language-bash">kdir 0 constant system
+      <pre><code class="bash language-bash">mkdir 0 constant system
 curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/0/U &gt; 0/U
 curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/0/p &gt; 0/p
 curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/constant/transportProperties &gt; constant/transportProperties

@@ -90,6 +90,18 @@ else
     exit 0
   fi
 fi
+
+# Colors, helpful for printing
+REDRED='\033[0;31m'
+GREENGREEN='\033[0;32m'
+YELLOWYELLOW='\033[1;33m'
+BLUEBLUE='\033[1;34m'
+PURPLEPURPLE='\033[1;35m'
+NCNC='\033[0m' # No color
+
+NEWLINE=$'\n'
+
+
 case $server in
   boinc)
 	#!/bin/bash
@@ -104,14 +116,6 @@ printf "Welcome to Boinc job submission\n\n"
 printf "NOTE: NO MPI jobs distributed accross more than one volunteer, No jobs with external downloads while the job is running (no curl, wget, rsync, ..).\n"
 # Server IP or domain must be declared before
 SERVER_IP='boinc.tacc.utexas.edu'
-
-# Colors, helpful for printing
-REDRED='\033[0;31m'
-GREENGREEN='\033[0;32m'
-YELLOWYELLOW='\033[1;33m'
-BLUEBLUE='\033[1;34m'
-PURPLEPURPLE='\033[1;35m'
-NCNC='\033[0m' # No color
 
 
 printf "Enter the email id to which the results should be sent: "
@@ -895,6 +899,7 @@ esac
    ;; 
   stampede|$taccsys)
     echo "Executing within stampede server."
+
     echo "We need more input to run the job on Stampede server."
     echo -n "Please enter your allocation unit : "
     read allocation
@@ -912,7 +917,7 @@ esac
     do
       case $commandtype in
       1|serial|Serial)
-	cat template_serial.txt > thisrun.txt
+	cat slurm-templates/template_serial.txt > thisrun.txt
 	if [ "$jobqueue" == "skx" ] ; then	
 	  sed -i 's/for TACC Stampede2 KNL nodes/for TACC Stampede2 SKX nodes/g' thisrun.txt
 	  sed -i 's/Serial Job on Normal Queue/Serial Job on SKX Normal Queue/g' thisrun.txt
@@ -922,7 +927,7 @@ esac
 	break;
 	;;
       2|mpi|MPI)
-	cat template_mpi.txt > thisrun.txt
+	cat slurm-templates/template_mpi.txt > thisrun.txt
 	if [ "$jobqueue" == "skx" ] ; then
 	  sed -i 's/for TACC Stampede2 KNL nodes/for TACC Stampede2 SKX nodes/g' thisrun.txt
 	  sed -i 's/MPI Job on Normal Queue/MPI Job on SKX Normal Queue/g' thisrun.txt
@@ -936,7 +941,7 @@ esac
 	echo "Asking questions related to OpenMP"
 	echo -n "Please enter the number of threads you want for parallel execution : "
 	read threadcount
-	cat template_openmp.txt > thisrun.txt
+	cat slurm-templates/template_openmp.txt > thisrun.txt
 	if [ "$jobqueue" == "skx" ] ; then
 	  sed -i 's/for TACC Stampede2 KNL nodes/for TACC Stampede2 SKX nodes/g' thisrun.txt
 	  sed -i 's/OpenMP Job on Normal Queue/OpenMP Job on SKX Normal Queue/g' thisrun.txt
@@ -950,7 +955,7 @@ esac
 	echo "Asking questions related to OpenMP"
 	echo -n "Please enter the number of threads you want for parallel execution : "
 	read threadcount
-	cat template_hybrid.txt > thisrun.txt
+	cat slurm-templates/template_hybrid.txt > thisrun.txt
 	if [ "$jobqueue" == "skx" ] ; then
 	  sed -i 's/for TACC Stampede2 KNL nodes/for TACC Stampede2 SKX nodes/g' thisrun.txt
 	  sed -i 's/Hybrid Job on Normal Queue/Hybrid Job on SKX Normal Queue/g' thisrun.txt
@@ -960,27 +965,87 @@ esac
 	break;
 	;;
       5|gpu|GPU)
-	echo "Not yet supported"
-	cat template_gpu.txt >thisrun.txt
-	if [ "$jobqueue" == "skx" ] ; then
-	  echo "replacement yet to be done"
-	fi
-	break;
-	;;
-      *)
-	echo "Wrong selection"	
-	esac
-    done
-    read -p "Do you have some preprocessing task before executing the final task eg. load a module, copying header files? ";
-    if [ "$REPLY" == "y" ] || [ "$REPLY" == "Y" ]; then
-      echo -n "Enter the path of preprocessing file which contains preprocessing commands(eg. dependent module load, copying headers): "
-      read ppfilepath
-      echo "$ppfilepath"
+    echo "Not yet supported"
+    cat slurm-templates/template_gpu.txt >thisrun.txt
+    if [ "$jobqueue" == "skx" ] ; then
+      echo "replacement yet to be done"
     fi
-    echo -n "Enter the path of file which contains the commands to be exectued on tacc resources : "
-    read commandpath
-    commands=$(<"$commandpath")
-    echo "$commandpath"
+    break;
+    ;;
+      *)
+    echo "Wrong selection"
+    esac
+    done
+    read -p "Do you have some preprocessing task before executing the final task eg. load a module, copying header files?[y/n] ";
+    if [ "$REPLY" == "y" ] || [ "$REPLY" == "Y" ]; then
+
+        read -p "Do you want to provide a file with preprocessing commands[y] or enter them manually? "
+        if [ "$REPLY" == "y" ] || [ "$REPLY" == "Y" ]; then
+
+            while true
+            do
+                echo -n "Enter the path of preprocessing file which contains preprocessing commands(eg. dependent module load, copying headers): "
+                read ppfilepath
+
+                if [ -f "$ppfilepath" ]; then
+                    break
+                fi
+                printf "${REDRED}File $ppfilepath does not exist${NCNC}\n"
+            done
+
+        else
+            printf "Enter preprocessing tasks below, one per line:\n"
+            pretasks=""
+            while true
+            do
+                read new_pretask
+
+                if [ -z "$new_pretask" ]; then
+                    ppfilepath="pretasks__"$(date '+%Y-%m-%d_%H:%M:%S')".txt"
+                    echo "$pretasks" > "$ppfilepath"
+                    entered_pretasks_manually="y"
+                    break
+                fi
+                pretasks="$pretasks""$new_pretask""${NEWLINE}"
+            done
+        fi
+    fi
+
+    printf "${PURPLEPURPLE}Commands${NCNC}\n"
+    printf "Do you wish to provide file with commands[y] or enter commands manually? "
+    read providing_commands_file
+
+    if [ "$providing_commands_file" == "y" ] || [ "$providing_commands_file" == "Y" ]; then
+        while true
+        do
+            echo -n "Enter the path of file which contains the commands to be executed on TACC resources: "
+            read commandpath
+
+            if [ -f "$commandpath" ]; then
+                commands=$(<"$commandpath")
+                break
+            fi
+            printf "${REDRED}File $commandpath does not exist${NCNC}\n"
+        done
+
+    else
+        printf "Enter commands below, one per line:\n"
+        commands=""
+        while true
+        do
+            read new_command
+
+            if [ -z "$new_command" ]; then
+                commandpath="commands__"$(date '+%Y-%m-%d_%H:%M:%S')".txt"
+                echo "$commands" > "$commandpath"
+                entered_commands_manually="y"
+                break
+            fi
+            commands="$commands""$new_command""${NEWLINE}"
+        done
+    fi
+
+
     echo "Executing the command $commands"
     #$reading template file
     while IFS='' read line || [[ -n "$line" ]]; do
@@ -990,7 +1055,7 @@ esac
     cat thisrun.txt > template.txt
     #Actual replacement happening here
     sed -i "s/@allocation_name/$allocation/g" thisrun.txt
-	
+
     #if threadcount is not null this is openmp or hybrid job.
     if [ -n "$threadcount" ] ; then
       sed -i "s/@threadcount/$threadcount/g" thisrun.txt
@@ -1017,13 +1082,23 @@ esac
       exit 1
     fi 
     rm thisrun.txt
+
+    # Deletes file used to run commands manually
+    if [ ! -z "$entered_commands_manually" ]; then
+        rm "$commandpath"
+    fi
+
+    if [ ! -z "$entered_pretasks_manually" ]; then
+        rm "$ppfilepath"
+    fi
+
     ;;
   quit)
     #break
-    ;;	
+    ;;
   *)
     echo "You selected a wrong choice"
     ;;
 esac
 #done
-	
+

@@ -897,13 +897,14 @@ esac
 
 
    ;; 
-  stampede|$taccsys)
-    echo "Executing within stampede server."
+  $taccsys)
+    echo "Executing within $taccsys server."
 
-    echo "We need more input to run the job on Stampede server."
+    echo "We need more input to run the job on $taccsys server."
     echo -n "Please enter your allocation unit : "
     read allocation
-    echo -n "Please tell us which job queue you would like to use : KNL or SKX : "
+    if [ $taccsys != "ls5" ] ; then
+      echo -n "Please tell us which job queue you would like to use : KNL or SKX : "
     read jobqueue
     #converting jobqueue to lowercase
     jobqueue=${jobqueue,,}
@@ -912,6 +913,7 @@ esac
       echo "$jobqueue"
       echo "Wrong queue selection!! Exiting..."
       exit 1
+    fi
     fi
     select commandtype in "Serial" "MPI" "OpenMP" "Hybrid" "GPU"
     do

@@ -44,6 +44,9 @@ page_head(
     null, null, null, null, boinc_recaptcha_get_head_extra(), "Create Account"//Keeps the tab title as Create Account without making the tab title subject to changes in the <body>
 );
 
+
+
+
 echo '<meta name = "viewport" content = "width=device-width, initial-scale=1.0">';
 
 //'<div style ="position:relative; left:36%;"> Original div used for spacing, caused issues as the div always retains the same amount of area in a webpage
@@ -94,9 +97,17 @@ echo '<br>';
 
 form_start("create_account_action.php","post");//Starts the form for information input for the Volunteer
 create_account_form($teamid, $next_url);
+
+
+/*
+// Google recaptcha no longer being used
+
 if ($recaptcha_public_key) {
     form_general("", boinc_recaptcha_get_html($recaptcha_public_key));
 }
+*/
+
+
 
 //http://www.phphaven.com/article.php?id=77
 //$agree;

@@ -128,13 +128,16 @@ def complete_build(IMTAG, UTOK, MIDIR, COMMAND_TXT, DOCK_DOCK, BOCOM, FILES_PATH
             MESSAGE += "\n\nClick on the following link to obtain a compressed version of the application docker image.\n"
             MESSAGE += "You are welcome to upload the image on dockerhub in order to reduce the future job processing time for the same application (no allocation will be discounted): \n"
             MESSAGE += os.environ["SERVER_IP"]+":5060/boincserver/v2/reef/results/"+UTOK+"/"+saved_name.replace("../", "")
+            MESSAGE += "\n\nDownload the image using the following command:\n"
+            MESSAGE += "curl -O "+os.environ["SERVER_IP"]+":5060/boincserver/v2/reef/results/"+UTOK+"/"+saved_name.replace("../", "")
+            MESSAGE += "\nThen load the image (sudo permission may be required):"
+            MESSAGE += "\ndocker load < "+saved_name.replace("../", "")
+            MESSAGE += "\nThe image ID will appear, which can then be used to create a container (sudo permission may be required):"
+            MESSAGE += "\ndocker run -it IMAGE_ID bash"
             MESSAGE += "\n\nRun the following command on the image: \n"+' '.join(BOCOM.split(' ')[1::])
             MESSAGE += "\n\nThis is the Dockerfile we used to process your job: \n\n"+DOCK_DOCK
 
             ec.send_mail_complete(researcher_email, "Succesful MIDAS build", MESSAGE, [])
-
-
-
 
             return None
 
@@ -162,6 +165,12 @@ def complete_build(IMTAG, UTOK, MIDIR, COMMAND_TXT, DOCK_DOCK, BOCOM, FILES_PATH
         MESSAGE += "\n\nClick on the following link to obtain a compressed version of the application docker image.\n"
         MESSAGE += "You are welcome to upload the image on dockerhub in order to reduce the future job processing time for the same application (no allocation will be discounted): \n"
         MESSAGE += os.environ["SERVER_IP"]+":5060/boincserver/v2/reef/results/"+UTOK+"/"+saved_name
+        MESSAGE += "\n\nDownload the image using the following command:\n"
+        MESSAGE += "curl -O "+os.environ["SERVER_IP"]+":5060/boincserver/v2/reef/results/"+UTOK+"/"+saved_name.replace("../", "")
+        MESSAGE += "\nThen load the image (sudo permission may be required):"
+        MESSAGE += "\ndocker load < "+saved_name.replace("../", "")
+        MESSAGE += "\nThe image ID will appear, which can then be used to create a container (sudo permission may be required):"
+        MESSAGE += "\ndocker run -it IMAGE_ID bash"
         MESSAGE += "\n\nRun the following command on the image: \n"+' '.join(BOCOM.split(' ')[1::])
         MESSAGE += "\n\nThis is the Dockerfile we used to process your job: \n\n"+DOCK_DOCK
         ec.send_mail_complete(researcher_email, "Succesful MIDAS build", MESSAGE, [])

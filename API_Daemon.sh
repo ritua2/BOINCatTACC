@@ -60,6 +60,8 @@ if [ $1 == "-up" ]; then
         > /dev/null 2>&1 & echo $! > /home/boincadm/project/volm_api.txt
    nohup /home/boincadm/project/api/volcon_submit.py & \
         > /dev/null 2>&1 & echo $! > /home/boincadm/project/vols_api.txt 
+   nohup /home/boincadm/project/api/captcha_generator.py & \
+        > /dev/null 2>&1 & echo $! > /home/boincadm/project/capt_api.txt
 
    printf "Server communication APIs are now active\n"
 fi
@@ -86,6 +88,7 @@ if [ $1 == "-down" ]; then
    kill -9 $(($(cat /home/boincadm/project/volj_api.txt) - 1))
    kill -9 $(($(cat /home/boincadm/project/volm_api.txt) - 1))
    kill -9 $(($(cat /home/boincadm/project/vols_api.txt) - 1))
+   kill -9 $(($(cat /home/boincadm/project/capt_api.txt) - 1))
    printf "Server communication APIs have been disconnected\n"
 fi
 

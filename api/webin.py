@@ -170,6 +170,11 @@ def process_web_jobs():
                 comfil.write("\"mkdir -p /data; cd /data; ")
                 # Adds the files
                 for FF in Reefil:
+
+                    # Skips unnecessary files
+                    if FF == "":
+                        break
+
                     comfil.write(get_reef_file(Image, TOK, FF)+" ")
 
                 comfil.write(Command+" mkdir -p /root/shared/results/; mv ./* /root/shared/results\"")
@@ -180,6 +185,11 @@ def process_web_jobs():
                 comfil.write(extra_image_commands(Image))
                 # Adds the files
                 for FF in Reefil:
+
+                    # Skips unnecessary files
+                    if FF == "":
+                        break
+
                     comfil.write(get_reef_file(Image, TOK, FF)+" ")
 
                 comfil.write(Command+" python /Mov_Res.py\"")

@@ -7,18 +7,14 @@
 </p>
 
 <p>
-  For submitting jobs through this website, you should first run the registration script (<em>register-boinc.sh</em>) from the Stampede2/Lonestar5 systems at least once.
+  For submitting jobs through this website, you should first run the registration script from the Stampede2/Lonestar5 systems at least once:
 </p>
 
-<h4 id="installation"><strong>Installation</strong></h4>
+<pre><code class="bash language-bash">curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/register-boinc.sh
+chmod +x advance-submit.sh
+./register-boinc.sh</code></pre>
 
-<p>
-  Obtain the required files from <a href="https://github.com/ritua2/BOINCatTACC/tree/master/stampede2-backend/S2-test-files">this directory</a>:
-</p>
 
-<pre><code class="bash language-bash">svn checkout https://github.com/ritua2/BOINCatTACC/trunk/stampede2-backend/S2-test-files
-cd S2-test-files
-chmod +x advance-submit.sh</code></pre>
 
 <h4 id="accessingthetutorialfilesforspecificapplications"><strong>Tutorial files for TACC specific applications</strong></h4>
 
@@ -27,21 +23,15 @@ chmod +x advance-submit.sh</code></pre>
 </p>
 
 
-<ul>
-  <li>BOINC job submission</li>
-
-<pre><code class="bash language-bash">curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/advance-submit.sh
-chmod +x advance-submit.sh
-</code></pre>
-
-</ul>
 
 <ol>
   <li>AutoDock-Vina
     <ul>
       <li>Obtain the input and data files:</li>
 
-      <pre><code class="bash language-bash">curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/protein.pdbqt
+      <pre><code class="bash language-bash">mkdir autodock-vina
+cd autodock-vina
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/protein.pdbqt
 curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/protein.pdb
 curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/ligand.pdbqt
 curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/ligand.pdb
@@ -98,7 +88,9 @@ curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-ba
     <ul>
       <li>Obtain the input and data files:</li>
 
-      <pre><code class="bash language-bash">curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/d1.bed
+      <pre><code class="bash language-bash">mkdir bedtools
+cd bedtools
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/d1.bed
 curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/query.bed
 </code></pre>
 
@@ -150,7 +142,9 @@ curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-ba
     <ul>
       <li>Obtain the input and data files:</li>
 
-      <pre><code class="bash language-bash">curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/P04156.fasta
+      <pre><code class="bash language-bash">mkdir blast
+cd blast
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/P04156.fasta
 curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/zebrafish.1.protein.faa.gz
 </code></pre>
 
@@ -204,7 +198,9 @@ blastp -query P04156.fasta -db zebrafish.1.protein.faa -out results.txt;</code><
     <ul>
       <li>Obtain the input and data files:</li>
 
-      <pre><code class="bash language-bash">curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/s_cerevisiae.ebwt.zip</code></pre>
+      <pre><code class="bash language-bash">mkdir bowtie
+cd bowtie
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/s_cerevisiae.ebwt.zip</code></pre>
 
 
       <li>Compress all necessary files into a <em>.tar.gz</em>, <em>.tgz</em>, or <em>.zip</em> compressed file</li>
@@ -255,7 +251,9 @@ bowtie -c s_cerevisiae ATTGTAGTTCGAGTAAGTAATGTGGGTTTG &gt; res_bowtie.txt;</code
     <ul>
       <li>Obtain the input and data files:</li>
 
-      <pre><code class="bash language-bash">curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/methane_water.gro
+      <pre><code class="bash language-bash">mkdir gromacs
+cd gromacs
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/methane_water.gro
 curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/topol.top
 curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/em_steep.mdp</code></pre>
 
@@ -307,7 +305,9 @@ curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-ba
     <ul>
       <li>Obtain the input and data files:</li>
 
-      <pre><code class="bash language-bash">curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/test.sam
+      <pre><code class="bash language-bash">mkdir htseq
+cd htseq
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/test.sam
 curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/gen.gtf</code></pre>
 
 
@@ -358,7 +358,9 @@ curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-ba
     <ul>
       <li>Obtain the input and data files:</li>
 
-      <pre><code class="bash language-bash">curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/Al99.eam.alloy
+      <pre><code class="bash language-bash">mkdir mpi-lammps
+cd mpi-lammps
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/Al99.eam.alloy
 curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/aluminium.in</code></pre>
 
 
@@ -409,7 +411,9 @@ curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-ba
     <ul>
       <li>Obtain the input and data files:</li>
 
-      <pre><code class="bash language-bash">curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/alanin.psf
+      <pre><code class="bash language-bash">mkdir namd
+cd namd
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/alanin.psf
 curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/alanin.conf
 curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/alanin.pdb
 curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/alanin.params</code></pre>
@@ -462,7 +466,9 @@ curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-ba
     <ul>
       <li>Obtain the input and data files:</li>
 
-      <pre><code class="bash language-bash">curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/happ.cu</code></pre>
+      <pre><code class="bash language-bash">mkdir CUDA
+cd CUDA
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/happ.cu</code></pre>
 
 
       <li>Compress all necessary files into a <em>.tar.gz</em>, <em>.tgz</em>, or <em>.zip</em> compressed file</li>
@@ -513,7 +519,9 @@ curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-ba
     <ul>
       <li>Obtain the input and data files:</li>
 
-      <pre><code class="bash language-bash">mkdir 0 constant system
+      <pre><code class="bash language-bash">mkdir OpenFOAM6
+cd OpenFOAM6
+mkdir 0 constant system
 curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/0/U &gt; 0/U
 curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/0/p &gt; 0/p
 curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/constant/transportProperties &gt; constant/transportProperties

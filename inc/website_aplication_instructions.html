@@ -3,16 +3,16 @@
 <h4 id="prerequisites"><strong>Prerequisites</strong></h4>
 
 <p>
-  Instructions below should be run from the BOINC@TACC Job Submission page, researchers must be logged logged in to access
+  Instructions below should be run from the BOINC@TACC Job Submission page, researchers must be registered for using BOINC@TACC and should log into this website with their TACC portal credentials.
 </p>
 
 <p>
-  For submitting jobs through this website, you should first run the registration script from the Stampede2/Lonestar5 systems at least once:
+  The researchers should complete the one-time registration process for using BOINC@TACC by running a script from the Stampede2/Lonestar5 systems as shown below:
 </p>
 
-<pre><code class="bash language-bash">curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/register-boinc.sh
-chmod +x advance-submit.sh
-./register-boinc.sh</code></pre>
+<pre><code class="bash language-bash">curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/register-boinc.sh;
+chmod +x advance-submit.sh;
+./register-boinc.sh;</code></pre>
 
 
 
@@ -29,21 +29,21 @@ chmod +x advance-submit.sh
     <ul>
       <li>Obtain the input and data files:</li>
 
-      <pre><code class="bash language-bash">mkdir autodock-vina
-cd autodock-vina
-curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/protein.pdbqt
-curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/protein.pdb
-curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/ligand.pdbqt
-curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/ligand.pdb
-curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/ligand_experiment.pdb
-curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/ligand_experiment.pdbqt
-curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/conf.txt
+      <pre><code class="bash language-bash">mkdir autodock-vina;
+cd autodock-vina;
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/protein.pdbqt;
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/protein.pdb;
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/ligand.pdbqt;
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/ligand.pdb;
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/ligand_experiment.pdb;
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/ligand_experiment.pdbqt;
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/conf.txt;
 </code></pre>
 
 
       <li>Compress all necessary files into a <em>.tar.gz</em>, <em>.tgz</em>, or <em>.zip</em> compressed file</li>
 
-      <pre><code class="bash language-bash">tar -cvzf data.tar.gz protein.pdbqt ligand.pdbqt ligand.pdb protein.pdb ligand_experiment.pdb ligand_experiment.pdbqt conf.txt</code></pre>
+      <pre><code class="bash language-bash">tar -cvzf data.tar.gz protein.pdbqt ligand.pdbqt ligand.pdb protein.pdb ligand_experiment.pdb ligand_experiment.pdbqt conf.txt;</code></pre>
 
       <li>
         Log in to the BOINC@TACC website as a Researcher using your TACC portal credentials: <a href = "https://boinc.tacc.utexas.edu/login_as_a_researcher_form.php" target="_blank">https://boinc.tacc.utexas.edu/login_as_a_researcher_form.php</a>
@@ -88,16 +88,16 @@ curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-ba
     <ul>
       <li>Obtain the input and data files:</li>
 
-      <pre><code class="bash language-bash">mkdir bedtools
-cd bedtools
-curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/d1.bed
-curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/query.bed
+      <pre><code class="bash language-bash">mkdir bedtools;
+cd bedtools;
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/d1.bed;
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/query.bed;
 </code></pre>
 
 
       <li>Compress all necessary files into a <em>.tar.gz</em>, <em>.tgz</em>, or <em>.zip</em> compressed file</li>
 
-      <pre><code class="bash language-bash">tar -cvzf data.tar.gz d1.bed query.bed</code></pre>
+      <pre><code class="bash language-bash">tar -cvzf data.tar.gz d1.bed query.bed;</code></pre>
 
       <li>
         Log in to the BOINC@TACC website as a Researcher using your TACC portal credentials: <a href = "https://boinc.tacc.utexas.edu/login_as_a_researcher_form.php" target="_blank">https://boinc.tacc.utexas.edu/login_as_a_researcher_form.php</a>
@@ -142,16 +142,16 @@ curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-ba
     <ul>
       <li>Obtain the input and data files:</li>
 
-      <pre><code class="bash language-bash">mkdir blast
-cd blast
-curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/P04156.fasta
-curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/zebrafish.1.protein.faa.gz
+      <pre><code class="bash language-bash">mkdir blast;
+cd blast;
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/P04156.fasta;
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/zebrafish.1.protein.faa.gz;
 </code></pre>
 
 
       <li>Compress all necessary files into a <em>.tar.gz</em>, <em>.tgz</em>, or <em>.zip</em> compressed file</li>
 
-      <pre><code class="bash language-bash">tar -cvzf data.tar.gz P04156.fasta zebrafish.1.protein.faa.gz</code></pre>
+      <pre><code class="bash language-bash">tar -cvzf data.tar.gz P04156.fasta zebrafish.1.protein.faa.gz;</code></pre>
 
       <li>
         Log in to the BOINC@TACC website as a Researcher using your TACC portal credentials: <a href = "https://boinc.tacc.utexas.edu/login_as_a_researcher_form.php" target="_blank">https://boinc.tacc.utexas.edu/login_as_a_researcher_form.php</a>
@@ -198,14 +198,14 @@ blastp -query P04156.fasta -db zebrafish.1.protein.faa -out results.txt;</code><
     <ul>
       <li>Obtain the input and data files:</li>
 
-      <pre><code class="bash language-bash">mkdir bowtie
-cd bowtie
-curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/s_cerevisiae.ebwt.zip</code></pre>
+      <pre><code class="bash language-bash">mkdir bowtie;
+cd bowtie;
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/s_cerevisiae.ebwt.zip;</code></pre>
 
 
       <li>Compress all necessary files into a <em>.tar.gz</em>, <em>.tgz</em>, or <em>.zip</em> compressed file</li>
 
-      <pre><code class="bash language-bash">tar -cvzf data.tar.gz s_cerevisiae.ebwt.zip</code></pre>
+      <pre><code class="bash language-bash">tar -cvzf data.tar.gz s_cerevisiae.ebwt.zip;</code></pre>
 
       <li>
         Log in to the BOINC@TACC website as a Researcher using your TACC portal credentials: <a href = "https://boinc.tacc.utexas.edu/login_as_a_researcher_form.php" target="_blank">https://boinc.tacc.utexas.edu/login_as_a_researcher_form.php</a>
@@ -251,16 +251,16 @@ bowtie -c s_cerevisiae ATTGTAGTTCGAGTAAGTAATGTGGGTTTG &gt; res_bowtie.txt;</code
     <ul>
       <li>Obtain the input and data files:</li>
 
-      <pre><code class="bash language-bash">mkdir gromacs
-cd gromacs
-curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/methane_water.gro
-curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/topol.top
-curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/em_steep.mdp</code></pre>
+      <pre><code class="bash language-bash">mkdir gromacs;
+cd gromacs;
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/methane_water.gro;
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/topol.top;
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/em_steep.mdp;</code></pre>
 
 
       <li>Compress all necessary files into a <em>.tar.gz</em>, <em>.tgz</em>, or <em>.zip</em> compressed file</li>
 
-      <pre><code class="bash language-bash">tar -cvzf data.tar.gz methane_water.gro topol.top em_steep.mdp</code></pre>
+      <pre><code class="bash language-bash">tar -cvzf data.tar.gz methane_water.gro topol.top em_steep.mdp;</code></pre>
 
       <li>
         Log in to the BOINC@TACC website as a Researcher using your TACC portal credentials: <a href = "https://boinc.tacc.utexas.edu/login_as_a_researcher_form.php" target="_blank">https://boinc.tacc.utexas.edu/login_as_a_researcher_form.php</a>
@@ -305,15 +305,15 @@ curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-ba
     <ul>
       <li>Obtain the input and data files:</li>
 
-      <pre><code class="bash language-bash">mkdir htseq
-cd htseq
-curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/test.sam
-curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/gen.gtf</code></pre>
+      <pre><code class="bash language-bash">mkdir htseq;
+cd htseq;
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/test.sam;
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/gen.gtf;</code></pre>
 
 
       <li>Compress all necessary files into a <em>.tar.gz</em>, <em>.tgz</em>, or <em>.zip</em> compressed file</li>
 
-      <pre><code class="bash language-bash">tar -cvzf data.tar.gz test.sam gen.gtf</code></pre>
+      <pre><code class="bash language-bash">tar -cvzf data.tar.gz test.sam gen.gtf;</code></pre>
 
       <li>
         Log in to the BOINC@TACC website as a Researcher using your TACC portal credentials: <a href = "https://boinc.tacc.utexas.edu/login_as_a_researcher_form.php" target="_blank">https://boinc.tacc.utexas.edu/login_as_a_researcher_form.php</a>
@@ -358,15 +358,15 @@ curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-ba
     <ul>
       <li>Obtain the input and data files:</li>
 
-      <pre><code class="bash language-bash">mkdir mpi-lammps
-cd mpi-lammps
-curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/Al99.eam.alloy
-curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/aluminium.in</code></pre>
+      <pre><code class="bash language-bash">mkdir mpi-lammps;
+cd mpi-lammps;
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/Al99.eam.alloy;
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/aluminium.in;</code></pre>
 
 
       <li>Compress all necessary files into a <em>.tar.gz</em>, <em>.tgz</em>, or <em>.zip</em> compressed file</li>
 
-      <pre><code class="bash language-bash">tar -cvzf data.tar.gz Al99.eam.alloy aluminium.in</code></pre>
+      <pre><code class="bash language-bash">tar -cvzf data.tar.gz Al99.eam.alloy aluminium.in;</code></pre>
 
       <li>
         Log in to the BOINC@TACC website as a Researcher using your TACC portal credentials: <a href = "https://boinc.tacc.utexas.edu/login_as_a_researcher_form.php" target="_blank">https://boinc.tacc.utexas.edu/login_as_a_researcher_form.php</a>
@@ -411,17 +411,17 @@ curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-ba
     <ul>
       <li>Obtain the input and data files:</li>
 
-      <pre><code class="bash language-bash">mkdir namd
-cd namd
-curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/alanin.psf
-curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/alanin.conf
-curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/alanin.pdb
-curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/alanin.params</code></pre>
+      <pre><code class="bash language-bash">mkdir namd;
+cd namd;
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/alanin.psf;
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/alanin.conf;
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/alanin.pdb;
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/alanin.params;</code></pre>
 
 
       <li>Compress all necessary files into a <em>.tar.gz</em>, <em>.tgz</em>, or <em>.zip</em> compressed file</li>
 
-      <pre><code class="bash language-bash">tar -cvzf data.tar.gz alanin.psf alanin.conf alanin.pdb alanin.params</code></pre>
+      <pre><code class="bash language-bash">tar -cvzf data.tar.gz alanin.psf alanin.conf alanin.pdb alanin.params;</code></pre>
 
       <li>
         Log in to the BOINC@TACC website as a Researcher using your TACC portal credentials: <a href = "https://boinc.tacc.utexas.edu/login_as_a_researcher_form.php" target="_blank">https://boinc.tacc.utexas.edu/login_as_a_researcher_form.php</a>
@@ -466,14 +466,14 @@ curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-ba
     <ul>
       <li>Obtain the input and data files:</li>
 
-      <pre><code class="bash language-bash">mkdir CUDA
-cd CUDA
-curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/happ.cu</code></pre>
+      <pre><code class="bash language-bash">mkdir CUDA;
+cd CUDA;
+curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/happ.cu;</code></pre>
 
 
       <li>Compress all necessary files into a <em>.tar.gz</em>, <em>.tgz</em>, or <em>.zip</em> compressed file</li>
 
-      <pre><code class="bash language-bash">tar -cvzf data.tar.gz happ.cu</code></pre>
+      <pre><code class="bash language-bash">tar -cvzf data.tar.gz happ.cu;</code></pre>
 
       <li>
         Log in to the BOINC@TACC website as a Researcher using your TACC portal credentials: <a href = "https://boinc.tacc.utexas.edu/login_as_a_researcher_form.php" target="_blank">https://boinc.tacc.utexas.edu/login_as_a_researcher_form.php</a>
@@ -519,27 +519,27 @@ curl -O https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-ba
     <ul>
       <li>Obtain the input and data files:</li>
 
-      <pre><code class="bash language-bash">mkdir OpenFOAM6
-cd OpenFOAM6
-mkdir 0 constant system
-curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/0/U &gt; 0/U
-curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/0/p &gt; 0/p
-curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/constant/transportProperties &gt; constant/transportProperties
-mkdir constant/polyMesh
-curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/constant/polyMesh/boundary  &gt; constant/polyMesh/boundary
-curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/constant/polyMesh/faces     &gt; constant/polyMesh/faces
-curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/constant/polyMesh/neighbour &gt; constant/polyMesh/neighbour
-curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/constant/polyMesh/owner     &gt; constant/polyMesh/owner
-curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/constant/polyMesh/points    &gt; constant/polyMesh/points
-curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/system/blockMeshDict        &gt; system/blockMeshDict
-curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/system/controlDict          &gt; system/controlDict
-curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/system/fvSchemes            &gt; system/fvSchemes
-curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/system/fvSolution           &gt; system/fvSolution</code></pre>
+      <pre><code class="bash language-bash">mkdir OpenFOAM6;
+cd OpenFOAM6;
+mkdir 0 constant system;
+curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/0/U &gt; 0/U;
+curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/0/p &gt; 0/p;
+curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/constant/transportProperties &gt; constant/transportProperties;
+mkdir constant/polyMesh;
+curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/constant/polyMesh/boundary  &gt; constant/polyMesh/boundary;
+curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/constant/polyMesh/faces     &gt; constant/polyMesh/faces;
+curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/constant/polyMesh/neighbour &gt; constant/polyMesh/neighbour;
+curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/constant/polyMesh/owner     &gt; constant/polyMesh/owner;
+curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/constant/polyMesh/points    &gt; constant/polyMesh/points;
+curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/system/blockMeshDict        &gt; system/blockMeshDict;
+curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/system/controlDict          &gt; system/controlDict;
+curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/system/fvSchemes            &gt; system/fvSchemes;
+curl https://raw.githubusercontent.com/ritua2/BOINCatTACC/master/stampede2-backend/S2-test-files/system/fvSolution           &gt; system/fvSolution;</code></pre>
 
 
       <li>Compress all necessary files into a <em>.tar.gz</em>, <em>.tgz</em>, or <em>.zip</em> compressed file</li>
 
-      <pre><code class="bash language-bash">tar -cvzf data.tar.gz 0/ constant/ system/</code></pre>
+      <pre><code class="bash language-bash">tar -cvzf data.tar.gz 0/ constant/ system/;</code></pre>
 
       <li>
         Log in to the BOINC@TACC website as a Researcher using your TACC portal credentials: <a href = "https://boinc.tacc.utexas.edu/login_as_a_researcher_form.php" target="_blank">https://boinc.tacc.utexas.edu/login_as_a_researcher_form.php</a>

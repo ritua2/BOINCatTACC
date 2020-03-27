@@ -158,9 +158,9 @@ echo '<table>
       <tr>
       <th>Image</th>
       <th>Command</th>
-      <th>UTC Date (Sub)</th>
-      <th>UTC Date (Run)</th>
-      <th>Notified</th>
+      <th>CST Date (Sub)</th>
+      <th>CST Date (Run)</th>
+      <th>CST Date Notified</th>
       ';
 foreach($tokenlist as $TOKEN)
 { 

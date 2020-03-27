@@ -23,7 +23,7 @@ redis-server --port 6389 &
 # Sets up python3, needed
 apt-get install python3 python3-pip python3-mysql.connector mailutils -y
 # Python modules
-pip3 install redis Flask Werkzeug captcha docker ldap3 requests
+pip3 install redis Flask Werkzeug captcha docker ldap3 requests pytz
 
 
 # Changes all instances of http:// into https://

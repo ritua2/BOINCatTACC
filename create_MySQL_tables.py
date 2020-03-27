@@ -34,8 +34,11 @@ cursor.execute("""
     public            bool,
     priority          VARCHAR(255),
     received_time     DATETIME,
+    results_path      VARCHAR(255)
     status            VARCHAR(255),
+    tags              VARCHAR(255),
     Token             VARCHAR(255),
+    username          VARCHAR(255),
     volcon_id         VARCHAR(255),
 
     PRIMARY KEY (job_id)
@@ -106,17 +109,22 @@ cursor.execute("""
 
 
 
-# Tags table
+# Boinc2docker jobs
 cursor.execute("""
-    CREATE TABLE tags (
+    CREATE TABLE boinc2docker_jobs (
         username             VARCHAR(254),
         token                VARCHAR(254),
         tags                 VARCHAR(254),
         Image                VARCHAR(254),
         Command              VARCHAR(5000),
         date_processed       DATETIME,
+        date_run             DATETIME,
+        date_notified        DATETIME,
         boinc_application    VARCHAR(254),
-        origin               VARCHAR(254)
+        boinc_error          VARCHAR(254),
+        origin               VARCHAR(254),
+        status               VARCHAR(254),
+        results_path         VARCHAR(254)
     )
     """)
 

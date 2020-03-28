@@ -153,9 +153,6 @@ def process_web_jobs():
         tags_used = "STEM"
 
 
-    # Adds tag to database
-    cus.complete_tag_work(Username, TOK, tags_used, Image, Command, boapp, "web")
-
     if boapp == "boinc2docker":
         # Writes the commands to a random file
         new_filename = pp.random_file_name()
@@ -237,7 +234,7 @@ def process_web_jobs():
         job_info = {"Image":Image, "Command":COMMANDS, "TACC":TACC, "GPU":GPU, "VolCon_ID":VolCon_ID, "public":1}
 
         # Updates the job in the database
-        mints.add_job(TOK, Image, COMMANDS, GPU, VolCon_ID, PRIORITY)
+        mints.add_job(TOK, Image, COMMANDS, GPU, VolCon_ID, PRIORITY, 1, tags_used, Username)
         # Pushes job information to mirrors
         mirror.upload_job_to_mirror(job_info)
 

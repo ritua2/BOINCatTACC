@@ -8,6 +8,7 @@ Interactions with MySQL database
 import datetime
 import mysql.connector as mysql_con
 import os
+import pytz
 import random
 import redis
 import time
@@ -19,7 +20,7 @@ r = redis.Redis(host = '0.0.0.0', port = 6389, db = 3)
 
 # Returns the time format YYYY-MM-DD hh:mm:ss (UTC)
 def timnow():
-    return datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S.%f")
+    return convert_datetime_timezone(datetime.datetime.utcnow()).strftime("%Y-%m-%d %H:%M:%S.%f")
 
 
 
@@ -39,19 +40,44 @@ def race_condition_occurred(VID):
 
 
 
-# Adds a job to MySQL
+# Converts from timezone tz1 to timezone tz2
+# Returns a datetime object
+def convert_datetime_timezone(dt, tz1="UTC", tz2="America/Chicago"):
+    
+    # Dates not yet processed
+    if dt == "0.0":
+        return None
+
+    tz1 = pytz.timezone(tz1)
+    tz2 = pytz.timezone(tz2)
+
+    if type(dt).__name__ == "str":
+        dt = datetime.datetime.strptime(dt,"%Y-%m-%d %H:%M:%S.%f")
+    elif type(dt).__name__ == "datetime":
+        pass
+    else:
+        sys.exit("INVALID type, type(dt) = "+type(dt).__name__)
+
+    dt = tz1.localize(dt)
+    dt = dt.astimezone(tz2)
+
+    return dt
+
+
+# Adds a VolCon job to MySQL
 # GPU (1 or 0)
 # VID (str): Volcon ID
 # public (1 or 0): Image is publicly available in Dockerhub, 0 for MIDAS
-def add_job(token, image, commands, GPU, VID, priority_level, public=1):
+# tags (str): Tags associated with the job
+def add_job(token, image, commands, GPU, VID, priority_level, public=1, tags="STEM", username=None):
     boinc_db = mysql_con.connect(host = os.environ['URL_BASE'].split('/')[-1], port = 3306, user = os.environ["MYSQL_USER"], password = os.environ["MYSQL_UPASS"], database = 'boincserver')
     cursor = boinc_db.cursor(buffered=True)
 
     insert_new_job = (
-        "INSERT INTO volcon_jobs (token, Image, Command, Date_Sub, Notified, status, GPU, volcon_id, priority, public) "
-        "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
+        "INSERT INTO volcon_jobs (token, Image, Command, Date_Sub, Notified, status, GPU, volcon_id, priority, public, tags, username) "
+        "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
 
-    cursor.execute(insert_new_job, (token, image, commands, timnow(), "0", "Received", GPU, VID, priority_level, public) )
+    cursor.execute(insert_new_job, (token, image, commands, timnow(), "0", "Received", GPU, VID, priority_level, public, tags, username) )
     boinc_db.commit()
     cursor.close()
     boinc_db.close()
@@ -59,6 +85,45 @@ def add_job(token, image, commands, GPU, VID, priority_level, public=1):
     # Tags the job
     # Adds tag
     tag_volcon(VID)
+
+
+
+# Updates the apache results path location
+def update_results_path_apache(VID, results_path_apache):
+    boinc_db = mysql_con.connect(host = os.environ['URL_BASE'].split('/')[-1], port = 3306, user = os.environ["MYSQL_USER"], password = os.environ["MYSQL_UPASS"], database = 'boincserver')
+    cursor = boinc_db.cursor(buffered=True)
+    cursor.execute( "UPDATE volcon_jobs SET results_path_apache = %s WHERE volcon_id = %s", (results_path_apache, VID))
+    boinc_db.commit()
+    cursor.close()
+    boinc_db.close()
+
+
+
+# Reads the apache results path location
+def read_results_path_apache(VID):
+    boinc_db = mysql_con.connect(host = os.environ['URL_BASE'].split('/')[-1], port = 3306, user = os.environ["MYSQL_USER"], password = os.environ["MYSQL_UPASS"], database = 'boincserver')
+    cursor = boinc_db.cursor(buffered=True)
+    cursor.execute( "SELECT results_path_apache FROM volcon_jobs WHERE volcon_id = %s", (VID,))
+
+    local_paths = []
+    for row in cursor:
+        local_paths.append(row[0])
+
+    cursor.close()
+    boinc_db.close()
+
+    return local_paths
+
+
+
+# Updates the apache results path location
+def update_results_path_reef(VID, results_path_reef):
+    boinc_db = mysql_con.connect(host = os.environ['URL_BASE'].split('/')[-1], port = 3306, user = os.environ["MYSQL_USER"], password = os.environ["MYSQL_UPASS"], database = 'boincserver')
+    cursor = boinc_db.cursor(buffered=True)
+    cursor.execute( "UPDATE volcon_jobs SET results_path_reef = %s WHERE volcon_id = %s", (results_path_reef, VID))
+    boinc_db.commit()
+    cursor.close()
+    boinc_db.close()
 
 
 

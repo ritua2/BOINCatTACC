@@ -18,28 +18,29 @@ cursor = boinc_db.cursor(buffered=True)
 # Creates VolCon jobs table
 cursor.execute("""
     CREATE TABLE IF NOT EXISTS volcon_jobs (
-    job_id            BIGINT AUTO_INCREMENT UNIQUE,
-    client_ip         VARCHAR(255),
-    Command           VARCHAR(5000),
-    Command_Errors    VARCHAR(5000),
-    computation_time  DOUBLE,
-    Date_Sub          DATETIME,
-    Date_Run          DATETIME,
-    download_time     DOUBLE,
-    Error             VARCHAR(255),
-    GPU               bool,
-    Image             VARCHAR(255),
-    mirror_ip         VARCHAR(255),
-    Notified          VARCHAR(255),
-    public            bool,
-    priority          VARCHAR(255),
-    received_time     DATETIME,
-    results_path      VARCHAR(255)
-    status            VARCHAR(255),
-    tags              VARCHAR(255),
-    Token             VARCHAR(255),
-    username          VARCHAR(255),
-    volcon_id         VARCHAR(255),
+    job_id               BIGINT AUTO_INCREMENT UNIQUE,
+    client_ip            VARCHAR(255),
+    Command              VARCHAR(5000),
+    Command_Errors       VARCHAR(5000),
+    computation_time     DOUBLE,
+    Date_Sub             DATETIME,
+    Date_Run             DATETIME,
+    download_time        DOUBLE,
+    Error                VARCHAR(255),
+    GPU                  bool,
+    Image                VARCHAR(255),
+    mirror_ip            VARCHAR(255),
+    Notified             VARCHAR(255),
+    public               bool,
+    priority             VARCHAR(255),
+    received_time        DATETIME,
+    results_path_apache  VARCHAR(255),
+    results_path_reef    VARCHAR(255),
+    status               VARCHAR(255),
+    tags                 VARCHAR(255),
+    Token                VARCHAR(255),
+    username             VARCHAR(255),
+    volcon_id            VARCHAR(255),
 
     PRIMARY KEY (job_id)
     )
@@ -124,7 +125,8 @@ cursor.execute("""
         boinc_error          VARCHAR(254),
         origin               VARCHAR(254),
         status               VARCHAR(254),
-        results_path         VARCHAR(254)
+        results_path_apache  VARCHAR(255),
+        results_path_reef    VARCHAR(255),
     )
     """)
 

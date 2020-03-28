@@ -16,6 +16,7 @@ import json
 import mirror_interactions as mirror
 import mysql_interactions as mints
 import os
+import pytz
 import random
 import redis
 import requests
@@ -54,9 +55,17 @@ def l2_contains_l1(l1, l2):
 
 
 
+# Finds present day in CST
 def present_day():
-    return datetime.datetime.utcnow().strftime("%Y-%m-%d")
+    UTC_date = datetime.datetime.utcnow()
 
+    tz1 = pytz.timezone("UTC")
+    tz2 = pytz.timezone("America/Chicago")
+
+    UTC_date = tz1.localize(UTC_date)
+    CST_date = UTC_date.astimezone(tz2)
+
+    return CST_date.strftime("%Y-%m-%d")
 
 
 # Currently, tokens are also emails
@@ -156,6 +165,9 @@ def results_upload(VID):
     # Saves the file
     file.save(location+"/"+new_name)
 
+    # Saves the location of the file
+    mints.update_results_path_apache(VID, location+"/"+new_name)
+
     # Updates the status in the database
     mints.update_job_status(VID, "Results received", False)
 
@@ -201,7 +213,7 @@ def upload_report():
         attachments = []
     else:
         # Finds the attachments, in chronological order starting at a date
-        attachments = [ec.obtain_file_received_at_date(VolCon_ID+".tar", received_time)[0]]
+        attachments = mints.read_results_path_apache(VolCon_ID)
         result_error = "No errors retrieving data"
 
     if Error == "":
@@ -211,6 +223,7 @@ def upload_report():
         # Uploads the data to Reef
         requests.post('http://'+os.environ['Reef_IP']+':2001/reef/result_upload/'+os.environ['Reef_Key']+'/'+user_token,
                     files={"file": open(attachments[0], "rb")})
+        mints.update_results_path_reef(VolCon_ID, attachments[0])
     else:
         # Types of error
         outcome = "Computational error"

@@ -102,5 +102,44 @@ def user_data(toktok):
 
 
 
+# Obtains all the userdata associated with a certain username
+@app.route("/boincserver/v2/api/user_data/personal/by_username/<username>")
+def user_data_by_username(username):
+
+    # Obtains a database connection
+    boinc_db = mysql_con.connect(host = os.environ['URL_BASE'].split('/')[-1], port = 3306, user = os.environ["MYSQL_USER"], password = os.environ["MYSQL_UPASS"], database = 'boincserver')
+    cursor = boinc_db.cursor(buffered=True)
+    cursor.execute("""
+        SELECT Image, Command, date_processed, date_run, date_notified, status FROM boinc2docker_jobs WHERE username = %s
+        UNION
+        SELECT Image, Command, Date_Sub AS date_processed, Date_Run, received_time, status FROM volcon_jobs WHERE username = %s
+        ORDER BY date_processed""", (username, username) )
+
+    jobs_submitted_data = []
+
+    for ips in cursor:
+        Image = ips[0]
+        CC = ips[1]
+        datesub = ips[2].strftime("%Y-%m-%d %H:%M:%S")
+        daterun = ips[3]
+        if daterun == None:
+            daterun = ips[5]
+        else:
+            daterun = daterun.strftime("%Y-%m-%d %H:%M:%S")
+        email_notified = ips[4]
+        if email_notified == None:
+            email_notified = ""
+        else:
+            email_notified = email_notified.strftime("%Y-%m-%d %H:%M:%S")
+
+        jobs_submitted_data.append([{"Image":Image, "Command":CC, "Date (Sub)":datesub, "Date (Run)":daterun, "Notified":email_notified}])
+
+    # Closes database connection
+    cursor.close()
+    boinc_db.close()
+
+    return jsonify({"job data":jobs_submitted_data})
+
+
 if __name__ == '__main__':
    app.run(host = '0.0.0.0', port = 5092, debug=False, threaded=True)

@@ -90,6 +90,18 @@ def get_reef_file(IMIM, TOK, filnam):
 
 
 
+# Replaces characters in a string
+# Returns the string with replacements
+def sanitize_str_chars(s1):
+
+    # Done manually to enforce order and simplicity
+    s2 = s1.replace("\\", "\\\\")
+    s2 = s2.replace("\"", "\\\"")
+    s2 = s2.replace("\'", "\\\'")
+
+    return s2
+
+
 @app.route("/boincserver/v2/api/process_web_jobs", methods=['GET', 'POST'])
 def process_web_jobs():
 
@@ -157,42 +169,40 @@ def process_web_jobs():
         # Writes the commands to a random file
         new_filename = pp.random_file_name()
 
-        with open(UPLOAD_FOLDER+new_filename, "w") as comfil:
-            comfil.write(Image + " /bin/bash -c ")
+        Complete_command = ""
 
-            # Custom images require more work because it must be ensured the results will be back
-            # Ensures
-            if Custom == "Yes":
-                # Creates a new working directory
-                comfil.write("\"mkdir -p /data; cd /data; ")
-                # Adds the files
-                for FF in Reefil:
+        # Custom images require more work because it must be ensured the results will be back
+        if Custom == "Yes":
+            # Creates a new working directory
+            Complete_command += "mkdir -p /data; cd /data; "
+            # Adds the files
+            for FF in Reefil:
 
-                    # Skips unnecessary files
-                    if FF == "":
-                        break
+                # Skips unnecessary files
+                if FF == "":
+                    break
+                Complete_command += get_reef_file(Image, TOK, FF)+" "
 
-                    comfil.write(get_reef_file(Image, TOK, FF)+" ")
+            Complete_command += Command+" mkdir -p /root/shared/results/; mv ./* /root/shared/results"
 
-                comfil.write(Command+" mkdir -p /root/shared/results/; mv ./* /root/shared/results\"")
-                comfil.write("\n"+str(TOK))
+        elif Custom == "No":
+            # Adds the files
+            for FF in Reefil:
 
-            elif Custom == "No":
-                comfil.write("\"")
-                comfil.write(extra_image_commands(Image))
-                # Adds the files
-                for FF in Reefil:
+                # Skips unnecessary files
+                if FF == "":
+                    break
+                Complete_command += get_reef_file(Image, TOK, FF)+" "
 
-                    # Skips unnecessary files
-                    if FF == "":
-                        break
+            Complete_command += Command +" python /Mov_Res.py"
 
-                    comfil.write(get_reef_file(Image, TOK, FF)+" ")
 
-                comfil.write(Command+" python /Mov_Res.py\"")
-                comfil.write("\n"+str(TOK))
+        # Replaces certain characters
+        Complete_command = " /bin/bash -c \""+sanitize_str_chars(Complete_command)+"\""
+        mints.add_boinc2docker_job(Username, TOK, tags_used, Image, Complete_command, boapp, "web", "Job submitted")
 
-        shutil.move(UPLOAD_FOLDER+new_filename, BOINC_FOLDER+new_filename)
+        # Old way
+        # shutil.move(UPLOAD_FOLDER+new_filename, BOINC_FOLDER+new_filename)
 
 
     if boapp == "volcon":
@@ -206,7 +216,7 @@ def process_web_jobs():
 
         VolCon_ID = uuid.uuid4().hex
 
-        COMMANDS = " /bin/bash -c \""
+        COMMANDS = ""
 
         if Custom == "Yes":
             TACC = 0
@@ -229,12 +239,12 @@ def process_web_jobs():
                 COMMANDS += get_reef_file(Image, TOK, FF)+" "
             COMMANDS += ";".join([extra_image_commands(Image) +z for z in Command.split(";")])+" python /Mov_Res.py"
 
-        COMMANDS += "\""
+        COMMANDS = " /bin/bash -c \""+COMMANDS+"\""
 
         job_info = {"Image":Image, "Command":COMMANDS, "TACC":TACC, "GPU":GPU, "VolCon_ID":VolCon_ID, "public":1}
 
         # Updates the job in the database
-        mints.add_job(TOK, Image, COMMANDS, GPU, VolCon_ID, PRIORITY, 1, tags_used, Username)
+        mints.add_job(TOK, Image, COMMANDS, GPU, VolCon_ID, PRIORITY, 1, tags_used, Username, "web")
         # Pushes job information to mirrors
         mirror.upload_job_to_mirror(job_info)
 

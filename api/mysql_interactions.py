@@ -69,15 +69,15 @@ def convert_datetime_timezone(dt, tz1="UTC", tz2="America/Chicago"):
 # VID (str): Volcon ID
 # public (1 or 0): Image is publicly available in Dockerhub, 0 for MIDAS
 # tags (str): Tags associated with the job
-def add_job(token, image, commands, GPU, VID, priority_level, public=1, tags="STEM", username=None):
+def add_job(token, image, commands, GPU, VID, priority_level, public=1, tags="STEM", username=None, origin="web"):
     boinc_db = mysql_con.connect(host = os.environ['URL_BASE'].split('/')[-1], port = 3306, user = os.environ["MYSQL_USER"], password = os.environ["MYSQL_UPASS"], database = 'boincserver')
     cursor = boinc_db.cursor(buffered=True)
 
     insert_new_job = (
-        "INSERT INTO volcon_jobs (token, Image, Command, Date_Sub, Notified, status, GPU, volcon_id, priority, public, tags, username) "
-        "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
+        "INSERT INTO volcon_jobs (token, Image, Command, Date_Sub, Notified, status, GPU, volcon_id, priority, public, tags, username, origin) "
+        "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
 
-    cursor.execute(insert_new_job, (token, image, commands, timnow(), "0", "Received", GPU, VID, priority_level, public, tags, username) )
+    cursor.execute(insert_new_job, (token, image, commands, timnow(), "0", "Received", GPU, VID, priority_level, public, tags, username, origin) )
     boinc_db.commit()
     cursor.close()
     boinc_db.close()
@@ -85,6 +85,24 @@ def add_job(token, image, commands, GPU, VID, priority_level, public=1, tags="ST
     # Tags the job
     # Adds tag
     tag_volcon(VID)
+
+
+
+# Adds a boinc2docker job to MySQL
+def add_boinc2docker_job(username, token, tags, Image, Command, boinc_application, origin, status):
+
+
+    boinc_db = mysql_con.connect(host = os.environ['URL_BASE'].split('/')[-1], port = 3306, user = os.environ["MYSQL_USER"], password = os.environ["MYSQL_UPASS"], database = 'boincserver')
+    cursor = boinc_db.cursor(buffered=True)
+
+    insert_new_job = (
+        "INSERT INTO boinc2docker_jobs (username, token, tags, Image, Command, date_processed, boinc_application, origin, status) "
+        "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)")
+
+    cursor.execute(insert_new_job, (username, token, tags, Image, Command, timnow(), boinc_application, origin, status) )
+    boinc_db.commit()
+    cursor.close()
+    boinc_db.close()
 
 
 

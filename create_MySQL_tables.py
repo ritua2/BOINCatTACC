@@ -31,6 +31,7 @@ cursor.execute("""
     Image                VARCHAR(255),
     mirror_ip            VARCHAR(255),
     Notified             VARCHAR(255),
+    origin               VARCHAR(255),
     public               bool,
     priority             VARCHAR(255),
     received_time        DATETIME,

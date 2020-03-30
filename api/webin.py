@@ -194,7 +194,7 @@ def process_web_jobs():
                     break
                 Complete_command += get_reef_file(Image, TOK, FF)+" "
 
-            Complete_command += Command +" python /Mov_Res.py"
+            Complete_command += Command +" mv ./* /root/shared/results"
 
 
         # Replaces certain characters

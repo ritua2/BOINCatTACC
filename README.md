@@ -220,8 +220,13 @@ assume a screen.
 ### Licensing
 
 
-The OpenFOAM6 application that users can run through BOINC is licensed under GPL. 
+The OpenFOAM6 application that researchers can run through BOINC is licensed under GPL. 
 
 This application is built [in container form](./applications/OpenFOAM6/Dockerfile), with the only change being [a python script](./applications/OpenFOAM6/Mov_Res.py) that moves the output results so that the BOINC client may return them to the server
 
 A copy of the original GPLv3 license is provided [here](./applications/LICENSES), users may also find it in the OpenFOAM6 main Github [repository](https://github.com/OpenFOAM/OpenFOAM-6/blob/master/COPYING).
+
+The OpneSees application that researchers can run through BOINC is licensed by the The Regents of the University of California, a copy of the original
+copyright notice is included in this project [here](./applications/OpenSees_COPYRIGHT) or in its original
+[Github Directory location](https://github.com/OpenSees/OpenSees/blob/master/COPYRIGHT).
+

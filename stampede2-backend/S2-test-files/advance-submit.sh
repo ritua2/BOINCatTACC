@@ -427,7 +427,7 @@ case "$user_option" in
                     previous_command="$previous_command $COM;"
                 done
 
-                previous_command="$previous_command python /Mov_Res.py\""
+                previous_command="$previous_command mv ./* /root/shared/results\""
 
                 printf "$previous_command" > BOINC_Proc_File.txt
 
@@ -467,7 +467,7 @@ case "$user_option" in
         done
 
 
-        user_command="$user_command python /Mov_Res.py\""
+        user_command="$user_command mv ./* /root/shared/results\""
 
         # Adds the commands to a text file to be submitted
         printf "$user_command" > BOINC_Proc_File.txt
@@ -481,7 +481,7 @@ case "$user_option" in
 
     "2")
         printf "\nSubmitting a file for a known dockerhub image with commands present\n"
-        printf "\n${YELLOWYELLOW}WARNING${NCNC}\nAll commands must be entered, including results retrieval"
+        printf "\n${YELLOWYELLOW}WARNING${NCNC}\nEach line must contain all commands needed for a job, all lines will be processed"
         printf "\nEnter the path of the file which contains list of serial commands: "
         read filetosubmit
 

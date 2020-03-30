@@ -9,22 +9,23 @@
 #################################################
 
 
-FROM stevemock/docker-opensees
-MAINTAINER Carlos Redondo <carlos.red@utexas.edu>
-ENV _SECOND_AUTHOR "Carlos Redondo <carlos.red@utexas.edu"
-# Because the previous user is Ubuntu and BOINC requires access to the /root/ folder
+FROM ubuntu:16.04
+MAINTAINER Stephen Mock <mock@tacc.utexas.edu>
+RUN apt-get -y update && \
+    apt-get -y install curl emacs make tcl8.5 tcl8.5-dev gcc g++ gfortran && \
+    useradd --create-home ubuntu && \
+    cd /home/ubuntu && \
+    mkdir bin lib && \
+    curl -L -O https://github.com/OpenSees/OpenSees/archive/v2.4.5.tar.gz && \
+    tar -xvzf v2.4.5.tar.gz && mv OpenSees-2.4.5/ OpenSees/ &&\
+    cd OpenSees && \
+    cp MAKES/Makefile.def.EC2-UBUNTU Makefile.def && \
+    cp /usr/lib/x86_64-linux-gnu/libtcl8.5.so /usr/lib/libtcl8.5.so &&\
+    make && mkdir /data && chown -R ubuntu:ubuntu /home/ubuntu /data &&\
+    mkdir -p /root/shared/results &&\
+    # Deletes unncessary data
+    rm -rf /home/ubuntu/OpenSees
+
 USER root
-
-
-# Installs realpath command so that the program can access the full path information of stuff
-# The container already accounts fro the known .out files and saves their names accordingly
-# There will be a file to move all the unaccounted .out files to the /root/shared/results folder
-# Then, it changes their type to .txt files
-
-
-# Copies the unaccounted files to /root/shared/results
-COPY Mov_Res.py /Mov_Res.py
-
-RUN apt-get update -y && apt-get install unzip curl -y &&\
-    mkdir -p /root/shared/results && apt-get install -y realpath && touch /All_outs.txt &&\
-	for afil in $(find / -name '*.out'); do printf "$(realpath $afil)\n" >>  /All_outs.txt; done
+WORKDIR /data
+ENV PATH $PATH:/home/ubuntu/bin

@@ -481,7 +481,7 @@ case "$user_option" in
 
     "2")
         printf "\nSubmitting a file for a known dockerhub image with commands present\n"
-        printf "\n${YELLOWYELLOW}WARNING${NCNC}\nEach line must contain all commands needed for a job, all lines will be processed"
+        printf "\n${YELLOWYELLOW}WARNING${NCNC}\nEach line specifies a work-unit in a batch of jobs. Please include all the commands required for executing a work-unit on a single line."
         printf "\nEnter the path of the file which contains list of serial commands: "
         read filetosubmit
 

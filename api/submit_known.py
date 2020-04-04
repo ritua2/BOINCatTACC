@@ -14,6 +14,8 @@ from werkzeug.datastructures import ImmutableMultiDict
 
 
 import custodian as cus
+import mysql_interactions as mints
+
 
 
 
@@ -21,6 +23,38 @@ app = Flask(__name__)
 UPLOAD_FOLDER = "/home/boincadm/project/api/sandbox_files"
 ADTDP_FOLDER = "/home/boincadm/project/adtd-protocol/process_files"
 FINAL_FOLDER = "/home/boincadm/project/html/user/token_data/process_files"
+
+
+
+# List of TACC images and their download commands (curl/wget)
+TACCIM = {"carlosred/autodock-vina:latest":"curl -O ", "carlosred/bedtools:latest":"wget",
+            "carlosred/blast:latest":"curl -O ", "carlosred/bowtie:built":"curl -O ",
+            "carlosred/gromacs:latest":"curl -O ", "carlosred/htseq:latest":"curl -O ",
+            "carlosred/mpi-lammps:latest":"curl -O ", "carlosred/namd-cpu:latest":"curl -O ",
+            "carlosred/opensees:latest":"curl -O ", "carlosred/gpu:cuda":"curl -O ", "carlosred/openfoam6:latest":"curl -O "
+ }
+
+
+
+# Finds if an image is not TACC
+def image_is_TACC(image):
+    if image not in TACCIM:
+        return False
+    return True
+
+
+
+# Replaces characters in a string
+# Returns the string with replacements
+def sanitize_str_chars(s1):
+
+    # Done manually to enforce order and simplicity
+    s2 = s1.replace("\\", "\\\\")
+    s2 = s2.replace("\"", "\\\"")
+    s2 = s2.replace("\'", "\\\'")
+
+    return s2
+
 
 
 @app.route("/boincserver/v2/submit_known/token=<toktok>/username=<Username>", methods = ['GET', 'POST'])
@@ -88,29 +122,34 @@ def upload_file(toktok, Username):
             an_image = line.split(' ')[0]
             a_command = " ".join(line.split(' ')[1:])
 
-            # Removes unnecessary content from the command
-            a_command = a_command.replace("/bin/bash -c \"cd /data;", "")
-            a_command = a_command.replace("python /Mov_Res.py\"", "")
+            if image_is_TACC(an_image):
 
+                # Gets command
+                command_itself = a_command.replace("/bin/bash -c \"cd /data;", "")
+                command_itself = a_command.replace("python /Mov_Res.py\"", "")
 
-            # Removes curl and wget commands
-            a_command = [x.strip() for x in a_command.split(";") if ("curl -O" not in x) and ("wget" not in x)]
-            a_command = ";".join(a_command)
+                # Escapes quotes
+                command_itself = sanitize_str_chars(command_itself)
 
+                Complete_command = "/bin/bash -c \""+command_itself+" python /Mov_Res.py\""
 
-            # Adds the topic to database
-            cus.complete_tag_work(Username, TOK, tags_used, an_image, a_command, app, "terminal")
+            # Custom image
+            else:
 
-    # Adds the token at the end of the file
-    with open(UPLOAD_FOLDER+'/'+new_filename, 'a') as nod:
-        nod.write('\n'+str(TOK))
+                # Gets command
+                command_itself = a_command.replace("/bin/bash -c \"", "")
+                command_itself = a_command.replace("python /Mov_Res.py\"", "")
 
-    if app == "boinc2docker":
-        shutil.move(UPLOAD_FOLDER+'/'+new_filename, FINAL_FOLDER+'/'+new_filename)
+                # Escapes quotes
+                command_itself = sanitize_str_chars(command_itself)
 
-    if app == "adtdp":
-        os.remove(UPLOAD_FOLDER+'/'+new_filename)
-        return "This system has been discontinued, use the new VolCon API instead"
+                Complete_command = "/bin/bash -c \"mkdir -p /data; cd /data; "+command_itself+" mkdir -p /root/shared/results/; mv ./* /root/shared/results"
+
+        # Adds job to database
+        mints.add_boinc2docker_job(Username, TOK, tags_used, an_image, Complete_command, "boinc2docker", "cli", "Job submitted")
+
+    # Removes file
+    os.remove(UPLOAD_FOLDER+'/'+new_filename)
 
     return "File submitted for processing\n"
 

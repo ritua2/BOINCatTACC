@@ -134,16 +134,6 @@ apptags=(
                 ["11"]="STEM")
 
 
-########################################
-# MIDAS OPTIONS
-########################################
-
-allowed_OS=("Ubuntu_16.04")
-allowed_languages=("c" "c++" "python" "python3" "fortran" "r" "bash" )
-languages_with_libs=("python" "python3" "c++")
-
-
-
 
 #printf "\nSubmitting a BOINC job to a known image, select the image below:\n"
 

@@ -114,6 +114,7 @@ cursor.execute("""
 # Boinc2docker jobs
 cursor.execute("""
     CREATE TABLE boinc2docker_jobs (
+        job_id               BIGINT AUTO_INCREMENT UNIQUE,
         username             VARCHAR(254),
         token                VARCHAR(254),
         tags                 VARCHAR(254),
@@ -128,6 +129,8 @@ cursor.execute("""
         status               VARCHAR(254),
         results_path_apache  VARCHAR(255),
         results_path_reef    VARCHAR(255),
+
+        PRIMARY KEY (job_id)
     )
     """)
 

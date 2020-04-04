@@ -125,28 +125,29 @@ def upload_file(toktok, Username):
             if image_is_TACC(an_image):
 
                 # Gets command
-                command_itself = a_command.replace("/bin/bash -c \"cd /data;", "")
-                command_itself = a_command.replace("python /Mov_Res.py\"", "")
+                command_itself = a_command.replace('/bin/bash -c "cd /data;', "")
+                command_itself = command_itself.replace("mv ./* /root/shared/results\"", "")
 
                 # Escapes quotes
                 command_itself = sanitize_str_chars(command_itself)
 
-                Complete_command = "/bin/bash -c \""+command_itself+" python /Mov_Res.py\""
+                Complete_command = "/bin/bash -c \""+command_itself+" mv ./* /root/shared/results\""
 
             # Custom image
             else:
 
                 # Gets command
                 command_itself = a_command.replace("/bin/bash -c \"", "")
-                command_itself = a_command.replace("python /Mov_Res.py\"", "")
+                command_itself = a_command.replace("mv ./* /root/shared/results\"", "")
 
                 # Escapes quotes
                 command_itself = sanitize_str_chars(command_itself)
 
                 Complete_command = "/bin/bash -c \"mkdir -p /data; cd /data; "+command_itself+" mkdir -p /root/shared/results/; mv ./* /root/shared/results"
 
-        # Adds job to database
-        mints.add_boinc2docker_job(Username, TOK, tags_used, an_image, Complete_command, "boinc2docker", "cli", "Job submitted")
+
+            # Adds job to database
+            mints.add_boinc2docker_job(Username, TOK, tags_used, an_image, Complete_command, "boinc2docker", "cli", "Job submitted")
 
     # Removes file
     os.remove(UPLOAD_FOLDER+'/'+new_filename)

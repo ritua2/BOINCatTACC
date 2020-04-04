@@ -173,66 +173,23 @@ fi
 
 user_ff=$1
 
-# Checks the file and uploads it ito Reef (after checking that all the files exist)
-for ff in "${user_ff[@]}"
-do
-    if [ ! -f $ff ]; then
-        printf "${REDRED}File $ff does not exist, program exited${NCNC}\n"
-        exit 0
-    fi
 
-done
 
-for ff in "${user_ff[@]}"
-do
-    AA=$(curl -s -F file=@$ff http://$SERVER_IP:5060/boincserver/v2/upload_reef/token=$TOKEN)
 
-    if [[ $AA = *"INVALID"* ]]; then
-        printf "${REDRED}$AA\n${NCNC}Program exited\n"
-        exit 0
-    fi
 
-    # Appends to the user commands list
-    user_command="$user_command GET_FILE http://$SERVER_IP:5060/boincserver/v2/reef/$TOKEN/$ff;"
-
-done
-
-# Uploads the directories to Reef in their tar form
-for dirdir in "${UDIR[@]}"
-do
-    Tarred_File="$dirdir".tar.gz
-    AA=$(curl -s -F file=@$Tarred_File http://$SERVER_IP:5060/boincserver/v2/upload_reef/token=$TOKEN)
-
-    if [[ $AA = *"INVALID"* ]]; then
-        printf "${REDRED}$AA\n${NCNC}Program exited\n"
-        exit 0
-    fi
-
-    # Adds directions to get the file and untar it
-    user_command="$user_command GET_FILE http://$SERVER_IP:5060/boincserver/v2/reef/$TOKEN/$Tarred_File;"
-    user_command="$user_command tar -xzf $Tarred_File;"
-
-done
-
-printf "\nUser files are being uploaded, do not press any keys ...\n"
-
-# Replaces them by curl or wget, depending on the image
-user_command=${user_command//GET_FILE/${curl_or_wget[$option2]}}
-
-printf "\n${GREENGREEN}Files succesfully uploaded to BOINC server${NCNC}\n"
 
 
 # If a user has multiple commands prepared, it submits those
-#printf "Do you want to submit multiple commands for this application using an input file (one line per command) [y if yes]?: "
-#read multiple_commands
+printf "Do you want to submit multiple commands for this application using an input file (one line per command) [y if yes]?: "
+read multiple_commands
 
 multiple_commands="y"
 
 if [ "$multiple_commands" = "y" ]; then
 
-    #printf "\nEnter the commands file name: "
-    #read multicom_file
-    multicom_file=$2
+    printf "\nEnter the commands file name: "
+    read multicom_file
+
     if [ ! -f "$multicom_file" ]; then
         printf "${REDRED}File ""$multicom_file"" does not exist, program exited${NCNC}\n"
         exit 0
@@ -285,7 +242,60 @@ fi
 
 
 
+
 printf "\n\nSelected one job submission:\n\n"
+
+
+
+# Checks the file and uploads it ito Reef (after checking that all the files exist)
+for ff in "${user_ff[@]}"
+do
+    if [ ! -f $ff ]; then
+        printf "${REDRED}File $ff does not exist, program exited${NCNC}\n"
+        exit 0
+    fi
+
+done
+
+for ff in "${user_ff[@]}"
+do
+    AA=$(curl -s -F file=@$ff http://$SERVER_IP:5060/boincserver/v2/upload_reef/token=$TOKEN)
+
+    if [[ $AA = *"INVALID"* ]]; then
+        printf "${REDRED}$AA\n${NCNC}Program exited\n"
+        exit 0
+    fi
+
+    # Appends to the user commands list
+    only_the_filename=$(basename "$ff")
+    user_command="$user_command GET_FILE http://$SERVER_IP:5060/boincserver/v2/reef/$TOKEN/""$only_the_filename"";"
+
+done
+
+# Uploads the directories to Reef in their tar form
+for dirdir in "${UDIR[@]}"
+do
+    Tarred_File="$dirdir".tar.gz
+    AA=$(curl -s -F file=@$Tarred_File http://$SERVER_IP:5060/boincserver/v2/upload_reef/token=$TOKEN)
+
+    if [[ $AA = *"INVALID"* ]]; then
+        printf "${REDRED}$AA\n${NCNC}Program exited\n"
+        exit 0
+    fi
+
+    # Adds directions to get the file and untar it
+    user_command="$user_command GET_FILE http://$SERVER_IP:5060/boincserver/v2/reef/$TOKEN/$Tarred_File;"
+    user_command="$user_command tar -xzf $Tarred_File;"
+
+done
+
+printf "\nUser files are being uploaded, do not press any keys ...\n"
+
+# Replaces them by curl or wget, depending on the image
+user_command=${user_command//GET_FILE/${curl_or_wget[$option2]}}
+
+printf "\n${GREENGREEN}Files succesfully uploaded to BOINC server${NCNC}\n"
+
 
 # Asks the user for the lists of commands
 printf "\nEnter the list of commands, one at a time, as you would in the program itself (empty command to end):\n"

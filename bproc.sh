@@ -32,8 +32,7 @@ crontab -l | { cat; echo "0 1 * * * find /tmp -ctime +3 -exec rm -rf {} +"; } | 
 while true
 do
 
-   python3 /home/boincadm/project/html/user/token_data/redfile.py
-   python3 /home/boincadm/project/html/user/token_data/red_runner.py
+   python3 /home/boincadm/project/boinc2docker_runner.py
    sleep 15
 
 done

@@ -29,7 +29,7 @@ app = Flask(__name__)
 r = redis.Redis(host = '0.0.0.0', port = 6389, db = 3)
 
 
-# Checks a password withe respective type of Volcon system (mirrors)
+# Checks a password with the respective type of Volcon system (mirrors)
 def bad_password(volcon_type, given_password):
 
     try:

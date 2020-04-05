@@ -42,6 +42,7 @@ cp ./bproc.sh  /home/boincadm/project
 cp ./password_credentials.sh /home/boincadm/project
 cp ./dockerhub_credentials.sh /home/boincadm/project
 cp ./idir.py /home/boincadm/project
+cp ./boinc2docker_runner.py /home/boincadm/project/boinc2docker_runner.py
 cp ./automail.sh /home/boincadm/project
 mkdir /home/boincadm/project/adtd-protocol/process_files
 mkdir /home/boincadm/project/adtd-protocol/tasks

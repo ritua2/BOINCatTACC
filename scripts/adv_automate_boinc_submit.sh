@@ -213,7 +213,9 @@ case "$user_option" in
             fi
 
             # Appends to the user commands list
-            user_command="$user_command GET_FILE http://$SERVER_IP:5060/boincserver/v2/reef/$TOKEN/$ff;"
+            #user_command="$user_command GET_FILE http://$SERVER_IP:5060/boincserver/v2/reef/$TOKEN/$ff;"
+            only_the_filename=$(basename "$ff")
+            user_command="$user_command GET_FILE http://$SERVER_IP:5060/boincserver/v2/reef/$TOKEN/""$only_the_filename"";"
 
         done
 

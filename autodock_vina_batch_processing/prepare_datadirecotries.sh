@@ -1,4 +1,6 @@
-#
+# Copy the RECEPTOR file to the current working directory BEFORE running this script.
+# For example, you should have the following receptor already available: 5r80_apo.pdbqt
+# Run this script as follows: ./prepare_datadirecotries.sh ./prepared_jobs/AA_pdbqt.txt ./prepared_jobs/5r80_apo.pdbqt
 #!/bin/bash
 list_of_pdqbt_files=$1
 count=$(wc -l $1| cut -d" " -f1);

@@ -6,8 +6,11 @@ Assumption: A directory of ligands is already available on Stampede2/LS5.
 
 ./script_extract.sh 
 
+
 2) After uncompressing the tar files, run the script to find all the PDQBT files in the directories of interest and list the paths to these files.
 ./find_pddqt_files_in_a_dir.sh <path-to-the-ligands-sub-directory>/AA <path-to-the-directory-in-which-the-jobs-should-be-prepared>/prepared_jobs/AA_pdbqt.txt
+
+
 
 3) Copy the desired protein/receptor to the directory in which the jobs should be prepared.
 
@@ -20,18 +23,22 @@ $ ls
 find_pddqt_files_in_a_dir.sh 
 AA_pdbqt.txt
 
+
 4) Prepare BOINC@TACC work-units of at least 25 vina commands to compare the protein/receptor (5r80_apo.pdbqt) with the PDBQT files in the list AA_pdbqt.txt. 
 To start with this, first prepare data directories. Copy sets of 25 ligands and the chosen receptor in separate directories, and prepare a compressed tar file of the directories.
 
 ./prepare_datadirecotries.sh  <path-to-the-directory-in-which-the-jobs-should-be-prepared>/prepared_jobs/AA_pdbqt.txt  <path-to-the-directory-in-which-the-jobs-should-be-prepared>/prepared_jobs/5r80_apo.pdbqt
 
+
 5) Once the data directories are prepared as mentioned in step # 4 above, prepare the files with commands to run on the compressed data directories.
 
 ./vina_commands.sh <path-to-the-directory-in-which-the-jobs-should-be-prepared>/prepared_jobs 5r80_apo.pdbqt
 
+
 6) Now prepare a directory from which the jobs will be submitted. 
 
 mkdir -p test_scripts; cd ../test_scripts; 
+
 
 7) Copy over the data*.tgz and *commands.sh files to the test_scripts directory. To organize the directory and stagger the submission of jobs, create 9 sub-directories in this directory.
 mkdir data_1;
@@ -70,6 +77,7 @@ mkdir data_9;
 cp <path-to-the-directory-in-which-the-jobs-should-be-prepared>/data_9*.tgz ./data_9/.
 cp <path-to-the-directory-in-which-the-jobs-should-be-prepared>/data_9*_mycommands.sh ./data_9/.
 
+
 8) Copy the wrapper script and the adv_automate_boinc_submit.sh script to the test_scripts directory. Run this script 9 times, providing the path to one of data_* directories each time.
 
 ./wrapper_script.sh <path-to-test-scripts-directory>/test_scripts/data_1
@@ -90,8 +98,11 @@ cp <path-to-the-directory-in-which-the-jobs-should-be-prepared>/data_9*_mycomman
 
 /wrapper_script.sh <path-to-test-scripts-directory>/test_scripts/data_9
 
+
 9) The results will be sent to the email provided in the adv_automate_boinc_submit.sh file. A Google script has been set-up to copy the results sent in the attachment to a Google drive folder.
 Additionally, results are also being copied to a JetStream VM. The results (out_*.pdbqt files) would need to be transferred to Staampede2/LS5.
+
+
 
 10) Once the output files are transferred to Stampede2/LS5, run the post-processing script. This script reads the out_*.pdbqt files and gets the scores for each receptor and ligand combination.
 The scores are sorted and writted to a CSV file.

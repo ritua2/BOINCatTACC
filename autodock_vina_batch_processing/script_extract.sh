@@ -1,3 +1,4 @@
+#run this script from the directory that contains tar files that need to be extracted
 #!/bin/bash
 for a in `ls -1`
  do 

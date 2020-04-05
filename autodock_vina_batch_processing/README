@@ -1,4 +1,4 @@
-Below are the steps to submit a large number of Autodock-Vina jobs to BOINC@TACC from the Stampede2/LS5 systems. The scripts are provided in this directory.
+Below are the steps to submit a large number of Autodock-Vina jobs to BOINC@TACC from the Stampede2/LS5 systems. The scripts mentioned in these steps are provided in this directory.
 
 Assumption: A directory of ligands is already available on Stampede2/LS5.
 

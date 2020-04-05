@@ -252,7 +252,7 @@ case "$user_option" in
 
             #printf "\nEnter the commands file name: "
             #read multicom_file
-   multicom_file=$2
+            multicom_file=$2
             if [ ! -f "$multicom_file" ]; then
                 printf "${REDRED}File ""$multicom_file"" does not exist, program exited${NCNC}\n"
                 exit 0

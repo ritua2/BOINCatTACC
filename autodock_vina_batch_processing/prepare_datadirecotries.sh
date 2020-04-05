@@ -13,16 +13,16 @@ START=1
 END=$num_subdir
 for (( i=$START; i<=$END; i++ ))
  do
- 	mkdir -p data_"$i";
+ 	      mkdir -p data_"$i";
         cp $path_to_receptorfile data_"$i";
-j_START=$(( 25*i ));
+        j_START=$(( 25*i ));
         j_END=25;
         cat $list_of_pdqbt_files| head -n $j_START| tail -n $j_END > list_of_pdqbt_files_copied.txt;
-#cp list_of_pdqbt_files_copied.txt data_"$i";
-cat list_of_pdqbt_files_copied.txt | while read line
-do
-  cp $line data_"$i";
-done
+        #cp list_of_pdqbt_files_copied.txt data_"$i";
+        cat list_of_pdqbt_files_copied.txt | while read line
+        do
+            cp $line data_"$i";
+        done
         find data_$i -type f -name "*.pdbqt" |xargs tar -czf data_$i.tgz
-rm list_of_pdqbt_files_copied.txt;
+        rm list_of_pdqbt_files_copied.txt;
  done

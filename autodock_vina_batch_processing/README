@@ -1,6 +1,6 @@
 Below are the steps to submit a large number of Autodock-Vina jobs to BOINC@TACC from the Stampede2/LS5 systems. The scripts mentioned in these steps are provided in this directory.
 
-Assumption: A directory of ligands is already available on Stampede2/LS5.
+Assumption: A directory of ligands is already available on Stampede2/LS5. The scripts in this directory are copied over to Stampede2/LS5 and the scripts have the execute permissions.
 
 1) Run the script for extracting the tar files and the tar.gz files in the ligands directory. Copy the script into the ligands directory, add execute permissions, and run it.
 
@@ -82,21 +82,21 @@ cp <path-to-the-directory-in-which-the-jobs-should-be-prepared>/data_9*_mycomman
 
 ./wrapper_script.sh <path-to-test-scripts-directory>/test_scripts/data_1
 
-/wrapper_script.sh <path-to-test-scripts-directory>/test_scripts/data_2
+./wrapper_script.sh <path-to-test-scripts-directory>/test_scripts/data_2
 
-/wrapper_script.sh <path-to-test-scripts-directory>/test_scripts/data_3
+./wrapper_script.sh <path-to-test-scripts-directory>/test_scripts/data_3
 
-/wrapper_script.sh <path-to-test-scripts-directory>/test_scripts/data_4
+./wrapper_script.sh <path-to-test-scripts-directory>/test_scripts/data_4
 
-/wrapper_script.sh <path-to-test-scripts-directory>/test_scripts/data_5
+./wrapper_script.sh <path-to-test-scripts-directory>/test_scripts/data_5
 
-/wrapper_script.sh <path-to-test-scripts-directory>/test_scripts/data_6
+./wrapper_script.sh <path-to-test-scripts-directory>/test_scripts/data_6
 
-/wrapper_script.sh <path-to-test-scripts-directory>/test_scripts/data_7
+./wrapper_script.sh <path-to-test-scripts-directory>/test_scripts/data_7
 
-/wrapper_script.sh <path-to-test-scripts-directory>/test_scripts/data_8
+./wrapper_script.sh <path-to-test-scripts-directory>/test_scripts/data_8
 
-/wrapper_script.sh <path-to-test-scripts-directory>/test_scripts/data_9
+./wrapper_script.sh <path-to-test-scripts-directory>/test_scripts/data_9
 
 
 9) The results will be sent to the email provided in the adv_automate_boinc_submit.sh file. A Google script has been set-up to copy the results sent in the attachment to a Google drive folder.

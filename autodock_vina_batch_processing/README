@@ -115,3 +115,8 @@ For example:
 ./process_vina_output.sh 5r80_apo.pdbqt
 
 
+
+Note: The steps above would need to be repeated for each sub-directory of ligands. You can delete the *.tgz and *_mycommands.sh files from the prepared_datadirectories folder after processing each sub-directory.
+You can create a directory with the ligand sub-directory name (e.g., AA and AB) in the test_scripts directory. After a batch of jobs is submitted, move the data_* sub-directories in the test_scripts directory into the sub-directory with the ligands name. 
+Repeat steps 2-10 for the next ligand sub-directory.
+

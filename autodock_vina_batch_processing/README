@@ -37,7 +37,7 @@ To start with this, first prepare data directories. Copy sets of 25 ligands and 
 
 6) Now prepare a directory from which the jobs will be submitted. 
 
-mkdir -p test_scripts; cd ../test_scripts; 
+mkdir -p test_scripts; cd ./test_scripts; 
 
 
 7) Copy over the data*.tgz and *commands.sh files to the test_scripts directory. To organize the directory and stagger the submission of jobs, create 9 sub-directories in this directory.

@@ -1,4 +1,5 @@
 #example showing how to run this script: ./vina_commands.sh ./prepared_jobs 5r80_apo.pdbqt 
+# Please replace "./prepared_jobs" in this script with the exact and complete path to the prepared_jobs folder
 
 #!/bin/bash
 list_of_data_directories=$(ls -1d */)

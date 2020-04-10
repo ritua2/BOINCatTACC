@@ -1,0 +1,5 @@
+Compile:
+$ icc -O0 -qopenmp -o prepare_directories_parallel prepare_directories_parallel.c 
+
+Run:
+./prepare_directories_parallel test_pdbqt.txt 5r80_apo.pdbqt

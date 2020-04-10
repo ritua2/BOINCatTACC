@@ -9,10 +9,7 @@ import datetime
 import mysql.connector as mysql_con
 import os
 import pytz
-import random
-import redis
 import subprocess as sp
-import time
 
 
 

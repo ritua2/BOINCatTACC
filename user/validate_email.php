@@ -18,13 +18,8 @@ require_once("../inc/team.inc");
 date_default_timezone_set("UTC");
 
 
-$complete_query = $_SERVER['QUERY_STRING'];
-$sanitized_query =  BoincDb::escape_string($complete_query);
-
-$query_parts = explode("-", $sanitized_query);
-
-$user_email = $query_parts[0];
-$secret_key = $query_parts[1];
+$user_email = BoincDb::escape_string($_GET['email_addr']);
+$secret_key = BoincDb::escape_string($_GET['validate_key']);
 
 
 

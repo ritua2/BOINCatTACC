@@ -39,7 +39,7 @@ def validate_email(email, validate_key):
 
     text = "Welcome to BOINC@TACC,\n\nThank you for registering as a volunteer!\n\n"
     text += "Please verify your email by clicking or copying the following link into your browser search bar: "
-    text += os.environ['URL_BASE']+"/validate_email.php?"+email+"-"+validate_key
+    text += os.environ['URL_BASE'].replace("http://", "https://")+"/validate_email.php?email_addr="+email+"&validate_key="+validate_key
     text += "\n\nSincerely,\n\nThe TACC development team"
 
     # Send the email

@@ -1,3 +1,4 @@
+#change the email "vinaresults@gmail.com" before running this script
 #!/bin/bash
 PS3="Choose your selection: "
 
@@ -214,9 +215,8 @@ case "$user_option" in
 
             # Appends to the user commands list
             #user_command="$user_command GET_FILE http://$SERVER_IP:5060/boincserver/v2/reef/$TOKEN/$ff;"
-            only_the_filename=$(basename "$ff")
-            user_command="$user_command GET_FILE http://$SERVER_IP:5060/boincserver/v2/reef/$TOKEN/""$only_the_filename"";"
-
+    	    only_the_filename=$(basename "$ff")
+    	    user_command="$user_command GET_FILE http://$SERVER_IP:5060/boincserver/v2/reef/$TOKEN/""$only_the_filename"";"
         done
 
         # Uploads the directories to Reef in their tar form
@@ -254,7 +254,7 @@ case "$user_option" in
 
             #printf "\nEnter the commands file name: "
             #read multicom_file
-            multicom_file=$2
+	          multicom_file=$2
             if [ ! -f "$multicom_file" ]; then
                 printf "${REDRED}File ""$multicom_file"" does not exist, program exited${NCNC}\n"
                 exit 0
@@ -781,53 +781,53 @@ esac
     do
       case $commandtype in
       1|serial|Serial)
-cat slurm-templates/template_serial.txt > thisrun.txt
-if [ "$jobqueue" == "skx" ] ; then 
- sed -i 's/for TACC Stampede2 KNL nodes/for TACC Stampede2 SKX nodes/g' thisrun.txt
- sed -i 's/Serial Job on Normal Queue/Serial Job on SKX Normal Queue/g' thisrun.txt
- sed -i 's/sbatch knl.serial.slurm on a Stampede2 login node./sbatch skx.serial.slurm on a Stampede2 login node./g' thisrun.txt
- sed -i 's/SBATCH -p normal/SBATCH -p skx-normal/g' thisrun.txt
-fi 
-break;
-;;
+	cat slurm-templates/template_serial.txt > thisrun.txt
+	if [ "$jobqueue" == "skx" ] ; then	
+	  sed -i 's/for TACC Stampede2 KNL nodes/for TACC Stampede2 SKX nodes/g' thisrun.txt
+	  sed -i 's/Serial Job on Normal Queue/Serial Job on SKX Normal Queue/g' thisrun.txt
+	  sed -i 's/sbatch knl.serial.slurm on a Stampede2 login node./sbatch skx.serial.slurm on a Stampede2 login node./g' thisrun.txt
+	  sed -i 's/SBATCH -p normal/SBATCH -p skx-normal/g' thisrun.txt
+	fi	
+	break;
+	;;
       2|mpi|MPI)
-cat slurm-templates/template_mpi.txt > thisrun.txt
-if [ "$jobqueue" == "skx" ] ; then
- sed -i 's/for TACC Stampede2 KNL nodes/for TACC Stampede2 SKX nodes/g' thisrun.txt
- sed -i 's/MPI Job on Normal Queue/MPI Job on SKX Normal Queue/g' thisrun.txt
- sed -i 's/sbatch knl.mpi.slurm on Stampede2 login node/sbatch skx.mpi.slurm on Stampede2 login node/g' thisrun.txt
- sed -i 's/Max recommended MPI tasks per KNL node: 64-68/Max recommended MPI ranks per SKX node: 48/g' thisrun.txt
- sed -i 's/SBATCH -p normal/SBATCH -p skx-normal/g' thisrun.txt
-fi
-break;
-;;
+	cat slurm-templates/template_mpi.txt > thisrun.txt
+	if [ "$jobqueue" == "skx" ] ; then
+	  sed -i 's/for TACC Stampede2 KNL nodes/for TACC Stampede2 SKX nodes/g' thisrun.txt
+	  sed -i 's/MPI Job on Normal Queue/MPI Job on SKX Normal Queue/g' thisrun.txt
+	  sed -i 's/sbatch knl.mpi.slurm on Stampede2 login node/sbatch skx.mpi.slurm on Stampede2 login node/g' thisrun.txt
+	  sed -i 's/Max recommended MPI tasks per KNL node: 64-68/Max recommended MPI ranks per SKX node: 48/g' thisrun.txt
+	  sed -i 's/SBATCH -p normal/SBATCH -p skx-normal/g' thisrun.txt
+	fi
+	break;
+	;;
       3|openmp|OpenMP)
-echo "Asking questions related to OpenMP"
-echo -n "Please enter the number of threads you want for parallel execution : "
-read threadcount
-cat slurm-templates/template_openmp.txt > thisrun.txt
-if [ "$jobqueue" == "skx" ] ; then
- sed -i 's/for TACC Stampede2 KNL nodes/for TACC Stampede2 SKX nodes/g' thisrun.txt
- sed -i 's/OpenMP Job on Normal Queue/OpenMP Job on SKX Normal Queue/g' thisrun.txt
- sed -i 's/sbatch knl.openmp.slurm on a Stampede2 login node./sbatch skx.openmp.slurm on a Stampede2 login node./g' thisrun.txt
- sed -i 's/is often 68 (1 thread per core) or 136 (2 threads per core)/is often 48 (1 thread per core) but may be higher/g' thisrun.txt
- sed -i 's/SBATCH -p normal/SBATCH -p skx-normal/g' thisrun.txt
-fi
-break;
-;;
+	echo "Asking questions related to OpenMP"
+	echo -n "Please enter the number of threads you want for parallel execution : "
+	read threadcount
+	cat slurm-templates/template_openmp.txt > thisrun.txt
+	if [ "$jobqueue" == "skx" ] ; then
+	  sed -i 's/for TACC Stampede2 KNL nodes/for TACC Stampede2 SKX nodes/g' thisrun.txt
+	  sed -i 's/OpenMP Job on Normal Queue/OpenMP Job on SKX Normal Queue/g' thisrun.txt
+	  sed -i 's/sbatch knl.openmp.slurm on a Stampede2 login node./sbatch skx.openmp.slurm on a Stampede2 login node./g' thisrun.txt
+	  sed -i 's/is often 68 (1 thread per core) or 136 (2 threads per core)/is often 48 (1 thread per core) but may be higher/g' thisrun.txt
+	  sed -i 's/SBATCH -p normal/SBATCH -p skx-normal/g' thisrun.txt
+	fi
+	break;
+	;;
       4|hybrid|Hybrid)
-echo "Asking questions related to OpenMP"
-echo -n "Please enter the number of threads you want for parallel execution : "
-read threadcount
-cat slurm-templates/template_hybrid.txt > thisrun.txt
-if [ "$jobqueue" == "skx" ] ; then
- sed -i 's/for TACC Stampede2 KNL nodes/for TACC Stampede2 SKX nodes/g' thisrun.txt
- sed -i 's/Hybrid Job on Normal Queue/Hybrid Job on SKX Normal Queue/g' thisrun.txt
- sed -i 's/sbatch knl.hybrid.slurm on Stampede2 login node/sbatch skx.mpi.slurm on Stampede2 login node/g' thisrun.txt
- sed -i 's/SBATCH -p normal/SBATCH -p skx-normal/g' thisrun.txt
-fi
-break;
-;;
+	echo "Asking questions related to OpenMP"
+	echo -n "Please enter the number of threads you want for parallel execution : "
+	read threadcount
+	cat slurm-templates/template_hybrid.txt > thisrun.txt
+	if [ "$jobqueue" == "skx" ] ; then
+	  sed -i 's/for TACC Stampede2 KNL nodes/for TACC Stampede2 SKX nodes/g' thisrun.txt
+	  sed -i 's/Hybrid Job on Normal Queue/Hybrid Job on SKX Normal Queue/g' thisrun.txt
+	  sed -i 's/sbatch knl.hybrid.slurm on Stampede2 login node/sbatch skx.mpi.slurm on Stampede2 login node/g' thisrun.txt
+	  sed -i 's/SBATCH -p normal/SBATCH -p skx-normal/g' thisrun.txt
+	fi
+	break;
+	;;
       5|gpu|GPU)
     echo "Not yet supported"
     cat slurm-templates/template_gpu.txt >thisrun.txt
@@ -965,4 +965,3 @@ break;
     ;;
 esac
 #done
-

@@ -1,0 +1,6 @@
+Compile:
+icc -O0 -qopenmp -o prepare_directories_parallel prepare_directories_parallel.c 
+
+Run:
+export OMP_NUM_THREADS=16
+./prepare_directories_parallel test_pdbqt.txt 5r80_apo.pdbqt

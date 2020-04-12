@@ -122,7 +122,7 @@ Repeat steps 2-10 for the next ligand sub-directory.
 
 Examples of some useful commands for navigating the large directories:
 1) Find files created on a particular date
-find . -type f -mtime $(( ( $(date +%s) - $(date -d '2008-09-24' +%s) ) / 60 / 60 / 24 - 1 ))
+find . -type f -mtime $(( ( $(date +%s) - $(date -d '2020-04-12' +%s) ) / 60 / 60 / 24 - 1 ))
 
 2) Check disk-space usage on Lustre filessystems - this command is faster than "du -sh":
 lfs quota -h -u username directory-path

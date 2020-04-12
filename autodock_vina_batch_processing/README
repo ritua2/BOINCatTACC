@@ -120,3 +120,11 @@ Note: The steps above would need to be repeated for each sub-directory of ligand
 You can create a directory with the ligand sub-directory name (e.g., AA and AB) in the test_scripts directory. After a batch of jobs is submitted, move the data_* sub-directories in the test_scripts directory into the sub-directory with the ligands name. 
 Repeat steps 2-10 for the next ligand sub-directory.
 
+Examples of some useful commands for navigating the large directories:
+1) Find files created on a particular date
+find . -type f -mtime $(( ( $(date +%s) - $(date -d '2008-09-24' +%s) ) / 60 / 60 / 24 - 1 ))
+
+2) Check disk-space usage on Lustre filessystems - this command is faster than "du -sh":
+lfs quota -h -u username directory-path
+
+

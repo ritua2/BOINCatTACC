@@ -127,4 +127,5 @@ find . -type f -mtime $(( ( $(date +%s) - $(date -d '2008-09-24' +%s) ) / 60 / 6
 2) Check disk-space usage on Lustre filessystems - this command is faster than "du -sh":
 lfs quota -h -u username directory-path
 
-
+Remember that once you have several thousand files in a directory, "ls -ltr"/"ls" will be slugglish. Split the directory into multiple sub-directories if this is the case.
+Also, using "/bin/ls" instead of "ls"/"ls -ltr" will give quicker turnaround time.

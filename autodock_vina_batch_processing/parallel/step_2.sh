@@ -14,4 +14,4 @@ cat list_of_pdqbt_files_copied_$i.txt | while read line
             cp $line data_"$i";
         done
 find data_$i -type f -name "*.pdbqt" |xargs tar -czf data_$i.tgz
-#rm list_of_pdqbt_files_copied_$i.txt;
+rm list_of_pdqbt_files_copied_$i.txt;

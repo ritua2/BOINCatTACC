@@ -42,7 +42,7 @@ echo "
 
 <h3>".tra("Privacy policy")."</h3>
     <p>".
-    tra("We will be saving the following data related to the computing cycles donated by you: Email Address, Screen Name, Password, Country. We will be anonymizing your screen name for displaying your contributions on the leaderboard. We will notify you about the anonymized name assigned to your volunteer profile. If you would like to have your screen-name displayed on the leaderboard (instead of your anonymized name), please send us an email at rauta@tacc.utexas.edu").
+    tra("We will be saving the following data related to the computing cycles donated by you: Email Address, Screen Name, Password, Country. We will be anonymizing your screen name for displaying your contributions on the leaderboard. We will notify you about the anonymized name assigned to your volunteer profile. If you would like to have your screen-name displayed on the leaderboard (instead of your anonymized name), press the 'show real username' button at the top of <a href=\"https://boinc.tacc.utexas.edu/home.php\">https://boinc.tacc.utexas.edu/home.php</a>").
     "</p><p>".
     tra("We guarantee the erasure of the aforementioned information from our server/s should you desire to do so after opting out as a volunteer. Please send an email at the following address to request the erasure of your data: rauta@tacc.utexas.edu").
     "</p><p>".

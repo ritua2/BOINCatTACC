@@ -27,6 +27,15 @@ echo '<center><h1>News</h1></center><br />';
 
 
 
+echo '<pre style="word-break:normal;white-space:normal;margin-left:20%;margin-right: 20%;"><style="text-align:left;"><p style="font-size:14px;font-weight: normal;"><span style="font-weight:bold;">'.tra('April 12th, 2020:').'</span>'.tra('Project updates:<ol>
+        <li>Researchers will be submitting several million Autodock Vina jobs for SARS-COV2 drug screening using BOINC@TACC: <a href="https://www.utep.edu/newsfeed/campus/utep-school-of-pharmacy-developing-covid-19-vaccine,-drug-treatments-using-supercomputing.html">https://www.utep.edu/newsfeed/campus/utep-school-of-pharmacy-developing-covid-19-vaccine,-drug-treatments-using-supercomputing.html</a>.</li>
+        <li>The information for joining the project is avilable at the following link: <a href="/join.php">https://boinc.tacc.utexas.edu/join.php</a></li>
+        <li>Certain versions of Virtual Box (e.g., 6.1.4 and 6.1.2) are having compatibility issues with the BOINC client used for processing BOINC@TACC jobs on certain operating systems. We do not have a solution for this right now but will update the users as soon as we have further information. Right now, Virtual Box version 5 is guaranteed to work.</li>
+        <li>We are working on exporting the BOINC statistics for the volunteers who choose to do so, and will post an update once we have finished this task.</li>
+    </ol>').' </p>';
+
+echo '</style></pre></br>';
+
 
 echo '<pre style="word-break:normal;white-space:normal;margin-left:20%;margin-right: 20%;"><style="text-align:left;"><p style="font-size:14px;font-weight: normal;"><span style="font-weight:bold;">'.tra('May 29th, 2019:').'</span>'.tra('Dear All,<br><br>
 

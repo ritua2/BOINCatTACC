@@ -20,6 +20,10 @@ def mkdir_tmp(nd):
 
     try:
         os.makedirs("/tmp/"+nd)
+
+        # Changes permissions to make it possible for the BOINC apache process to access this directory
+        os.chown("/tmp/"+nd, 33, 33)
+
         return "Created new directory"
     except:
         return "Directory already exists"

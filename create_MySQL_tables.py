@@ -152,6 +152,10 @@ cursor.execute("""
     where user.email_addr = screen_name_anonymization.email_id) where email_id is NULL;
 """)
 
+cursor.execute("""
+    CREATE TRIGGER update_name2 AFTER UPDATE ON user FOR EACH ROW UPDATE screen_name_anonymization
+    SET name= (select name from user where user.email_addr = screen_name_anonymization.email_id) where email_id is NULL;
+""")
 
 # Unique names
 cursor.execute("ALTER TABLE user ADD UNIQUE (name)")

@@ -7,13 +7,11 @@ Automated job submission for known Docker images through APIs
 """
 
 import os, sys, shutil
-import custodian as cus
 from flask import Flask, request
 import preprocessing as pp
 from werkzeug.datastructures import ImmutableMultiDict
 
 
-import custodian as cus
 import mysql_interactions as mints
 
 

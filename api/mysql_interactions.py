@@ -106,6 +106,33 @@ def add_boinc2docker_job(username, token, tags, Image, Command, boinc_applicatio
 
 
 
+# Adds a MIDAS job, boinc2docker or VolCon
+def add_MIDAS_job(username, token, tags, MIDAS_ID, Command, boinc_application, origin, status="MIDAS ready"):
+
+    boinc_db = mysql_con.connect(host = os.environ['URL_BASE'].split('/')[-1], port = 3306, user = os.environ["MYSQL_USER"], password = os.environ["MYSQL_UPASS"], database = 'boincserver')
+    cursor = boinc_db.cursor(buffered=True)
+
+    if boinc_application == "boinc2docker":
+        insert_new_job = (
+            "INSERT INTO boinc2docker_jobs (username, token, tags, Image, Command, date_processed, boinc_application, origin, status, boinc_error) "
+            "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
+
+        cursor.execute(insert_new_job, (username, token, tags, "Custom", Command, timnow(), boinc_application, origin, status, MIDAS_ID) )
+        boinc_db.commit()
+
+    elif boinc_application == "volcon":
+        insert_new_job = (
+            "INSERT INTO volcon_jobs (username, token, Image, Command, Date_Sub, status, tags, origin, Error) "
+            "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)")
+
+        cursor.execute(insert_new_job, (username, token, "Custom", Command, timnow(), status, tags, origin, MIDAS_ID) )
+        boinc_db.commit()
+
+    cursor.close()
+    boinc_db.close()
+
+
+
 # Updates the apache results path location
 def update_results_path_apache(VID, results_path_apache):
     boinc_db = mysql_con.connect(host = os.environ['URL_BASE'].split('/')[-1], port = 3306, user = os.environ["MYSQL_USER"], password = os.environ["MYSQL_UPASS"], database = 'boincserver')

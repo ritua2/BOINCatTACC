@@ -16,7 +16,7 @@ from werkzeug.utils import secure_filename
 import redis
 
 
-import custodian as cus
+import mysql_interactions as mints
 
 
 
@@ -197,6 +197,10 @@ def process_midas_jobs():
     boapp = "boinc2docker"
     TMP = "/tmp/"+tmp_dir+'/'
 
+    # Creates directory if it does not exist
+    if not os.path.isdir(TMP):
+        os.makedirs(TMP)
+
     if 'README.txt' in os.listdir(TMP):
         return "INVALID, README.txt is a MIDAS reserved file. Please, remove it and try again"
 
@@ -269,11 +273,8 @@ def process_midas_jobs():
     shutil.copytree(TMP, MIDAS_PATH)
     shutil.rmtree(TMP)
 
-    # Creates a redis database with syntax {TOKEN}.{MID_DIRECTORY}
-    r.set(TOK+';'+new_MID, boapp)
-
-    # Adds tag to database
-    cus.complete_tag_work(Username, TOK, tags_used, "CUSTOM", coms, boapp, "web")
+    # Adds the job to MySQL
+    mints.add_MIDAS_job(Username, TOK, tags_used, new_MID, coms, boapp, "web", "MIDAS ready")
 
     return 'File submitted for processing'
 

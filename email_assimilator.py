@@ -69,6 +69,11 @@ cursor.close()
 boinc_db.close()
 
 
+if len(pending_jobs_to_be_notified[3]) == 0:
+    print("No jobs pending notification")
+    sys.exit()
+
+
 first_submitted_job_datetime= min(pending_jobs_to_be_notified[3])
 first_submitted_job_UTC_unix_timestamp = datetime_to_timestamp(first_submitted_job_datetime, "America/Chicago", "UTC")
 

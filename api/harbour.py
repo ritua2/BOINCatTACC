@@ -12,31 +12,30 @@ If the build succeeds, then the memory it occupies is reduced from the user's ac
 
 
 import os, sys, shutil
-import custodian as cus
 import docker
-import email_common as ec
 import json
-import redis
 import hashlib
 import datetime
-from midas_processing import midas_reader as mdr
-import mirror_interactions as mirror
-import mysql_interactions as mints
-import preprocessing as pp
 import requests
 import uuid
 
 
+import email_common as ec
+from midas_processing import midas_reader as mdr
+import mirror_interactions as mirror
+import mysql_interactions as mints
+import preprocessing as pp
 
-r = redis.Redis(host = '0.0.0.0', port = 6389, db = 2)
+
+
 # Starts a client for docker
 client = docker.from_env()
 image = client.images
 container =  docker.from_env().containers
 
 
-Success_Message = "Your MIDAS job has generated an image submitted for processing.\nThis message was completed on DATETIME UTC."
-Failure_Message = "Your MIDAS job has failed dockerfile construction.\nThis message was sent on DATETIME UTC."
+Success_Message = "Your MIDAS job has generated an image submitted for processing.\nThis message was completed on DATETIME CST."
+Failure_Message = "Your MIDAS job has failed dockerfile construction.\nThis message was sent on DATETIME CST."
 
 # Creates a new docker image
 # Designed so that it is easy to silence for further testing
@@ -45,38 +44,31 @@ Failure_Message = "Your MIDAS job has failed dockerfile construction.\nThis mess
 # UTOK (str): The user's token
 # MIDIR (str): Midas directory
 # FILES_PATH (str): Path to the files, most likely it will be the current directory
-# COMMAND_TXT (str): Text file with the BOINC command
 # DOCK_DOCK (str): Actual dockerfile text
 # BOCOM (str): Boinc command to run
+# boapp (str): BOINC application (boinc2docker or volcon)
+# job_id (str): Job ID
 def user_image(IMTAG, FILES_PATH = '.'):
 
     image.build(path=FILES_PATH, tag=IMTAG.lower(), timeout=180)
 
 
 # Full process of building a docker image
-def complete_build(IMTAG, UTOK, MIDIR, COMMAND_TXT, DOCK_DOCK, BOCOM, FILES_PATH='.'):
+def complete_build(IMTAG, UTOK, MIDIR, DOCK_DOCK, BOCOM, FILES_PATH, boapp, job_id):
 
     researcher_email = pp.obtain_email(UTOK)
+
+    # Updates job status
+    mints.update_job_status(job_id, boapp, "Building image")
+
     try:
         user_image(IMTAG)
-
-        # Reduces the corresponding user's allocation
-        # Docker represents image size in GB
-        # Moves the file
-        boapp = r.get(UTOK+';'+MIDIR).decode("UTF-8")
-        
-        if boapp == "boinc2docker":
-            shutil.move(COMMAND_TXT+".txt", "/home/boincadm/project/html/user/token_data/process_files/"+COMMAND_TXT+".txt")
-
 
         # VolCon instructions
         # Deletes the image, submits the saved version to a mirror
 
         if boapp == "volcon":
             
-            # Deletes the key
-            r.delete(UTOK+';'+MIDIR)
-
             # Saves the image into a file
             img = image.get(IMTAG)
             resp = img.save()
@@ -99,11 +91,12 @@ def complete_build(IMTAG, UTOK, MIDIR, COMMAND_TXT, DOCK_DOCK, BOCOM, FILES_PATH
             shutil.move(full_image_path, saved_name)
 
             # Move commands to mirror
-            Commands = " ".join(BOCOM.split(" ")[1::])
+            Commands = BOCOM
 
             # Add job to VolCon
             # Set as medium priority
-            mints.add_job(UTOK, "Custom", Commands, 0, VolCon_ID, "Middle", public=0)
+            GPU_needed = 0
+            mints.make_MIDAS_job_available(job_id, "CUSTOM", Commands, GPU_needed, VolCon_ID, "Middle", public=0)
             mints.update_mirror_ip(VolCon_ID, mirror_IP)
 
             # MIDAS cannot accept GPU jobs
@@ -124,7 +117,7 @@ def complete_build(IMTAG, UTOK, MIDIR, COMMAND_TXT, DOCK_DOCK, BOCOM, FILES_PATH
             image.remove(IMTAG, force=True)
 
             # Email user with dockerfile
-            MESSAGE = Success_Message.replace("DATETIME", datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"))
+            MESSAGE = Success_Message.replace("DATETIME", mints.timnow())
             MESSAGE += "\n\nClick on the following link to obtain a compressed version of the application docker image.\n"
             MESSAGE += "You are welcome to upload the image on dockerhub in order to reduce the future job processing time for the same application (no allocation will be discounted): \n"
             MESSAGE += os.environ["SERVER_IP"]+":5060/boincserver/v2/reef/results/"+UTOK+"/"+saved_name.replace("../", "")
@@ -142,8 +135,8 @@ def complete_build(IMTAG, UTOK, MIDIR, COMMAND_TXT, DOCK_DOCK, BOCOM, FILES_PATH
             return None
 
 
-        # Deletes the key
-        r.delete(UTOK+';'+MIDIR)
+        # Updates the database so that the MIDAS job can be processed
+        mints.make_boinc2docker_MIDAS_job_available(job_id, IMTAG.lower(), BOCOM)
 
         # Saves the docker image and sends the user the dockerfile and a link to the tar ball
         # docker-py documentation was erronous
@@ -161,7 +154,7 @@ def complete_build(IMTAG, UTOK, MIDIR, COMMAND_TXT, DOCK_DOCK, BOCOM, FILES_PATH
         # Moves the file to reef and deletes the local copy
         requests.post('http://'+os.environ['Reef_IP']+':2001/reef/result_upload/'+os.environ['Reef_Key']+'/'+UTOK, files={"file": open(saved_name, "rb")})
         os.remove(saved_name)
-        MESSAGE = Success_Message.replace("DATETIME", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+        MESSAGE = Success_Message.replace("DATETIME", mints.timnow())
         MESSAGE += "\n\nClick on the following link to obtain a compressed version of the application docker image.\n"
         MESSAGE += "You are welcome to upload the image on dockerhub in order to reduce the future job processing time for the same application (no allocation will be discounted): \n"
         MESSAGE += os.environ["SERVER_IP"]+":5060/boincserver/v2/reef/results/"+UTOK+"/"+saved_name
@@ -177,32 +170,33 @@ def complete_build(IMTAG, UTOK, MIDIR, COMMAND_TXT, DOCK_DOCK, BOCOM, FILES_PATH
 
     except Exception as e:
         print(e)
-        r.delete(UTOK+';'+MIDIR)
+
+        # Updates status and notified time
+        mints.update_job_status_notified(job_id, boapp, "Error creating MIDAS Dockerfile", notified_date_provided=False, processing_error=None)
+
         # Deletes the unused container
         client.containers.prune()
-        MESSAGE = Failure_Message.replace("DATETIME", datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"))
+        MESSAGE = Failure_Message.replace("DATETIME", mints.timnow())
         MESSAGE += "\n\nDockerfile created below: \n\n"+DOCK_DOCK
-        ec.send_mail_complete(researcher_email, "Succesful MIDAS build", MESSAGE, [])
+        ec.send_mail_complete(researcher_email, "Failed MIDAS build", MESSAGE, [])
 
 
-to_be_processed = [] # [[TOKEN, MIDAS directory], ...]
 
-# Finds all the submitted jobs
-for possible in r.keys():
-    kim = possible.decode('UTF-8')
-    if ';' in kim:
-        to_be_processed.append([kim.split(';')[0], kim.split(';')[1]])
-else:
-    if len(to_be_processed) == 0:
-        # No new user files to be processed
-        sys.exit()
+# Finds MIDAS jobs waiting to be processed
+# [[job_id, TOKEN, MIDAS directory, boapp], ...]
+to_be_processed = mints.get_available_MIDAS_jobs()
+
+if len(to_be_processed) == 0:
+    # No new user files to be processed
+    print("No available MIDAS jobs")
+    sys.exit()
 
 
 
 # Goes one by one in the list of submitted files
 for HJK in to_be_processed:
 
-    user_tok, dir_midas = HJK
+    job_id, user_tok, dir_midas, boapp = HJK
     FILE_LOCATION = "/home/boincadm/project/api/sandbox_files/DIR_"+user_tok+'/'+dir_midas
 
     # Goes to the file location
@@ -238,14 +232,12 @@ for HJK in to_be_processed:
     duck += "\n\nWORKDIR /work"
 
     # Actual command
-    BOINC_COMMAND = DTAG+" /bin/bash -c  \"cd /work; "+"; ".join(FINAL_COMMANDS)+"; python3 /Mov_Specific.py\""
+    BOINC_COMMAND = " /bin/bash -c  \"cd /work; "+"; ".join(FINAL_COMMANDS)+"; python3 /Mov_Specific.py\""
     # Prints the result to files
     with open("Dockerfile", "w") as DOCKERFILE:
         DOCKERFILE.write(duck)
-    with open(namran+".txt", "w") as COMFILE:
-        COMFILE.write(BOINC_COMMAND+'\n'+user_tok)
 
-    complete_build(DTAG, user_tok, dir_midas, namran, duck, BOINC_COMMAND)
+    complete_build(DTAG, user_tok, dir_midas, duck, BOINC_COMMAND, FILES_PATH='.', boapp=boapp, job_id=job_id)
 
     # Goes one directory up and deletes the MIDAS folder for space concerns
     os.chdir("..")

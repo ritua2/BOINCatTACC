@@ -18,7 +18,7 @@ from werkzeug.utils import secure_filename
 import redis
 
 
-import custodian as cus
+import mysql_interactions as mints
 
 
 
@@ -263,7 +263,8 @@ def midas(toktok, Username):
 
     # Adds tags to database
     # STEM is always assumed
-    cus.complete_tag_work(Username, toktok, "STEM", "CUSTOM", complete_command, boapp, "terminal")
+    tags_used = "STEM"
+    mints.add_MIDAS_job(Username, toktok, tags_used, new_MID, complete_command, boapp, "cli", "MIDAS ready")
 
     return 'File submitted for processing'
 

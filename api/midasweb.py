@@ -13,14 +13,12 @@ import re
 import preprocessing as pp
 from midas_processing import midas_reader as mdr
 from werkzeug.utils import secure_filename
-import redis
 
 
 import mysql_interactions as mints
 
 
 
-r = redis.Redis(host = '0.0.0.0', port = 6389, db=2)
 app = Flask(__name__)
 UPLOAD_FOLDER = "/home/boincadm/project/api/sandbox_files"
 valid_compilers = ['gcc', 'g++', 'gfortran']

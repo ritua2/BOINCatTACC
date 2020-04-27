@@ -82,9 +82,45 @@ def add_job(token, image, commands, GPU, VID, priority_level, public=1, tags="ST
     cursor.close()
     boinc_db.close()
 
-    # Tags the job
+    # Tags the job so that it is discoverable by VolCon runners
+    # Completely different from tags
     # Adds tag
     tag_volcon(VID)
+
+
+
+# Sets an already submitted VolCon MIDAS job as ready for processing
+def make_MIDAS_job_available(job_id, Image, Command, GPU, VID, priority_level, public=0):
+
+    boinc_db = mysql_con.connect(host = os.environ['URL_BASE'].split('/')[-1], port = 3306, user = os.environ["MYSQL_USER"], password = os.environ["MYSQL_UPASS"], database = 'boincserver')
+    cursor = boinc_db.cursor(buffered=True)
+
+    insert_new_job = "UPDATE volcon_jobs SET Image=%s, Command=%s, Notified=%s, status=%s, GPU=%s, volcon_id=%s, priority=%s, public=%s WHERE job_id=%s"
+
+    cursor.execute(insert_new_job, (Image, Command, "0", "Received", GPU, VID, priority_level, public, job_id) )
+    boinc_db.commit()
+    cursor.close()
+    boinc_db.close()
+
+    # Tags the job so that it is discoverable by VolCon runners
+    # Completely different from tags
+    # Adds tag
+    tag_volcon(VID)
+
+
+
+# Sets an already submitted boinc2docker MIDAS job as ready for processing
+def make_boinc2docker_MIDAS_job_available(job_id, Image, Command):
+
+    boinc_db = mysql_con.connect(host = os.environ['URL_BASE'].split('/')[-1], port = 3306, user = os.environ["MYSQL_USER"], password = os.environ["MYSQL_UPASS"], database = 'boincserver')
+    cursor = boinc_db.cursor(buffered=True)
+
+    insert_new_job = "UPDATE boinc2docker_jobs SET Image=%s, Command=%s, status=%s WHERE job_id=%s"
+
+    cursor.execute(insert_new_job, (Image, Command, "Job submitted", job_id) )
+    boinc_db.commit()
+    cursor.close()
+    boinc_db.close()
 
 
 
@@ -125,11 +161,41 @@ def add_MIDAS_job(username, token, tags, MIDAS_ID, Command, boinc_application, o
             "INSERT INTO volcon_jobs (username, token, Image, Command, Date_Sub, status, tags, origin, Error) "
             "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)")
 
-        cursor.execute(insert_new_job, (username, token, "Custom", Command, timnow(), status, tags, origin, MIDAS_ID) )
+        cursor.execute(insert_new_job, (username, token, "CUSTOM", Command, timnow(), status, tags, origin, MIDAS_ID) )
         boinc_db.commit()
 
     cursor.close()
     boinc_db.close()
+
+
+
+# Selects MIDAS jobs waiting for both boinc2docker and VolCon
+# Returns [[job_id, token, MIDAS ID, boapp], ...]
+def get_available_MIDAS_jobs():
+
+    boinc_db = mysql_con.connect(host = os.environ['URL_BASE'].split('/')[-1], port = 3306, user = os.environ["MYSQL_USER"], password = os.environ["MYSQL_UPASS"], database = 'boincserver')
+
+    cursor_boinc2docker = boinc_db.cursor(buffered=True)
+    cursor_boinc2docker.execute( "SELECT job_id, token, boinc_error, boinc_application FROM boinc2docker_jobs WHERE status = 'MIDAS ready'")
+
+    available_MIDAS_jobs = []
+    for row in cursor_boinc2docker:
+        available_MIDAS_jobs.append([row[0], row[1], row[2], row[3]])
+
+    cursor_boinc2docker.close()
+
+
+    cursor_boinc2docker = boinc_db.cursor(buffered=True)
+    cursor_boinc2docker.execute( "SELECT job_id, token, Error FROM volcon_jobs WHERE status = 'MIDAS ready'")
+
+    for row in cursor_boinc2docker:
+        available_MIDAS_jobs.append([row[0], row[1], row[2], "volcon"])
+
+    cursor_boinc2docker.close()
+
+    boinc_db.close()
+
+    return available_MIDAS_jobs
 
 
 
@@ -141,6 +207,50 @@ def update_results_path_apache(VID, results_path_apache):
     boinc_db.commit()
     cursor.close()
     boinc_db.close()
+
+
+
+# Updates the status of a job
+def update_job_status(job_id, boapp, new_status):
+    boinc_db = mysql_con.connect(host = os.environ['URL_BASE'].split('/')[-1], port = 3306, user = os.environ["MYSQL_USER"], password = os.environ["MYSQL_UPASS"], database = 'boincserver')
+    cursor = boinc_db.cursor(buffered=True)
+
+    if boapp == "boinc2docker":
+        cursor.execute( "UPDATE boinc2docker_jobs SET status = %s WHERE job_id = %s", (new_status, job_id))
+        boinc_db.commit()
+
+    elif boapp == "volcon":
+        cursor.execute( "UPDATE volcon_jobs SET status = %s WHERE job_id = %s", (new_status, job_id))
+        boinc_db.commit()
+
+    cursor.close()
+    boinc_db.close()
+
+
+
+# Updates job status, notified time, and error
+# Useful when there are errors in processing
+# If the notified time is not provided, it takes it to be the current at CST
+def update_job_status_notified(job_id, boapp, new_status, notified_date_provided=False, processing_error=None):
+
+    if not notified_date_provided:
+        notified_date_provided = timnow()
+
+
+    boinc_db = mysql_con.connect(host = os.environ['URL_BASE'].split('/')[-1], port = 3306, user = os.environ["MYSQL_USER"], password = os.environ["MYSQL_UPASS"], database = 'boincserver')
+    cursor = boinc_db.cursor(buffered=True)
+
+    if boapp == "boinc2docker":
+        cursor.execute( "UPDATE boinc2docker_jobs SET status = %s, date_notified=%s, boinc_error=%s WHERE job_id = %s", (new_status, job_id, notified_date_provided, processing_error))
+        boinc_db.commit()
+
+    elif boapp == "volcon":
+        cursor.execute( "UPDATE volcon_jobs SET status = %s, Notified=%s, Error=%s WHERE job_id = %s", (new_status, job_id, notified_date_provided, processing_error))
+        boinc_db.commit()
+
+    cursor.close()
+    boinc_db.close()
+
 
 
 

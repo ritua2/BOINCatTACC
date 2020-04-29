@@ -9,24 +9,33 @@ import os, sys
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-import redis
 
+import mysql.connector as mysql_con
 
-r_val = redis.Redis(host = '0.0.0.0', port = 6389, db=2)
 
 
 
 # Finds if the token is valid
 def token_test(token):
 
-   if r_val.get(token) is None:
-      return False
+    boinc_db = mysql_con.connect(host = os.environ['URL_BASE'].split('/')[-1], port = 3306, user = os.environ["MYSQL_USER"], password = os.environ["MYSQL_UPASS"], database = 'boincserver')
+    cursor = boinc_db.cursor(buffered=True)
+    cursor.execute("SELECT username FROM researcher_users WHERE token = %s", (token,) )
 
-   return True
+    for ips in cursor:
+        # Exists
+        cursor.close()
+        boinc_db.close()
+        return True
+
+    cursor.close()
+    boinc_db.close()
+    # Does not exist
+    return False
+
 
 
 # Creates a random file name with 18 characters
-
 def random_file_name():
 
     HHH = 'abcdefghijklmnopqrstuvwxyz1234567890'

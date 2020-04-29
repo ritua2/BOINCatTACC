@@ -4,13 +4,13 @@ BASICS
 Necessary functions for API work
 """
 
-import random
-import os, sys
-import smtplib
+
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-
 import mysql.connector as mysql_con
+import os, sys
+import random
+import smtplib
 
 
 
@@ -98,11 +98,20 @@ def send_mail(send_to, subject, text):
 # toktok (str): Token
 def obtain_email(toktok):
     
-    toktok = toktok.replace('\n', '').replace(' ', '')
-    with open("/home/boincadm/project/html/user/token_data/Tokens.txt", 'r') as TFIL:
-         for line in TFIL:
-             if toktok in line:
-                return line.split(',')[-1].replace('\n', '').replace(' ', '')
+    boinc_db = mysql_con.connect(host = os.environ['URL_BASE'].split('/')[-1], port = 3306, user = os.environ["MYSQL_USER"], password = os.environ["MYSQL_UPASS"], database = 'boincserver')
+    cursor = boinc_db.cursor(buffered=True)
+    cursor.execute("SELECT email FROM researcher_users WHERE token = %s", (toktok,) )
+
+    for user_email in cursor:
+        # Exists
+        cursor.close()
+        boinc_db.close()
+        return user_email[0]
+
+    cursor.close()
+    boinc_db.close()
+    # Does not exist
+    return False
 
 
 # Changes y/yes to True, all other to False

@@ -58,6 +58,7 @@ cursor.execute("""
     email                 VARCHAR(255),
     username              VARCHAR(255), # username given by the user
     allocation            VARCHAR(255),
+    organization          VARCHAR(255),
 
     PRIMARY KEY (researcher_id)
     )

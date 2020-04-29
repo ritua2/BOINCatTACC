@@ -7,8 +7,11 @@ Checks the server status and validity of tokens.
 Does not include any submission APIs.
 """
 
-import os
+
 from flask import Flask, jsonify
+import mysql.connector as mysql_con
+import os
+
 
 
 app = Flask(__name__)
@@ -43,15 +46,21 @@ def tutorial():
 @app.route("/boincserver/v2/token_test=<token>")
 def token_test(token):
 
-   if len(token) < 14:
-   	   return 'Invalid'
+    boinc_db = mysql_con.connect(host = os.environ['URL_BASE'].split('/')[-1], port = 3306, user = os.environ["MYSQL_USER"], password = os.environ["MYSQL_UPASS"], database = 'boincserver')
+    cursor = boinc_db.cursor(buffered=True)
+    cursor.execute("SELECT token FROM researcher_users WHERE token = %s", (token,) )
 
-   with open("/home/boincadm/project/html/user/token_data/Tokens.txt", "r") as TFIL:
-       for line in TFIL:
-           if token in line:
-              return 'Accepted'
-       else:
-           return 'Invalid'
+    for user_email in cursor:
+        # Exists
+        cursor.close()
+        boinc_db.close()
+        return "Accepted"
+
+    cursor.close()
+    boinc_db.close()
+    # Does not exist
+    return "Invalid"
+
 
 
 if __name__ == '__main__':

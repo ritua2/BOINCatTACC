@@ -137,7 +137,12 @@ ORK=$(echo "${dn:0:15}" | rev)
 
 
 # Validates the researcher's email against the server's API
-TOKEN=$(curl -s -F email=$userEmail -F org_key=$ORK http://$SERVER_IP:5054/boincserver/v2/api/authorize_from_org)
+# Adds the username to the database if necessary
+# Gets the actual user name
+IFS='/' read -ra unam <<< "$PWD"
+unam="${unam[3]}"
+
+TOKEN=$(curl -s -F email=$userEmail -F org_key=$ORK -F username="$unam" http://$SERVER_IP:5054/boincserver/v2/api/authorize_from_org)
 
 # Checks that the token is valid
 if [[ $TOKEN = *"INVALID"* ]]; then
@@ -145,36 +150,7 @@ if [[ $TOKEN = *"INVALID"* ]]; then
     exit 0
 fi
 
-# Adds the username to the database if necessary
-# Gets the actual user name
-IFS='/' read -ra unam <<< "$PWD"
-unam="${unam[3]}"
-
-# Adds the username to the database if necessary
-# Adds the username to the database if necessary
-registerUser=$(curl -s http://$SERVER_IP:5078/boincserver/v2/api/add_username/$unam/$userEmail/$TOKEN/$ORK)
-
-printf "\n${GREENGREEN}$registerUser${NCNC}\n"
-
 printf "${GREENGREEN}BOINC connection established${NCNC}\n"
-
-
-# Checks the user's allocation
-allocation_check=$(curl -s -F token=$TOKEN http://$SERVER_IP:5052/boincserver/v2/api/simple_allocation_check)
-
-if [ "$allocation_check" = 'n' ]; then
-    printf "User allocation is insufficient, some options will no longer be allowed (${REDRED}red-colored${NCNC})\n"
-fi
-
-
-# Prints the text in color depending on the allocation status
-alloc_color () {
-    if [ "$allocation_check" = 'n' ]; then
-        printf "${REDRED}$1${NCNC}\n"
-    else
-        printf "$1\n"
-    fi
-}
 
 
 # Joins an array (str) into a joint string witha custom separator
@@ -187,9 +163,9 @@ function join_by {
 
 # Asks the user what they want to do
 printf      "The allowed options are below:\n"
-alloc_color "   1  Submitting a BOINC job from TACC supported docker images using local files in this machine"
+printf      "   1  Submitting a BOINC job from TACC supported docker images using local files in this machine\n"
 printf      "   2  Submitting a file with a list of commands from an existing dockerhub image (no extra files on this machine)\n"
-alloc_color "   3  Submitting a BOINC job from a set of commands (source code, input local files) (MIDAS)"
+printf      "   3  Submitting a BOINC job from a set of commands (source code, input local files) (MIDAS)\n"
 
 
 

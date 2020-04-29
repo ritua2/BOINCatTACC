@@ -68,13 +68,11 @@ cursor.execute("""
 # Creates orgs tables
 cursor.execute("""
     CREATE TABLE IF NOT EXISTS organizations (
-    researcher_id         BIGINT AUTO_INCREMENT UNIQUE,
-    token                 VARCHAR(255),
-    email                 VARCHAR(255),
-    username              VARCHAR(255), # username given by the user
-    allocation            VARCHAR(255),
+    org_id                BIGINT AUTO_INCREMENT UNIQUE,
+    org_name              VARCHAR(255) UNIQUE,
+    org_key               VARCHAR(255) UNIQUE,
 
-    PRIMARY KEY (researcher_id)
+    PRIMARY KEY (org_id)
     )
     """)
 

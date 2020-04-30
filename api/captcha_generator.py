@@ -10,7 +10,6 @@ import base64
 import os
 from flask import Flask, send_file, after_this_request
 import re
-import redis
 import requests
 
 from captcha.image import ImageCaptcha

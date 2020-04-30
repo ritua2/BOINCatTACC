@@ -14,7 +14,7 @@ import requests
 
 
 
-r = redis.Redis(host = '0.0.0.0', port = 6389, db =2)
+
 app = Flask(__name__)
 UPLOAD_FOLDER = "/home/boincadm/project/api/sandbox_files"
 

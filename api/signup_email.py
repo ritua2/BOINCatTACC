@@ -25,7 +25,7 @@ def signup_volunteer(email, anonym):
     text += "\nFor GDPR compliance reasons, we have created an anonymized name for you and that is: "+anonym+" . This name is "
     text += "associated with your account and you can see it in your profile settings. This anonymized named will be displayed "
     text += "in the leaderboard on the BOINC@TACC website.For getting your actual screen name and not the anonymized name displayed on the leaderboard, please send an email to rauta@tacc.utexas.edu "
-    text += "or change it from "+os.environ['URL_BASE']+"/home.php .\n"
+    text += "or change it from "+os.environ['URL_BASE'].replace("http://", "https://")+"/home.php .\n"
     text += "\n\nSincerely,\n\nThe TACC development team"
 
     # Send the email

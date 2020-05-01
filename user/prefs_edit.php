@@ -78,6 +78,7 @@ if ($action) {
             } else {
                 $main_prefs = $prefs;
                 prefs_privacy_parse_form($user);
+                prefs_consent_parse_update($user);
             }
 
             project_prefs_update($user, $main_prefs);
@@ -109,6 +110,9 @@ if ($action) {
     }
     print_prefs_form("edit", $subset, $venue, $user, $prefs, $columns);
 }
+
+echo "<p><b>Please Note:</b> Exporting statistics will  export your actual screenname instead of the anonymized name that was assigned to your account at the time of sign-up.</p>";
+
 echo "<a href=prefs.php?subset=$subset$c>".tra("Back to preferences")."</a>\n";
 page_tail();
 

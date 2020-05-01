@@ -767,6 +767,9 @@ class BoincCreditUser {
     static function delete_user($user) {
         $db = BoincDb::get();
         $db->delete_aux('credit_user', "userid=$user->id");
+
+        // Deletes the user from screen_name_anonymization
+        $db->delete_aux('screen_name_anonymization', "name=$user->name");
     }
     static function get_list($where_clause, $order_clause, $limit) {
         $db = BoincDB::get();
@@ -796,6 +799,179 @@ class BoincCreditTeam {
         return $db->get_list('team', 'credit_team', 'id', 'teamid', 'BoincCreditTeam', '*', $where_clause, $order_clause, $limit);
     }
 }
+
+
+
+class BoincToken {
+
+    static function lookup($clause) {
+        $db = BoincDb::get();
+        return $db->lookup('token', 'BoincToken', $clause);
+    }
+
+    static function lookup_valid_token($userid, $token, $type) {
+        $db = BoincDb::get();
+        $token = BoincDb::escape_string($token);
+        $type = BoincDb::escape_string($type);
+        $now = time();
+        return self::lookup("userid=$userid and token='$token' and expire_time > $now and type = '$type'");
+    }
+
+    static function enum($where_clause) {
+        $db = BoincDb::get();
+        return $db->enum('token', 'BoincToken', $where_clause);
+    }
+
+    static function insert($clause) {
+        $db = BoincDb::get();
+        return $db->insert('token', $clause);
+    }
+
+    static function get_list($where_clause, $order_clause, $limit) {
+        $db = BoincDB::get();
+        return $db->get_list('token', 'userid', 'type', 'create_time', 'expire_time', 'BoincToken', '*', $where_clause, $order_clause, $limit);
+    }
+
+    static function delete_token($where_clause) {
+        $db = BoincDb::get();
+        $db->delete_aux('token', $where_clause);
+        return $db->affected_rows();
+    }
+
+    static function delete_expired() {
+        $db = BoincDb::get();
+        $now = time();
+        $db->delete_aux('token', "expire_time < $now");
+        return $db->affected_rows();
+    }
+
+    static function delete_for_user($user_id) {
+        $db = BoincDb::get();
+        $db->delete_aux('token', "userid=$user_id");
+        return $db->affected_rows();
+    }
+
+}
+
+class BoincUserDeleted {
+
+    static function insert_user($user) {
+        $now = time();
+        $cpid = md5($user->cross_project_id.$user->email_addr);
+        $clause = "(userid, public_cross_project_id, create_time) values ($user->id, '$cpid', $now)";
+        $db = BoincDb::get();
+        return $db->insert('user_deleted', $clause);
+    }
+
+    static function delete_expired() {
+        $db = BoincDb::get();
+        $expire_time = time() - 60*86400; //60 days ago
+        $db->delete_aux('user_deleted', "create_time < $expire_time");
+        return $db->affected_rows();
+    }
+
+}
+
+class BoincHostDeleted {
+
+    static function insert_hosts_for_user($user) {
+        $now = time();
+        $clause = "select id, host_cpid, $now from host where userid = $user->id";
+        $db = BoincDb::get();
+        return $db->insert('host_deleted', $clause);
+    }
+
+    static function delete_expired() {
+        $db = BoincDb::get();
+        $expire_time = time() - 60*86400; //60 days ago
+        $db->delete_aux('host_deleted', "create_time < $expire_time");
+        return $db->affected_rows();
+    }
+
+}
+
+class BoincConsent {
+    static function lookup($clause) {
+        $db = BoincDb::get();
+        return $db->lookup('consent', 'BoincConsent', $clause);
+    }
+
+    static function enum($where_clause) {
+        $db = BoincDb::get();
+        return $db->enum('consent', 'BoincConsent', $where_clause);
+    }
+
+    static function insert ($clause) {
+        $db = BoincDb::get();
+        return $db->insert('consent', $clause);
+    }
+
+    static function update ($clause) {
+        $db = BoincDb::get();
+        return $db->update_aux('consent', $clause);
+    }
+
+    static function delete($clause) {
+        $db = BoincDb::get();
+        return $db->delete_aux('consent', $clause);
+    }
+
+    static function delete_for_user($user_id) {
+        $db = BoincDb::get();
+        $db->delete_aux('consent', "userid=$user_id");
+        return $db->affected_rows();
+    }
+
+}
+
+class BoincConsentType {
+    static function lookup($clause) {
+        $db = BoincDb::get();
+        return $db->lookup('consent_type', 'BoincConsentType', $clause);
+    }
+
+    static function enum($where_clause, $order_clause=null) {
+        $db = BoincDb::get();
+        return $db->enum('consent_type', 'BoincConsentType', $where_clause, $order_clause);
+    }
+
+    static function insert ($clause) {
+        $db = BoincDb::get();
+        return $db->insert('consent_type', $clause);
+    }
+
+    static function update ($clause) {
+        $db = BoincDb::get();
+        return $db->update_aux('consent_type', $clause);
+    }
+
+    function delete() {
+        $db = BoincDb::get();
+        return $db->delete($this, 'consent_type');
+    }
+
+    function delete_aux($clause) {
+        $db = BoincDb::get();
+        return $db->delete_aux('consent_type', $clause);
+    }
+
+}
+
+// Class to interface with SQL View latest_consent. Only read
+// operations permitted.
+class BoincLatestConsent {
+    static function lookup($clause) {
+        $db = BoincDb::get();
+        return $db->lookup('latest_consent', 'BoincLatestConsent', $clause);
+    }
+
+    static function enum($where_clause, $order_clause=null) {
+        $db = BoincDb::get();
+        return $db->enum('latest_consent', 'BoincLatestConsent', $where_clause, $order_clause);
+    }
+}
+
+
 
 // DEPRECATED: use BoincDb::escape_string where possible
 // 

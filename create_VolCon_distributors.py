@@ -35,7 +35,7 @@ if r.hexists("VolCon", 'Organization Token'):
         sys.exit()
 
     else:
-        print("Systems were not erased")
+        print("Mirrors were not erased")
         sys.exit()
 
 

@@ -20,7 +20,6 @@
 
 require_once("../inc/util.inc");
 require_once("../inc/midas.inc");
-require_once("../inc/red_keys.inc");
 
 page_head(null, null, null, null, null, "Job Submission Result");
 
@@ -122,9 +121,8 @@ function get_input_file_name(){
 
 //Get the researcher unique token
 function get_user_token(){
-	$organizationKey = get_ok("TACC");
 	$ch = curl_init();
-	curl_setopt($ch, CURLOPT_URL, "http://0.0.0.0:5078/boincserver/v2/api/user_tokens/".$_SESSION['user']."/".$organizationKey);
+	curl_setopt($ch, CURLOPT_URL, "http://0.0.0.0:5078/boincserver/v2/api/user_tokens/".$_SESSION['user']);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 	$result = curl_exec($ch);
 	if (curl_errno($ch) || strpos($result, 'NOT') !== false){

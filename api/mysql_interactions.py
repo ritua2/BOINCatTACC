@@ -417,6 +417,28 @@ def token_from_VolCon_ID(VID):
 
 
 
+# Obtains a list of tokens for a given user
+def user_tokens(username):
+
+    token_list = []
+
+    boinc_db = mysql_con.connect(host = os.environ['URL_BASE'].split('/')[-1], port = 3306, user = os.environ["MYSQL_USER"], password = os.environ["MYSQL_UPASS"], database = 'boincserver')
+    cursor = boinc_db.cursor(buffered=True)
+    cursor.execute("SELECT token FROM researcher_users WHERE username = %s", (username,) )
+
+    for possible_tokens in cursor:
+        token_list.append(possible_tokens[0])
+
+    cursor.close()
+    boinc_db.close()
+
+    return token_list
+
+
+
+# DEPRECATED
+# tags table no longer in use, tags are now stored as a column in the volcon_jobs and boinc2docker_jobs tables
+# ------------------
 # Adds tag
 # All variables must be passed as either string or None
 # boinc_application (str): As of now, only "boinc2docker" or "volcon"

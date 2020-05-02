@@ -17,7 +17,6 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 require_once("../inc/util.inc");
-require_once("../inc/red_keys.inc");
 
 page_head(null, null, null, null, null, "Job Submission Result");
 
@@ -28,7 +27,6 @@ if (!isset($_SESSION))
 
 if(strpos($_SERVER['HTTP_REFERER'], 'job_submission') !== false){
 	//All information needed
-	$organizationKey = get_ok("TACC");
 	$token = "";
 	$reefIP = "";
 	$reefKey = "";
@@ -95,7 +93,7 @@ if(strpos($_SERVER['HTTP_REFERER'], 'job_submission') !== false){
 		//Get the user's token
 		/*Taken from Thomas' job history codes*/
 		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, "http://0.0.0.0:5078/boincserver/v2/api/user_tokens/".$_SESSION['user']."/".$organizationKey);
+		curl_setopt($ch, CURLOPT_URL, "http://0.0.0.0:5078/boincserver/v2/api/user_tokens/".$_SESSION['user']);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		$result = curl_exec($ch);
 

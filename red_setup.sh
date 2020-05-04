@@ -129,6 +129,10 @@ chmod a-r /home/boincadm/project/html/user_profile/
 chmod a-r /home/boincadm/project/html/user_profile/images
 chmod a-r /home/boincadm/project/html/user_profile/img1
 
+# Transfers ownership of stats directory to BOINC
+chown -R www-data /home/boincadm/project/html/user/stats/
+chgrp -R www-data /home/boincadm/project/html/user/stats/
+
 # Restarts apache
 service apache2 restart
 

@@ -23,10 +23,11 @@ crontab -l | { cat; echo "*/15 * * * * /home/boincadm/project/api/harbour.py"; }
 # Erases all unaccounted images and stopped containers
 crontab -l | { cat; echo "*/15 * * * * docker ps -aq --no-trunc -f status=exited | xargs docker rm"; } | crontab -
 crontab -l | { cat; echo "*/15 * * * * docker images -q --filter dangling=true | xargs docker rmi -f"; } | crontab -
+crontab -l | { cat; echo "*/15 * * * * docker images -q --filter dangling=true | xargs docker rmi -f"; } | crontab -
 
 
-# Erases temporrary files older than 3 days every day at 1 AM
-crontab -l | { cat; echo "0 1 * * * find /tmp -ctime +3 -exec rm -rf {} +"; } | crontab -
+# Updates statistics every day at 12:00 UTC
+crontab -l | { cat; echo "0 12 * * * /home/boincadm/project/statistics_updater.py"; } | crontab -
 
 
 while true

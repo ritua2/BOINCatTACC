@@ -48,6 +48,10 @@ mkdir /home/boincadm/project/adtd-protocol/process_files
 mkdir /home/boincadm/project/adtd-protocol/tasks
 mkdir /results/volcon
 
+# Updates statistics
+mv statistics_updater.py /home/boincadm/project/statistics_updater.py
+chmod +x /home/boincadm/project/statistics_updater.py
+
 # Moves the front end files
 mv /home/boincadm/project/html/user /home/boincadm/project/html/user_old
 cp -r ./user /home/boincadm/project/html/user

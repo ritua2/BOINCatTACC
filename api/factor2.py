@@ -83,12 +83,14 @@ def authorize_from_org():
     boinc_db.close()
 
 
-    # Also creates a Reef directory
-    requests.get('http://'+os.environ['Reef_IP']+':2002/reef/create_user/'+user_tok+'/'+os.environ['Reef_Key'])
+    # Checks if the email directory exists
+    if not os.path.exists("/home/boincadm/project/api/sandbox_files/DIR_"+user_tok):
+        # Also creates a Reef directory
+        requests.get('http://'+os.environ['Reef_IP']+':2002/reef/create_user/'+user_tok+'/'+os.environ['Reef_Key'])
 
-    # Creates also the local directories for MIDAS usage
-    os.mkdir("/home/boincadm/project/api/sandbox_files/DIR_"+user_tok)
-    os.mkdir("/home/boincadm/project/api/sandbox_files/DIR_"+user_tok+'/___RESULTS')
+        # Creates also the local directories for MIDAS usage
+        os.mkdir("/home/boincadm/project/api/sandbox_files/DIR_"+user_tok)
+        os.mkdir("/home/boincadm/project/api/sandbox_files/DIR_"+user_tok+'/___RESULTS')
 
     return user_tok
 

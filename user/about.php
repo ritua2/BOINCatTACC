@@ -125,17 +125,6 @@ echo tra("<h3>Current Team Members</h3>") .'<br>
 
   <div class="col-md-2">
     <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
-      <img src="/img1/Carlos_2018_cropped.jpg" alt="Carlos" class="img-responsive">
-        <div class="info" style="padding: 10px 10px;">
-        <h4><a href="https://www.linkedin.com/in/carlos-redondo-albertos">Carlos Redondo</a></h4>
-        <p class="title">Undergraduate Student Intern</p>
-        <p>Software Development & Testing</p>
-        </div>
-    </div>
-  </div>
-
-  <div class="col-md-2">
-    <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
       <img src="/img1/Collin_cropped.jpg" alt="Collin" class="img-responsive">
       <div class="info" style="padding: 10px 10px;">
         <h4><a href="https://www.linkedin.com/in/collin-weir">Collin Weir</a></h4>
@@ -147,9 +136,19 @@ echo tra("<h3>Current Team Members</h3>") .'<br>
 
   <div class="col-md-2">
     <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
+      <div class="info" style="padding: 10px 10px;">
+        <h4><a href="https://www.tacc.utexas.edu/about/directory/jason-allison">Jason Allison</a></h4>
+        <p class="title"><strong>Senior Program Coordinator</strong></p><br/>
+        <p>Testing</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-2">
+    <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
       <img src="/img1/ritu_2_2018_cropped.jpg" alt="Ritu" class="img-responsive">
       <div class="info" style="padding: 10px 10px;">
-        <h4><a href="https://www.tacc.utexas.edu/about/directory/ritu-arora">Ritu Arora</a></h4>
+        <h4><a href="https://www.linkedin.com/in/ritu-arora-59b58ab">Ritu Arora</a></h4>
         <p class="title"><strong>Project PI</strong></p><br/>
         <p>Software Design and Architecture</p>
       </div>
@@ -172,6 +171,18 @@ echo tra("<h3>Previous Team Members</h3>") .'<br>
       <div class="info" style="padding: 10px 10px;">
         <h4><a href="https://www.linkedin.com/in/anubhawn/">Anubhaw Nand</a></h4>
         <p class="title">Graduate Student Intern</p>
+        <p>Software Development & Testing</p>
+        </div>
+    </div>
+  </div>
+
+
+  <div class="col-md-2">
+    <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
+      <img src="/img1/Carlos_2018_cropped.jpg" alt="Carlos" class="img-responsive">
+        <div class="info" style="padding: 10px 10px;">
+        <h4><a href="https://www.linkedin.com/in/carlos-redondo-albertos">Carlos Redondo</a></h4>
+        <p class="title">Undergraduate Student Intern</p>
         <p>Software Development & Testing</p>
         </div>
     </div>

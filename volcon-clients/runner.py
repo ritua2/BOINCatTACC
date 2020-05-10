@@ -174,7 +174,7 @@ def run_in_container(job_info, previous_download_time):
             RESP = CONTAINER.exec_run("/bin/bash -c \""+command+"\"")
             # Checks the exit code
             if RESP[0] != 0:
-                raise
+                raise SystemError
 
             comres[0].append(command)
             comres[1].append("Success")

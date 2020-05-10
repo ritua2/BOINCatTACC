@@ -198,7 +198,7 @@ curl_or_wget=( ["1"]="curl -O" ["2"]="wget " ["3"]="wget "
 exwith=( ["1"]="boinc2docker" ["2"]="boinc2docker" ["3"]="boinc2docker"
            ["4"]="boinc2docker" ["5"]="boinc2docker"
            ["6"]="boinc2docker" ["7"]="boinc2docker" ["8"]="boinc2docker"
-           ["9"]="boinc2docker" ["10"]="adtdp" ["11"]="boinc2docker")
+           ["9"]="boinc2docker" ["10"]="volcon" ["11"]="boinc2docker")
 
 
 # Tags for TACC-provided images
@@ -216,6 +216,15 @@ apptags=(
                 ["9"]="STEM"
                 ["10"]="STEM"
                 ["11"]="STEM")
+
+
+# Select priority levels
+num_priority=(1 2 3)
+declare -A priority_levels
+priority_levels=(  
+                ["1"]="Low"
+                ["2"]="Middle"
+                ["3"]="Urgent")
 
 
 ########################################
@@ -446,12 +455,59 @@ case "$user_option" in
 
         user_command="$user_command mv ./* /root/shared/results\""
 
-        # Adds the commands to a text file to be submitted
-        printf "$user_command" > BOINC_Proc_File.txt
+        if [ "$boapp" = "boinc2docker" ]; then
 
-        curl -F file=@BOINC_Proc_File.txt -F app=$boapp -F topics="$chosen_tags"  http://$SERVER_IP:5075/boincserver/v2/submit_known/token=$TOKEN/username=$unam
-        rm BOINC_Proc_File.txt
-        printf "\n"        
+            # Adds the commands to a text file to be submitted
+            printf "$user_command" > BOINC_Proc_File.txt
+
+            curl -F file=@BOINC_Proc_File.txt -F app=$boapp -F topics="$chosen_tags"  http://$SERVER_IP:5075/boincserver/v2/submit_known/token=$TOKEN/username=$unam
+            rm BOINC_Proc_File.txt
+            printf "\n"
+        fi
+
+        if [ "$boapp" = "volcon" ]; then
+
+            # Removes the image itself from the command
+
+            user_command=${user_command//$user_app /}
+
+            commands_escaped="${user_command//\"/\\\"}"
+
+            # Asks what priority for the user
+            printf "\n${BLUEBLUE}Select priority level:${NCNC}\n"
+
+            # Prints all available options
+            for key in "${!priority_levels[@]}"
+            do
+                printf "    $key) ${priority_levels[$key]}\n"
+            done
+
+            printf "Enter option number: "
+            read option3
+            priority_level="${priority_levels[$option3]}"
+
+            # Checks if the user has inputted a wrong option
+            if [[ ${num_priority[*]} != *$option3* ]]; then
+                printf "$Priority level is not correct, assigned as low\n"
+                priority_level="Low"
+            fi
+
+
+            # Commands are submitted as json for simplicity
+            # Job submission to the main BOINC server
+            jstatus=$(curl -s -X POST -H "Content-Type: application/json" -d \
+                    '{"token":'"\"$TOKEN\""', "image":'"\"$user_app\""', "username":'"\"$unam\""', "commands":'"\"$commands_escaped\""', "priority":"'"$priority_level"'"}' \
+                    http://$SERVER_IP:5075/volcon/v2/api/jobs/tacc)
+
+            # Checks that the token is valid
+            if [[ "$jstatus" = *"INVALID"* ]]; then
+                printf "${REDRED}$jstatus${NCNC}\n\nProgram exited\n"
+                exit 0
+            fi
+
+            printf "${GREENGREEN}$jstatus ${NCNC}\n\nProgram exited\n"
+
+        fi
         ;;
         
 

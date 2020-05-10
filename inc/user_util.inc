@@ -254,21 +254,6 @@ function validate_post_make_user() {
     }
 
 
-    // Checks the captcha
-    if ( $_SESSION['custom_captcha'] != post_str("custom_captcha") ) {
-
-        // Unsets the captcha if needed
-        if ( isset($_SESSION["custom_captcha"]) ){
-            unset($_SESSION['custom_captcha']); 
-        }
-
-        show_error(
-                tra("Your reCAPTCHA response was not correct. Please try again.")
-            );
-    }
-    // Unsets captcha
-    unset($_SESSION['custom_captcha']); 
-
 
     // Creates a random name to ensure email verification
     $random_email_verification = (string)generateRandomString();

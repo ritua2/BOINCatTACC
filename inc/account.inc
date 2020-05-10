@@ -125,41 +125,9 @@ title="The country from which you will be operating.">'.tra("Country").'</a>'
     }
 
 
-    $random_ascii_str = ascii_random_string(6);
-    $ch1 = curl_init();  
-    $captcha_API_URL = "http://0.0.0.0:6051/boincserver/v2/api/request_captcha/".$random_ascii_str;
-    curl_setopt($ch1,CURLOPT_URL, $captcha_API_URL);
-    curl_setopt($ch1,CURLOPT_RETURNTRANSFER,true); 
-    $output = curl_exec($ch1);
-    curl_close($ch1);
-
-    // Stores the given captcha
-    $_SESSION['custom_captcha'] = $random_ascii_str;
-
-    echo '<img src="data:image/png;base64,' . $output . '" style="margin-left: 33%;"><br><br>';
-    form_input_text(
-        sprintf('<span title="%s">%s</span>',
-            tra("Captcha, prove that you are not a robot. Reload page for a new captcha"),
-            '<!-- attribute href of html tag a was removed by Gerald Joshua --><a data-toggle="tooltip" style="border-bottom: 1px dotted #000;text-decoration: none;" 
-            title="Prove that you are not a robot. Reload page for a new captcha">'.tra("Captcha").'</a>'
-        ),
-        "custom_captcha"
-    );
 }
 
 
-function ascii_random_string($n) { 
-    $characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"; 
-    $randomString = ""; 
-    $max_location = strlen($characters) - 1;
-
-    for ($i = 0; $i < $n; $i++) { 
-        $index = rand(0, $max_location); 
-        $randomString .= $characters[$index]; 
-    } 
-  
-    return $randomString; 
-} 
 
 //The end of the PHP account inputs code
 //----=====------===========-----------------================----------------=====

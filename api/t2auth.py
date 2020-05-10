@@ -3,22 +3,18 @@
 """
 BASICS
 
-Multiple operations to:
-    - Assign usernames to tokens
-    - Check if a username has any tokens assigned
-    - Get all tokens assigned to an username
-    - 
+Get all tokens assigned to an username
 """
 
+
 from flask import Flask, request
-import hashlib
+
 
 import mysql_interactions as mints
-import preprocessing as pp
+
 
 
 app = Flask(__name__)
-
 
 
 # Gets the list of tokens for a given username
@@ -43,9 +39,6 @@ def user_tokens(username):
 
     # The user is registered, so it returns a list of all its email addresses used so far (comma-separated)
     return ','.join(token_list)
-
-
-
 
 
 

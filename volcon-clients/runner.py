@@ -39,7 +39,7 @@ container =  docker.from_env().containers
 def request_job(priority_level):
 
     try:
-        r = requests.post('http://'+os.environ["main_server"]+":5078/volcon/v2/api/jobs/request",
+        r = requests.post('http://'+os.environ["main_server"]+":5060/volcon/v2/api/jobs/request",
             json={"cluster": cluster, "disconnect-key":dk, "GPU":GPU, "priority-level":priority_level, "public":only_public})
         return json.loads(r.text)
     except:
@@ -102,7 +102,7 @@ def custom_action(job_info, mirror_IP):
                         "Error":"Could not load image", "download time":0}
     
         # Requires new failed job API for simplicity
-        requests.post('http://'+os.environ["main_server"]+":5078/volcon/v2/api/jobs/failed/report",
+        requests.post('http://'+os.environ["main_server"]+":5060/volcon/v2/api/jobs/failed/report",
                 json=Failed_Report)
         return False
   
@@ -150,7 +150,7 @@ def run_in_container(job_info, previous_download_time):
         Failed_Report = {"date (Run)":prestime, "VolCon-ID":VolCon_ID, "Error":"Container failed to start", "download time":previous_download_time}
         
         # Requires new failed job API for simplicity
-        requests.post('http://'+os.environ["main_server"]+":5078/volcon/v2/api/jobs/failed/report",
+        requests.post('http://'+os.environ["main_server"]+":5060/volcon/v2/api/jobs/failed/report",
                 json=Failed_Report)
 
         try:
@@ -201,7 +201,7 @@ def run_in_container(job_info, previous_download_time):
         completed_time = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
         Report["computation time"] = end_time-start_time
 
-        send_report = requests.post('http://'+os.environ["main_server"]+":5078/volcon/v2/api/jobs/upload/report",
+        send_report = requests.post('http://'+os.environ["main_server"]+":5060/volcon/v2/api/jobs/upload/report",
             json=Report)
 
         os.remove(tarname)
@@ -217,11 +217,11 @@ def run_in_container(job_info, previous_download_time):
     Report["computation time"] = end_time-start_time
 
     # Uploads result files
-    requests.post('http://'+os.environ["main_server"]+":5078/volcon/v2/api/jobs/results/upload/"+VolCon_ID,
+    requests.post('http://'+os.environ["main_server"]+":5060/volcon/v2/api/jobs/results/upload/"+VolCon_ID,
                         files={"file": open(VolCon_ID+".tar","rb")})
 
     # Uploads finishes job notification
-    send_report = requests.post('http://'+os.environ["main_server"]+":5078/volcon/v2/api/jobs/upload/report",
+    send_report = requests.post('http://'+os.environ["main_server"]+":5060/volcon/v2/api/jobs/upload/report",
         json=Report)
 
     # Kills the container and removes it

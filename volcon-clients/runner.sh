@@ -7,7 +7,7 @@ export disconnect_key=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | hea
 # Adds the server as a cluster
 curl -X POST -H "Content-Type: application/json" -d \
     '{"cluster":"'"$cluster"'", "cluster-key":"'"$cluster_key"'", "disconnect-key":"'"$disconnect_key"'"}' \
-    http://$main_server:5078/volcon/v2/api/cluster/client/addme
+    http://$main_server:5060/volcon/v2/api/cluster/client/addme
 
 
 # By default, the system can execute all priorities

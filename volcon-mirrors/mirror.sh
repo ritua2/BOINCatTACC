@@ -6,7 +6,7 @@ export SERVER_ID=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 
 
 # Adds the server as a mirror
 curl -X POST -H "Content-Type: application/json" -d \
-    '{"key":"'"$volcon_key"'", "disconnect-key":"'"$SERVER_ID"'"}' http://$main_server:5078/volcon/v2/api/mirrors/addme
+    '{"key":"'"$volcon_key"'", "disconnect-key":"'"$SERVER_ID"'"}' http://$main_server:5060/volcon/v2/api/mirrors/addme
 
 
 # Activates the APIs (4 workers)

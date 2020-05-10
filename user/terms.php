@@ -43,13 +43,13 @@ echo '1) We will be saving the following data related to the computing cycles do
 
 echo 'Country. We will be anonymizing your screen name for displaying your contributions on the leaderboard. We will notify you '; 
 
-echo 'about the anonymized name assigned to your volunteer profile. If you would like to have your screen-name displayed on the leaderboard (instead of your anonymized name), please send us an email at rauta@tacc.utexas.edu .';
+echo 'about the anonymized name assigned to your volunteer profile. If you would like to have your screen-name displayed on the leaderboard (instead of your anonymized name), please send us an email at ritu.arora@utsa.edu .';
 
 echo '<br><br>';
 
 echo '2) We guarantee the erasure of the aforementioned information from our server/s should you desire to do so after opting out as a '; 
 
-echo 'volunteer. Please send an email at the following address to request the erasure of your data: rauta@tacc.utexas.edu';
+echo 'volunteer. Please send an email at the following address to request the erasure of your data: ritu.arora@utsa.edu';
 
 echo '<br><br>';
 

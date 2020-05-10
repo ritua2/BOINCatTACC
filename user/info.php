@@ -44,7 +44,7 @@ echo "
     <p>".
     tra("We will be saving the following data related to the computing cycles donated by you: Email Address, Screen Name, Password, Country. We will be anonymizing your screen name for displaying your contributions on the leaderboard. We will notify you about the anonymized name assigned to your volunteer profile. If you would like to have your screen-name displayed on the leaderboard (instead of your anonymized name), press the 'show real username' button at the top of <a href=\"https://boinc.tacc.utexas.edu/home.php\">https://boinc.tacc.utexas.edu/home.php</a>").
     "</p><p>".
-    tra("We guarantee the erasure of the aforementioned information from our server/s should you desire to do so after opting out as a volunteer. Please send an email at the following address to request the erasure of your data: rauta@tacc.utexas.edu").
+    tra("We guarantee the erasure of the aforementioned information from our server/s should you desire to do so after opting out as a volunteer. Please send an email at the following address to request the erasure of your data: ritu.arora@utsa.edu").
     "</p><p>".
     tra("Joining the BOINC@TACC project requires downloading the BOINC client and completing the sign-up process on the BOINC@TACC website. You are welcome to adjust the default settings of the BOINC client to start and stop running it as per your desire.").
     "</p><p>".

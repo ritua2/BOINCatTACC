@@ -39,7 +39,7 @@ echo '</style></pre></br>';
 
 echo '<pre style="word-break:normal;white-space:normal;margin-left:20%;margin-right: 20%;"><style="text-align:left;"><p style="font-size:14px;font-weight: normal;"><span style="font-weight:bold;">'.tra('May 29th, 2019:').'</span>'.tra('Dear All,<br><br>
 
-We are happy to announce that we have TACC-branded gifts for top-10 volunteers as of May 29, 2019, calculated by recent average credit. If you are in the top-10 list - pasted below - and are comfortable in sharing your mailing address for receiving the gifts, please send your address to rauta@tacc.utexas.edu .<br><br>
+We are happy to announce that we have TACC-branded gifts for top-10 volunteers as of May 29, 2019, calculated by recent average credit. If you are in the top-10 list - pasted below - and are comfortable in sharing your mailing address for receiving the gifts, please send your address to ritu.arora@utsa.edu.<br><br>
 
 List of top-10 volunteers:<br><br>
 
@@ -80,7 +80,7 @@ echo '</style></pre></br>';
 
 
 //List of News Updates
-echo '<pre style="word-break:normal;white-space:normal;margin-left:20%;margin-right: 20%;"><style="text-align:left;"><p style="font-size:14px;font-weight: normal;"><span style="font-weight:bold;">'.tra('July 30th, 2018:').'</span>'.tra('TACC-2-BOINC project goes live today. Volunteers are now invited to join the project and donate the compute cycles. Individual volunteers can create their accounts on the TACC-2-BOINC website and download the BOINC client for donating compute-cycles on their devices or VMs that they own in the cloud. Institutional volunteers, can email Ritu Arora at rauta@tacc.utexas.edu, to learn more about donating compute cycles.').' </p>';
+echo '<pre style="word-break:normal;white-space:normal;margin-left:20%;margin-right: 20%;"><style="text-align:left;"><p style="font-size:14px;font-weight: normal;"><span style="font-weight:bold;">'.tra('July 30th, 2018:').'</span>'.tra('TACC-2-BOINC project goes live today. Volunteers are now invited to join the project and donate the compute cycles. Individual volunteers can create their accounts on the TACC-2-BOINC website and download the BOINC client for donating compute-cycles on their devices or VMs that they own in the cloud. Institutional volunteers, can email Ritu Arora at ritu.arora@utsa.edu, to learn more about donating compute cycles.').' </p>';
 
 echo '<p style="font-size:14px;font-weight: normal;">'.tra('TACC-2-BOINC can be used by the TACC researchers to run applications written in C, C++, Fortran, Python, Bash. The software infrastructure behind TACC-2-BOINC relies on the availability of the applications as Docker images. TACC researchers have the option of using the pre-built Docker images of the following applications that are maintained by us: Autodock-Vina, Bedtools, BLAST, Bowtie, GROMACS, HTSeq, LAMMPS, NAMD, and OpenSees. Researchers can also choose to run any other publicly available image in Docker Hub. If the researchers are not familiar with containerization, they can provide their source code with the instructions to build the executable, and our software framework can create the Docker image for them.').'</p>';
 

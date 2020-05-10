@@ -237,7 +237,7 @@ def process_web_jobs():
                 if FF == '':
                     break
                 COMMANDS += get_reef_file(Image, TOK, FF)+" "
-            COMMANDS += ";".join([extra_image_commands(Image) +z for z in Command.split(";")])+" python /Mov_Res.py"
+            COMMANDS += ";".join([extra_image_commands(Image) +z for z in Command.split(";")])+" mv ./* /root/shared/results"
 
         COMMANDS = " /bin/bash -c \""+COMMANDS+"\""
 

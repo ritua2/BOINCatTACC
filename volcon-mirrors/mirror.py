@@ -83,7 +83,7 @@ def receive_job_files():
         json.dump(proposal, ff)
 
     # Updates the main server that the job is currently being run
-    r = requests.post('http://'+os.environ["main_server"]+":5089/volcon/v2/api/mirrors/status/update",
+    r = requests.post('http://'+os.environ["main_server"]+":5078/volcon/v2/api/mirrors/status/update",
             json={"key": vkey, "status":"Mirror received files", "VolCon-ID":VolCon_ID})
 
 
@@ -158,7 +158,7 @@ def request_job(volcon_id):
             shutil.rmtree(PATH+"/"+volcon_id)
 
             # Notify the server that the job is being run
-            r = requests.post('http://'+os.environ["main_server"]+":5089/volcon/v2/api/mirrors/status/update",
+            r = requests.post('http://'+os.environ["main_server"]+":5078/volcon/v2/api/mirrors/status/update",
                 json={"key": vkey, "status":"Job files requested", "VolCon-ID":volcon_id})
 
         except:

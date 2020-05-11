@@ -114,7 +114,9 @@ def automatic_text(timrec, outcome, TOK, ATTA):
             ST = os.environ["SERVER_IP"]+":5060/boincserver/v2/reef/results/"
             ST += TOK+"/"+anat.split("/")[-1]
             Text1 += ST+'\n'
+            Text1 += "NOTE: If the download does not automatically start from the above URL, use curl or wget to download the file. For example: curl -O "+ST+"\n"
 
+    Text1 += "\n"
 
     Text1 += "Sincerely,\n  TACC BOINC research group\n\n\n"
     Text1 += "NOTE: This is an automated message, all emails received at this address will be ignored."

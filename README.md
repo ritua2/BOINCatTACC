@@ -111,6 +111,8 @@ docker exec -it $CONTAINER bash
 cd /reef
 # Activate the APIs
 ./API_Daemon.sh -up
+#Exit the Reef container
+exit
 
 ````
 

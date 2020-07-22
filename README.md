@@ -93,6 +93,8 @@ vi project/project.inc
 	Do:
 ```bash
 source password_credentials.sh
+#exit from the Apache Docker container
+exit
 ```
 
 6. **Setup Reef in an external container**  
@@ -101,8 +103,7 @@ source password_credentials.sh
 	* Note: Reef can be setup on any server as long as its IP is accessible from the main server
 
 ````bash
-#exit from the Apache Docker container
-exit
+
 cd /root/BOINCatTACC/pocket-reef
 # Change the Reef key to the one that you typed in Step # 5
 vi docker-compose.yml

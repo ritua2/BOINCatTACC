@@ -75,6 +75,7 @@ htpasswd -c .htpasswd $NEWUSERNAME
 	* Clone via: *git clone https://github.com/ritua2/BOINCatTACC*
 	* *cd BOINCatTACC*
 ```bash
+apt-get update && apt-get install git-core -y
 cd /home/boincadm/project
 git clone https://github.com/ritua2/BOINCatTACC
 cd BOINCatTACC
@@ -94,7 +95,7 @@ source password_credentials.sh
 
 6. **Setup Reef in an exteneral container**  
 	* Reef is the storage container where all user files (results or not) are stored
-	* Create IP following these [instructions](./pocket-reef) on a system with the above IP and password provided above
+	* Switch to the pocket-reef directory inside the BOINCatTACC directory in the Docker docntainer, and follow some of these [instructions](./pocket-reef) on a system with the above IP and password provided above
 	* Note: Reef can be setup on any server as long as its IP is accessible from the main server
 
 

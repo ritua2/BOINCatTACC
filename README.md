@@ -95,10 +95,24 @@ source password_credentials.sh
 
 6. **Setup Reef in an exteneral container**  
 	* Reef is the storage container where all user files (results or not) are stored
-	* Switch to the pocket-reef directory inside the BOINCatTACC directory in the Docker docntainer, and follow some of these [instructions](./pocket-reef) on a system with the above IP and password provided above
+	* Switch to the pocket-reef directory inside the BOINCatTACC directory OUTSIDE the Docker container, and follow some of these [instructions](./pocket-reef) on a system with the above IP and password provided above
 	* Note: Reef can be setup on any server as long as its IP is accessible from the main server
 
+````bash
+#exit from the Apache Docker container
+exit
+cd /root/BOINCatTACC/pocket-reef
+# Change the Reef key to the one that you typed in Step # 5
+vi docker-compose.yml
+# Build a new container for Reef
+docker-compose up -d
+# Enter container
+docker exec -it $CONTAINER bash
+cd /reef
+# Activate the APIs
+./API_Daemon.sh -up
 
+````
 
 7. **Run the setup file**  
 	* It will install all the necessary packages, python libraries, set-up the internal Redis database, properly locate the files, set-up the APIs, Reef cloud storage, and automatic job processing

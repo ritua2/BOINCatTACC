@@ -211,7 +211,7 @@ docker run -d -p 8000:8000 -e "main_server=boinc.tacc.utexas.edu" \
 
 #### Future Use and Complains
 
-1. Disconnecting the APIs, including Reef:
+1. Disconnecting the APIs, including Reef - NOTE FROM RITU  - THESE COMMANDS ARE NOT CURRENTLY WORKING AS EXPECTED:
 	* Disconnecting the APIs will not delete any files currently saved in Reef
 ```bash
 cd /home/boincadm/project

@@ -79,6 +79,8 @@ apt-get update && apt-get install git-core -y
 cd /home/boincadm/project
 git clone https://github.com/ritua2/BOINCatTACC
 cd BOINCatTACC
+#Edit project.inc - update the URL/IP address at line # 40 - define("SECURE_URL_BASE", "");
+vi project/project.inc
 ```
 
 5. **Establish user email credentials**

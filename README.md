@@ -64,7 +64,7 @@ URL_BASE=http://IP_ADDRESS docker-compose up -d
 ```bash
 # Find the docker container
 docker ps
-docker exec -it boinc-server-docker_apache_1 bash
+docker exec -it boincserverdocker_apache_1 bash
 cd /home/boincadm/project/html/ops/
 htpasswd -c .htpasswd $NEWUSERNAME
 ```
@@ -93,7 +93,7 @@ cd BOINCatTACC
 source password_credentials.sh
 ```
 
-6. **Setup Reef in an exteneral container**  
+6. **Setup Reef in an external container**  
 	* Reef is the storage container where all user files (results or not) are stored
 	* Switch to the pocket-reef directory inside the BOINCatTACC directory OUTSIDE the Docker container, and follow some of these [instructions](./pocket-reef) on a system with the above IP and password provided above
 	* Note: Reef can be setup on any server as long as its IP is accessible from the main server
@@ -116,10 +116,11 @@ exit
 
 ````
 
-7. **Run the setup file**  
+7. **Run the setup file from the Apache container**  
 	* It will install all the necessary packages, python libraries, set-up the internal Redis database, properly locate the files, set-up the APIs, Reef cloud storage, and automatic job processing
 	* The set-up file will also automatically prompt to enter the credentials for the email. Use caution, since an error would require to manually fix the /root/.bashrc file
 ```bash
+docker exec -it boincserverdocker_apache_1 bash
 cd /home/boincadm/project/BOINCatTACC
 bash red_setup.sh
 ```

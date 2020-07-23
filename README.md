@@ -99,12 +99,12 @@ exit
 
 6. **Setup Reef in an external container**  
 	* Reef is the storage container where all user files (results or not) are stored
-	* Switch to the pocket-reef directory inside the BOINCatTACC directory OUTSIDE the Docker container, and follow some of these [instructions](./pocket-reef) on a system with the above IP and password provided above
+	* Switch to the pocket-reef directory inside the BOINCatTACC directory after exiting the Docker container, and follow some of these [instructions](./pocket-reef) on a system with the above IP and password provided above
 	* Note: Reef can be setup on any server as long as its IP is accessible from the main server
 
 ````bash
-
-cd /root/BOINCatTACC/pocket-reef
+#switch to the pocket-reef directory inside BOINCatTACC directory in the VM outside any Docker container
+cd pocket-reef
 # Change the Reef key to the one that you typed in Step # 5
 vi docker-compose.yml
 # Build a new container for Reef

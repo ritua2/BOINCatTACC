@@ -111,7 +111,7 @@ cd pocket-reef
 vi docker-compose.yml
 # Build a new container for Reef
 docker-compose up -d
-# Enter container
+# Enter container - replace $CONTAINER with container name - in our case it is pocketreef_reef_1
 docker exec -it $CONTAINER bash
 cd /reef
 # Activate the APIs

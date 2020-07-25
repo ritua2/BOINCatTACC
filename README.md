@@ -104,6 +104,8 @@ exit
 
 ````bash
 #switch to the pocket-reef directory inside BOINCatTACC directory in the VM outside any Docker container
+# if after exiting from the apache container you ar ein the boinc-server-docker directory, type cd ..
+cd ..
 cd pocket-reef
 # Change the Reef key to the one that you typed in Step # 5
 vi docker-compose.yml

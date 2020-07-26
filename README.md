@@ -128,6 +128,9 @@ exit
 docker exec -it boincserverdocker_apache_1 bash
 cd /home/boincadm/project/BOINCatTACC
 bash red_setup.sh
+
+#set the recpatcha
+#Follow the instructions at this link: https://boinc.berkeley.edu/trac/wiki/ProtectionFromSpam
 ```
 
 

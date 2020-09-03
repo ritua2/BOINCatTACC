@@ -99,13 +99,13 @@ form_start("create_account_action.php","post");//Starts the form for information
 create_account_form($teamid, $next_url);
 
 
-/*
+
 // Google recaptcha no longer being used
 
 if ($recaptcha_public_key) {
     form_general("", boinc_recaptcha_get_html($recaptcha_public_key));
 }
-*/
+
 
 
 

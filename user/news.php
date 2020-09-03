@@ -25,6 +25,12 @@ page_head(null, null, null, null, null, "News");
 //Page Title
 echo '<center><h1>News</h1></center><br />';
 
+echo '<pre style="word-break:normal;white-space:normal;margin-left:20%;margin-right: 20%;"><style="text-align:left;"><p style="font-size:14px;font-weight: normal;"><span style="font-weight:bold;">'.tra('September 3, 2020:').'</span>'.tra('Project updates
+                We are still testing the settings on BOINC@TACC and it is not yet production ready. We will share an announcement once we are back to normal operations. We would encourage our users to wait before they create their accounts. Thanks!
+                      
+                             </ol>').' </p>';
+
+echo '</style></pre></br>';
 
 
 echo '<pre style="word-break:normal;white-space:normal;margin-left:20%;margin-right: 20%;"><style="text-align:left;"><p style="font-size:14px;font-weight: normal;"><span style="font-weight:bold;">'.tra('April 12th, 2020:').'</span>'.tra('Project updates:<ol>

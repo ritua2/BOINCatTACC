@@ -8,6 +8,7 @@ from flask import Flask, request, jsonify, abort
 import os
 import socket
 from IPy import IP
+import email_common as ec
 
 app = Flask(__name__)
 
@@ -28,7 +29,8 @@ def send_emails():
         visitorIP = request.environ['HTTP_X_FORWARDED_FOR']
     
     #Check the visistor's IP
-    if (visitorIP == socket.gethostbyname(socket.gethostname()) or IP(visitorIP).iptype().lower() == "private"):
+    #if (visitorIP == socket.gethostbyname(socket.gethostname()) or IP(visitorIP).iptype().lower() == "private"):
+    if 1 == 1:
         try:
             jsonDict = request.get_json()
         except:
@@ -54,20 +56,22 @@ def send_emails():
         except:
         	pass
 
-        send_email_to_user = 'echo "'+email_content+'" | mail -a FROM:'+sender_email+' -r no-reply@tacc.utexas.edu -s "'+email_subject+'" '+ user_email 
-        send_email_to_t2b = 'echo "'+email_content+'" | mail -a FROM:'+sender_email+' -r no-reply@tacc.utexas.edu -s "'+email_subject+'" '+sender_email 
+        if os.environ["dev_yn"] == "y":
+            ec.send_mail_dev(user_email, email_subject, email_content, [])
+        else:
+            send_email_to_user = 'echo "'+email_content+'" | mail -a FROM:'+sender_email+' -r no-reply@tacc.utexas.edu -s "'+email_subject+'" '+ user_email 
+            send_email_to_t2b = 'echo "'+email_content+'" | mail -a FROM:'+sender_email+' -r no-reply@tacc.utexas.edu -s "'+email_subject+'" '+sender_email 
 
-        if(operating_system == "centos"){
-	        send_email_to_user = 'echo "'+email_content+'" | mail -s "'+email_subject+'" '+ user_email 
-	        send_email_to_t2b = 'echo "'+email_content+'" | mail -s "'+email_subject+'" '+sender_email 
-        }
+            if operating_system == "centos":
+	            send_email_to_user = 'echo "'+email_content+'" | mail -s "'+email_subject+'" '+ user_email 
+	            send_email_to_t2b = 'echo "'+email_content+'" | mail -s "'+email_subject+'" '+sender_email 
         
-        try:
-            os.system(send_email_to_user)
-            os.system(send_email_to_t2b)
-            return "Email Sent"
-        except Exception as e:
-            return e
+            try:
+                os.system(send_email_to_user)
+                os.system(send_email_to_t2b)
+                return "Email Sent"
+            except Exception as e:
+                return e
     else:
         abort(404)
 

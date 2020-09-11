@@ -21,7 +21,7 @@ cp predis/* ./user-interface/token_data
 # Sets up a redis server on port 6389, which must be open in the docker-compose.yml
 redis-server --port 6389 &
 # Sets up python3, needed
-apt-get install python3 python3-pip python3-mysql.connector mailutils -y
+apt-get install python3 python3-pip python3-mysql.connector python3-ipy mailutils -y
 # Python modules
 pip3 install redis Flask Werkzeug captcha docker ldap3 requests pytz
 
@@ -32,6 +32,8 @@ pip3 install redis Flask Werkzeug captcha docker ldap3 requests pytz
 # Moves all the APIs and email commands
 # Requires to be cloned inside project
 cp -r ./api /home/boincadm/project
+cp -r ./VM /home/boincadm/project
+cp /home/boincadm/project/api/email_common.py /home/boincadm/project/VM
 cp -r ./volcon /home/boincadm/project
 cp ./email_assimilator.py /home/boincadm/project
 cp ./email2.py /home/boincadm/project
@@ -99,6 +101,7 @@ chmod +x /home/boincadm/project/api/midasweb.py
 chmod +x /home/boincadm/project/api/volcon*
 chmod +x /home/boincadm/project/email2.py
 chmod +x /home/boincadm/project/automail.sh
+chmod +x /home/boincadm/project/VM/send_emails.py
 
 
 # Removes main directory restrictions

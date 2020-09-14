@@ -102,6 +102,7 @@ chmod +x /home/boincadm/project/api/volcon*
 chmod +x /home/boincadm/project/email2.py
 chmod +x /home/boincadm/project/automail.sh
 chmod +x /home/boincadm/project/VM/send_emails.py
+chmod +x /home/boincadm/project/VM/send_emails_with_attachments.py
 
 
 # Removes main directory restrictions

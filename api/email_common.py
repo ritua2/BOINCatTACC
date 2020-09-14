@@ -70,11 +70,14 @@ def send_mail_complete(send_to, subject, text, attachments):
 
         # Results are temporarily stored outside the container
         for file in attachments:
-            requests.post('http://'+os.environ['URL_BASE'].split('/')[-1]+':5021/emails/provide_file',
+            #requests.post('http://'+os.environ['URL_BASE'].split('/')[-1]+':5021/emails/provide_file',
+            #                files={"file": open(file,"rb")})
+            requests.post('http://0.0.0.0:5021/emails/provide_file',
                             files={"file": open(file,"rb")})
 
         # Requests the message to be sent
-        requests.post('http://'+os.environ['URL_BASE'].split('/')[-1]+':5021/send_emails', json=outer)
+        #requests.post('http://'+os.environ['URL_BASE'].split('/')[-1]+':5021/send_emails', json=outer)
+        requests.post('http://0.0.0.0:5021/send_emails', json=outer)
 
 
 

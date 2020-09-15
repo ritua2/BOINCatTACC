@@ -155,6 +155,17 @@ echo tra("<h3>Current Team Members</h3>") .'<br>
     </div>
   </div>
 
+   <div class="col-md-2">
+    <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
+      <img src="/img1/saumya.jpeg" alt="Saumya" class="img-responsive">
+      <div class="info" style="padding: 10px 10px;">
+        <h4><a href="https://www.linkedin.com/in/saumyashah7/">Saumya Shah</a></h4>
+        <p class="title"><strong>Software Engineer</strong></p><br/>
+        <p>Software Development & Testing</p>
+      </div>
+    </div>
+  </div>
+
 </div>
 </div>
 <br>

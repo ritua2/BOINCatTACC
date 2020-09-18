@@ -49,7 +49,7 @@ define("POST_REPORT_EMAILS", "moderator1@$master_url|moderator2@$master_url");
     // Email addresses separated by pipe ( | ) that will receive user reports
     // of offensive forum posts.
 /*Addedby Joshua*/
-define("EMAIL_FROM", "t2b@tacc.utexas.edu");
+define("EMAIL_FROM", "automatedresult.noreply@gmail.com");
     //Alias email address
 define("EMAIL_FROM_NAME", "BOINC@TACC");
     //Alias email name

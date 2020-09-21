@@ -100,7 +100,7 @@ function make_user(
     }
 
     //Insert the new user into screen_name_anonymization table
-    $uid = BoincUser::insert("(name, random_name, original_random_name, email_id) values('$name', '$randomName', '$randomName' , '$email_addr')", "screen_name_anonymization");
+    $urand_id = BoincUser::insert("(name, random_name, original_random_name, email_id) values('$name', '$randomName', '$randomName' , '$email_addr')", "screen_name_anonymization");
     //End of the edit by Joshua
 
     //Added by Gerald Joshua:Let the volunteer users know their random-generated name through email notification

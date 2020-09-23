@@ -4,7 +4,7 @@
 
 while true
 do
-    /home/boincadm/project/email_assimilator.py
+    python3 /home/boincadm/project/email_assimilator.py
     sleep 1200
 
 done

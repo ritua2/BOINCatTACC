@@ -113,7 +113,7 @@ def user_data_by_username(username):
         SELECT Image, Command, date_processed, date_run, date_notified, status FROM boinc2docker_jobs WHERE username = %s
         UNION
         SELECT Image, Command, Date_Sub AS date_processed, Date_Run, received_time, status FROM volcon_jobs WHERE username = %s
-        ORDER BY date_processed""", (username, username) )
+        ORDER BY date_processed DESC""", (username, username) )
 
     jobs_submitted_data = []
 

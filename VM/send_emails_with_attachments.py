@@ -100,8 +100,8 @@ def send_emails():
                 # Fail silently
                 continue
 
-            send_email_to_user += " -a "+correct_file_path
-            send_email_to_t2b  += " -a "+correct_file_path
+            send_email_to_user += " -A "+correct_file_path
+            send_email_to_t2b  += " -A "+correct_file_path
             corrected_filenames.append(correct_file_path)
 
         # Adds the emails at the end

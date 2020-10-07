@@ -167,10 +167,10 @@ function show_user_stats_private($user) {
     }
 
     if (!NO_HOSTS) {
-        row2(tra("Computers on this account"), "<a href=\"hosts_user.php\">".tra("View")."</a>");
+        row2(tra("Computers on this account"), "<a href=\"hosts_user.php\" target=\"_blank\">".tra("View")."</a>");
     }
     if (!NO_COMPUTING) {
-        row2(tra("Tasks"), "<a href=\"results.php?userid=$user->id\">".tra("View")."</a>");
+        row2(tra("Tasks"), "<a href=\"results.php?userid=$user->id\" target=\"_blank\">".tra("View")."</a>");
     }
 
     if (!NO_STATS) {
@@ -180,15 +180,15 @@ function show_user_stats_private($user) {
         foreach ($cpid_stats_sites as $site) {
             $name = $site[0];
             $y = sprintf($site[1], $cpid);
-            $x .= "<a href=\"$y\">$name</a><br/>\n";
+            $x .= "<a href=\"$y\" target=\"_blank\">$name</a><br/>\n";
         }
         $x .= "<br/><small>".tra("Cross-project ID").": $cpid</small>\n";
         row2(tra("Cross-project statistics"), $x);
-        $x = '<a href="cert1.php">'.tra("Account").'</a>';
+        $x = '<a href="cert1.php" target=\"_blank\">'.tra("Account").'</a>';
         if ($user->teamid) {
             $x .= ' &middot; <a href="cert_team.php">'.tra("Team").'</a>';
         }
-        $x .= ' &middot; <a href="cert_all.php">'.tra("Cross-project").'</a>';
+        $x .= ' &middot; <a href="cert_all.php" target=\"_blank\">'.tra("Cross-project").'</a>';
         row2(tra("Certificate"), $x);
         row2(tra("Stats on your cell phone"), url_base()."userw.php?id=$user->id");
     }
@@ -262,13 +262,13 @@ function show_user_info_private($user) {
         // LDAP accounts can't change email or password
         //
         row2(tra("Change"),
-            "<a href=\"edit_user_info_form.php?$url_tokens\">Account info</a>"
+            "<a href=\"edit_user_info_form.php?$url_tokens\" target=\"_blank\">Account info</a>"
         );
     } else {
         row2(tra("Change"),
 
-            "<a href=\"".secure_url_base()."/edit_passwd_form.php\">".tra("password")."</a>
-            &middot; <a href=\"edit_user_info_form.php?$url_tokens\">".tra("other account info")."</a>"
+            "<a href=\"".secure_url_base()."/edit_passwd_form.php\" target=\"_blank\">".tra("password")."</a>
+            &middot; <a href=\"edit_user_info_form.php?$url_tokens\" target=\"_blank\">".tra("other account info")."</a>"
 
             // Old version, allows user to change email
             /*
@@ -282,7 +282,7 @@ function show_user_info_private($user) {
     if (!NO_COMPUTING) {
         row2(
             tra("Account keys"),
-            "<a href=\"weak_auth.php\">".tra("View")."</a>"
+            "<a href=\"weak_auth.php\" target=\"_blank\">".tra("View")."</a>"
         );
     }
 }
@@ -292,15 +292,15 @@ function show_preference_links() {
     if (!NO_GLOBAL_PREFS) {
         row2(
             tra("When and how BOINC uses your computer"),
-            "<a href=\"prefs.php?subset=global\">".tra("Computing preferences")."</a>"
+            "<a href=\"prefs.php?subset=global\" target=\"_blank\">".tra("Computing preferences")."</a>"
         );
     }
     row2(tra("Message boards and private messages"),
-        "<a href=\"edit_forum_preferences_form.php\">".tra("Community preferences")."</a>"
+        "<a href=\"edit_forum_preferences_form.php\" target=\"_blank\">".tra("Community preferences")."</a>"
     );
     if (!NO_COMPUTING) {
         row2(tra("Preferences for this project"),
-            "<a href=\"prefs.php?subset=project\">".tra("%1 preferences", PROJECT)."</a>"
+            "<a href=\"prefs.php?subset=project\" target=\"_blank\">".tra("%1 preferences", PROJECT)."</a>"
         );
     }
 }
@@ -364,16 +364,16 @@ function show_community_private($user) {
     show_badges_row(true, $user);
     if (!DISABLE_PROFILES) {
         if ($user->has_profile) {
-            $x = "<a href=\"view_profile.php?userid=$user->id\">".tra("View")."</a> &middot; <a href=\"delete_profile.php\">".tra("Delete")."</a>";
+            $x = "<a href=\"view_profile.php?userid=$user->id\" target=\"_blank\">".tra("View")."</a> &middot; <a href=\"delete_profile.php\">".tra("Delete")."</a>";
         } else {
-            $x = "<a href=\"create_profile.php\">".tra("Create")."</a>";
+            $x = "<a href=\"create_profile.php\" target=\"_blank\">".tra("Create")."</a>";
         }
         row2(tra("Profile"), $x);
     }
     if (!DISABLE_FORUMS) {
         $tot = total_posts($user);
         if ($tot) {
-            row2(tra("Message boards"), "<a href=\"".url_base()."forum_user_posts.php?userid=$user->id\">".tra("%1 posts", $tot)."</a>");
+            row2(tra("Message boards"), "<a href=\"".url_base()."forum_user_posts.php?userid=$user->id\" target=\"_blank\">".tra("%1 posts", $tot)."</a>");
         }
     }
     
@@ -390,16 +390,16 @@ function show_community_private($user) {
                 $notify->delete();
             }
         }
-        $x .= "<a href=\"".notify_rss_url($user)."\"><img vspace=\"4\" border=\"0\" src=\"img/rss_icon.gif\" alt=\"RSS\" /></a>";
+        $x .= "<a href=\"".notify_rss_url($user)."\" target=\"_blank\"><img vspace=\"4\" border=\"0\" src=\"img/rss_icon.gif\" alt=\"RSS\" /></a>";
         row2(tra("Notifications"), $x);
     }
 
     if (!DISABLE_TEAMS) {
         if ($user->teamid && ($team = BoincTeam::lookup_id($user->teamid))) {
-            $x = "<a href=\"team_display.php?teamid=$team->id\">$team->name</a>
-                &middot; <a href=\"team_quit_form.php\">".tra("Quit team")."</a>";
+            $x = "<a href=\"team_display.php?teamid=$team->id\" target=\"_blank\">$team->name</a>
+                &middot; <a href=\"team_quit_form.php\" target=\"_blank\">".tra("Quit team")."</a>";
             if (is_team_admin($user, $team)) {
-                $x .= " &middot; <a href=\"team_manage.php?teamid=$user->teamid\">".tra("Administer")."</a>";
+                $x .= " &middot; <a href=\"team_manage.php?teamid=$user->teamid\" target=\"_blank\">".tra("Administer")."</a>";
             }
 
             // if there's a foundership request, notify the founder
@@ -409,14 +409,14 @@ function show_community_private($user) {
             }
             row2(tra("Member of team"), $x);
         } else {
-            row2(tra("Team"), tra("None")." &middot; <a href=\"team_search.php\">".tra("find a team")."</a>");
+            row2(tra("Team"), tra("None")." &middot; <a href=\"team_search.php\" target=\"_blank\">".tra("find a team")."</a>");
         }
         
         $teams_founded = BoincTeam::enum("userid=$user->id");
         foreach ($teams_founded as $team) {
             if ($team->id != $user->teamid) {
-                $x = "<a href=\"team_display.php?teamid=$team->id\">$team->name</a>";
-                $x .= " | <a href=\"team_manage.php?teamid=".$team->id."\">".tra("Administer")."</a>";
+                $x = "<a href=\"team_display.php?teamid=$team->id\" target=\"_blank\">$team->name</a>";
+                $x .= " | <a href=\"team_manage.php?teamid=".$team->id."\" target=\"_blank\">".tra("Administer")."</a>";
                 if ($team->ping_user > 0) {
                     $x .= "<p class=\"text-danger\">".tra("(foundership change request pending)")."</span>";
                 }
@@ -426,7 +426,7 @@ function show_community_private($user) {
     }
 
     $friends = BoincFriend::enum("user_src=$user->id and reciprocated=1");
-    $x = "<a href=\"user_search.php\">".tra("Find friends")."</a><br/>\n";
+    $x = "<a href=\"user_search.php\" target=\"_blank\">".tra("Find friends")."</a><br/>\n";
     $n = count($friends);
     if ($n) {
         foreach($friends as $friend) {

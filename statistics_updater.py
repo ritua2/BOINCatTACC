@@ -11,7 +11,7 @@ import gzip
 import mysql.connector as mysql_con
 import os
 import time
-
+import hashlib
 
 
 
@@ -138,6 +138,10 @@ for row in cursor:
     [userid, screen_name, country, create_time, total_credit, expavg_credit, expavg_time, cpid, teamid, email_addr] = row
 
     random_name = screen_name_to_random_name[email_addr]
+    m = hashlib.md5()
+    cpidemail=cpid+email_addr
+    m.update(cpidemail.encode('utf-8'))
+    enc_cpid=m.hexdigest()
 
     if userid not in userid_agrees_to_export_stats:
         userdata_by_userid[userid] = {"random_name":random_name, "exports":False}
@@ -145,7 +149,7 @@ for row in cursor:
 
     # random_name was already escaped as the value in screen_name_to_random_name
     userdata_by_userid[userid] = {"username":escape_xml(screen_name), "teamid":teamid, "random_name":random_name, "exports":True, "country":escape_xml(country), "create_time":create_time,
-                                    "total_credit":total_credit, "expavg_credit":expavg_credit, "expavg_time":expavg_time, "cpid":cpid, "teamid":teamid}
+                                    "total_credit":total_credit, "expavg_credit":expavg_credit, "expavg_time":expavg_time, "cpid":enc_cpid, "teamid":teamid}
     ordered_userids.append(userid)
 
 

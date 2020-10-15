@@ -59,7 +59,7 @@ def complete_build(IMTAG, UTOK, MIDIR, DOCK_DOCK, BOCOM, FILES_PATH, boapp, job_
     researcher_email = pp.obtain_email(UTOK)
 
     # Updates job status
-    mints.update_job_status(job_id, boapp, "Building image")
+    mints.update_job_status1(job_id, boapp, "Building image")
 
     try:
         user_image(IMTAG)

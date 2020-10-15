@@ -211,7 +211,7 @@ def update_results_path_apache(VID, results_path_apache):
 
 
 # Updates the status of a job
-def update_job_status(job_id, boapp, new_status):
+def update_job_status1(job_id, boapp, new_status):
     boinc_db = mysql_con.connect(host = os.environ['URL_BASE'].split('/')[-1], port = 3306, user = os.environ["MYSQL_USER"], password = os.environ["MYSQL_UPASS"], database = 'boincserver')
     cursor = boinc_db.cursor(buffered=True)
 

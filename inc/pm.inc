@@ -268,11 +268,11 @@ function pm_notification($user) {
     $output = "";
     $unread = BoincPrivateMessage::count("userid=$user->id AND opened=0");
     
-    $output .= "<a href=\"pm.php?action=inbox\" target=\"_blank\">".tra("Inbox")."</a>";
+    $output .= "<a href=\"pm.php?action=inbox\">".tra("Inbox")."</a>";
     if ($unread) {
         $output .= "<span class=\"inboxunread\"> ($unread ".tra("unread").")</span>\n";
     }
-    $output .= " &middot; <a href=\"pm.php?action=new\" target=\"_blank\">".tra("Write")."</a>\n";
+    $output .= " &middot; <a href=\"pm.php?action=new\">".tra("Write")."</a>\n";
     return $output;
 }
 
@@ -281,7 +281,7 @@ function pm_email_remind($user) {
         return "<br><small>" .
             tra(
                 "For email notification, %1 edit community prefs %2",
-                '<a href="edit_forum_preferences_form.php" target=\"_blank\">', '</a>'
+                '<a href="edit_forum_preferences_form.php">', '</a>'
             ) .
             "</small>"
         ;

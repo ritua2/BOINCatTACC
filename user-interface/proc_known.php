@@ -71,7 +71,7 @@ switch ($image) {
 
      $prestime =date("Y-m-d H:i:s");
      $redis->rpush('Token', $user_token);
-     $redis->rpush('Image', "carlosred/opensees:latest");
+     $redis->rpush('Image', "saumyashah/opensees:latest");
      $redis->rpush('Command', $orders);
      $redis->rpush('Date (Sub)', $prestime);
      $redis->rpush('Date (Run)', '0');

@@ -3,7 +3,7 @@
 	"Token":"abcde12345",
 	"Boapp":"boinc2docker",
 	"Files":["MomCurv.tcl", "Test-OSees.tar.gz"],
-	"Image":"carlosred/opensees:latest",
+	"Image":"saumyashah/opensees:latest",
 	"Custom":"No",
 	"Command":"cp Test-OSees/* .; OpenSees < Ex1a.Canti2D.Push.tcl; OpenSees < Ex1b.Portal2D.Push.tcl; OpenSees < MomCurv.tcl;"
 }

@@ -175,7 +175,7 @@ declare -A dockapps
 dockapps=( ["autodock-vina"]="carlosred/autodock-vina:latest" ["bedtools"]="carlosred/bedtools:latest" ["blast"]="carlosred/blast:latest"
            ["bowtie"]="carlosred/bowtie:built" ["gromacs"]="carlosred/gromacs:latest"
            ["htseq"]="carlosred/htseq:latest" ["mpi-lammps"]="carlosred/mpi-lammps:latest" ["namd"]="carlosred/namd-cpu:latest"
-           ["opensees"]="carlosred/opensees:latest" ["CUDA"]="carlosred/gpu:cuda" ["OpenFOAM6"]="carlosred/openfoam6:latest")
+           ["opensees"]="saumyashah/opensees:latest" ["CUDA"]="carlosred/gpu:cuda" ["OpenFOAM6"]="carlosred/openfoam6:latest")
 
 numdocks=(1 2 3 4 5 6 7 8 9 10 11)
 docknum=( ["1"]="autodock-vina" ["2"]="bedtools" ["3"]="blast"

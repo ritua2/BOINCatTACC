@@ -28,7 +28,7 @@ TACCIM = {
     "carlosred/htseq:latest": {"COMPUTER SCIENCE": []},
     "carlosred/mpi-lammps:latest": {"CHEMISTRY": []}, 
     "carlosred/namd-cpu:latest": {"CHEMISTRY": []},
-    "carlosred/opensees:latest": {"ENGINEERING": ["STRUCTURES"]}, 
+    "saumyashah/opensees:latest": {"ENGINEERING": ["STRUCTURES"]}, 
     "carlosred/gpu:cuda": {"GPU": []}
  }
  

@@ -296,7 +296,7 @@ echo '
 				<input type="hidden" id="dockerListParam" name="dockerList" value="none">
 		  		<ul id="imgDropDown" class="dropdown-menu">
 		    			<li value="carlosred/autodock-vina:latest"><a href="javascript:;">AutoDock Vina</a></li>
-		    			<li value="carlosred/opensees:latest"><a href="javascript:;">OpenSees</a></li>
+		    			<li value="saumyashah/opensees:latest"><a href="javascript:;">OpenSees</a></li>
 		    			<li value="carlosred/blast:latest"><a href="javascript:;">BLAST</a></li>
 						<li value="carlosred/bedtools:latest"><a href="javascript:;">Bedtools</a></li>
 			 			<li value="carlosred/htseq:latest"><a href="javascript:;">HTSeq</a></li>

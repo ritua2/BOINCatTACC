@@ -30,7 +30,7 @@ TACCIM = {"carlosred/autodock-vina:latest":"curl -O ", "carlosred/bedtools:lates
             "carlosred/blast:latest":"curl -O ", "carlosred/bowtie:built":"curl -O ",
             "carlosred/gromacs:latest":"curl -O ", "carlosred/htseq:latest":"curl -O ",
             "carlosred/mpi-lammps:latest":"curl -O ", "carlosred/namd-cpu:latest":"curl -O ",
-            "carlosred/opensees:latest":"curl -O ", "carlosred/gpu:cuda":"curl -O ", "carlosred/openfoam6:latest":"curl -O "
+            "saumyashah/opensees:latest":"curl -O ", "carlosred/gpu:cuda":"curl -O ", "carlosred/openfoam6:latest":"curl -O "
  }
 
 

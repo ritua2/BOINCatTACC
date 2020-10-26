@@ -5,7 +5,7 @@
 # Python is also installed by default, no extra installation needed
 # More than one language may be selected
 [LANGUAGE] python
-# MIDAS handles the installation, if and oonly if the libary is in the language's default package manager
+# MIDAS handles the installation, if and only if the libary is in the language's default package manager
 # If not, provide a setup file
 [LIBRARY] python: numpy
 [LIBRARY] python: matplotlib

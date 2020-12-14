@@ -48,8 +48,7 @@ git clone https://github.com/ritua2/BOINCatTACC
 cd BOINCatTACC/boinc-server-docker
 docker-compose pull
 # Enter the changes on the docker-compose
-URL_BASE=http://IP_ADDRESS 
-docker-compose up -d
+URL_BASE=http://IP_ADDRESS docker-compose up -d
 ```
 
 

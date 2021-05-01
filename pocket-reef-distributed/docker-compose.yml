@@ -1,0 +1,40 @@
+version: '3'
+
+
+volumes:
+  reef:
+  mysql_reef:
+
+
+services:
+  reef:
+    build: .
+    image: "reef_manager"
+    ports:
+     - "2000-2003:2000-2003"
+    volumes:
+     - "reef:/rdat"
+    environment:
+     - Reef_Key
+     - Reef_Path
+     - URL_BASE
+     - MYSQL_ROOT_PASSWORD
+     - MYSQL_DATABASE
+     - MYSQL_USER
+     - MYSQL_PASSWORD
+    command: "tail -F anything"
+
+  mysql_reef:
+    image: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD
+      - MYSQL_DATABASE
+      - MYSQL_USER
+      - MYSQL_PASSWORD
+
+    ports:
+      - "6602:3306"
+
+    volumes:
+      - ./initdb:/docker-entrypoint-initdb.d
+      - mysql_reef:/var/lib/mysql

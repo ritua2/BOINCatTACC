@@ -123,9 +123,9 @@ exit
 ````
 
 **Distributed Reef setup**
-	* Distributed Reef is scalable version of Reef and is setup in two stages where the first stage is to setup reef manager node on the boinc VM itself.
-	* The second stage is to setup the storage node(s) on remote VM(s)
-	* Note: Distributed Reef can be setup on any server as long as its IP is accessible from the main server
+- Distributed Reef is scalable version of Reef and is setup in two stages where the first stage is to setup reef manager node on the boinc VM itself.
+- The second stage is to setup the storage node(s) on remote VM(s)
+- Note: Distributed Reef can be setup on any server as long as its IP is accessible from the main server
 
 Stage-1:
 ````bash

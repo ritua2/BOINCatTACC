@@ -98,6 +98,7 @@ exit
 ```
 
 6. **Setup Reef in an external container**  
+	* The following instructions are for normal Reef setup. If there is a need for scalable storage please refer to the steps listed under Distributed Reef.
 	* Reef is the storage container where all user files (results or not) are stored
 	* Switch to the pocket-reef directory inside the BOINCatTACC directory after exiting the Docker container, and follow some of these [instructions](./pocket-reef) on a system with the above IP and password provided above
 	* Note: Reef can be setup on any server as long as its IP is accessible from the main server
@@ -125,6 +126,7 @@ exit
 	* Distributed Reef is scalable version of Reef and is setup in two stages where the first stage is to setup reef manager node on the boinc VM itself.
 	* The second stage is to setup the storage node(s) on remote VM(s)
 	* Note: Distributed Reef can be setup on any server as long as its IP is accessible from the main server
+
 Stage-1:
 ````bash
 #switch to the pocket-reef-distributed directory inside BOINCatTACC directory in the VM outside any Docker container

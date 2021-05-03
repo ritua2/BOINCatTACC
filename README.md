@@ -121,6 +121,57 @@ exit
 
 ````
 
+**Distributed Reef setup**
+	* Distributed Reef is scalable version of Reef and is setup in two stages where the first stage is to setup reef manager node on the boinc VM itself.
+	* The second stage is to setup the storage node(s) on remote VM(s)
+	* Note: Distributed Reef can be setup on any server as long as its IP is accessible from the main server
+Stage-1:
+````bash
+#switch to the pocket-reef-distributed directory inside BOINCatTACC directory in the VM outside any Docker container
+# if after exiting from the apache container you ar ein the boinc-server-docker directory, type cd ..
+cd ..
+cd pocket-reef-distributed
+# Enter the IP address of the VM in .env file
+vi .env
+# Change the Reef key to the one that you typed in Step # 5
+vi docker-compose.yml
+# Generate a self signed certificate for the manager node which is valid for 365 days
+openssl req -newkey rsa:2048 -nodes -keyout keyfile.key -x509 -days 365 -out certfile.crt
+# Build a new container for Reef
+docker-compose up -d
+# Enter container - replace $CONTAINER with container name - in our case it is pocketreef_reef_1
+docker exec -it $CONTAINER bash
+cd /reef
+# Activate the APIs
+./API_Daemon.sh -up
+#Exit the Reef container
+exit
+
+````
+Stage-2(storage container on remote VM):
+````bash
+# Clone this repository on the remote VM
+git clone https://github.com/ritua2/BOINCatTACC
+cd BOINCatTACC/pocket-reef-distributed/storage-node/
+# Update the IP address of the storage node and define unique key for that container
+vim Dockerfile
+# Generate a self signed certificate for the storage node which is valid for 365 days
+openssl req -newkey rsa:2048 -nodes -keyout keyfile.key -x509 -days 365 -out certfile.crt
+# Build the image for storage node
+docker build -t reef_storage:latest .
+# Start the container on top of the image
+docker run -d --name=pocket-reef_storage_reef_1 -p 3443:3443 -v reef_storage:/rdat reef_storage:latest
+# Enter container - replace $CONTAINER with container name - in our case it is pocket-reef_storage_reef_1
+docker exec -it $CONTAINER bash
+cd /reef
+# Activate the APIs
+./API_Daemon.sh -up
+#Exit the Reef container
+exit
+
+````
+
+
 7. **Run the setup file from the Apache container**  
 	* It will install all the necessary packages, python libraries, set-up the internal Redis database, properly locate the files, set-up the APIs, Reef cloud storage, and automatic job processing
 	* The set-up file will also automatically prompt to enter the credentials for the email. Use caution, since an error would require to manually fix the /root/.bashrc file

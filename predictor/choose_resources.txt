@@ -1,1 +1,25 @@
-TBD
+Predictor 
+ 
+This interface provides different options to choose resources where to submit your job. 
+
+Resources Options: Stampede2, Shamu, and BOINC@TACC 
+
+We have performed preprocessing and analyses of the historical job data, and developed analytical models that are used by this code. As of now, this interface builds on the user requirements which required less than 4 nodes to submit a job. 
+
+Environment Setup: 
+
+Python3: Install Python3 interpreter to run the code on the host machine. 
+
+Database: 
+For this project, we have used MySQL Database to store our data.  
+To make this code work, you can create a schema as explained below. 
+- create a Database 
+- create a Table with columns - Sysname, Node, Average wait time, date-time stamp 
+- insert appropriate values in each column 
+
+Run the Code: 
+After setting up the Database run the python file in this directory (interface2.py) with the Python3 command as a prefix (i.e., python3 filename.py). 
+
+Further Improvements: 
+- We can add more Resources for job submissions. 
+- Accumulating more jobs related data to provide better job submission decisions.    

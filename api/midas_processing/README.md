@@ -50,7 +50,7 @@ The languages supported by the program, more than one language may be used. The 
 	* C++ (g++)  
 	* Bash  
 
-Each language is installed together with their package manager or. The version installed for each language is the default used in the package manager. To use any custom manager, add the instructions in the setup file.  
+Each language is installed together with their package manager. The version installed for each language is the default used in the package manager. To use any custom manager, add the instructions in the setup file.  
 For the sake of future use, both python and python3 refer to python3 (same with pip), whereas python2 refers to python2. Python3 is always installed, since it is needed to recover the results for BOINC.    
 Bash is also installed by default.
 

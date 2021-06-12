@@ -2,7 +2,7 @@
 
 **Set-up**  
 MIDAS (Multiple Input Docker Automation System) is a TACC tool designed for automatic dockerization. To use this tool, use the MIDAS API to submit either a *.tgz* or a *tar.gz* file containing all the necessary files.  
-This tar file must only contain the files and subdirectories, not the directory that contains them all. For eacample, if the files are 
+This tar file must only contain the files and subdirectories, not the directory that contains them all. For example, if the files are 
 *f1.txt* and *f2.txt* inside the directory *midtest*, then the tar command would be *tar -cvzf TAR_FINAL_FILE.tar.gz .* within the *midtest*
 directory.  
 All files to be used must be inside, as well as a README.txt (required name, files without it will return an error) containing the set-up information.  

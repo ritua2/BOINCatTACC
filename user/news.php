@@ -25,8 +25,8 @@ page_head(null, null, null, null, null, "News");
 //Page Title
 echo '<center><h1>News</h1></center><br />';
 
-echo '<pre style="word-break:normal;white-space:normal;margin-left:20%;margin-right: 20%;"><style="text-align:left;"><p style="font-size:14px;font-weight: normal;"><span style="font-weight$
-                We are happy to announce that BOINC@TACC is back into production. There are still few action-items that are pending (such as the cross-project id related issue during expor$
+echo '<pre style="word-break:normal;white-space:normal;margin-left:20%;margin-right: 20%;"><style="text-align:left;"><p style="font-size:14px;font-weight: normal;"><span style="font-weight:bold;">'.tra('October 9th, 2020:').'</span>'.tra('Dear Volunteers and Researchers,<br><br>
+                We are happy to announce that BOINC@TACC is back into production. There are still few action-items that are pending (such as the cross-project id related issue during export and downloading cross-project certificate) and we are working through them one by one. Also, we would like to urge you to remove and re-attach the project from BOINC manager since the keys have been changed.<br><br>Thanks for your patience and support!<br>
 BOINC@TACC Team').' </p>';
 
 echo '</style></pre></br>';
